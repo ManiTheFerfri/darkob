@@ -40,8 +40,6 @@ class BaseHandlers(Data):
         self.__any_handler = any_handler
 
     async def __call__(self, event: Dict, *args, **kwargs) -> bool:
-        self.original_event = event
-
         if not self._filters:
             return True
 

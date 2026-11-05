@@ -360,3 +360,52 @@ async def test_aux_sessions_are_closed_with_the_client():
     assert pooled.closed
     assert api._aux_sessions == {}
 
+
+# ---------------------------------------------------------------------------
+# Regressions
+# ---------------------------------------------------------------------------
+
+
+async def test_background_handler_failure_is_logged(caplog):
+    """A failing fire-and-forget handler must be reported immediately.
+
+    Previously the exception was only surfaced as "Task exception was never
+    retrieved" when the task was garbage collected, with no handler name.
+    """
+    api = await make_api(stop_on_first_match=False)
+
+    async def boom(event):
+        raise RuntimeError("kaboom")
+
+    api.client.handlers = {boom: MessageUpdates()}
+
+    try:
+        with caplog.at_level("ERROR"):
+            await api.handle_update("message_updates", {})
+            await asyncio.gather(
+                *list(api._background_tasks), return_exceptions=True
+            )
+            await asyncio.sleep(0)
+    finally:
+        await api.close()
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert any("Background handler failed" in message for message in messages)
+
+
+async def test_handler_instance_does_not_store_event():
+    """`original_event` was dead state that leaked one event into the next."""
+    api = await make_api()
+    constraint = MessageUpdates()
+
+    async def handler(event):
+        return None
+
+    api.client.handlers = {handler: constraint}
+
+    try:
+        await api.handle_update("message_updates", {"x": 1})
+    finally:
+        await api.close()
+
+    assert not hasattr(constraint, "original_event")

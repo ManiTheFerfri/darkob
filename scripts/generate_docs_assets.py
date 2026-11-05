@@ -236,29 +236,65 @@ def main() -> None:
         json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
-    # ---- llms-full.txt: the whole corpus in one file --------------------
-    guides = sorted(DOCS.rglob("*.md"))
+    # ---- llms-full.txt: one self-contained corpus for an LLM --------
+    # Not a dump of every page: a curated order that teaches the model
+    # the model of the library, then gives it every real signature.
+    CURATED = [
+        "get-started/installation.md",
+        "get-started/quickstart.md",
+        "guides/handlers.md",
+        "guides/filters.md",
+        "guides/routers.md",
+        "guides/fsm.md",
+        "guides/keyboards.md",
+        "guides/errors.md",
+        "guides/sync-and-async.md",
+        "guides/testing.md",
+        "ai/index.md",
+    ]
+
     chunks = [
-        "# darkob — complete documentation",
+        "# darkob — complete reference",
         "",
-        "This file concatenates the entire darkob documentation for LLM "
-        "ingestion. Source: https://github.com/ManiTheFerfri/darkob",
+        f"darkob {index['version']} — async Python for the Rubika and Shad "
+        "messaging platforms.",
         "",
-        f"Version: {index['version']}",
+        "Read this file top to bottom before writing code. It contains the "
+        "full public API (every real signature), the filter catalogue, the "
+        "patterns, and the mistakes to avoid. No other page is required.",
+        "",
+        "Hard rules:",
+        "- Handlers are `async def name(bot, event)`.",
+        "- `event`, never `message`; `event.chat_id`, never `event.chat.id`.",
+        "- Filters come from `darkob.bot.filters` and are INSTANTIATED: "
+        "`IsGroup()`, not `IsGroup`.",
+        "- There is no Dispatcher, no message_handler, no aiogram/Pyrogram "
+        "types.",
+        "- If a method is not in the API section below, it does not exist.",
         "",
     ]
-    for path in guides:
-        if path.name in {"llms-full.txt"}:
+
+    for relative in CURATED:
+        path = DOCS / relative
+        if not path.exists():
             continue
-        relative = path.relative_to(DOCS).as_posix()
-        chunks += [
-            "",
-            "---",
-            f"# SOURCE: {relative}",
-            "",
-            path.read_text(encoding="utf-8").strip(),
-            "",
-        ]
+        body = path.read_text(encoding="utf-8").strip()
+        body = body.split("\n", 1)[1] if body.startswith("# ") else body
+        chunks += ["", "---", f"# SOURCE: {relative}", "", body, ""]
+
+    chunks += ["", "---", "# COMPLETE API: every public signature", ""]
+    for attr, _slug, _summary in CLASSES:
+        entries = index["classes"][attr]["methods"]
+        chunks += [f"## {attr} ({len(entries)} methods)", ""]
+        for entry in entries:
+            doc = entry["doc"].split("\n")[0].strip()
+            if len(doc) > 130:
+                doc = doc[:127] + "..."
+            line = f"- `{entry['signature']}`"
+            if doc:
+                line += f" — {doc}"
+            chunks.append(line)
+        chunks.append("")
 
     (DOCS / "llms-full.txt").write_text("\n".join(chunks), encoding="utf-8")
     size = (DOCS / "llms-full.txt").stat().st_size

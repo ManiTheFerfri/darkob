@@ -331,6 +331,24 @@ class Api:
         task = asyncio.create_task(coro)
         self._background_tasks.add(task)
         task.add_done_callback(self._background_tasks.discard)
+        task.add_done_callback(self._log_task_failure)
+
+    def _log_task_failure(self, task: "asyncio.Task") -> None:
+        """Surface exceptions from fire-and-forget handlers.
+
+        Without this, a failing handler only produced a
+        "Task exception was never retrieved" warning at GC time, with
+        no handler name and no immediate signal.
+        """
+        if task.cancelled():
+            return
+        error = task.exception()
+        if error is not None:
+            self.logger.error(
+                "Background handler failed: %s",
+                error,
+                exc_info=error,
+            )
 
     async def _execute_handler(self, func: Callable, event: Event) -> None:
         if inspect.iscoroutinefunction(func):

@@ -3,6 +3,15 @@
 **Fast, stable async Python for the Rubika & Shad platforms.**
 Build bots and userbots that stay up — without the boilerplate.
 
+!!! tip "Writing a bot with an AI assistant? Give it one URL"
+    **[https://manitheferfri.github.io/darkob/llms-full.txt](llms-full.txt)** — this
+    single file contains the complete public API with real signatures, the
+    full filter catalogue, working patterns and the mistakes to avoid. Tell
+    the model: *"read this URL fully, then build me a bot that does X."*
+    Nothing else is required.
+
+    Prefer structured data? [`api.json`](api.json) has every method as JSON.
+
 ```bash
 pip install darkob
 ```
