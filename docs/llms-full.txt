@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.4.2 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.5.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -1010,6 +1010,53 @@ async def test_text_filter():
    darkob's own bugs were found.
 
 
+## `darkob.testing`
+
+Ship-ready fakes, so a handler test needs no token, no network and no
+hand-written stubs:
+
+```python
+from darkob.testing import FakeBot, make_message
+
+async def test_echo(bot=None):
+    bot = FakeBot()
+    event = make_message(text="hi")
+
+    await echo(bot, event)
+
+    assert event.replies == ["hi"]
+```
+
+`FakeBot` records every call and returns an `{"status": "OK"}` payload:
+
+```python
+await bot.send_message("chat", "hi")
+
+bot.called("send_message")          # True
+bot.calls_to("send_message")        # [(("chat", "hi"), {})]
+bot.last_call()[0]                  # "send_message"
+bot.reset()                         # forget everything
+```
+
+`FakeEvent` records what a handler does to it:
+
+```python
+event = make_message(text="hello", chat_id="g0abc")
+await event.reply("thanks")
+
+event.replies    # ["thanks"]
+event.edits      # []
+event.deleted    # False
+```
+
+Both accept extra keyword attributes, so you can shape the event to match
+your filters:
+
+```python
+event = make_message(text="hi", is_group=True)
+```
+
+
 ---
 # SOURCE: ai/index.md
 
@@ -1818,7 +1865,7 @@ Returns:
     Optional[str]: file_id or None if failed.
 
 
-## Messenger (323 methods)
+## Messenger (324 methods)
 
 ### `abort_two_step_setup(self: 'darkob.Client')`
 
@@ -3876,6 +3923,21 @@ Returns:
 ### `heartbeat(self: 'darkob.Client', chat_guid: str)`
 
 _No docstring._
+
+### `iter_messages(self: 'darkob.Client', chat: str, *, sort: str='FromMin', filter_type: Optional[str]=None, page_size: int=25, max_items: Optional[int]=None)`
+
+Yield messages from *chat*, one page at a time.
+
+Parameters:
+    chat (str): Chat GUID, link or username.
+    sort (str): 'FromMin' (oldest first) or 'FromMax' (newest first).
+    filter_type (str, optional): 'Voice', 'File', 'Music', 'Gif',
+        'Media' or 'Link'.
+    page_size (int): Messages requested per round-trip.
+    max_items (int, optional): Stop after this many messages.
+
+Yields:
+    Each message as a :class:`~darkob.data.Data` object.
 
 ### `join_channel(self: 'darkob.Client', channel: str)`
 
@@ -5587,7 +5649,7 @@ Returns:
     The update indicating the success of the vote.
 
 
-## Shad (323 methods)
+## Shad (324 methods)
 
 ### `abort_two_step_setup(self: 'darkob.Client')`
 
@@ -7645,6 +7707,21 @@ Returns:
 ### `heartbeat(self: 'darkob.Client', chat_guid: str)`
 
 _No docstring._
+
+### `iter_messages(self: 'darkob.Client', chat: str, *, sort: str='FromMin', filter_type: Optional[str]=None, page_size: int=25, max_items: Optional[int]=None)`
+
+Yield messages from *chat*, one page at a time.
+
+Parameters:
+    chat (str): Chat GUID, link or username.
+    sort (str): 'FromMin' (oldest first) or 'FromMax' (newest first).
+    filter_type (str, optional): 'Voice', 'File', 'Music', 'Gif',
+        'Media' or 'Link'.
+    page_size (int): Messages requested per round-trip.
+    max_items (int, optional): Stop after this many messages.
+
+Yields:
+    Each message as a :class:`~darkob.data.Data` object.
 
 ### `join_channel(self: 'darkob.Client', channel: str)`
 

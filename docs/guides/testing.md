@@ -124,3 +124,50 @@ async def test_text_filter():
 2. Freeze time and randomness when asserting on retries.
 3. Test the failure path as often as the happy path — that is where
    darkob's own bugs were found.
+
+
+## `darkob.testing`
+
+Ship-ready fakes, so a handler test needs no token, no network and no
+hand-written stubs:
+
+```python
+from darkob.testing import FakeBot, make_message
+
+async def test_echo(bot=None):
+    bot = FakeBot()
+    event = make_message(text="hi")
+
+    await echo(bot, event)
+
+    assert event.replies == ["hi"]
+```
+
+`FakeBot` records every call and returns an `{"status": "OK"}` payload:
+
+```python
+await bot.send_message("chat", "hi")
+
+bot.called("send_message")          # True
+bot.calls_to("send_message")        # [(("chat", "hi"), {})]
+bot.last_call()[0]                  # "send_message"
+bot.reset()                         # forget everything
+```
+
+`FakeEvent` records what a handler does to it:
+
+```python
+event = make_message(text="hello", chat_id="g0abc")
+await event.reply("thanks")
+
+event.replies    # ["thanks"]
+event.edits      # []
+event.deleted    # False
+```
+
+Both accept extra keyword attributes, so you can shape the event to match
+your filters:
+
+```python
+event = make_message(text="hi", is_group=True)
+```

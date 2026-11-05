@@ -20,6 +20,7 @@ from .get_messages_by_id import GetMessagesByID
 from .get_messages_interval import GetMessagesInterval
 from .get_messages_reactions import GetMessagesReactions
 from .get_messages_updates import GetMessagesUpdates
+from .iter_messages import IterMessages
 from .get_pinned_messages import GetPinnedMessages
 from .get_poll_option_voters import GetPollOptionVoters
 from .get_poll_status import GetPollStatus
@@ -82,6 +83,7 @@ class Messages(
     GetMessagesInterval,
     GetMessagesReactions,
     GetMessagesUpdates,
+    IterMessages,
     GetPinnedMessages,
     GetPollOptionVoters,
     GetPollStatus,

@@ -25,6 +25,11 @@ Shipped in 0.1–0.2:
   sessions live outside the working directory, and an unreadable session
   file is quarantined instead of deleted.
 - `get_me` cached on both surfaces (`refresh=True` to bypass).
+- `iter_messages` streams a chat page by page instead of buffering
+  the whole history.
+- `Event.when` returns a timezone-aware UTC datetime.
+- `darkob.testing` ships `FakeBot`, `FakeEvent` and `make_message`.
+- `py.typed` marker, so editors and type checkers see the annotations.
 - 290 tests, CI on 3.9–3.14 + Windows, generated API docs.
 
 ## P0 — next

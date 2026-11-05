@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.4.2"
+version = "0.5.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -72,6 +72,9 @@ Upstream = "https://github.com/MEH2RAB/maxrubika"
 
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.package-data]
+darkob = ["py.typed"]
 
 [tool.setuptools.packages.find]
 include = ["darkob*"]

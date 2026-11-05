@@ -1,5 +1,6 @@
 from ..hybrid import wrap_methods
 
+from datetime import datetime, timezone
 from typing import Literal
 import darkob
 from ..data import Data
@@ -14,6 +15,21 @@ class Event(Data):
     def original_data(self):
         """Return the original raw data."""
         return self._data
+
+    @property
+    def when(self):
+        """Return the event time as a UTC datetime, or None.
+
+        The API sends a unix timestamp. Parsing it by hand is one of
+        the most repeated snippets in user code, so it lives here.
+        """
+        raw = self.find_keys(["time", "timestamp", "date"])
+        if raw is None:
+            return None
+        try:
+            return datetime.fromtimestamp(int(raw), tz=timezone.utc)
+        except (TypeError, ValueError, OSError):
+            return None
 
     @property
     def action(self):

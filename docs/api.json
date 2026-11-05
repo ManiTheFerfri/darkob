@@ -1,6 +1,6 @@
 {
   "package": "darkob",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
@@ -333,7 +333,7 @@
     },
     "Messenger": {
       "summary": "A real user account (userbot): channels, groups, voice chats, settings.",
-      "method_count": 323,
+      "method_count": 324,
       "methods": [
         {
           "name": "abort_two_step_setup",
@@ -1587,6 +1587,13 @@
           "group": "chats",
           "module": "darkob.client.chats.play_voice_chat",
           "doc": ""
+        },
+        {
+          "name": "iter_messages",
+          "signature": "iter_messages(self: 'darkob.Client', chat: str, *, sort: str='FromMin', filter_type: Optional[str]=None, page_size: int=25, max_items: Optional[int]=None)",
+          "group": "messages",
+          "module": "darkob.client.messages.iter_messages",
+          "doc": "Yield messages from *chat*, one page at a time.\n\nParameters:\n    chat (str): Chat GUID, link or username.\n    sort (str): 'FromMin' (oldest first) or 'FromMax' (newest first).\n    filter_type (str, optional): 'Voice', 'File', 'Music', 'Gif',\n        'Media' or 'Link'.\n    page_size (int): Messages requested per round-trip.\n    max_items (int, optional): Stop after this many messages.\n\nYields:\n    Each message as a :class:`~darkob.data.Data` object."
         },
         {
           "name": "join_channel",
@@ -2600,7 +2607,7 @@
     },
     "Shad": {
       "summary": "The Shad education platform. Same Messenger protocol, Shad hosts.",
-      "method_count": 323,
+      "method_count": 324,
       "methods": [
         {
           "name": "abort_two_step_setup",
@@ -3854,6 +3861,13 @@
           "group": "chats",
           "module": "darkob.client.chats.play_voice_chat",
           "doc": ""
+        },
+        {
+          "name": "iter_messages",
+          "signature": "iter_messages(self: 'darkob.Client', chat: str, *, sort: str='FromMin', filter_type: Optional[str]=None, page_size: int=25, max_items: Optional[int]=None)",
+          "group": "messages",
+          "module": "darkob.client.messages.iter_messages",
+          "doc": "Yield messages from *chat*, one page at a time.\n\nParameters:\n    chat (str): Chat GUID, link or username.\n    sort (str): 'FromMin' (oldest first) or 'FromMax' (newest first).\n    filter_type (str, optional): 'Voice', 'File', 'Music', 'Gif',\n        'Media' or 'Link'.\n    page_size (int): Messages requested per round-trip.\n    max_items (int, optional): Stop after this many messages.\n\nYields:\n    Each message as a :class:`~darkob.data.Data` object."
         },
         {
           "name": "join_channel",
