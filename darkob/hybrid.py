@@ -51,6 +51,9 @@ class SyncLoop:
             )
 
         if threading.current_thread() is self._thread:
+            # Close the coroutine before raising, otherwise it is garbage
+            # collected un-awaited and Python emits a RuntimeWarning.
+            coro.close()
             raise RuntimeError(
                 "Cannot run a synchronous call from inside the SyncLoop worker."
             )

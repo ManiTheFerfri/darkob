@@ -1,43 +1,142 @@
-site_name: مستندات کتابخانه Darkob
+site_name: darkob
+site_url: https://manitheferfri.github.io/darkob/
+site_description: >-
+  Fast, stable async Python for the Rubika & Shad platforms. AI-first
+  documentation with generated API reference, llms.txt and api.json.
+site_author: Mani Keikhosravi
+
+repo_name: ManiTheFerfri/darkob
+repo_url: https://github.com/ManiTheFerfri/darkob
+edit_uri: edit/main/docs/
+
+copyright: >
+  MIT licensed · derived from
+  <a href="https://github.com/MEH2RAB/maxrubika">maxrubika</a> by MEHRAB Farahmand
+
 theme:
   name: material
+  language: en
+  logo: assets/darkob-logo.png
+  favicon: assets/darkob-logo.png
+
   font:
-    text: Vazirmatn
-    code: Fira Code
+    text: Inter
+    code: JetBrains Mono
+
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      toggle:
-        icon: material/weather-sunny
-        name: تغییر به حالت تاریک
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
-        name: تغییر به حالت روشن
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
   features:
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.select
     - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - stylesheets/extra.css
+
+hooks:
+  - hooks.py
+
+plugins:
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
 
 markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
-      pygments_lang_class: true
-      auto_title: true
-      linenums: false
   - pymdownx.inlinehilite
-  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.keys
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
-extra_css:
-  - https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css
-  - stylesheets/extra.css
+validation:
+  omitted_files: ignore
+  absolute_links: ignore
+  unrecognized_links: ignore
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ManiTheFerfri/darkob
+      name: darkob on GitHub
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/darkob/
+      name: darkob on PyPI
 
 nav:
-  - خانه: index.md
-  - توسعه‌دهندگان کتابخانه: developers.md
-  - راهنمای استفاده از رباتِ روبیکا: bot-guide.md
-  - راهنمای استفاده از حساب کاربریِ روبیکا: client-guide.md
-  - راهنمای استفاده از حساب کاربریِ شاد: shad-guide.md
-  - راهنمای هوش مصنوعی: ai.md
+  - Home: index.md
+  - Get started:
+      - Installation: get-started/installation.md
+      - Quickstart: get-started/quickstart.md
+      - Migrating from maxrubika: get-started/migrating-from-maxrubika.md
+  - Guides:
+      - Handlers: guides/handlers.md
+      - Filters: guides/filters.md
+      - Routers: guides/routers.md
+      - Conversations (FSM): guides/fsm.md
+      - Errors: guides/errors.md
+      - Sync and async: guides/sync-and-async.md
+      - Testing bots: guides/testing.md
+      - Project layout: guides/project-layout.md
+  - AI workflow:
+      - Overview: ai/index.md
+      - Prompt pack: ai/prompt-pack.md
+      - Recipes: ai/recipes.md
+      - Context files: ai/context-files.md
+  - API reference:
+      - Bot: api/bot.md
+      - Messenger: api/messenger.md
+      - Shad: api/shad.md
+  - Roadmap: roadmap.md
+  - فارسی:
+      - شروع سریع: fa/quickstart.md

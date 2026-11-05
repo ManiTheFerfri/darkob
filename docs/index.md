@@ -1,59 +1,71 @@
-# Darkob
+# darkob
 
-کتابخانه ناهمگام پایتون برای پیام‌رسان روبیکا
-
----
-
-## معرفی
-
-Darkob یک کتابخانه متن‌باز و کامل برای تعامل با API پیام‌رسان روبیکا است. این کتابخانه با هدف ارائه راهکاری کامل و سریع برای توسعه‌دهندگان طراحی شده است.
-
-برخلاف سایر کتابخانه‌های مشابه، **نیازی نیست کدهای خود را به صورت async بنویسید**. Darkob تمام عملیات ناهمگام را در پشت صحنه مدیریت می‌کند و شما می‌توانید مانند یک کتابخانه ساده و همگام از آن استفاده کنید، بدون اینکه درگیر پیچیدگی‌های `asyncio` و `await` شوید.
-
----
-
-## ویژگی‌ها
-
-- **کامل، ساده و سریع** — کامل‌ترین، ساده‌ترین و سریع‌ترین کتابخانه پایتون برای روبیکا
-- **پوشش کامل API روبیکا** — پشتیبانی از تمام متدهای ربات و یوزربات
-- **ناهمگام (Async/Await)** — ساخته شده با `asyncio` برای حداکثر کارایی
-- **API انعطاف‌پذیر** — تمام متدها از هر دو حالت `sync` و `async` پشتیبانی می‌کنند
-- **بدون نیاز به کد ناهمگام** — کتابخانه تمام عملیات async را برای شما مدیریت می‌کند
-- **Type Hints کامل** — پشتیبانی کامل از تایپ برای یکپارچگی بهتر با IDE
-- **سیستم پلاگین** — ربات خود را به راحتی با پلاگین‌ها گسترش دهید
-- **پشتیبانی از Middleware** — رویدادها را رهگیری و پردازش کنید
-- **Webhook و Polling** — پشتیبانی از هر دو حالت دریافت به‌روزرسانی
-- **سیستم فیلتر قدرتمند** — فیلترهای پیشرفته برای پردازش رویدادها
-- **Handlerهای مبتنی بر Decorator** — سینتکسی تمیز و شهودی
-
----
-
-## نصب
+**Fast, stable async Python for the Rubika & Shad platforms.**
+Build bots and userbots that stay up — without the boilerplate.
 
 ```bash
 pip install darkob
 ```
 
-## نصب از طریق گیتهاب
+## 30 seconds to a working bot
 
-```bash
-pip install https://github.com/ManiTheFerfri/darkob/archive/refs/heads/main.zip
+```python
+from darkob import Bot
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+@bot.on_command("start")
+async def start(bot, event):
+    await event.reply("Welcome 👋")
+
+bot.run()
 ```
 
----
+## Start here
 
-## شروع کنید
+| If you want to… | Read |
+| --- | --- |
+| Install and run something in 5 minutes | [Quickstart](get-started/quickstart.md) |
+| Understand handlers, filters and decorators | [Handlers](guides/handlers.md) · [Filters](guides/filters.md) |
+| Split a bot into modules | [Routers](guides/routers.md) |
+| Build a multi-step conversation | [Conversations (FSM)](guides/fsm.md) |
+| Handle failures properly | [Errors](guides/errors.md) |
+| Drive a real user account | [API: Messenger](api/messenger.md) |
+| Write bots with an AI assistant | [AI workflow](ai/index.md) |
+| Look up a method signature | [API: Bot](api/bot.md) · [API: Messenger](api/messenger.md) |
 
-<div style="display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+## Built for AI-assisted development
 
-<a href="bot-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات ربات روبیکا</a>
+Most darkob bots are written by an AI assistant, so the documentation is
+designed to be *read by a model*, not just by a human:
 
-<a href="client-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات حساب کاربری روبیکا</a>
+- **[`llms.txt`](llms.txt)** — a curated map of the docs, in the
+  [`llms.txt`](https://llmstxt.org/) format.
+- **[`llms-full.txt`](llms-full.txt)** — the entire documentation in one
+  file, ready to paste into a context window.
+- **[`api.json`](api.json)** — every public method as structured JSON:
+  name, signature, module, docstring. Machine-readable, no parsing.
+- **Every page is also served as raw Markdown** — append `.md` to any
+  page URL instead of `.html`.
+- **The API reference is generated from the installed package**, so a
+  signature in the docs cannot disagree with the signature at runtime.
 
-</div>
+See [AI workflow](ai/index.md) for the recommended prompts, and
+[Recipes](ai/recipes.md) for task-shaped examples you can hand to a model.
 
-<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+## Why darkob
 
-<a href="shad-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات پیام‌رسان شاد</a>
+darkob is a fork of [maxrubika](https://github.com/MEH2RAB/maxrubika),
+rebuilt around foundations that do not quietly fail.
 
-</div>
+| Inherited problem | What darkob does |
+| --- | --- |
+| Contacted PyPI at import time | Importing performs **no network I/O** |
+| TLS verification disabled | Verification is **on by default** |
+| Bare `except:` swallowed `KeyboardInterrupt` | Narrowed and logged |
+| Every event scanned all handlers | **Indexed dispatch** |
+| Retries multiplied per endpoint | **Bounded attempt budget** |
+| A new TLS handshake per file download | **Pooled sessions** |
+
+See [Migrating from maxrubika](get-started/migrating-from-maxrubika.md) for
+the complete list of behavioural differences.

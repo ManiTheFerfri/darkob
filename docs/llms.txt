@@ -1,0 +1,60 @@
+# darkob
+
+> darkob is a fast, stable async Python library for the Rubika and Shad
+> messaging platforms. It provides a Bot API client (`Bot`), a userbot
+> client (`Messenger`), and a Shad facade, plus composable routers and
+> finite-state machines — with no network I/O at import time.
+
+Key facts for AI assistants:
+
+- Install: `pip install darkob` (Python 3.9–3.14).
+- Imports: `from darkob import Bot, Router, FSMContext, Messenger, Shad`.
+- Handlers are `async def handler(bot, event)` registered with decorators
+  on a `Bot` instance (`@bot.on_new_message()`, `@bot.on_command("x")`).
+- Filters live in `darkob.bot.filters` and must be instantiated
+  (`IsGroup()`), composing with `&`, `|`, `~`.
+- Start with `bot.run()` (polling) or `bot.run(webhook_url=...)`.
+- Do not use aiogram, Pyrogram or Telegram idioms; there is no
+  `Dispatcher` and no `message` object — you get `event`.
+- Every public signature is in `api.json`; do not invent methods.
+
+## Docs
+
+- [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart.md): install, first bot, polling vs webhook
+- [Installation](https://manitheferfri.github.io/darkob/get-started/installation.md): requirements, extras, dev setup
+- [Migrating from maxrubika](https://manitheferfri.github.io/darkob/get-started/migrating-from-maxrubika.md): package rename and behavioural changes
+
+## Guides
+
+- [Handlers](https://manitheferfri.github.io/darkob/guides/handlers.md): every decorator and what triggers it
+- [Filters](https://manitheferfri.github.io/darkob/guides/filters.md): 42 constraints, composition, custom filters
+- [Routers](https://manitheferfri.github.io/darkob/guides/routers.md): split a bot into modules
+- [Conversations (FSM)](https://manitheferfri.github.io/darkob/guides/fsm.md): state, storage, StateFilter
+- [Errors](https://manitheferfri.github.io/darkob/guides/errors.md): exception hierarchy and retry semantics
+- [Sync and async](https://manitheferfri.github.io/darkob/guides/sync-and-async.md): both styles, and when each applies
+- [Testing bots](https://manitheferfri.github.io/darkob/guides/testing.md): offline patterns with fakes
+- [Project layout](https://manitheferfri.github.io/darkob/guides/project-layout.md): module map and design rules
+
+## Project
+
+- [Roadmap](https://manitheferfri.github.io/darkob/roadmap.md): ecosystem data, strategic bets, horizons, non-goals, success metrics
+
+## AI workflow
+
+- [AI overview](https://manitheferfri.github.io/darkob/ai/index.md): which context file to use and when
+- [Prompt pack](https://manitheferfri.github.io/darkob/ai/prompt-pack.md): copy-paste system prompts
+- [Recipes](https://manitheferfri.github.io/darkob/ai/recipes.md): task-shaped examples
+- [Context files](https://manitheferfri.github.io/darkob/ai/context-files.md): llms.txt, api.json, raw Markdown
+
+## API reference
+
+- [Bot](https://manitheferfri.github.io/darkob/api/bot.md): 42 methods, generated from the package
+- [Messenger](https://manitheferfri.github.io/darkob/api/messenger.md): 323 methods, generated from the package
+- [Shad](https://manitheferfri.github.io/darkob/api/shad.md): mirrors Messenger against Shad hosts
+- [api.json](https://manitheferfri.github.io/darkob/api.json): machine-readable index of every method
+
+## Optional
+
+- [Full documentation in one file](https://manitheferfri.github.io/darkob/llms-full.txt): entire corpus, for large context windows
+- [Persian quickstart](https://manitheferfri.github.io/darkob/fa/quickstart.md): شروع سریع
+- [Source](https://github.com/ManiTheFerfri/darkob): repository and issues

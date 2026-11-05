@@ -146,11 +146,25 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Build the documentation site
+      - name: Install
         run: |
           python -m pip install --upgrade pip
+          python -m pip install -e .
           python -m pip install mkdocs-material pymdown-extensions pygments
-          mkdocs build
+
+      - name: Regenerate API reference and AI assets
+        run: python scripts/generate_docs_assets.py
+
+      - name: Fail if generated documentation is stale
+        run: |
+          if ! git diff --quiet -- docs/api docs/api.json docs/llms-full.txt; then
+            echo "::error::Generated docs are stale. Run scripts/generate_docs_assets.py and commit the result."
+            git diff --stat -- docs/api docs/api.json docs/llms-full.txt
+            exit 1
+          fi
+
+      - name: Build the documentation site
+        run: mkdocs build
 
   security:
     name: dependency audit

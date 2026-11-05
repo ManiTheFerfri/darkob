@@ -147,16 +147,31 @@ documentation.
 
 ## 📚 Documentation
 
-The exhaustive, method-by-method reference lives in [`docs/`](docs/):
+The full site lives at **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/darkob/)**.
 
 | Area | Start here |
 | --- | --- |
-| Getting started with bots | [bot-guide](docs/bot-guide.md) |
-| Bot methods | [bot-methods](docs/bot-methods.md) |
-| Bot filters | [bot-filters](docs/bot-filters.md) |
-| Userbot guide | [client-guide](docs/client-guide.md) |
-| Userbot methods | [client-methods](docs/client-methods.md) |
-| Shad platform | [shad-guide](docs/shad-guide.md) |
+| Install and run in 5 minutes | [Quickstart](docs/get-started/quickstart.md) |
+| Handlers and decorators | [Handlers](docs/guides/handlers.md) |
+| Filters | [Filters](docs/guides/filters.md) |
+| Routers | [Routers](docs/guides/routers.md) |
+| Conversations | [FSM](docs/guides/fsm.md) |
+| Errors and retries | [Errors](docs/guides/errors.md) |
+| Bot API reference | [api/bot.md](docs/api/bot.md) |
+| Messenger API reference | [api/messenger.md](docs/api/messenger.md) |
+
+### Built for AI-assisted development
+
+Most darkob bots are written by an AI assistant, so the docs are designed
+to be read by a model:
+
+- [llms.txt](docs/llms.txt) — curated map in the [llms.txt](https://llmstxt.org/) format
+- [llms-full.txt](docs/llms-full.txt) — the entire documentation in one file
+- [pi.json](docs/api.json) — every public method as structured JSON
+- Every page is also served as raw Markdown: append .md to any URL
+- The API reference is **generated from the installed package**, so it cannot drift
+
+See the [AI workflow](docs/ai/index.md) and [prompt pack](docs/ai/prompt-pack.md).
 
 Every public method also ships a full docstring:
 
@@ -199,14 +214,17 @@ subprocess test asserts that importing `darkob` cannot reach the network.
 
 ## 🗺 Roadmap
 
+The full, evidence-based roadmap lives in **[docs/roadmap.md](docs/roadmap.md)**.
+It covers the ecosystem data, three strategic bets, four horizons, explicit
+non-goals, success metrics and risks.
+
+Shipped so far:
+
 - [x] Foundation: packaging, TLS, logging, test suite, CI
 - [x] Performance: indexed dispatch, bounded retries, pooled sessions
-- [x] Routers and FSM
-- [ ] Middleware chain on routers
-- [ ] Pagination helpers (`async for` over messages and members)
-- [ ] Redis storage backend
-- [ ] CLI (`darkob new`, `darkob run`)
-- [ ] Type-complete public API and `mypy` in CI
+- [x] Routers, FSM with pluggable storage
+- [x] AI-first docs: llms.txt, api.json, generated API reference
+- [ ] MCP server, typed public API, pagination, Redis storage, CLI
 
 ## 🤝 Contributing
 
