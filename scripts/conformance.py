@@ -37,6 +37,16 @@ PASS, FAIL, SKIP = "PASS", "FAIL", "SKIP"
 results: List[Tuple[str, str, str]] = []
 
 
+def unwrap(value: Any) -> Any:
+    """Return a plain dict: API responses are wrapped in Data objects."""
+    if hasattr(value, "to_dict"):
+        try:
+            return value.to_dict()
+        except Exception:
+            return {}
+    return value
+
+
 def record(method: str, status: str, detail: str = "") -> None:
     results.append((method, status, detail))
     icon = {PASS: "ok  ", FAIL: "FAIL", SKIP: "skip"}[status]
@@ -53,14 +63,8 @@ async def check(method: str, coro_factory: Callable[[], Any]) -> Any:
         return None
 
     elapsed = (time.perf_counter() - started) * 1000
-    status = None
-    if isinstance(value, dict):
-        status = value.get("status")
-    elif hasattr(value, "get"):
-        try:
-            status = value.get("status")
-        except Exception:
-            status = None
+    payload = unwrap(value)
+    status = payload.get("status") if isinstance(payload, dict) else None
 
     if status in (None, "OK"):
         record(method, PASS, f"{elapsed:.0f} ms")
@@ -71,7 +75,7 @@ async def check(method: str, coro_factory: Callable[[], Any]) -> Any:
 
 def first_message_id(updates: Any) -> Optional[str]:
     try:
-        data = updates.get("data") or {}
+        data = unwrap(updates).get("data") or {}
         for update in data.get("updates") or []:
             message = update.get("message") or {}
             if message.get("message_id"):
@@ -116,7 +120,7 @@ async def main(argv: Optional[List[str]] = None) -> int:
 
     if not args.writes:
         for name in (
-            "sendMessage", "editMessageText", "editInlineKeypad",
+            "sendMessage", "editMessageText", "editMessageKeypad",
             "editChatKeypad", "setCommands", "deleteMessage", "sendLocation",
             "sendContact", "sendPoll", "requestSendFile", "sendFile",
             "forwardMessage", "banChatMember", "unbanChatMember",
@@ -143,7 +147,7 @@ async def main(argv: Optional[List[str]] = None) -> int:
         if edit_target:
             await check("editMessageText", lambda: bot.edit_message(
                 chat, edit_target, "conformance: editMessageText"))
-            await check("editInlineKeypad", lambda: bot.edit_inline_keypad(
+            await check("editMessageKeypad", lambda: bot.edit_inline_keypad(
                 chat, edit_target, [["A", "B"]]))
 
         await check("setCommands", lambda: bot.set_commands(
@@ -206,10 +210,20 @@ async def _expect_rejection(coro: Any) -> Any:
 
 
 def _message_id(result: Any) -> Optional[str]:
+    """The API returns {"status": "OK", "data": {"message_id": ...}}."""
     try:
-        data = result.get("data") or {}
-        message = data.get("message") or {}
-        return str(message.get("message_id") or "") or None
+        data = unwrap(result).get("data") or {}
+        if hasattr(data, "to_dict"):
+            data = data.to_dict()
+        if not isinstance(data, dict):
+            return None
+        for key in ("message_id", "message", "new_message"):
+            value = data.get(key)
+            if isinstance(value, dict) and value.get("message_id"):
+                return str(value["message_id"])
+            if key == "message_id" and value:
+                return str(value)
+        return None
     except Exception:
         return None
 

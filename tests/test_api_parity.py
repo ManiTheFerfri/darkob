@@ -95,3 +95,26 @@ async def test_set_commands_with_an_empty_list_also_removes():
     await bot.set_commands([])
 
     assert captured["payload"] == {"bot_commands": []}
+
+
+async def test_edit_inline_keypad_uses_the_live_endpoint():
+    """Live-tested: `editInlineKeypad` answers "Invalid Method"; this one works.
+
+    The reference page's cURL sample says `editInlineKeypad`, but a probe
+    against botapi.rubika.ir returned INVALID_INPUT for it and OK for
+    `editMessageKeypad`. This test pins the working name.
+    """
+    bot = make_bot()
+    captured = {}
+
+    async def fake_request(method, endpoint, **kwargs):
+        captured["endpoint"] = endpoint
+        captured["payload"] = kwargs.get("json")
+        return {"status": "OK"}
+
+    bot.request = fake_request
+
+    await bot.edit_inline_keypad(CHAT, 7, [["A"]])
+
+    assert captured["endpoint"] == "editMessageKeypad"
+    assert "inline_keypad" in captured["payload"]

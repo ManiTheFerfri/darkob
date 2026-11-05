@@ -133,6 +133,51 @@ Two methods exist in darkob that the public docs do not list:
 working method because a page omits it would break users — but they are
 undocumented upstream, so treat them as unsupported by Rubika.
 
+### Live verification
+
+Run against a real bot in a real chat (`scripts/conformance.py` and the
+one-off probes behind these numbers):
+
+| Verified working against the API | |
+| --- | --- |
+| `getMe` | returns bot id, title, username |
+| `getUpdates` | returns updates with `next_offset_id` |
+| `getChat` | returns the chat object |
+| `sendMessage` | returns `data.message_id` |
+| `editMessageText` | `OK` |
+| `editMessageKeypad` | `OK` |
+| `forwardMessage` | `OK` |
+| `deleteMessage` | `OK` |
+| `sendLocation` / `sendContact` / `sendPoll` | `OK` |
+| `requestSendFile` | returns an upload URL |
+| `uploadFile` | returns a `file_id` |
+| `getFile` | returns `download_url` |
+| `sendFile` by `file_id` and by local path | `OK` |
+| `editChatKeypad` / `remove_chat_keypad` | `OK` |
+| `banChatMember` / `unbanChatMember` | reject bogus ids, so the endpoints exist |
+
+Not verifiable with a bot-only token:
+
+- `setCommands` — there is no `getCommands`, so any write destroys the
+  original list with no way to restore it.
+- `updateBotEndpoints` — changes where the bot receives updates.
+- `getChatMember`, `member_is_admin`, `member_is_joined`,
+  `member_is_owner` — our validator (correctly) rejects `b0` chats, so
+  these need a group or channel to test. Still unproven.
+
+### The documentation is wrong in one place
+
+The reference page has a section headed **`editMessageKeypad`**, but its
+cURL/Python/Node samples POST to **`editInlineKeypad`**. Live probing:
+
+```
+POST editInlineKeypad  -> {"status": "INVALID_INPUT", "dev_message": "Invalid Method"}
+POST editMessageKeypad -> {"status": "OK", "data": {}}
+```
+
+The prose is right and the samples are stale. darkob calls
+`editMessageKeypad`, and a regression test pins it.
+
 ### Fixed by the audit
 
 - `edit_message` now accepts `inline_keypad`. The docs list it for

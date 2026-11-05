@@ -56,9 +56,11 @@ class EditInlineKeypad(KeypadMixin):
                     Passing an empty list ([]) or None removes the inline keypad
                     from the message.
 
-        The documented endpoint is ``editInlineKeypad`` (the reference
-        page's prose heading says ``editMessageKeypad``, but every code
-        sample for that section posts to ``editInlineKeypad``).
+        Uses the ``editMessageKeypad`` endpoint. The reference page's
+        cURL sample shows ``editInlineKeypad``, but that name returns
+        ``INVALID_INPUT: Invalid Method`` against the live API, while
+        ``editMessageKeypad`` answers ``OK``. The prose heading is right
+        and the sample is stale.
 
         Returns:
             dict: API response with message information.
@@ -88,4 +90,4 @@ class EditInlineKeypad(KeypadMixin):
             payload['inline_keypad'] = normalized_inline_keypad
 
         payload = {k: v for k, v in payload.items() if v is not None}
-        return await self.request('POST', 'editInlineKeypad', json = payload)
+        return await self.request('POST', 'editMessageKeypad', json = payload)

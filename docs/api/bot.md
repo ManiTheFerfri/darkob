@@ -237,9 +237,11 @@ Parameters:
             Passing an empty list ([]) or None removes the inline keypad
             from the message.
 
-The documented endpoint is ``editInlineKeypad`` (the reference
-page's prose heading says ``editMessageKeypad``, but every code
-sample for that section posts to ``editInlineKeypad``).
+Uses the ``editMessageKeypad`` endpoint. The reference page's
+cURL sample shows ``editInlineKeypad``, but that name returns
+``INVALID_INPUT: Invalid Method`` against the live API, while
+``editMessageKeypad`` answers ``OK``. The prose heading is right
+and the sample is stale.
 
 Returns:
     dict: API response with message information.
