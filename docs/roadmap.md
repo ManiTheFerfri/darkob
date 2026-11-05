@@ -200,6 +200,109 @@ the endpoints do not exist, so they are settled rather than pending:
 
 ## P2 — larger work
 
+All four items are shipped:
+
+- **Resumable downloads** — **shipped**. `download_file` streams to disk,
+  resumes from the existing byte count with a `Range` request, and handles
+  a server that ignores the range by restarting instead of appending. If
+  the file is already complete the server's `416` is treated as success.
+- **Circuit breaker per endpoint** — **shipped**.
+- **Rate-limit governor** — **shipped**.
+- **Offline send queue** — **shipped**. `SendQueue` sends immediately when
+  it can, otherwise keeps the message (optionally on disk) and flushes on
+  reconnect. Permanent errors are dropped rather than blocking the queue.
+- **Protocol-version tracker** — **shipped**. `ProtocolTracker` snapshots
+  the discovered data-centre layout and reports endpoint, socket, platform
+  or app-version drift.
+
+Uploads cannot be made resumable: `requestSendFile` returns a `file_id`
+only for a complete body, so there is no chunked upload endpoint to build
+on.
+
+## Official Bot API parity
+
+Audited against <https://rubika.ir/botapi> (methods, models and
+group/channel pages). The documentation defines **18 methods**:
+
+`sendMessage`, `editMessageText`, `editChatKeypad`, `sendFile`,
+`requestSendFile`, `getFile`, `sendLocation`, `sendContact`, `sendPoll`,
+`forwardMessage`, `deleteMessage`, `banChatMember`, `unbanChatMember`,
+`getChat`, `getMe`, `getUpdates`, `setCommands`, `updateBotEndpoints`.
+
+Every one of them is implemented, and every endpoint string matches.
+
+Two methods exist in darkob that the public docs do not list:
+`getChatMember` and `editMessageKeypad`. They are kept — removing a
+working method because a page omits it would break users — but they are
+undocumented upstream, so treat them as unsupported by Rubika.
+
+### Live verification
+
+Run against a real bot in a real chat (`scripts/conformance.py` and the
+one-off probes behind these numbers):
+
+| Verified working against the API | |
+| --- | --- |
+| `getMe` | returns bot id, title, username |
+| `getUpdates` | returns updates with `next_offset_id` |
+| `getChat` | returns the chat object |
+| `sendMessage` | returns `data.message_id` |
+| `editMessageText` | `OK` |
+| `editMessageKeypad` | `OK` |
+| `forwardMessage` | `OK` |
+| `deleteMessage` | `OK` |
+| `sendLocation` / `sendContact` / `sendPoll` | `OK` |
+| `requestSendFile` | returns an upload URL |
+| `uploadFile` | returns a `file_id` |
+| `getFile` | returns `download_url` |
+| `sendFile` by `file_id` and by local path | `OK` |
+| `editChatKeypad` / `remove_chat_keypad` | `OK` |
+| `banChatMember` / `unbanChatMember` | reject bogus ids, so the endpoints exist |
+
+Not verifiable with a bot-only token:
+
+- `setCommands` — there is no `getCommands`, so any write destroys the
+  original list with no way to restore it.
+- `updateBotEndpoints` — changes where the bot receives updates.
+- `getChatMember`, `member_is_admin`, `member_is_joined`,
+  `member_is_owner` — our validator (correctly) rejects `b0` chats, so
+  these need a group or channel to test. Still unproven.
+
+### The documentation is wrong in one place
+
+The reference page has a section headed **`editMessageKeypad`**, but its
+cURL/Python/Node samples POST to **`editInlineKeypad`**. Live probing:
+
+```
+POST editInlineKeypad  -> {"status": "INVALID_INPUT", "dev_message": "Invalid Method"}
+POST editMessageKeypad -> {"status": "OK", "data": {}}
+```
+
+The prose is right and the samples are stale. darkob calls
+`editMessageKeypad`, and a regression test pins it.
+
+### Fixed by the audit
+
+- `edit_message` now accepts `inline_keypad`. The docs list it for
+  `editMessageText`; darkob previously ignored it, so a handler could not
+  change buttons after a callback.
+- `remove_commands()` added, matching the documented `setCommands` with an
+  empty `bot_commands` list.
+
+### Confirmed absent from the API
+
+These were previously listed as "awaiting documentation". The audit shows
+the endpoints do not exist, so they are settled rather than pending:
+
+| Feature | Reality |
+| --- | --- |
+| `send_album` | No multi-file endpoint; use several `send_file` calls |
+| `set_webhook` / `get_webhook_info` / `delete_webhook` | No such endpoints; `updateBotEndpoints` registers a URL but exposes no read/delete |
+| Bot-side `pin_message` / `unpin_message` | Not part of the Bot API |
+| `sync_contacts` | Messenger-only; the Bot API has no contact sync |
+
+## P2 — larger work
+
 - **Resumable uploads/downloads**: downloads now borrow the pooled
   session (they used to open their own, one TLS handshake per file)
   and were verified against the live API. Byte-range resume is still

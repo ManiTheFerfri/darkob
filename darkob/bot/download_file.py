@@ -94,6 +94,60 @@ class DownloadFile:
             raise Exception(f"Download failed: {last_error}")
         return None
 
+
+    async def _download_to_path(
+        self,
+        url: str,
+        full_path: str,
+        *,
+        resume: bool = True,
+        chunk_size: int = 256 * 1024,
+        callback=None,
+    ) -> int:
+        """Stream a file to disk, continuing a partial download.
+
+        Returns the number of bytes written in total (including what was
+        already on disk).
+        """
+        existing = 0
+        if resume and os.path.exists(full_path):
+            existing = os.path.getsize(full_path)
+
+        session = await self._get_session()
+        headers = {"Range": f"bytes={existing}-"} if existing else {}
+
+        async with session.get(
+            url, headers=headers, proxy=getattr(self, "proxy", None)
+        ) as response:
+            if response.status == 416:
+                # Nothing left to fetch: the file is already complete.
+                return existing
+            if response.status not in (200, 206):
+                raise Network(
+                    dev_message=f"Download failed with HTTP {response.status}."
+                )
+
+            if existing and response.status == 200:
+                # The server ignored the Range header and sent the whole
+                # file. Appending would corrupt it, so start over.
+                existing = 0
+
+            mode = "ab" if existing else "wb"
+            written = existing
+
+            length = response.headers.get("Content-Length")
+            total = written + int(length) if length else 0
+
+            with open(full_path, mode) as handle:
+                async for block in response.content.iter_chunked(chunk_size):
+                    handle.write(block)
+                    written += len(block)
+                    if callback:
+                        percent = (written / total * 100.0) if total else 0.0
+                        callback(written, total or written, percent)
+
+        return written
+
     async def download_file(
         self: "darkob.Bot", 
         file_id: str, 
@@ -101,7 +155,8 @@ class DownloadFile:
         path: str = None,
         save_as: bool = False,
         as_base64: bool = False,
-        callback = None
+        callback = None,
+        resume: bool = True,
     ):
         """
         Downloads the file associated with the specified file ID.
@@ -113,6 +168,8 @@ class DownloadFile:
             save_as (bool, optional): If True, save to disk. If False, return bytes only. Defaults to False.
             as_base64 (bool, optional): If True, return as base64 encoded string. Only works when save_as=False. Defaults to False.
             callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
+            resume (bool, optional): When saving to disk, continue a partial
+                file using a byte range instead of starting over. Defaults to True.
 
         Returns:
             If save_as = True: dict with status and file_path.
@@ -178,17 +235,22 @@ class DownloadFile:
                 full_path = os.path.join(save_path, filename)
                 os.makedirs(save_path, exist_ok=True)
 
+            if save_as:
+                written = await self._download_to_path(
+                    download_url,
+                    full_path,
+                    resume=resume,
+                    callback=callback,
+                )
+                return {
+                    "status": "OK",
+                    "file_path": full_path,
+                    "size": self._format_size(written),
+                }
+
             file_data = await self._download_with_retry(download_url)
 
-            if save_as:
-                with open(full_path, 'wb') as f:
-                    f.write(file_data)
-
-                if callback:
-                    callback(len(file_data), len(file_data), 100.0)
-
-                return {"status": "OK", "file_path": full_path, "size": self._format_size(len(file_data))}
-            else:
+            if True:
                 if callback:
                     callback(len(file_data), len(file_data), 100.0)
 

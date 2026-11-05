@@ -105,7 +105,7 @@ Close the session synchronously, from any context:
 ### download_file
 
 ```python
-download_file(self: 'darkob.Bot', file_id: str, name: str=None, path: str=None, save_as: bool=False, as_base64: bool=False, callback=None)
+download_file(self: 'darkob.Bot', file_id: str, name: str=None, path: str=None, save_as: bool=False, as_base64: bool=False, callback=None, resume: bool=True)
 ```
 
 Downloads the file associated with the specified file ID.
@@ -117,6 +117,8 @@ Parameters:
     save_as (bool, optional): If True, save to disk. If False, return bytes only. Defaults to False.
     as_base64 (bool, optional): If True, return as base64 encoded string. Only works when save_as=False. Defaults to False.
     callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
+    resume (bool, optional): When saving to disk, continue a partial
+        file using a byte range instead of starting over. Defaults to True.
 
 Returns:
     If save_as = True: dict with status and file_path.

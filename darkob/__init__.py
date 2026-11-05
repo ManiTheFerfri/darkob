@@ -42,6 +42,8 @@ from .bot.models import ButtonType, ChatType, FileType
 from .retry import Retry
 from .circuit import CircuitBreaker
 from .ratelimit import RateLimiter, TokenBucket
+from .queue import QueueFull, SendQueue
+from .protocol import ProtocolSnapshot, ProtocolTracker
 from .formatting import (
     bold,
     code,
@@ -56,7 +58,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.10.0"
+__version__ = "0.11.0"
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +94,10 @@ __all__ = [
     "CircuitBreaker",
     "RateLimiter",
     "TokenBucket",
+    "SendQueue",
+    "QueueFull",
+    "ProtocolTracker",
+    "ProtocolSnapshot",
     "bold",
     "italic",
     "strike",

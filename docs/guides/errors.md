@@ -57,6 +57,27 @@ bot = Bot(token="...", max_retries=3)     # 3 attempts total
 
 Set `max_retries=0` to fail fast in tests.
 
+## Surviving a bad connection
+
+`SendQueue` wraps sending so a dropped connection does not lose
+messages:
+
+```python
+from darkob import Bot, SendQueue
+
+bot = Bot(token="...")
+queue = SendQueue(bot, path="outbox.json")   # survives a restart
+queue.start()                                  # flush in the background
+
+await queue.put(event.chat_id, "report ready")
+```
+
+`put` returns `True` when the message went out immediately and
+`False` when it was queued. Only transient failures (network,
+timeout) are queued; a permanent error such as an invalid chat id
+is raised at once, and is dropped during a flush rather than
+blocking everything behind it.
+
 ## Rate limiting
 
 Rubika throttles bots, and a burst of sends is the fastest way to
