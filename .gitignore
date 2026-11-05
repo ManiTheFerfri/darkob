@@ -56,3 +56,6 @@ secrets.json
 *.swp
 .DS_Store
 Thumbs.db
+
+# Locally downloaded upstream API reference (third-party content)
+api_docs/
