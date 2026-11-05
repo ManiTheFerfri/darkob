@@ -11,8 +11,18 @@ import darkob
 from darkob import _parse_version
 
 
-def test_version_is_zero_based_release():
-    assert darkob.__version__ == "0.1.0"
+def test_version_matches_pyproject():
+    """Guards against the packaged metadata drifting from __version__."""
+    import pathlib
+    import re
+
+    pyproject = pathlib.Path(__file__).resolve().parents[1] / "pyproject.toml"
+    match = re.search(
+        r'^version\s*=\s*"([^"]+)"', pyproject.read_text(encoding="utf-8"), re.M
+    )
+
+    assert match is not None, "pyproject.toml has no version"
+    assert darkob.__version__ == match.group(1)
 
 
 def test_upstream_attribution_is_preserved():

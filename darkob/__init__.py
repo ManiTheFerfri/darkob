@@ -25,9 +25,18 @@ from .TheClient import Messenger as messenger
 from .shad import Shad
 from .shad import Shad as shad
 
+from .router import Router
+from .fsm import (
+    FSMContext,
+    JsonFileStorage,
+    MemoryStorage,
+    StateFilter,
+    Storage,
+)
+
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +52,12 @@ __all__ = [
     "shad",
     "show_welcome_message",
     "check_for_updates",
+    "Router",
+    "FSMContext",
+    "Storage",
+    "MemoryStorage",
+    "JsonFileStorage",
+    "StateFilter",
     "__version__",
 ]
 

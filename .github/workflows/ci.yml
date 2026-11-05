@@ -33,6 +33,43 @@ jobs:
       - name: Run tests
         run: python -m pytest
 
+      - name: Run tests with coverage
+        if: matrix.python-version == '3.12'
+        run: |
+          python -m pytest \
+            --cov=darkob \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-report=html
+
+      - name: Upload coverage report
+        if: matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.xml
+            htmlcov/
+          retention-days: 14
+
+  test-windows:
+    name: test (windows, py3.12)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package and dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run tests
+        run: python -m pytest
+
   lint:
     name: lint
     runs-on: ubuntu-latest
@@ -67,3 +104,52 @@ jobs:
         run: |
           python -m pip install dist/*.whl
           cd /tmp && python -c "import darkob; print(darkob.__version__)"
+
+      - name: Check the wheel contains no tests or caches
+        run: |
+          python -m pip install --upgrade wheel
+          python - <<'PY'
+          import glob, re, zipfile
+          wheel = glob.glob("dist/*.whl")[0]
+          names = zipfile.ZipFile(wheel).namelist()
+          bad = [n for n in names if re.search(r"(^|/)(tests?|__pycache__)/", n)]
+          print(f"{len(names)} files in wheel")
+          assert not bad, f"unwanted files in wheel: {bad[:5]}"
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  docs:
+    name: docs build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build the documentation site
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install mkdocs-material pymdown-extensions pygments
+          mkdocs build
+
+  security:
+    name: dependency audit
+    runs-on: ubuntu-latest
+    # Reported, not enforced: upstream advisories should not block every PR.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: |
+          python -m pip install --upgrade pip pip-audit
+          pip-audit --desc on || true

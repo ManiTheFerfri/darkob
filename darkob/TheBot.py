@@ -93,3 +93,22 @@ class Bot(Session, Updates, Methods):
             if self.TOKEN_PATTERN.match(token):
                 return token
             console.print("\nInvalid token format. Try again.\n", style="bold red")
+
+    def include_router(self, router):
+        """Register every handler declared on *router*, recursively.
+
+        Lets a bot be split into feature modules::
+
+            bot.include_router(admin_router)
+
+        Returns the router so calls can be chained.
+        """
+        from .router import Router
+
+        if not isinstance(router, Router):
+            raise TypeError(
+                f"include_router expects a Router, got {type(router).__name__}"
+            )
+
+        router.apply(self)
+        return router
