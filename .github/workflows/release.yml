@@ -72,7 +72,25 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Check whether this version is already on PyPI
+        id: check
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "https://pypi.org/pypi/darkob/${VERSION}/json")
+          echo "PyPI returned ${CODE} for version ${VERSION}"
+          if [ "${CODE}" = "200" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: pypa/gh-action-pypi-publish@release/v1
+        # Skip a version that is already published, so re-tagging or a
+        # manually uploaded release is not reported as a failure.
+        if: steps.check.outputs.exists != 'true'
+        with:
+          skip_existing: true
         # No password: OIDC trusted publishing handles authentication.
 
   github-release:

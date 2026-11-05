@@ -62,7 +62,7 @@ does not quietly fail, so darkob starts there.
 pip install darkob
 ```
 
-From source (until the first PyPI release lands):
+Latest development version:
 
 ```bash
 pip install git+https://github.com/ManiTheFerfri/darkob.git
