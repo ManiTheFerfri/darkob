@@ -11,10 +11,16 @@ Outputs:
     docs/api/shad.md         Shad reference
     docs/api.json            machine-readable method index
     docs/llms-full.txt       complete corpus in one file for LLMs
+
+Signatures are rendered from source AST rather than introspection so that
+output does not depend on the interpreter version. CI still compares the
+committed output byte-for-byte; if you regenerate with a different Python
+major/minor, review the diff before committing.
 """
 
 from __future__ import annotations
 
+import ast
 import inspect
 import json
 import sys
@@ -58,6 +64,22 @@ GROUP_ORDER = [
 
 
 def signature_of(func: Any) -> str:
+    """Render a signature from source AST, not introspection.
+
+    ``inspect.signature`` renders annotations differently across Python
+    versions (PEP 604 unions, stringified annotations), which made the
+    generated docs drift depending on which interpreter ran the script.
+    Parsing the source text gives byte-identical output everywhere.
+    """
+    try:
+        source = textwrap.dedent(inspect.getsource(func))
+        module = ast.parse(source)
+        node = module.body[0]
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            return f"{func.__name__}({ast.unparse(node.args)})"
+    except (OSError, TypeError, SyntaxError, IndentationError, IndexError):
+        pass
+
     try:
         return f"{func.__name__}{inspect.signature(func)}"
     except (TypeError, ValueError):

@@ -32,7 +32,7 @@ Returns the router so calls can be chained.
 ### auto_delete_message
 
 ```python
-auto_delete_message(self: 'darkob.Bot', chat_id: str, message_id: str | int, time: float | int)
+auto_delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], time: Union[float, int])
 ```
 
 Automatically delete a message after a specified time.
@@ -63,7 +63,7 @@ Returns:
 ### close
 
 ```python
-close(self: 'darkob.Bot') -> None
+close(self: 'darkob.Bot')
 ```
 
 Async close — must be awaited inside the session's loop.
@@ -71,7 +71,7 @@ Async close — must be awaited inside the session's loop.
 ### delete_message
 
 ```python
-delete_message(self: 'darkob.Bot', chat_id: str, message_id: int | str)
+delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[int, str])
 ```
 
 Provides a method to delete messages.
@@ -86,7 +86,7 @@ Returns:
 ### disconnect
 
 ```python
-disconnect(self: 'darkob.Bot') -> None
+disconnect(self: 'darkob.Bot')
 ```
 
 Close the session synchronously, from any context:
@@ -97,7 +97,7 @@ Close the session synchronously, from any context:
 ### download_file
 
 ```python
-download_file(self: 'darkob.Bot', file_id: str, name: str = None, path: str = None, save_as: bool = False, as_base64: bool = False, callback=None)
+download_file(self: 'darkob.Bot', file_id: str, name: str=None, path: str=None, save_as: bool=False, as_base64: bool=False, callback=None)
 ```
 
 Downloads the file associated with the specified file ID.
@@ -118,7 +118,7 @@ Returns:
 ### edit_chat_keypad
 
 ```python
-edit_chat_keypad(self: 'darkob.Bot', chat_id: str, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+edit_chat_keypad(self: 'darkob.Bot', chat_id: str, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]], resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Edits or adds a new chat keypad (custom keyboard) to the chat.
@@ -173,7 +173,7 @@ Raises:
 ### edit_inline_keypad
 
 ```python
-edit_inline_keypad(self: 'darkob.Bot', chat_id: str, message_id: str | int, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None) -> Dict[str, Any]
+edit_inline_keypad(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]])
 ```
 
 Edits the inline keyboard of a specific message in a chat.
@@ -231,7 +231,7 @@ Raises:
 ### edit_message
 
 ```python
-edit_message(self: 'darkob.Bot', chat_id: str, message_id: str | int, text: str, metadata: Dict[str, Any] | None = None)
+edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None)
 ```
 
 Edits an existing message in a chat.
@@ -248,7 +248,7 @@ Returns:
 ### forward_message
 
 ```python
-forward_message(self: 'darkob.Bot', from_chat_id: str, message_id: str | int, to_chat_id: str, disable_notification: bool = False)
+forward_message(self: 'darkob.Bot', from_chat_id: str, message_id: Union[str, int], to_chat_id: str, disable_notification: bool=False)
 ```
 
 Provides a method to forward messages.
@@ -316,7 +316,7 @@ Returns:
 ### get_token_string
 
 ```python
-get_token_string(self: 'darkob.Bot', password: str | None = None) -> str
+get_token_string(self: 'darkob.Bot', password: Optional[str]=None)
 ```
 
 Export current bot token as an encrypted TokenString.
@@ -332,7 +332,7 @@ Returns:
 ### get_updates
 
 ```python
-get_updates(self: 'darkob.Bot', offset_id: str = None, limit: int = 100)
+get_updates(self: 'darkob.Bot', offset_id: str=None, limit: int=100)
 ```
 
 Fetches new updates (like messages) from the API.
@@ -347,7 +347,7 @@ Returns:
 ### member_is_admin
 
 ```python
-member_is_admin(self: 'darkob.Bot', chat_id: str, user_id: str) -> bool
+member_is_admin(self: 'darkob.Bot', chat_id: str, user_id: str)
 ```
 
 Check whether a member is an admin or owner of the given chat.
@@ -362,7 +362,7 @@ Returns:
 ### member_is_joined
 
 ```python
-member_is_joined(self: 'darkob.Bot', chat_id: str, user_id: str) -> bool
+member_is_joined(self: 'darkob.Bot', chat_id: str, user_id: str)
 ```
 
 Check whether a user is a member of the given chat.
@@ -377,7 +377,7 @@ Returns:
 ### member_is_owner
 
 ```python
-member_is_owner(self: 'darkob.Bot', chat_id: str, user_id: str) -> bool
+member_is_owner(self: 'darkob.Bot', chat_id: str, user_id: str)
 ```
 
 Check whether a member is the owner of the given chat.
@@ -392,7 +392,7 @@ Returns:
 ### register_all_endpoints
 
 ```python
-register_all_endpoints(self: 'darkob.Bot', base_url: str, endpoints: List[str] | None = None)
+register_all_endpoints(self: 'darkob.Bot', base_url: str, endpoints: Optional[List[str]]=None)
 ```
 
 Register all webhook endpoints at once.
@@ -457,7 +457,7 @@ Returns:
 ### request_send_file
 
 ```python
-request_send_file(self: 'darkob.Bot', file_type: Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif'] = 'File') -> str
+request_send_file(self: 'darkob.Bot', file_type: Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']='File')
 ```
 
 Request an upload URL for sending a file to the server.
@@ -480,7 +480,7 @@ Examples:
 ### run
 
 ```python
-run(self: 'darkob.Bot', poll_interval: float = 0.005, webhook_url: str | None = None, webhook_path: str = '/wk', host: str = '0.0.0.0', port: int = 8080) -> None | ForwardRef('asyncio.Future')
+run(self: 'darkob.Bot', poll_interval: float=0.005, webhook_url: Optional[str]=None, webhook_path: str='/wk', host: str='0.0.0.0', port: int=8080)
 ```
 
 Start the bot.
@@ -495,7 +495,7 @@ Parameters:
 ### send_contact
 
 ```python
-send_contact(self: 'darkob.Bot', chat_id: str, phone_number: str, first_name: str, last_name: str = '', chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_contact(self: 'darkob.Bot', chat_id: str, phone_number: str, first_name: str, last_name: str='', chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a contact message to a chat.
@@ -518,7 +518,7 @@ Returns:
 ### send_file
 
 ```python
-send_file(self: 'darkob.Bot', chat_id: str, file: str | bytes | None = None, file_type: Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif'] = 'File', text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, metadata: Dict[str, Any] | None = None, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_file(self: 'darkob.Bot', chat_id: str, file: Optional[Union[str, bytes]]=None, file_type: Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']='File', text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, metadata: Optional[Dict[str, Any]]=None, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a file to a chat.
@@ -545,7 +545,7 @@ Returns:
 ### send_gif
 
 ```python
-send_gif(self: 'darkob.Bot', chat_id: str, gif: str | bytes | None = None, text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, chat_keypad: Dict[str, Any] = None, inline_keypad: Dict[str, Any] = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_gif(self: 'darkob.Bot', chat_id: str, gif: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a gif to a chat.
@@ -570,7 +570,7 @@ Returns:
 ### send_image
 
 ```python
-send_image(self: 'darkob.Bot', chat_id: str, image: str | bytes | None = None, text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, chat_keypad: Dict[str, Any] = None, inline_keypad: Dict[str, Any] = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_image(self: 'darkob.Bot', chat_id: str, image: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends an image to a chat.
@@ -595,7 +595,7 @@ Returns:
 ### send_location
 
 ```python
-send_location(self: 'darkob.Bot', chat_id: str, latitude: float, longitude: float, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_location(self: 'darkob.Bot', chat_id: str, latitude: float, longitude: float, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a location message to a chat.
@@ -617,7 +617,7 @@ Returns:
 ### send_message
 
 ```python
-send_message(self: 'darkob.Bot', chat_id: str, text: str, metadata: Dict[str, Any] | None = None, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False)
+send_message(self: 'darkob.Bot', chat_id: str, text: str, metadata: Optional[Dict[str, Any]]=None, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a text message to a chat.
@@ -639,7 +639,7 @@ Returns:
 ### send_music
 
 ```python
-send_music(self: 'darkob.Bot', chat_id: str, music: str | bytes | None = None, text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, chat_keypad: Dict[str, Any] = None, inline_keypad: Dict[str, Any] = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_music(self: 'darkob.Bot', chat_id: str, music: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a music to a chat.
@@ -664,7 +664,7 @@ Returns:
 ### send_poll
 
 ```python
-send_poll(self: 'darkob.Bot', chat_id: str, question: str, options: List[str], is_anonymous: bool = True, multi_select: bool = False, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_poll(self: 'darkob.Bot', chat_id: str, question: str, options: List[str], is_anonymous: bool=True, multi_select: bool=False, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Send a poll message with the specified parameters.
@@ -688,7 +688,7 @@ Returns:
 ### send_quiz
 
 ```python
-send_quiz(self: 'darkob.Bot', chat_id: str, question: str, options: List[str], correct_option: int | str, hint: str | None = None, is_anonymous: bool = True, chat_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, inline_keypad: Dict[str, Any] | List[Dict[str, Any]] | None = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_quiz(self: 'darkob.Bot', chat_id: str, question: str, options: List[str], correct_option: Union[int, str], hint: Optional[str]=None, is_anonymous: bool=True, chat_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Send a quiz-type poll message with the specified parameters.
@@ -713,7 +713,7 @@ Returns:
 ### send_video
 
 ```python
-send_video(self: 'darkob.Bot', chat_id: str, video: str | bytes | None = None, text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, chat_keypad: Dict[str, Any] = None, inline_keypad: Dict[str, Any] = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_video(self: 'darkob.Bot', chat_id: str, video: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a video to a chat.
@@ -738,7 +738,7 @@ Returns:
 ### send_voice
 
 ```python
-send_voice(self: 'darkob.Bot', chat_id: str, voice: str | bytes | None = None, text: str | None = None, file_id: str | None = None, base64: str | None = None, file_name: str | None = None, chat_keypad: Dict[str, Any] = None, inline_keypad: Dict[str, Any] = None, reply_to_message_id: int | str | None = None, disable_notification: bool = False, resize_keyboard: bool = True, one_time_keyboard: bool = False) -> Dict[str, Any]
+send_voice(self: 'darkob.Bot', chat_id: str, voice: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a voice to a chat.
@@ -763,7 +763,7 @@ Returns:
 ### set_commands
 
 ```python
-set_commands(self: 'darkob.Bot', commands: List[Dict[str, str]] | Dict[str, str] | None = None) -> Dict[str, Any]
+set_commands(self: 'darkob.Bot', commands: Optional[Union[List[Dict[str, str]], Dict[str, str]]]=None)
 ```
 
 Sets custom commands for the bot. Pass empty list/dict to remove all commands.
@@ -782,7 +782,7 @@ Returns:
 ### start
 
 ```python
-start(self: 'darkob.Bot', poll_interval: float = 0.005, webhook_url: str | None = None, webhook_path: str = '/wk', host: str = '0.0.0.0', port: int = 8080) -> None
+start(self: 'darkob.Bot', poll_interval: float=0.005, webhook_url: Optional[str]=None, webhook_path: str='/wk', host: str='0.0.0.0', port: int=8080)
 ```
 
 Starts the server or polling mechanism with specified configurations.
@@ -815,7 +815,7 @@ Returns:
 ### update_bot_endpoints
 
 ```python
-update_bot_endpoints(self: 'darkob.Bot', url: str, endpoint_type: Literal['ReceiveUpdate', 'ReceiveInlineMessage', 'ReceiveQuery', 'GetSelectionItem', 'SearchSelectionItems'] = 'ReceiveUpdate')
+update_bot_endpoints(self: 'darkob.Bot', url: str, endpoint_type: Literal['ReceiveUpdate', 'ReceiveInlineMessage', 'ReceiveQuery', 'GetSelectionItem', 'SearchSelectionItems']='ReceiveUpdate')
 ```
 
 Register a single webhook endpoint on the Rubika server.
@@ -836,7 +836,7 @@ Returns:
 ### upload_file
 
 ```python
-upload_file(self: 'darkob.Bot', url: str, file: str | bytes | None = None, base64: str | None = None, file_name: str | None = None) -> str | None
+upload_file(self: 'darkob.Bot', url: str, file: Optional[Union[str, bytes]]=None, base64: Optional[str]=None, file_name: Optional[str]=None)
 ```
 
 Upload a file to the server and return file_id.

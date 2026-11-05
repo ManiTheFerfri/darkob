@@ -28,7 +28,7 @@ The Shad education platform. Same Messenger protocol, Shad hosts.
 ### add_reaction
 
 ```python
-add_reaction(self: 'darkob.Client', chat: str, message_id: str | int, reaction_id: int | str)
+add_reaction(self: 'darkob.Client', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
 ```
 
 Add a reaction to a specific message.
@@ -44,7 +44,7 @@ Returns:
 ### auto_delete_message
 
 ```python
-auto_delete_message(self: 'darkob.Client', chat: str, message_id: str | int, time: float | int)
+auto_delete_message(self: 'darkob.Client', chat: str, message_id: Union[str, int], time: Union[float, int])
 ```
 
 Automatically delete a message after a specified time.
@@ -61,7 +61,7 @@ Returns:
 ### click_inline_button
 
 ```python
-click_inline_button(self: 'darkob.Client', chat: str, message_id: str | int, button_id: str)
+click_inline_button(self: 'darkob.Client', chat: str, message_id: Union[str, int], button_id: str)
 ```
 
 Send API call response to a chat's inline keypad button.
@@ -77,7 +77,7 @@ Returns:
 ### click_message_url
 
 ```python
-click_message_url(self: 'darkob.Client', chat: str, message_id: str | int, link_url: str)
+click_message_url(self: 'darkob.Client', chat: str, message_id: typing.Union[str, int], link_url: str)
 ```
 
 Simulate clicking a URL contained within a specific message.
@@ -93,7 +93,7 @@ Returns:
 ### delete_all_messages
 
 ```python
-delete_all_messages(self: 'darkob.Client', chat: str, exclude_message_ids: str | int | List[str | int] | None = None)
+delete_all_messages(self: 'darkob.Client', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None)
 ```
 
 Delete all messages in a chat except the first creation event message
@@ -115,7 +115,7 @@ Returns:
 ### delete_messages
 
 ```python
-delete_messages(self: 'darkob.Client', chat: str, message_ids: str | int | list, type: Literal['Local', 'Global', 'Scheduled'] = 'Global')
+delete_messages(self: 'darkob.Client', chat: str, message_ids: Union[str, int, list], type: Literal['Local', 'Global', 'Scheduled']='Global')
 ```
 
 Delete specified messages associated with the given chat.
@@ -132,7 +132,7 @@ Returns:
 ### delete_my_messages
 
 ```python
-delete_my_messages(self: 'darkob.Client', chat: str, exclude_message_ids: str | int | List[str | int] | None = None)
+delete_my_messages(self: 'darkob.Client', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None)
 ```
 
 Delete all messages sent by the authenticated user in a chat.
@@ -148,7 +148,7 @@ Returns:
 ### edit_message
 
 ```python
-edit_message(self: 'darkob.Client', chat: str, message_id: int | str, text: str, metadata: dict | None = None)
+edit_message(self: 'darkob.Client', chat: str, message_id: Union[int, str], text: str, metadata: Optional[dict]=None)
 ```
 
 Edit the specified message associated with the given chat.
@@ -166,7 +166,7 @@ Returns:
 ### forward_messages
 
 ```python
-forward_messages(self: 'darkob.Client', from_chat: str, message_ids: str | int | list, to_chat: str, hide_author: bool = False, is_mute: bool = False, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None)
+forward_messages(self: 'darkob.Client', from_chat: str, message_ids: Union[str, int, list], to_chat: str, hide_author: bool=False, is_mute: bool=False, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
 ```
 
 Forward specified messages from one chat to another.
@@ -191,7 +191,7 @@ Returns:
 ### get_all_messages
 
 ```python
-get_all_messages(self: 'darkob.Client', chat: str, show_message_ids: bool = False)
+get_all_messages(self: 'darkob.Client', chat: str, show_message_ids: bool=False)
 ```
 
 Retrieve all messages from a chat.
@@ -206,7 +206,7 @@ Returns:
 ### get_chat_messages
 
 ```python
-get_chat_messages(self: 'darkob.Client', chat: str, max_id: str | int = None, sort: Literal['FromMax', 'FromMin'] = 'FromMin', filter_type: Literal['Voice', 'File', 'Music', 'Gif', 'Media', 'Link'] | None = None, limit: int = None)
+get_chat_messages(self: 'darkob.Client', chat: str, max_id: Union[str, int]=None, sort: Literal['FromMax', 'FromMin']='FromMin', filter_type: Optional[Literal['Voice', 'File', 'Music', 'Gif', 'Media', 'Link']]=None, limit: int=None)
 ```
 
 Get messages from a chat with filtering and pagination.
@@ -239,7 +239,7 @@ Returns:
 ### get_first_messages
 
 ```python
-get_first_messages(self: 'darkob.Client', chat: str, limit: int = 100)
+get_first_messages(self: 'darkob.Client', chat: str, limit: int=100)
 ```
 
 Get the first messages of a chat up to a limit.
@@ -268,7 +268,7 @@ Returns:
 ### get_last_messages
 
 ```python
-get_last_messages(self: 'darkob.Client', chat: str, limit: int = 100)
+get_last_messages(self: 'darkob.Client', chat: str, limit: int=100)
 ```
 
 Get the last messages of a chat up to a limit.
@@ -283,7 +283,7 @@ Returns:
 ### get_message_info
 
 ```python
-get_message_info(self: 'darkob.Client', chat: str, message_id: str | int)
+get_message_info(self: 'darkob.Client', chat: str, message_id: Union[str, int])
 ```
 
 Get detailed information about a message.
@@ -298,7 +298,7 @@ Returns:
 ### get_message_url
 
 ```python
-get_message_url(self: 'darkob.Client', chat: str, message_id: str | int)
+get_message_url(self: 'darkob.Client', chat: str, message_id: Union[str, int])
 ```
 
 Get the shareable URL of a specific message.
@@ -313,7 +313,7 @@ Returns:
 ### get_messages
 
 ```python
-get_messages(self: 'darkob.Client', chat: str, types: str | List[str] | None = None)
+get_messages(self: 'darkob.Client', chat: str, types: Optional[Union[str, List[str]]]=None)
 ```
 
 Get messages from a chat with optional type filtering.
@@ -356,7 +356,7 @@ Returns:
 ### get_messages_by_id
 
 ```python
-get_messages_by_id(self: 'darkob.Client', chat: str, message_ids: str | int | list)
+get_messages_by_id(self: 'darkob.Client', chat: str, message_ids: Union[str, int, list])
 ```
 
 Retrieve messages by their IDs.
@@ -371,7 +371,7 @@ Returns:
 ### get_messages_interval
 
 ```python
-get_messages_interval(self: 'darkob.Client', chat: str, middle_message_id: int | str)
+get_messages_interval(self: 'darkob.Client', chat: str, middle_message_id: Union[int, str])
 ```
 
 Retrieve messages in an interval around a middle message ID.
@@ -386,7 +386,7 @@ Returns:
 ### get_messages_reactions
 
 ```python
-get_messages_reactions(self: 'darkob.Client', chat: str, min_id: str | int, max_id: str | int)
+get_messages_reactions(self: 'darkob.Client', chat: str, min_id: Union[str, int], max_id: Union[str, int])
 ```
 
 Get reactions of messages in a chat within a specific ID range.
@@ -402,7 +402,7 @@ Returns:
 ### get_messages_updates
 
 ```python
-get_messages_updates(self: 'darkob.Client', chat: str, state: int = 1793872984)
+get_messages_updates(self: 'darkob.Client', chat: str, state: int=round(time()) - 150)
 ```
 
 Get message updates for a specific chat.
@@ -431,7 +431,7 @@ Returns:
 ### get_poll_option_voters
 
 ```python
-get_poll_option_voters(self: 'darkob.Client', poll_id: str, selection_index: str | int, start_id: str | None = None)
+get_poll_option_voters(self: 'darkob.Client', poll_id: str, selection_index: Union[str, int], start_id: Optional[str]=None)
 ```
 
 Get voters for a specific poll option.
@@ -461,7 +461,7 @@ Returns:
 ### get_scheduled_messages
 
 ```python
-get_scheduled_messages(self: 'darkob.Client', chat: str, start_id: str = None)
+get_scheduled_messages(self: 'darkob.Client', chat: str, start_id: str=None)
 ```
 
 Get scheduled messages in a chat.
@@ -490,7 +490,7 @@ Returns:
 ### mark_as_seen
 
 ```python
-mark_as_seen(self: 'darkob.Client', chat: str, message_id: str | int = None)
+mark_as_seen(self: 'darkob.Client', chat: str, message_id: Union[str, int]=None)
 ```
 
 Mark a specific message as seen.
@@ -505,7 +505,7 @@ Returns:
 ### pin_message
 
 ```python
-pin_message(self: 'darkob.Client', chat: str, message_id: str | int)
+pin_message(self: 'darkob.Client', chat: str, message_id: Union[str, int])
 ```
 
 pin a message.
@@ -520,7 +520,7 @@ Returns:
 ### remove_reaction
 
 ```python
-remove_reaction(self: 'darkob.Client', chat: str, message_id: str | int, reaction_id: int | str)
+remove_reaction(self: 'darkob.Client', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
 ```
 
 Remove a reaction from a specific message.
@@ -536,7 +536,7 @@ Returns:
 ### report_message
 
 ```python
-report_message(self: 'darkob.Client', chat: str, message_id: str | int, report_type: int | str, description: str | None = None)
+report_message(self: 'darkob.Client', chat: str, message_id: Union[str, int], report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a message for a specific reason.
@@ -559,7 +559,7 @@ Returns:
 ### request_send_file
 
 ```python
-request_send_file(self: 'darkob.Client', file_name: str, size: str | int | float, mime: str = None)
+request_send_file(self: 'darkob.Client', file_name: str, size: Union[str, int, float], mime: str=None)
 ```
 
 Request sending a file.
@@ -604,7 +604,7 @@ Returns:
 ### search_global_messages
 
 ```python
-search_global_messages(self: 'darkob.Client', search_text: str, start_id: str | None = None)
+search_global_messages(self: 'darkob.Client', search_text: str, start_id: Optional[str]=None)
 ```
 
 Search for messages globally across all chats.
@@ -634,7 +634,7 @@ Returns:
 ### send_contact
 
 ```python
-send_contact(self: 'darkob.Client', chat: str, phone_number: str | int, user: str, first_name: str, last_name: str = '', vcard: str | None = None, reply_to_message_id: int | str | None = None)
+send_contact(self: 'darkob.Client', chat: str, phone_number: Union[str, int], user: str, first_name: str, last_name: str='', vcard: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None)
 ```
 
 Send a contact message to a specified chat.
@@ -655,7 +655,7 @@ Returns:
 ### send_file
 
 ```python
-send_file(self: 'darkob.Client', chat: str, file: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, via_bot: str | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_file(self: 'darkob.Client', chat: str, file: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a file.
@@ -681,7 +681,7 @@ Returns:
 ### send_gif
 
 ```python
-send_gif(self: 'darkob.Client', chat: str, gif: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, via_bot: str | None = None, thumb: str | bool | None = None, width: int | None = None, height: int | None = None, time: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_gif(self: 'darkob.Client', chat: str, gif: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a GIF to a chat.
@@ -714,7 +714,7 @@ Returns:
 ### send_image
 
 ```python
-send_image(self: 'darkob.Client', chat: str, image: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, is_spoil: bool = False, via_bot: str | None = None, thumb: str | bool | None = None, width: int | None = None, height: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_image(self: 'darkob.Client', chat: str, image: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send an image to a chat.
@@ -746,7 +746,7 @@ Returns:
 ### send_live
 
 ```python
-send_live(self: 'darkob.Client', chat: str, title: str = None, reply_to_message_id: str | int = None, thumb: pathlib.Path | str | bytes | None = None)
+send_live(self: 'darkob.Client', chat: str, title: str=None, reply_to_message_id: Union[str, int]=None, thumb: Optional[Union[str, Path, bytes]]=None)
 ```
 
 Send a live stream.
@@ -767,7 +767,7 @@ Returns:
 ### send_location
 
 ```python
-send_location(self: 'darkob.Client', chat: str, latitude: float, longitude: float, reply_to_message_id: str | int = None)
+send_location(self: 'darkob.Client', chat: str, latitude: float, longitude: float, reply_to_message_id: Union[str, int]=None)
 ```
 
 Send a map location.
@@ -784,7 +784,7 @@ Returns:
 ### send_message
 
 ```python
-send_message(self: 'darkob.Client', chat: str, text: str | None = None, reply_to_message_id: int | str | None = None, via_bot: str | None = None, file_inline: darkob.data.Data | pathlib.Path | bytes | None = None, base64_data: str | None = None, sticker: dict | darkob.data.Data | None = None, type: str = 'File', is_spoil: bool = False, thumb: bool | str | pathlib.Path | bytes | None = None, audio_info: bool = True, metadata: dict | None = None, performer: str | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, **kwargs)
+send_message(self: 'darkob.Client', chat: str, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, file_inline: Optional[Union[Data, Path, bytes]]=None, base64_data: Optional[str]=None, sticker: Optional[Union[Data, dict]]=None, type: str='File', is_spoil: bool=False, thumb: Optional[Union[bool, str, Path, bytes]]=None, audio_info: bool=True, metadata: Optional[dict]=None, performer: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, **kwargs)
 ```
 
 Send a message to a chat.
@@ -810,7 +810,7 @@ Returns:
 ### send_message_api_call
 
 ```python
-send_message_api_call(self: 'darkob.Client', chat: str, message_id: str | int, button_id: str)
+send_message_api_call(self: 'darkob.Client', chat: str, message_id: Union[str, int], button_id: str)
 ```
 
 Send API call response to a chat's inline keyboard button.
@@ -833,7 +833,7 @@ Example:
 ### send_music
 
 ```python
-send_music(self: 'darkob.Client', chat: str, music: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, via_bot: str | None = None, performer: str | None = None, time: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_music(self: 'darkob.Client', chat: str, music: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, performer: Optional[str]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a music file to a chat.
@@ -861,7 +861,7 @@ Returns:
 ### send_now_scheduled_message
 
 ```python
-send_now_scheduled_message(self: 'darkob.Client', chat: str, message_id: int | str)
+send_now_scheduled_message(self: 'darkob.Client', chat: str, message_id: Union[int, str])
 ```
 
 Send a scheduled message immediately.
@@ -876,7 +876,7 @@ Returns:
 ### send_poll
 
 ```python
-send_poll(self: 'darkob.Client', chat: str, question: str, options: list, is_anonymous: bool = True, multiple_answers: bool = False, reply_to_message_id: int | str | None = None)
+send_poll(self: 'darkob.Client', chat: str, question: str, options: list, is_anonymous: bool=True, multiple_answers: bool=False, reply_to_message_id: Optional[Union[str, int]]=None)
 ```
 
 Send a poll message with the specified parameters.
@@ -895,7 +895,7 @@ Returns:
 ### send_quiz
 
 ```python
-send_quiz(self: 'darkob.Client', chat: str, question: str, options: list, correct_option: int | str, hint: str = None, is_anonymous: bool = True, reply_to_message_id: int | str | None = None)
+send_quiz(self: 'darkob.Client', chat: str, question: str, options: list, correct_option: Union[int, str], hint: str=None, is_anonymous: bool=True, reply_to_message_id: Optional[Union[str, int]]=None)
 ```
 
 Send a quiz-type poll message with the specified parameters.
@@ -915,7 +915,7 @@ Returns:
 ### send_rubino_post
 
 ```python
-send_rubino_post(self: 'darkob.Client', chat: str, post_id: str, post_profile_id: str, is_mute: bool = False)
+send_rubino_post(self: 'darkob.Client', chat: str, post_id: str, post_profile_id: str, is_mute: bool=False)
 ```
 
 Send a Rubino post to a chat.
@@ -949,7 +949,7 @@ Returns:
 ### send_rubino_story
 
 ```python
-send_rubino_story(self: 'darkob.Client', chat: str, story_id: str, story_profile_id: str, reply_text: str = '', type: Literal['Reply', 'Direct'] = 'Reply', is_mute: bool = False)
+send_rubino_story(self: 'darkob.Client', chat: str, story_id: str, story_profile_id: str, reply_text: str='', type: Literal['Reply', 'Direct']='Reply', is_mute: bool=False)
 ```
 
 Send a Rubino story reply or direct message.
@@ -968,7 +968,7 @@ Returns:
 ### send_sticker
 
 ```python
-send_sticker(self: 'darkob.Client', chat: str, emoji_character: str, sticker_id: str, sticker_set_id: str, file: dict, w_h_ratio: str = '1.0', reply_to_message_id: int | str | None = None, via_bot: str | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None)
+send_sticker(self: 'darkob.Client', chat: str, emoji_character: str, sticker_id: str, sticker_set_id: str, file: dict, w_h_ratio: str='1.0', reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
 ```
 
 Send a sticker.
@@ -993,7 +993,7 @@ Parameters:
 ### send_video
 
 ```python
-send_video(self: 'darkob.Client', chat: str, video: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, is_spoil: bool = False, via_bot: str | None = None, thumb: str | bool | None = None, width: int | None = None, height: int | None = None, time: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_video(self: 'darkob.Client', chat: str, video: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a video to a chat.
@@ -1026,7 +1026,7 @@ Returns:
 ### send_video_message
 
 ```python
-send_video_message(self: 'darkob.Client', chat: str, video_message: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, is_spoil: bool = False, via_bot: str | None = None, thumb: str | bool | None = None, width: int | None = None, height: int | None = None, time: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_video_message(self: 'darkob.Client', chat: str, video_message: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a video message (round video) to a chat.
@@ -1059,7 +1059,7 @@ Returns:
 ### send_voice
 
 ```python
-send_voice(self: 'darkob.Client', chat: str, voice: pathlib.Path | bytes = None, text: str | None = None, reply_to_message_id: int | str | None = None, via_bot: str | None = None, time: int | None = None, schedule_time: int | float | datetime.timedelta | datetime.datetime | None = None, schedule_type: Literal['Default', 'WhenOnline'] | None = None, base64: str = None, **kwargs)
+send_voice(self: 'darkob.Client', chat: str, voice: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
 ```
 
 Send a voice message to a chat.
@@ -1100,7 +1100,7 @@ Returns:
 ### transcribe_voice
 
 ```python
-transcribe_voice(self: 'darkob.Client', chat: str | int, message_id: str | int)
+transcribe_voice(self: 'darkob.Client', chat: Union[str, int], message_id: Union[str, int])
 ```
 
 Transcribes voice messages.
@@ -1129,7 +1129,7 @@ Returns:
 ### unpin_message
 
 ```python
-unpin_message(self: 'darkob.Client', chat: str, message_id: str | int)
+unpin_message(self: 'darkob.Client', chat: str, message_id: Union[str, int])
 ```
 
 unpin a message.
@@ -1144,7 +1144,7 @@ Returns:
 ### vote_poll
 
 ```python
-vote_poll(self: 'darkob.Client', poll_id: str, selection_index: str | int)
+vote_poll(self: 'darkob.Client', poll_id: str, selection_index: Union[str, int])
 ```
 
 Vote on a poll option.
@@ -1161,7 +1161,7 @@ Returns:
 ### accept_all_join_requests
 
 ```python
-accept_all_join_requests(self: 'darkob.Client', chat: str, exclude: str | List[str] | None = None)
+accept_all_join_requests(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Accept all pending join requests in a group or channel.
@@ -1205,7 +1205,7 @@ Returns:
 ### add_members
 
 ```python
-add_members(self: 'darkob.Client', chat: str, members: str | List[str])
+add_members(self: 'darkob.Client', chat: str, members: Union[str, List[str]])
 ```
 
 Add members to a channel or group.
@@ -1298,7 +1298,7 @@ Note:
 ### check_join
 
 ```python
-check_join(self: 'darkob.Client', chat: str, member: str) -> bool
+check_join(self: 'darkob.Client', chat: str, member: str)
 ```
 
 Check if a user or bot is a member of a specific group or channel.
@@ -1324,7 +1324,7 @@ Returns:
 ### clear_black_list
 
 ```python
-clear_black_list(self: 'darkob.Client', chat: str, exclude: str | List[str] | None = None)
+clear_black_list(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Clear black list with unban all banned members in a group or channel.
@@ -1384,7 +1384,7 @@ Returns:
 ### create_join_link
 
 ```python
-create_join_link(self: 'darkob.Client', chat: str, expire_time: int | None = None, request_needed: bool = False, title: str | None = None, usage_limit: int = 0)
+create_join_link(self: 'darkob.Client', chat: str, expire_time: Optional[int]=None, request_needed: bool=False, title: Optional[str]=None, usage_limit: int=0)
 ```
 
 Creates an invite link for a group or channel.
@@ -1481,7 +1481,7 @@ Returns:
 ### download_profile_picture
 
 ```python
-download_profile_picture(self: 'darkob.Client', chat: str | None = None, file_id: str | None = None, access_hash_rec: str | None = None, dc_id: str | None = None, save_as: str | bool | None = None, save_all: bool = False) -> bytes | List[bytes]
+download_profile_picture(self: 'darkob.Client', chat: Optional[str]=None, file_id: Optional[str]=None, access_hash_rec: Optional[str]=None, dc_id: Optional[str]=None, save_as: Optional[Union[str, bool]]=None, save_all: bool=False)
 ```
 
 Download the profile picture of a user, group, or channel.
@@ -1500,7 +1500,7 @@ Returns:
 ### edit_join_link
 
 ```python
-edit_join_link(self: 'darkob.Client', chat: str, join_link: str, title: str | None = None, expire_time: int | None = None, request_needed: bool | None = None, usage_limit: int | None = None)
+edit_join_link(self: 'darkob.Client', chat: str, join_link: str, title: Optional[str]=None, expire_time: Optional[int]=None, request_needed: Optional[bool]=None, usage_limit: Optional[int]=None)
 ```
 
 Edit an existing invite link for a group or channel.
@@ -1544,7 +1544,7 @@ Returns:
 ### get_banned_members
 
 ```python
-get_banned_members(self: 'darkob.Client', chat: str, show_member_guids: bool = False)
+get_banned_members(self: 'darkob.Client', chat: str, show_member_guids: bool=False)
 ```
 
 Get a list of banned members in a channel or group.
@@ -1559,7 +1559,7 @@ Returns:
 ### get_chat_ads
 
 ```python
-get_chat_ads(self: 'darkob.Client', state: int = 1793872984)
+get_chat_ads(self: 'darkob.Client', state: int=round(time()) - 150)
 ```
 
 Retrieves advertising information for chats.
@@ -1602,7 +1602,7 @@ Returns:
 ### get_chats
 
 ```python
-get_chats(self: 'darkob.Client', show_chat_guids: bool = False, auto_start_id: bool = True, start_id: str = None)
+get_chats(self: 'darkob.Client', show_chat_guids: bool=False, auto_start_id: bool=True, start_id: str=None)
 ```
 
 Get a list of all chats.
@@ -1625,7 +1625,7 @@ Returns:
 ### get_chats_info
 
 ```python
-get_chats_info(self: 'darkob.Client', chats: str | List[str])
+get_chats_info(self: 'darkob.Client', chats: Union[str, List[str]])
 ```
 
 Get information about multiple chats by their GUIDs.
@@ -1639,7 +1639,7 @@ Returns:
 ### get_chats_updates
 
 ```python
-get_chats_updates(self: 'darkob.Client', state: int | str | None = None)
+get_chats_updates(self: 'darkob.Client', state: Optional[Union[str, int]]=None)
 ```
 
 Get updates for chats.
@@ -1654,7 +1654,7 @@ Returns:
 ### get_guid
 
 ```python
-get_guid(self: 'darkob.Client', chat: str) -> str
+get_guid(self: 'darkob.Client', chat: str)
 ```
 
 Retrieves the GUID of a user, group, channel, or bot.
@@ -1696,7 +1696,7 @@ Returns:
 ### get_join_links
 
 ```python
-get_join_links(self: 'darkob.Client', chat: str, creator: str = None)
+get_join_links(self: 'darkob.Client', chat: str, creator: str=None)
 ```
 
 Retrieves a list of join links for a specific group or channel.
@@ -1710,7 +1710,7 @@ Returns:
 ### get_join_requests
 
 ```python
-get_join_requests(self: 'darkob.Client', chat: str, show_user_guids: bool = False)
+get_join_requests(self: 'darkob.Client', chat: str, show_user_guids: bool=False)
 ```
 
 Get a list of join requests in a channel or group.
@@ -1779,7 +1779,7 @@ Returns:
 ### get_voice_chat_participants
 
 ```python
-get_voice_chat_participants(self: 'darkob.Client', chat: str, show_user_guids: bool = False)
+get_voice_chat_participants(self: 'darkob.Client', chat: str, show_user_guids: bool=False)
 ```
 
 Get list of participants in a voice chat.
@@ -1794,7 +1794,7 @@ Returns:
 ### get_voice_chat_updates
 
 ```python
-get_voice_chat_updates(self: 'darkob.Client', chat: str, state: int = None)
+get_voice_chat_updates(self: 'darkob.Client', chat: str, state: int=None)
 ```
 
 Get voice chat updates for a group.
@@ -1809,7 +1809,7 @@ Returns:
 ### heartbeat
 
 ```python
-heartbeat(self: 'darkob.Client', chat_guid: str) -> None
+heartbeat(self: 'darkob.Client', chat_guid: str)
 ```
 
 _No docstring available._
@@ -1874,7 +1874,7 @@ Returns:
 ### member_is_admin
 
 ```python
-member_is_admin(self: 'darkob.Client', chat: str, member: str) -> bool
+member_is_admin(self: 'darkob.Client', chat: str, member: str)
 ```
 
 Checks if a member is an admin in a group or channel.
@@ -1889,7 +1889,7 @@ Returns:
 ### mute_chat
 
 ```python
-mute_chat(self: 'darkob.Client', chat: str, duration: int | datetime.timedelta = None)
+mute_chat(self: 'darkob.Client', chat: str, duration: Union[int, timedelta]=None)
 ```
 
 Mute a chat.
@@ -1936,7 +1936,7 @@ Returns:
 ### play_voice_chat
 
 ```python
-play_voice_chat(self: 'darkob.Client', chat: str, media: pathlib.Path) -> darkob.client.chats.play_voice_chat.VoiceChatConnection
+play_voice_chat(self: 'darkob.Client', chat: str, media: pathlib.Path)
 ```
 
 Plays voice media in a chat.
@@ -1977,7 +1977,7 @@ Returns:
 ### report_chat
 
 ```python
-report_chat(self: 'darkob.Client', chat: str, report_type: int | str, description: str | None = None)
+report_chat(self: 'darkob.Client', chat: str, report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a chat (user, channel, group, etc.) for a specific reason.
@@ -2030,7 +2030,7 @@ Returns:
 ### search_global_chats
 
 ```python
-search_global_chats(self: 'darkob.Client', text: str, filter_type: str | List[str] | None = None, start_id: str | None = None)
+search_global_chats(self: 'darkob.Client', text: str, filter_type: Optional[Union[str, List[str]]]=None, start_id: Optional[str]=None)
 ```
 
 Search for global chats (users, channels, etc.) based on the given search text.
@@ -2061,7 +2061,7 @@ Returns:
 ### send_chat_activity
 
 ```python
-send_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Typing', 'Recording', 'Uploading'] = 'Typing')
+send_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Typing', 'Recording', 'Uploading']='Typing')
 ```
 
 Sends a chat activity, such as typing, uploading, or recording.
@@ -2079,7 +2079,7 @@ Raises:
 ### send_voice_chat_activity
 
 ```python
-send_voice_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Speaking'] = 'Speaking', participant_chat_guid: str = None)
+send_voice_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Speaking']='Speaking', participant_chat_guid: str=None)
 ```
 
 Set voice chat activity automatically.
@@ -2095,7 +2095,7 @@ Returns:
 ### set_admin
 
 ```python
-set_admin(self: 'darkob.Client', chat: str, member: str, access: List[str] | str = [], custom_title: str = '')
+set_admin(self: 'darkob.Client', chat: str, member: str, access: Union[List[str], str]=[], custom_title: str='')
 ```
 
 Set a member as admin in a group or channel.
@@ -2113,7 +2113,7 @@ Returns:
 ### set_ask_spam
 
 ```python
-set_ask_spam(self: 'darkob.Client', chat: str, action: Literal['AddToContact', 'BlockUser', 'Cancel', 'ReportAndLeave'] = 'Cancel')
+set_ask_spam(self: 'darkob.Client', chat: str, action: Literal['AddToContact', 'BlockUser', 'Cancel', 'ReportAndLeave']='Cancel')
 ```
 
 Perform an action for a pending spam request.
@@ -2130,7 +2130,7 @@ Returns:
 ### set_chat_auto_delete
 
 ```python
-set_chat_auto_delete(self: 'darkob.Client', chat: str | List[str], auto_delete: str | int)
+set_chat_auto_delete(self: 'darkob.Client', chat: Union[str, List[str]], auto_delete: Union[str, int])
 ```
 
 Set auto-delete timer for one or more groups or channels.
@@ -2181,7 +2181,7 @@ Returns:
 ### set_voice_chat_setting
 
 ```python
-set_voice_chat_setting(self: 'darkob.Client', chat: str, title: str = None, join_muted: bool = None)
+set_voice_chat_setting(self: 'darkob.Client', chat: str, title: str=None, join_muted: bool=None)
 ```
 
 Set voice chat settings for group or channel.
@@ -2197,7 +2197,7 @@ Returns:
 ### set_voice_chat_state
 
 ```python
-set_voice_chat_state(self: 'darkob.Client', chat: str, action: Literal['Mute', 'Unmute', 'RequestSpeak', 'CancelRequestSpeak'] = 'Unmute', participant_chat_guid: str = None)
+set_voice_chat_state(self: 'darkob.Client', chat: str, action: typing.Literal['Mute', 'Unmute', 'RequestSpeak', 'CancelRequestSpeak']='Unmute', participant_chat_guid: str=None)
 ```
 
 Set group or channel voice chat state automatically.
@@ -2213,7 +2213,7 @@ Returns:
 ### speaking
 
 ```python
-speaking(self: 'darkob.Client', chat_guid: str) -> None
+speaking(self: 'darkob.Client', chat_guid: str)
 ```
 
 _No docstring available._
@@ -2249,7 +2249,7 @@ Returns:
 ### unban_all_members
 
 ```python
-unban_all_members(self: 'darkob.Client', chat: str, exclude: str | List[str] | None = None)
+unban_all_members(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Unban all banned members in a group or channel.
@@ -2352,7 +2352,7 @@ Returns:
 ### upload_avatar
 
 ```python
-upload_avatar(self: 'darkob.Client', chat: str, main_image: pathlib.Path | str | bytes, thumbnail_image: pathlib.Path | str | bytes | None = None, *args, **kwargs)
+upload_avatar(self: 'darkob.Client', chat: str, main_image: Union[Path, str, bytes], thumbnail_image: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
 ```
 
 Uploads an avatar image for a specified chat (user, group, or channel).
@@ -2392,7 +2392,7 @@ Returns:
 ### create_group
 
 ```python
-create_group(self: 'darkob.Client', title: str, members: str | List[str], description: str | None = None, avatar: pathlib.Path | str | bytes | None = None, thumbnail_avatar: pathlib.Path | str | bytes | None = None, *args, **kwargs)
+create_group(self: 'darkob.Client', title: str, members: Union[str, List[str]], description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
 ```
 
 Create a new group.
@@ -2414,7 +2414,7 @@ Note:
 ### delete_group
 
 ```python
-delete_group(self: 'darkob.Client', group: str, confirm: bool = True)
+delete_group(self: 'darkob.Client', group: str, confirm: bool=True)
 ```
 
 Delete a group.
@@ -2432,7 +2432,7 @@ Returns:
 ### edit_group_info
 
 ```python
-edit_group_info(self: 'darkob.Client', group: str, title: str | None = None, description: str | None = None, slow_mode: str | None = None, event_messages: bool | None = None, is_restricted_content: bool | None = None, reactions: Literal['All', 'Disable'] | List[int] | None = None, chat_history_for_new_members: str | None = None, restricted_period: List[Dict[str, List[str] | str]] | None = None)
+edit_group_info(self: 'darkob.Client', group: str, title: Optional[str]=None, description: Optional[str]=None, slow_mode: Optional[str]=None, event_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None, chat_history_for_new_members: Optional[str]=None, restricted_period: Optional[List[Dict[str, Union[List[str], str]]]]=None)
 ```
 
 Edit the information of a group.
@@ -2508,7 +2508,7 @@ Examples:
 ### edit_group_timer
 
 ```python
-edit_group_timer(self: 'darkob.Client', group: str, timer: str | int)
+edit_group_timer(self: 'darkob.Client', group: str, timer: typing.Union[str, int])
 ```
 
 Parameters:
@@ -2536,7 +2536,7 @@ Returns:
 ### edit_slow_mode
 
 ```python
-edit_slow_mode(self: 'darkob.Client', group: str, slow_mode: str | int)
+edit_slow_mode(self: 'darkob.Client', group: str, slow_mode: typing.Union[str, int])
 ```
 
 Parameters:
@@ -2564,7 +2564,7 @@ Returns:
 ### get_group_admins
 
 ```python
-get_group_admins(self: 'darkob.Client', group: str, show_admin_guids: bool = False)
+get_group_admins(self: 'darkob.Client', group: str, show_admin_guids: bool=False)
 ```
 
 Get the list of admins in a group.
@@ -2621,7 +2621,7 @@ Returns:
 ### get_group_members
 
 ```python
-get_group_members(self: 'darkob.Client', group: str, search_text: str = None, start_id: str = None)
+get_group_members(self: 'darkob.Client', group: str, search_text: str=None, start_id: str=None)
 ```
 
 Get members of a group.
@@ -2637,7 +2637,7 @@ Returns:
 ### get_group_mention_list
 
 ```python
-get_group_mention_list(self: 'darkob.Client', group: str, search_mention: str = None)
+get_group_mention_list(self: 'darkob.Client', group: str, search_mention: str=None)
 ```
 
 Get the mention list for a group.
@@ -2652,7 +2652,7 @@ Returns:
 ### get_group_message_read_participants
 
 ```python
-get_group_message_read_participants(self: 'darkob.Client', group: str, message_id: str | int)
+get_group_message_read_participants(self: 'darkob.Client', group: str, message_id: Union[str, int])
 ```
 
 Get list of participants who have read a specific message in a group.
@@ -2681,7 +2681,7 @@ Returns:
 ### get_unread_mentions
 
 ```python
-get_unread_mentions(self: 'darkob.Client', group: str, max_id: str | int, min_id: str | int, sort: str = None)
+get_unread_mentions(self: 'darkob.Client', group: str, max_id: Union[str, int], min_id: Union[str, int], sort: str=None)
 ```
 
 Get unread mentions in a group.
@@ -2740,7 +2740,7 @@ Returns:
 ### set_group_default_access
 
 ```python
-set_group_default_access(self: 'darkob.Client', group: str, access: str | list)
+set_group_default_access(self: 'darkob.Client', group: str, access: Union[str, list])
 ```
 
 Set default access for a group.
@@ -2805,7 +2805,7 @@ Returns:
 ### create_channel
 
 ```python
-create_channel(self: 'darkob.Client', title: str, members: str | list | None = None, channel_type: str = 'Public', description: str | None = None, avatar: pathlib.Path | str | bytes | None = None, thumbnail_avatar: pathlib.Path | str | bytes | None = None, *args, **kwargs)
+create_channel(self: 'darkob.Client', title: str, members: Optional[Union[str, list]]=None, channel_type: str='Public', description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
 ```
 
 Create a new channel.
@@ -2828,7 +2828,7 @@ Note:
 ### delete_channel
 
 ```python
-delete_channel(self: 'darkob.Client', channel: str, confirm: bool = True)
+delete_channel(self: 'darkob.Client', channel: str, confirm: bool=True)
 ```
 
 Delete a channel.
@@ -2846,7 +2846,7 @@ Returns:
 ### edit_channel_info
 
 ```python
-edit_channel_info(self: 'darkob.Client', channel: str, title: str | None = None, description: str | None = None, username: str | None = None, channel_type: Literal['Public', 'Private'] = None, sign_messages: bool | None = None, is_restricted_content: bool | None = None, reactions: Literal['All', 'Disable'] | List[int] | None = None)
+edit_channel_info(self: 'darkob.Client', channel: str, title: Optional[str]=None, description: Optional[str]=None, username: Optional[str]=None, channel_type: Literal['Public', 'Private']=None, sign_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None)
 ```
 
 Edit information of a channel.
@@ -2900,7 +2900,7 @@ Returns:
 ### get_channel_admins
 
 ```python
-get_channel_admins(self: 'darkob.Client', channel: str, show_admin_guids: bool = False)
+get_channel_admins(self: 'darkob.Client', channel: str, show_admin_guids: bool=False)
 ```
 
 Get the list of admins in a channel.
@@ -2943,7 +2943,7 @@ Returns:
 ### get_channel_members
 
 ```python
-get_channel_members(self: 'darkob.Client', channel: str, search_text: str = None, start_id: str = None)
+get_channel_members(self: 'darkob.Client', channel: str, search_text: str=None, start_id: str=None)
 ```
 
 Get members in a channel.
@@ -2973,7 +2973,7 @@ Returns:
 ### get_channel_seen_count
 
 ```python
-get_channel_seen_count(self: 'darkob.Client', channel: str, min_id: str | int, max_id=str | int)
+get_channel_seen_count(self: 'darkob.Client', channel: str, min_id: Union[str, int], max_id=Union[str, int])
 ```
 
 Get the view count of a channel within a specific message ID range.
@@ -3045,7 +3045,7 @@ Returns:
 ### seen_channel_messages
 
 ```python
-seen_channel_messages(self: 'darkob.Client', channel: str, min_id: int | str, max_id: int | str)
+seen_channel_messages(self: 'darkob.Client', channel: str, min_id: Union[int, str], max_id: Union[int, str])
 ```
 
 Mark channel messages as seen within a specific range.
@@ -3075,7 +3075,7 @@ Returns:
 ### set_channel_type
 
 ```python
-set_channel_type(self: 'darkob.Client', channel: str, channel_type: Literal['Public', 'Private'])
+set_channel_type(self: 'darkob.Client', channel: str, channel_type: typing.Literal['Public', 'Private'])
 ```
 
 Set type of a channel.
@@ -3111,7 +3111,7 @@ Returns:
 ### add_contact
 
 ```python
-add_contact(self: 'darkob.Client', phone_number: str | int, first_name: str, last_name: str = '')
+add_contact(self: 'darkob.Client', phone_number: Union[str, int], first_name: str, last_name: str='')
 ```
 
 Adds a contact to the client's address book.
@@ -3191,7 +3191,7 @@ Returns:
 ### discard_call
 
 ```python
-discard_call(self: 'darkob.Client', call_id: str, duration: int = 0, reason: str = 'Disconnect')
+discard_call(self: 'darkob.Client', call_id: str, duration: int=0, reason: str='Disconnect')
 ```
 
 Discard/end an active call.
@@ -3209,7 +3209,7 @@ Returns:
 ### get_blocked_users
 
 ```python
-get_blocked_users(self: 'darkob.Client', show_user_guids: bool = False)
+get_blocked_users(self: 'darkob.Client', show_user_guids: bool=False)
 ```
 
 Get a list of all blocked users.
@@ -3237,7 +3237,7 @@ Returns:
 ### get_contacts
 
 ```python
-get_contacts(self: 'darkob.Client', show_user_guids: bool = False)
+get_contacts(self: 'darkob.Client', show_user_guids: bool=False)
 ```
 
 Get a list of all contacts.
@@ -3252,7 +3252,7 @@ Returns:
 ### get_contacts_last_online
 
 ```python
-get_contacts_last_online(self: 'darkob.Client', users: str | List[str])
+get_contacts_last_online(self: 'darkob.Client', users: Union[str, List[str]])
 ```
 
 Get the last online status of multiple users.
@@ -3277,7 +3277,7 @@ Returns:
 ### get_contacts_updates
 
 ```python
-get_contacts_updates(self: 'darkob.Client', state: int | str | None = 1793872984)
+get_contacts_updates(self: 'darkob.Client', state: Optional[Union[str, int]]=round(time()) - 150)
 ```
 
 Get updates related to contacts.
@@ -3342,7 +3342,7 @@ Returns:
 ### get_user_info
 
 ```python
-get_user_info(self: 'darkob.Client', user: str = None)
+get_user_info(self: 'darkob.Client', user: str=None)
 ```
 
 Get information about a specific user.
@@ -3370,7 +3370,7 @@ Returns:
 ### request_video_call
 
 ```python
-request_video_call(self: 'darkob.Client', user: str, library_versions: List[str] | None = None, max_layer: int = 92, min_layer: int = 65, sip_version: int = 1, support_call_out: bool = True)
+request_video_call(self: 'darkob.Client', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
 ```
 
 Request a video call with a user.
@@ -3389,7 +3389,7 @@ Returns:
 ### request_voice_call
 
 ```python
-request_voice_call(self: 'darkob.Client', user: str, library_versions: List[str] | None = None, max_layer: int = 92, min_layer: int = 65, sip_version: int = 1, support_call_out: bool = True)
+request_voice_call(self: 'darkob.Client', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
 ```
 
 Request a voice call with a user.
@@ -3421,7 +3421,7 @@ Returns:
 ### unblock_all_users
 
 ```python
-unblock_all_users(self: 'darkob.Client', exclude: str | List[str] | None = None)
+unblock_all_users(self: 'darkob.Client', exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Unblock all blocked users.
@@ -3462,7 +3462,7 @@ Returns:
 ### add_folder
 
 ```python
-add_folder(self: 'darkob.Client', name: str, include_chats: str | List[str] | None = None, exclude_chats: str | List[str] | None = None, include_chat_types: List[str] | None = None, exclude_chat_types: List[str] | None = None, is_add_to_top: bool = True, suggestion_folder_id: str = None, folder_id: str = None)
+add_folder(self: 'darkob.Client', name: str, include_chats: Optional[Union[str, List[str]]]=None, exclude_chats: Optional[Union[str, List[str]]]=None, include_chat_types: Optional[List[str]]=None, exclude_chat_types: Optional[List[str]]=None, is_add_to_top: bool=True, suggestion_folder_id: str=None, folder_id: str=None)
 ```
 
 Add a new folder to organize chats.
@@ -3488,7 +3488,7 @@ Returns:
 ### add_saved_music_playlist
 
 ```python
-add_saved_music_playlist(self: 'darkob.Client', files: pathlib.Path | str | List[pathlib.Path | str] = None, file_inlines: List[dict] = None, time: int | None = None, performer: str | None = None, file_name: str | None = None, **kwargs)
+add_saved_music_playlist(self: 'darkob.Client', files: Union[Path, str, List[Union[Path, str]]]=None, file_inlines: List[dict]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Add a saved music playlist on your profile.
@@ -3506,7 +3506,7 @@ Returns:
 ### add_saved_music_track
 
 ```python
-add_saved_music_track(self: 'darkob.Client', track: pathlib.Path | str = None, file_inline: dict = None, time: int | None = None, performer: str | None = None, file_name: str | None = None, **kwargs)
+add_saved_music_track(self: 'darkob.Client', track: Union[Path, str]=None, file_inline: dict=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Add a single music track to your saved music playlist.
@@ -3524,7 +3524,7 @@ Returns:
 ### auto_delete_account
 
 ```python
-auto_delete_account(self: 'darkob.Client', setting: int | str)
+auto_delete_account(self: 'darkob.Client', setting: Union[int, str])
 ```
 
 Set account auto-deletion after months of inactivity.
@@ -3612,7 +3612,7 @@ Returns:
 ### delete_saved_music_playlist
 
 ```python
-delete_saved_music_playlist(self: 'darkob.Client', position: int = None)
+delete_saved_music_playlist(self: 'darkob.Client', position: int=None)
 ```
 
 Delete tracks from the saved music playlist on your profile.
@@ -3640,7 +3640,7 @@ Returns:
 ### edit_can_called_by
 
 ```python
-edit_can_called_by(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_can_called_by(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can call you.
@@ -3659,7 +3659,7 @@ Returns:
 ### edit_can_join_chat_by
 
 ```python
-edit_can_join_chat_by(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_can_join_chat_by(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can join your chats by link.
@@ -3678,7 +3678,7 @@ Returns:
 ### edit_show_birthday
 
 ```python
-edit_show_birthday(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_show_birthday(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to show or hide the user's birthday.
@@ -3697,7 +3697,7 @@ Returns:
 ### edit_show_last_online
 
 ```python
-edit_show_last_online(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_show_last_online(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's last online status.
@@ -3716,7 +3716,7 @@ Returns:
 ### edit_show_phone_number
 
 ```python
-edit_show_phone_number(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_show_phone_number(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's phone number.
@@ -3735,7 +3735,7 @@ Returns:
 ### edit_show_profile_photo
 
 ```python
-edit_show_profile_photo(self: 'darkob.Client', setting: str, exceptions: Dict[str, List[str]] | None = None)
+edit_show_profile_photo(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's profile photo.
@@ -3754,7 +3754,7 @@ Returns:
 ### get_folders
 
 ```python
-get_folders(self: 'darkob.Client', last_state: int | str = 1793872984)
+get_folders(self: 'darkob.Client', last_state: Union[int, str]=round(time()) - 150)
 ```
 
 Get a list of folders.
@@ -3869,7 +3869,7 @@ Returns:
 ### logout
 
 ```python
-logout(self: 'darkob.Client', confirm: bool = True)
+logout(self: 'darkob.Client', confirm: bool=True)
 ```
 
 Log out of the current session.
@@ -3886,7 +3886,7 @@ Returns:
 ### register_device
 
 ```python
-register_device(self: 'darkob.Client', device_model: str = None, *args, **kwargs)
+register_device(self: 'darkob.Client', device_model: str=None, *args, **kwargs)
 ```
 
 Register the current device with the Rubika server.
@@ -3901,7 +3901,7 @@ Returns:
 ### reorder_folder
 
 ```python
-reorder_folder(self: 'darkob.Client', folder_ids: str | List[str])
+reorder_folder(self: 'darkob.Client', folder_ids: Union[str, List[str]])
 ```
 
 Reorder folders.
@@ -3955,7 +3955,7 @@ Returns:
 ### set_notification
 
 ```python
-set_notification(self: 'darkob.Client', user_notification: bool | None = None, user_message_preview: bool | None = None, group_notification: bool | None = None, group_message_preview: bool | None = None, channel_notification: bool | None = None, channel_message_preview: bool | None = None, in_app_sound: bool | None = None, in_app_preview: bool | None = None, new_contacts: bool | None = None)
+set_notification(self: 'darkob.Client', user_notification: Optional[bool]=None, user_message_preview: Optional[bool]=None, group_notification: Optional[bool]=None, group_message_preview: Optional[bool]=None, channel_notification: Optional[bool]=None, channel_message_preview: Optional[bool]=None, in_app_sound: Optional[bool]=None, in_app_preview: Optional[bool]=None, new_contacts: Optional[bool]=None)
 ```
 
 Update notification settings.
@@ -3977,7 +3977,7 @@ Returns:
 ### set_saved_music_playlist
 
 ```python
-set_saved_music_playlist(self: 'darkob.Client', files: pathlib.Path | str | List[pathlib.Path | str] = None, file_inlines: List[dict] = None, time: int | None = None, performer: str | None = None, file_name: str | None = None, **kwargs)
+set_saved_music_playlist(self: 'darkob.Client', files: Union[Path, str, List[Union[Path, str]]]=None, file_inlines: List[dict]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Replace the saved music playlist on your profile.
@@ -3995,7 +3995,7 @@ Returns:
 ### set_setting
 
 ```python
-set_setting(self: 'darkob.Client', show_my_last_online: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, show_my_phone_number: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, show_my_profile_photo: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, link_forward_message: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, can_join_chat_by: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, show_my_birth_date: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, can_called_by: Literal['Everybody', 'MyContacts', 'Nobody'] | None = None, auto_delete_messages: int | str | None = None, inactive_account_delete: int | None = None, show_my_last_online_exceptions: Dict[str, List[str]] | None = None, show_my_phone_number_exceptions: Dict[str, List[str]] | None = None, show_my_profile_photo_exceptions: Dict[str, List[str]] | None = None, can_join_chat_by_exceptions: Dict[str, List[str]] | None = None, show_my_birth_date_exceptions: Dict[str, List[str]] | None = None, can_called_by_exceptions: Dict[str, List[str]] | None = None)
+set_setting(self: 'darkob.Client', show_my_last_online: Optional[PrivacyValue]=None, show_my_phone_number: Optional[PrivacyValue]=None, show_my_profile_photo: Optional[PrivacyValue]=None, link_forward_message: Optional[PrivacyValue]=None, can_join_chat_by: Optional[PrivacyValue]=None, show_my_birth_date: Optional[PrivacyValue]=None, can_called_by: Optional[PrivacyValue]=None, auto_delete_messages: Optional[Union[str, int]]=None, inactive_account_delete: Optional[int]=None, show_my_last_online_exceptions: Optional[Dict[str, List[str]]]=None, show_my_phone_number_exceptions: Optional[Dict[str, List[str]]]=None, show_my_profile_photo_exceptions: Optional[Dict[str, List[str]]]=None, can_join_chat_by_exceptions: Optional[Dict[str, List[str]]]=None, show_my_birth_date_exceptions: Optional[Dict[str, List[str]]]=None, can_called_by_exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Set various privacy and auto-delete settings for the user.
@@ -4036,7 +4036,7 @@ Returns:
 ### set_two_step_verification
 
 ```python
-set_two_step_verification(self: 'darkob.Client', password: int | str, hint: str = None, recovery_email: str = None)
+set_two_step_verification(self: 'darkob.Client', password: Union[int, str], hint: str=None, recovery_email: str=None)
 ```
 
 Set up two-step verification for the user.
@@ -4108,7 +4108,7 @@ Raises:
 ### update_my_birthday
 
 ```python
-update_my_birthday(self: 'darkob.Client', birthday: str | datetime.datetime)
+update_my_birthday(self: 'darkob.Client', birthday: Union[str, datetime])
 ```
 
 Update the birthday in your profile.
@@ -4122,7 +4122,7 @@ Returns:
 ### update_my_name
 
 ```python
-update_my_name(self: 'darkob.Client', first_name: str | None = None, last_name: str | None = None)
+update_my_name(self: 'darkob.Client', first_name: Optional[str]=None, last_name: Optional[str]=None)
 ```
 
 Update user's first name and/or last name.
@@ -4137,7 +4137,7 @@ Returns:
 ### update_my_profile
 
 ```python
-update_my_profile(self: 'darkob.Client', first_name: str | None = None, last_name: str | None = None, bio: str | None = None, birthday: str | None = None, location: Dict[str, float | Dict[str, int | List[str] | float]] | None = None)
+update_my_profile(self: 'darkob.Client', first_name: Optional[str]=None, last_name: Optional[str]=None, bio: Optional[str]=None, birthday: Optional[str]=None, location: Optional[Dict[str, Union[float, Dict[str, Union[int, List[str], float]]]]]=None)
 ```
 
 Update user profile information.
@@ -4180,7 +4180,7 @@ Returns:
 ### upgrade_to_api6
 
 ```python
-upgrade_to_api6(self: 'darkob.Client', save_as: bool = True, file_name: str | None = None)
+upgrade_to_api6(self: 'darkob.Client', save_as: bool=True, file_name: Optional[str]=None)
 ```
 
 Upgrade from API v5 to v6 by setting an RSA public key.
@@ -4198,7 +4198,7 @@ Returns:
 ### verify_change_phone_number
 
 ```python
-verify_change_phone_number(self: 'darkob.Client', code: str | int, hash: str)
+verify_change_phone_number(self: 'darkob.Client', code: Union[str, int], hash: str)
 ```
 
 Verify phone number change with the received code.
@@ -4213,7 +4213,7 @@ Returns:
 ### verify_recovery_email
 
 ```python
-verify_recovery_email(self: 'darkob.Client', password: str, code: str | int)
+verify_recovery_email(self: 'darkob.Client', password: str, code: Union[str, int])
 ```
 
 Verify the recovery code sent to the recovery email.
@@ -4261,7 +4261,7 @@ Returns:
 ### add_to_my_gif_set
 
 ```python
-add_to_my_gif_set(self: 'darkob.Client', chat: str, message_id: str | int)
+add_to_my_gif_set(self: 'darkob.Client', chat: str, message_id: Union[str, int])
 ```
 
 Adds a GIF message to the user's personal GIF set.
@@ -4329,7 +4329,7 @@ Returns:
 ### feedback_voice_transcription
 
 ```python
-feedback_voice_transcription(self: 'darkob.Client', chat: str | int, message_id: str | int, feedback_type: str, feedback_text: str = None)
+feedback_voice_transcription(self: 'darkob.Client', chat: Union[str, int], message_id: Union[str, int], feedback_type: str, feedback_text: str=None)
 ```
 
 Send feedback for a voice transcription.
@@ -4431,7 +4431,7 @@ Returns:
 ### get_my_archived_sticker_sets
 
 ```python
-get_my_archived_sticker_sets(self: 'darkob.Client', start_id: str = None)
+get_my_archived_sticker_sets(self: 'darkob.Client', start_id: str=None)
 ```
 
 Get archived sticker sets of the current user.
@@ -4492,7 +4492,7 @@ Returns:
 ### get_stickers_by_emoji
 
 ```python
-get_stickers_by_emoji(self: 'darkob.Client', emoji: str, suggest_by: str = 'All')
+get_stickers_by_emoji(self: 'darkob.Client', emoji: str, suggest_by: str='All')
 ```
 
 Get stickers by emoji.
@@ -4507,7 +4507,7 @@ Returns:
 ### get_stickers_by_set_ids
 
 ```python
-get_stickers_by_set_ids(self: 'darkob.Client', sticker_set_ids: str | list)
+get_stickers_by_set_ids(self: 'darkob.Client', sticker_set_ids: Union[str, list])
 ```
 
 Get stickers by set IDs.
@@ -4532,7 +4532,7 @@ Returns:
 ### get_trend_sticker_sets
 
 ```python
-get_trend_sticker_sets(self: 'darkob.Client', start_id: str = None)
+get_trend_sticker_sets(self: 'darkob.Client', start_id: str=None)
 ```
 
 Get trending sticker sets.
@@ -4572,7 +4572,7 @@ Returns:
 ### reorder_sticker_sets
 
 ```python
-reorder_sticker_sets(self: 'darkob.Client', ordered_sticker_set_ids: str | List[str])
+reorder_sticker_sets(self: 'darkob.Client', ordered_sticker_set_ids: Union[str, List[str]])
 ```
 
 Reorder sticker sets in the user's collection.
@@ -4587,7 +4587,7 @@ Returns:
 ### report_live
 
 ```python
-report_live(self: 'darkob.Client', live_id: str, report_type: int | str, description: str | None = None)
+report_live(self: 'darkob.Client', live_id: str, report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a live stream.
@@ -4620,7 +4620,7 @@ Returns:
 ### search_stickers
 
 ```python
-search_stickers(self: 'darkob.Client', search_text: str = '', start_id: str = None)
+search_stickers(self: 'darkob.Client', search_text: str='', start_id: str=None)
 ```
 
 Search for stickers.
@@ -4698,7 +4698,7 @@ Returns:
 ### get_inline_bots
 
 ```python
-get_inline_bots(self: 'darkob.Client', bots: str | List[str])
+get_inline_bots(self: 'darkob.Client', bots: Union[str, List[str]])
 ```
 
 Retrieve information about inline bots by their GUIDs or usernames.
@@ -4752,7 +4752,7 @@ Returns:
 ### close
 
 ```python
-close(self: 'darkob.Client') -> None
+close(self: 'darkob.Client')
 ```
 
 Close the connection to the Darkob server (async version).
@@ -4760,7 +4760,7 @@ Close the connection to the Darkob server (async version).
 ### connect
 
 ```python
-connect(self: 'darkob.Client') -> 'darkob.Client'
+connect(self: 'darkob.Client')
 ```
 
 Establish a connection to the Rubika API.
@@ -4774,7 +4774,7 @@ Returns:
 ### disconnect
 
 ```python
-disconnect(self: 'darkob.Client') -> None
+disconnect(self: 'darkob.Client')
 ```
 
 Disconnect from the Darkob server (sync version).
@@ -4782,7 +4782,7 @@ Disconnect from the Darkob server (sync version).
 ### download_file
 
 ```python
-download_file(self: 'darkob.Client', file_inline: dict | darkob.data.Data | None = None, dc_id: int | None = None, file_id: int | None = None, access_hash: str | None = None, size: int | None = None, chunk: int = 131072, callback: Callable[[int, int], None | _asyncio.Future] | None = None, gather: bool = False, save_as: str | bool | None = None, file_name: str | None = None, as_base64: bool = False, *args, **kwargs) -> bytes | str | darkob.data.Data
+download_file(self: 'darkob.Client', file_inline: Optional[Union[dict, Data]]=None, dc_id: Optional[int]=None, file_id: Optional[int]=None, access_hash: Optional[str]=None, size: Optional[int]=None, chunk: int=131072, callback: Optional[Callable[[int, int], Union[None, asyncio.Future]]]=None, gather: bool=False, save_as: Optional[Union[str, bool]]=None, file_name: Optional[str]=None, as_base64: bool=False, *args, **kwargs)
 ```
 
 Download a file from Rubika/Shad.
@@ -4807,7 +4807,7 @@ Returns:
 ### get_string_session
 
 ```python
-get_string_session(self: 'darkob.Client', password: str | None = None) -> str
+get_string_session(self: 'darkob.Client', password: Optional[str]=None)
 ```
 
 Export current session as an encrypted StringSession.
@@ -4834,7 +4834,7 @@ Returns:
 ### request
 
 ```python
-request(self: 'darkob.Client', method: str, input: Dict | None = None, tmp_session: bool = False, encrypt: bool = True)
+request(self: 'darkob.Client', method: str, input: Optional[Dict]=None, tmp_session: bool=False, encrypt: bool=True)
 ```
 
 Build and send a request to the Rubika API.
@@ -4855,7 +4855,7 @@ Raises:
 ### run
 
 ```python
-run(self, coroutine: Coroutine | None = None)
+run(self, coroutine: Optional[Coroutine]=None)
 ```
 
 Start the client and listen for updates.
@@ -4869,7 +4869,7 @@ Returns:
 ### send_code
 
 ```python
-send_code(self: 'darkob.Client', phone_number: str, pass_key: str | None = None)
+send_code(self: 'darkob.Client', phone_number: str, pass_key: Optional[str]=None)
 ```
 
 Send a verification code to a phone number.
@@ -4901,7 +4901,7 @@ Returns:
 ### start
 
 ```python
-start(self: 'darkob.Client', phone_number: str = None)
+start(self: 'darkob.Client', phone_number: str=None)
 ```
 
 Start the client, handling authentication and registration.
@@ -4915,7 +4915,7 @@ Returns:
 ### upload_file
 
 ```python
-upload_file(self: 'darkob.Client', file: str | bytes | None = None, base64_data: str | None = None, mime: str | None = None, file_name: str | None = None, chunk: int = 1048576, callback: Callable[[int, int], None | _asyncio.Future] | None = None, *args, **kwargs)
+upload_file(self: 'darkob.Client', file: Union[str, bytes, None]=None, base64_data: Optional[str]=None, mime: Optional[str]=None, file_name: Optional[str]=None, chunk: int=1048576, callback: Optional[Callable[[int, int], Union[None, asyncio.Future]]]=None, *args, **kwargs)
 ```
 
 Upload a file to Rubika with chunked transfer and retry logic.
@@ -4936,7 +4936,7 @@ Returns:
 ### add_handler
 
 ```python
-add_handler(self: 'darkob.Client', func: Callable, handler: darkob.client.core.handlers.ChatUpdates | darkob.client.core.handlers.MessageUpdates | darkob.client.core.handlers.ShowActivities | darkob.client.core.handlers.ShowNotifications | darkob.client.core.handlers.RemoveNotifications) -> None
+add_handler(self: 'darkob.Client', func: Callable, handler: Union[ChatUpdates, MessageUpdates, ShowActivities, ShowNotifications, RemoveNotifications])
 ```
 
 _No docstring available._
@@ -4944,7 +4944,7 @@ _No docstring available._
 ### remove_handler
 
 ```python
-remove_handler(self: 'darkob.Client', func) -> None
+remove_handler(self: 'darkob.Client', func)
 ```
 
 _No docstring available._
@@ -4952,7 +4952,7 @@ _No docstring available._
 ### stop
 
 ```python
-stop(self) -> None
+stop(self)
 ```
 
 _No docstring available._
@@ -4962,7 +4962,7 @@ _No docstring available._
 ### on_add_reaction
 
 ```python
-on_add_reaction(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_add_reaction(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for reaction added.
@@ -4970,7 +4970,7 @@ Decorator for reaction added.
 ### on_call_signal
 
 ```python
-on_call_signal(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_call_signal(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for call signal data.
@@ -4978,7 +4978,7 @@ Decorator for call signal data.
 ### on_call_update
 
 ```python
-on_call_update(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_call_update(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for call updates.
@@ -4986,7 +4986,7 @@ Decorator for call updates.
 ### on_chat_updates
 
 ```python
-on_chat_updates(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_chat_updates(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for chat updates with optional filters.
@@ -4994,7 +4994,7 @@ Decorator for chat updates with optional filters.
 ### on_delete_message
 
 ```python
-on_delete_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_delete_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for deleted messages.
@@ -5002,7 +5002,7 @@ Decorator for deleted messages.
 ### on_draft_message
 
 ```python
-on_draft_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_draft_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for draft message updates.
@@ -5010,7 +5010,7 @@ Decorator for draft message updates.
 ### on_edit_message
 
 ```python
-on_edit_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_edit_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for edited messages with optional filters.
@@ -5018,7 +5018,7 @@ Decorator for edited messages with optional filters.
 ### on_message
 
 ```python
-on_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for message updates with optional filters.
@@ -5026,7 +5026,7 @@ Decorator for message updates with optional filters.
 ### on_new_message
 
 ```python
-on_new_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_new_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for new messages with optional filters.
@@ -5042,7 +5042,7 @@ _No docstring available._
 ### on_remove_reaction
 
 ```python
-on_remove_reaction(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_remove_reaction(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for reaction removed.
@@ -5050,7 +5050,7 @@ Decorator for reaction removed.
 ### on_scheduled_message
 
 ```python
-on_scheduled_message(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_scheduled_message(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for scheduled message updates.
@@ -5058,7 +5058,7 @@ Decorator for scheduled message updates.
 ### on_show_activities
 
 ```python
-on_show_activities(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_show_activities(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for show activities (typing, uploading, recording) with optional filters.
@@ -5066,7 +5066,7 @@ Decorator for show activities (typing, uploading, recording) with optional filte
 ### on_show_notifications
 
 ```python
-on_show_notifications(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_show_notifications(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for show notifications with optional filters.
@@ -5074,7 +5074,7 @@ Decorator for show notifications with optional filters.
 ### on_unconfirmed_session
 
 ```python
-on_unconfirmed_session(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_unconfirmed_session(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for unconfirmed session updates (anti-login).
@@ -5082,7 +5082,7 @@ Decorator for unconfirmed session updates (anti-login).
 ### on_voice_chat_participant
 
 ```python
-on_voice_chat_participant(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_voice_chat_participant(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for voice chat participant updates.
@@ -5090,7 +5090,7 @@ Decorator for voice chat participant updates.
 ### on_voice_chat_update
 
 ```python
-on_voice_chat_update(self: 'darkob.Client', *filters: darkob.client.filters.Filter)
+on_voice_chat_update(self: 'darkob.Client', *filters: Filter)
 ```
 
 Decorator for voice chat updates.
