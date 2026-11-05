@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.11.1 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.11.2 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -1061,7 +1061,8 @@ for 30 seconds. After the timeout it half-opens and one request is
 allowed through as a probe; success closes it, failure reopens it.
 
 This stops a dead endpoint from consuming the retry budget of every
-request:
+request. The class is darkob.CircuitBreaker, and each connection
+keeps one per endpoint:
 
 ```python
 client.connection.breaker_for("https://api.example")
@@ -9761,3 +9762,48 @@ Parameters:
 Returns:
     The update indicating the success of the vote.
 
+
+
+---
+# PUBLIC API: classes and helpers
+
+Every name exported from the package root, so no part of the library is missing from this file.
+
+- `darkob.Bot`
+- `darkob.Client`
+- `darkob.Messenger`
+- `darkob.Shad`
+- `darkob.show_welcome_message` — Print the one-time welcome banner.
+- `darkob.check_for_updates` — Compare the installed version against the latest release on PyPI.
+- `darkob.Router` — Groups handlers so they can be registered on a bot all at once.
+- `darkob.FSMContext` — State and data for one conversation, bound to a storage and key.
+- `darkob.Storage` — Minimal async key/value store used by :class:`FSMContext`.
+- `darkob.MemoryStorage` — In-process storage. Fast, but lost when the process exits.
+- `darkob.TTLMemoryStorage` — In-memory storage whose entries expire after ``ttl`` seconds.
+- `darkob.SQLiteStorage` — Durable storage backed by SQLite, safe for concurrent tasks.
+- `darkob.JsonFileStorage` — Storage that persists to a JSON file and survives restarts.
+- `darkob.StateFilter` — Matches events whose conversation is currently in a given state.
+- `darkob.Keyboard` — An API-ready keypad: ``{"rows": [{"buttons": [...]}, ...]}``.
+- `darkob.Button` — A single keypad button.
+- `darkob.MessageBuilder` — Fluent builder for ``send_message`` arguments.
+- `darkob.ButtonType` — ``ButtonTypeEnum`` — what a keypad button does.
+- `darkob.ChatType` — ``ChatTypeEnum``
+- `darkob.FileType` — ``FileTypeEnum`` — accepted values for ``request_send_file``.
+- `darkob.Retry` — How many times to retry, and how long to wait between attempts.
+- `darkob.CircuitBreaker` — Track failures for one endpoint and trip when they pile up.
+- `darkob.RateLimiter` — A global bucket plus optional per-conversation buckets.
+- `darkob.TokenBucket` — A classic token bucket with async acquisition.
+- `darkob.SendQueue` — A durable, bounded outbox for messages that could not be sent.
+- `darkob.QueueFull` — Raised when the queue is at capacity and cannot accept more.
+- `darkob.ProtocolTracker` — Keep the last snapshot on disk and report what changed.
+- `darkob.ProtocolSnapshot` — The endpoint layout a client discovered.
+- `darkob.bold` — ``**text**``
+- `darkob.italic` — ``__text__``
+- `darkob.strike` — ``~~text~~``
+- `darkob.underline` — ``--text--``
+- `darkob.spoiler` — ``||text||`` — hidden until the user taps it.
+- `darkob.code` — ``\`text\`` — inline monospace.
+- `darkob.pre` — A fenced code block, optionally with a language hint.
+- `darkob.link` — ``[text](url)``
+- `darkob.join` — Join already-formatted fragments, skipping empty ones.
+- `darkob.__version__` — str(object='') -> str

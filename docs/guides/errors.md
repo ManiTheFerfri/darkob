@@ -125,7 +125,8 @@ for 30 seconds. After the timeout it half-opens and one request is
 allowed through as a probe; success closes it, failure reopens it.
 
 This stops a dead endpoint from consuming the retry budget of every
-request:
+request. The class is darkob.CircuitBreaker, and each connection
+keeps one per endpoint:
 
 ```python
 client.connection.breaker_for("https://api.example")

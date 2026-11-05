@@ -298,6 +298,27 @@ def main() -> None:
             chunks.append("")
         chunks.append("")
 
+    chunks += ["", "---", "# PUBLIC API: classes and helpers", ""]
+    chunks.append(
+        "Every name exported from the package root, so no part of the "
+        "library is missing from this file."
+    )
+    chunks.append("")
+    seen_exports = set()
+    for export in getattr(darkob, "__all__", []):
+        target = getattr(darkob, export, None)
+        if target is None or id(target) in seen_exports:
+            continue
+        seen_exports.add(id(target))
+        # Own docstring only: getdoc() walks the MRO and would describe a
+        # class with an unrelated base class's documentation.
+        summary = (getattr(target, "__doc__", None) or "").split("\n")[0].strip()
+        line = f"- `darkob.{export}`"
+        if summary:
+            line += f" — {summary}"
+        chunks.append(line)
+    chunks.append("")
+
     (DOCS / "llms-full.txt").write_text("\n".join(chunks), encoding="utf-8")
     size = (DOCS / "llms-full.txt").stat().st_size
     print(f"llms-full.txt: {size // 1024} KB")
