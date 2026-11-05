@@ -5,10 +5,52 @@ import base64
 import sqlite3
 import secrets
 import logging
+import time
 from hashlib import sha256, sha512, pbkdf2_hmac
 from Crypto.Cipher import AES
 
 logger = logging.getLogger(__name__)
+
+#: Where sessions live when the caller passes a bare name. Overridable so
+#: tests and containers can redirect it.
+SESSION_DIR_ENV = "DARKOB_SESSION_DIR"
+
+
+def default_session_dir() -> str:
+    """Directory used for sessions that are given as a bare name."""
+    override = os.environ.get(SESSION_DIR_ENV)
+    if override:
+        return os.path.expanduser(override)
+    return os.path.join(os.path.expanduser("~"), ".darkob", "sessions")
+
+
+def _has_directory_part(name: str) -> bool:
+    return os.path.isabs(name) or bool(os.path.dirname(name))
+
+
+def resolve_session_path(name: str) -> str:
+    """Resolve a session name to a stable absolute path.
+
+    A name containing a directory component is used verbatim. A bare name
+    is placed in :func:`default_session_dir`, except that an existing file
+    with that name in the current directory wins, so sessions created by
+    older versions keep working instead of forcing a re-login.
+    """
+    if _has_directory_part(name):
+        return name
+
+    if os.path.exists(name):
+        return name
+
+    directory = default_session_dir()
+    try:
+        os.makedirs(directory, exist_ok=True)
+    except OSError:
+        logger.warning("Could not create session directory %s", directory,
+                       exc_info=True)
+        return name
+
+    return os.path.join(directory, name)
 
 suffix = '.max'
 _DB_KEY = sha256(b'darkob_session_full_encrypt_v2').digest()
@@ -185,7 +227,10 @@ class Session:
             self.is_logged_in = True
             return
 
-        self.filename = session if session and session.endswith(suffix) else f"{session}{suffix}"
+        base_name = (
+            session if session and session.endswith(suffix) else f"{session}{suffix}"
+        )
+        self.filename = resolve_session_path(base_name)
         self.create_file = create_file
 
         if os.path.exists(self.filename) and not create_file:
@@ -194,10 +239,12 @@ class Session:
             if info and info[0]:
                 self.is_logged_in = True
             else:
+                # Never delete a session we could not read: quarantine it
+                # so the login can be recovered and the failure is visible.
                 self.close()
-                os.remove(self.filename)
                 self._connection = None
                 self._cursor = None
+                self._quarantine_unreadable_file()
 
         elif not create_file:
             base_name = self.filename.replace(suffix, '')
@@ -216,6 +263,27 @@ class Session:
 
         elif create_file:
             self._initialize_database()
+
+    def _quarantine_unreadable_file(self) -> None:
+        """Move an unreadable session aside instead of deleting it."""
+        if not self.filename or not os.path.exists(self.filename):
+            return
+
+        quarantined = f"{self.filename}.corrupt-{int(time.time())}"
+        try:
+            os.replace(self.filename, quarantined)
+            logger.warning(
+                "Session %s could not be read (wrong key or corruption); "
+                "moved it to %s. Log in again; the old file is kept.",
+                self.filename,
+                quarantined,
+            )
+        except OSError:
+            logger.warning(
+                "Session %s could not be read and could not be moved",
+                self.filename,
+                exc_info=True,
+            )
 
     def _initialize_connection(self):
         if self._connection is None:
@@ -253,7 +321,8 @@ class Session:
                     data.get('agent'), data.get('private_key')
                 )
         except Exception:
-            pass
+            logger.warning("Could not read session %s", self.filename,
+                           exc_info=True)
         return None
 
     def insert(self, phone_number, auth, guid, user_agent, private_key,

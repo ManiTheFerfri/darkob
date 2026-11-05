@@ -143,12 +143,24 @@ class Client(Methods):
         self.DEFAULT_PLATFORM.update(PLATFORMS.get(platform.lower(), {}))
         self._original_platform = platform.lower()
 
+        restored_guid = None
+
         if session is not None:
             if not isinstance(session, str):
                 raise SessionError("The 'session' parameter must be a string.")
             self.session_name = os.path.basename(session)
             self.session_path = session
             session = Session(session)
+
+            # Restore the saved credentials. Without this a stored session
+            # was opened but never used, so every restart fell back to the
+            # interactive login and looked like the session had vanished.
+            if session.is_logged_in:
+                saved = session.information()
+                if saved and saved[1]:
+                    auth = saved[1]
+                    private_key = saved[4] or private_key
+                    restored_guid = saved[2]
 
         elif string_session is not None:
             try:
@@ -157,6 +169,7 @@ class Client(Methods):
                 if info:
                     auth = info[1]
                     private_key = info[4]
+                    restored_guid = info[2]
                     self.session_name = f"darkob_{auth[:10]}"
                     self.session_path = self.session_name
             except ValueError:
@@ -188,7 +201,7 @@ class Client(Methods):
         self.verify_ssl = verify_ssl
         self.decode_auth = None
         self.import_key = None
-        self.guid = None
+        self.guid = restored_guid
         self.key = None
         self.handlers = {}
         self.max_retries = max_retries

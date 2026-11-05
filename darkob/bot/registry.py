@@ -19,6 +19,7 @@ class HandlerRegistry:
         '_middlewares',
         '_startup_callbacks',
         '_shutdown_callbacks',
+        '_error_handlers',
     )
 
     def __init__(self, bot: Any) -> None:
@@ -27,6 +28,7 @@ class HandlerRegistry:
         self._middlewares: List[Callable] = []
         self._startup_callbacks: List[Callable] = []
         self._shutdown_callbacks: List[Callable] = []
+        self._error_handlers: List[Callable] = []
 
     def store(self, func: Callable, *constraints: EventConstraint) -> Callable:
         """Persist a handler function with its constraints."""
@@ -38,6 +40,26 @@ class HandlerRegistry:
         """Add a middleware to the chain."""
         self._middlewares.append(func)
         return func
+
+    def store_error(self, func: Callable) -> Callable:
+        """Register a handler for exceptions escaping other handlers."""
+        self._error_handlers.append(func)
+        return func
+
+    async def report_error(self, exc: BaseException, event: Any = None) -> None:
+        """Deliver a handler failure to the registered error handlers."""
+        if not self._error_handlers:
+            return
+
+        for handler in list(self._error_handlers):
+            try:
+                if inspect.iscoroutinefunction(handler):
+                    await handler(self._bot, exc, event)
+                else:
+                    handler(self._bot, exc, event)
+            except Exception:  # pragma: no cover - defensive
+                logger.exception("Error handler %s failed",
+                                 getattr(handler, '__name__', handler))
 
     def store_startup(self, func: Callable) -> Callable:
         """Register a startup callback."""
@@ -81,10 +103,11 @@ class HandlerRegistry:
                 await handler(self._bot, event)
             else:
                 handler(self._bot, event)
-        except Exception:
+        except Exception as exc:
             logger.exception(
                 "Handler %s raised an exception", handler.__name__
             )
+            await self.report_error(exc, event)
 
     async def _dispatch(self, event: Any) -> None:
         # True: every matching handler runs (registration order does not decide

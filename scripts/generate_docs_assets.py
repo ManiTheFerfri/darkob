@@ -287,13 +287,14 @@ def main() -> None:
         entries = index["classes"][attr]["methods"]
         chunks += [f"## {attr} ({len(entries)} methods)", ""]
         for entry in entries:
-            doc = entry["doc"].split("\n")[0].strip()
-            if len(doc) > 130:
-                doc = doc[:127] + "..."
-            line = f"- `{entry['signature']}`"
+            chunks.append(f"### `{entry['signature']}`")
+            chunks.append("")
+            doc = entry["doc"].strip()
             if doc:
-                line += f" — {doc}"
-            chunks.append(line)
+                chunks.append(doc)
+            else:
+                chunks.append("_No docstring._")
+            chunks.append("")
         chunks.append("")
 
     (DOCS / "llms-full.txt").write_text("\n".join(chunks), encoding="utf-8")

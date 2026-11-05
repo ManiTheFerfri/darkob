@@ -25,3 +25,13 @@ class LifecycleDecorators:
         def deco(func: Callable) -> Callable:
             return self._registry.store_shutdown(func)
         return deco
+
+    def on_error(self) -> Callable:
+        """Register a handler for exceptions escaping other handlers.
+
+        Called as ``handler(bot, exc, event)``. The event may be ``None``
+        for failures that are not tied to an update.
+        """
+        def deco(func: Callable) -> Callable:
+            return self._registry.store_error(func)
+        return deco

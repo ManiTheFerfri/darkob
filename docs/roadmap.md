@@ -20,7 +20,12 @@ Shipped in 0.1–0.2:
   now logged immediately instead of at GC time.
 - `Router`, `FSMContext` + storage backends, `Keyboard` builders, text
   formatting helpers.
-- 258 tests, CI on 3.9–3.14 + Windows, generated API docs.
+- `Bot.reply` / `edit` / `delete`, `Bot.iter_updates`, `Bot.on_error`.
+- Session stability: credentials are restored from a saved session,
+  sessions live outside the working directory, and an unreadable session
+  file is quarantined instead of deleted.
+- `darkob` CLI: `login`, `sessions`, `new`, `run`, `doctor`.
+- 300+ tests, CI on 3.9–3.14 + Windows, generated API docs.
 
 ## P0 — next
 

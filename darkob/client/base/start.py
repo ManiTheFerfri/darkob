@@ -261,7 +261,11 @@ class Start:
                     private_key=self.private_key
                 )
 
-                session_path = os.path.abspath(f"{self.session_path}.max")
+                session_path = os.path.abspath(
+                    self.session.filename
+                    if getattr(self.session, "filename", None)
+                    else f"{self.session_path}.max"
+                )
                 session_text = Text()
                 session_text.append("\nSession saved to ", style="green")
                 session_text.append(session_path, style="bold green")

@@ -1,11 +1,11 @@
 {
   "package": "darkob",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
       "summary": "The official Rubika Bot API. Token based, plain HTTP JSON.",
-      "method_count": 42,
+      "method_count": 46,
       "methods": [
         {
           "name": "auto_delete_message",
@@ -29,6 +29,13 @@
           "doc": "Async close — must be awaited inside the session's loop."
         },
         {
+          "name": "delete",
+          "signature": "delete(localself, event: Any)",
+          "group": "bot",
+          "module": "darkob.bot.shortcuts",
+          "doc": "Delete the message that produced *event*."
+        },
+        {
           "name": "delete_message",
           "signature": "delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[int, str])",
           "group": "bot",
@@ -48,6 +55,13 @@
           "group": "bot",
           "module": "darkob.bot.download_file",
           "doc": "Downloads the file associated with the specified file ID.\n\nParameters:\n    file_id (str): The identifier of the file to download.\n    name (str, optional): Custom filename (without extension).\n    path (str, optional): Custom save path (absolute).\n    save_as (bool, optional): If True, save to disk. If False, return bytes only. Defaults to False.\n    as_base64 (bool, optional): If True, return as base64 encoded string. Only works when save_as=False. Defaults to False.\n    callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.\n\nReturns:\n    If save_as = True: dict with status and file_path.\n    If save_as = False and as_base64 = False: bytes of the file.\n    If save_as = False and as_base64 = True: base64 encoded string."
+        },
+        {
+          "name": "edit",
+          "signature": "edit(localself, event: Any, text: str, **kwargs: Any)",
+          "group": "bot",
+          "module": "darkob.bot.shortcuts",
+          "doc": "Edit the message that produced *event* to say *text*."
         },
         {
           "name": "edit_chat_keypad",
@@ -127,6 +141,13 @@
           "doc": "Register every handler declared on *router*, recursively.\n\nLets a bot be split into feature modules::\n\n    bot.include_router(admin_router)\n\nReturns the router so calls can be chained."
         },
         {
+          "name": "iter_updates",
+          "signature": "iter_updates(localself, limit: int=100, max_pages: Optional[int]=None)",
+          "group": "bot",
+          "module": "darkob.bot.shortcuts",
+          "doc": "Yield updates one at a time, handling the offset cursor.\n\nArgs:\n    limit: Updates requested per round-trip.\n    max_pages: Stop after this many round-trips (``None`` = forever).\n\nYields:\n    Individual update payloads, in server order."
+        },
+        {
           "name": "member_is_admin",
           "signature": "member_is_admin(self: 'darkob.Bot', chat_id: str, user_id: str)",
           "group": "bot",
@@ -167,6 +188,13 @@
           "group": "bot",
           "module": "darkob.bot.remove_member",
           "doc": "Remove (Ban) a member from a group or channel.\n\nParameters:\n    chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0').\n    sender_id (str): sender_id of member to ban.\n\nReturns:\n    The API response."
+        },
+        {
+          "name": "reply",
+          "signature": "reply(localself, event: Any, text: str, **kwargs: Any)",
+          "group": "bot",
+          "module": "darkob.bot.shortcuts",
+          "doc": "Reply to the message that produced *event*.\n\nEquivalent to ``send_message`` with ``chat_id`` and\n``reply_to_message_id`` filled in from the event."
         },
         {
           "name": "request",

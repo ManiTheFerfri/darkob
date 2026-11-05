@@ -69,6 +69,10 @@ class DecoratorBridge:
         return self._lifecycle.on_shutdown
 
     @property
+    def on_error(self):
+        return self._lifecycle.on_error
+
+    @property
     def on_event_data(self):
         return self._event.on_event_data
 

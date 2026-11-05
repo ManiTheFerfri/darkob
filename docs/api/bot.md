@@ -4,12 +4,12 @@ The official Rubika Bot API. Token based, plain HTTP JSON.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**42 public methods.**
+**46 public methods.**
 
 ## Method index
 
 - **core** (1): [`include_router`](#include-router)
-- **bot** (41): [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_member`](#remove-member), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
+- **bot** (45): [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
 
 ## core
 
@@ -68,6 +68,14 @@ close(self: 'darkob.Bot')
 
 Async close — must be awaited inside the session's loop.
 
+### delete
+
+```python
+delete(localself, event: Any)
+```
+
+Delete the message that produced *event*.
+
 ### delete_message
 
 ```python
@@ -114,6 +122,14 @@ Returns:
     If save_as = True: dict with status and file_path.
     If save_as = False and as_base64 = False: bytes of the file.
     If save_as = False and as_base64 = True: base64 encoded string.
+
+### edit
+
+```python
+edit(localself, event: Any, text: str, **kwargs: Any)
+```
+
+Edit the message that produced *event* to say *text*.
 
 ### edit_chat_keypad
 
@@ -344,6 +360,21 @@ Parameters:
 Returns:
     dict: The API response including updates and the next_offset_id.
 
+### iter_updates
+
+```python
+iter_updates(localself, limit: int=100, max_pages: Optional[int]=None)
+```
+
+Yield updates one at a time, handling the offset cursor.
+
+Args:
+    limit: Updates requested per round-trip.
+    max_pages: Stop after this many round-trips (``None`` = forever).
+
+Yields:
+    Individual update payloads, in server order.
+
 ### member_is_admin
 
 ```python
@@ -437,6 +468,17 @@ Parameters:
 
 Returns:
     The API response.
+
+### reply
+
+```python
+reply(localself, event: Any, text: str, **kwargs: Any)
+```
+
+Reply to the message that produced *event*.
+
+Equivalent to ``send_message`` with ``chat_id`` and
+``reply_to_message_id`` filled in from the event.
 
 ### request
 

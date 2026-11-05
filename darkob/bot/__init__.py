@@ -35,6 +35,7 @@ from .send_quiz import SendQuiz
 from .send_video import SendVideo
 from .send_voice import SendVoice
 from .set_commands import SetCommands
+from .shortcuts import Shortcuts
 from .start import Start
 from .unban_member import UnbanMember
 from .update_bot_endpoints import UpdateBotEndpoints
@@ -76,6 +77,7 @@ class Methods(
     SendVideo,
     SendVoice,
     SetCommands,
+    Shortcuts,
     Start,
     UnbanMember,
     UpdateBotEndpoints,
