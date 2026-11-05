@@ -54,11 +54,13 @@ class Retry:
     def base_delay(self, attempt: int, *, rate_limited: bool = False) -> float:
         """Delay before attempt number *attempt* (1-based), before jitter."""
         if rate_limited:
-            return min(
-                self.rate_limit_backoff * (2 ** max(0, attempt - 1)),
-                self.max_delay,
+            return float(
+                min(
+                    self.rate_limit_backoff * (2 ** max(0, attempt - 1)),
+                    self.max_delay,
+                )
             )
-        return min(self.backoff * attempt, self.max_delay)
+        return float(min(self.backoff * attempt, self.max_delay))
 
     def delay(
         self,
