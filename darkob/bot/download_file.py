@@ -2,6 +2,7 @@ import re
 import os
 import aiohttp
 import asyncio
+from contextlib import asynccontextmanager
 import datetime
 import base64
 import logging
@@ -10,6 +11,17 @@ from .file_extensions import FILE_EXTENSIONS
 from .exceptions import InvalidInput, InvalidAccess, Network
 
 logger = logging.getLogger(__name__)
+
+@asynccontextmanager
+async def _borrowed(session):
+    """Yield a pooled session without closing it.
+
+    Downloading used to open its own aiohttp.ClientSession, which meant a
+    fresh TCP and TLS handshake per file and ignored the client's pool.
+    """
+    yield session
+
+
 
 class DownloadFile:
     def _validate_filename(self, name: str) -> str:
@@ -52,7 +64,7 @@ class DownloadFile:
 
         for attempt in range(max_retries):
             try:
-                async with aiohttp.ClientSession() as session:
+                async with _borrowed(await self._get_session()) as session:
                     async with session.get(download_url) as response:
                         if response.status == 502:
                             logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{max_retries}")
@@ -114,7 +126,7 @@ class DownloadFile:
 
         download_url = file_response["data"]["download_url"]
 
-        async with aiohttp.ClientSession() as session:
+        async with _borrowed(await self._get_session()) as session:
             for attempt in range(self.max_retries):
                 try:
                     async with session.head(download_url, allow_redirects=True) as head_response:

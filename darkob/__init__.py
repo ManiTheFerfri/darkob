@@ -41,6 +41,7 @@ from .builders import MessageBuilder
 from .bot.models import ButtonType, ChatType, FileType
 from .retry import Retry
 from .circuit import CircuitBreaker
+from .ratelimit import RateLimiter, TokenBucket
 from .formatting import (
     bold,
     code,
@@ -55,7 +56,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +90,8 @@ __all__ = [
     "FileType",
     "Retry",
     "CircuitBreaker",
+    "RateLimiter",
+    "TokenBucket",
     "bold",
     "italic",
     "strike",

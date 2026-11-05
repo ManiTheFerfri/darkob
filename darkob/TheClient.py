@@ -35,6 +35,7 @@ class Client(Methods):
         proxy: Optional[str] = None,
         verify_ssl: bool = True,
         retry=None,
+        rate_limiter=None,
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino'] = 'pwa',
         api_version: Literal[5, 6] = 6,
@@ -203,6 +204,7 @@ class Client(Methods):
         self.proxy = proxy
         self.verify_ssl = verify_ssl
         self.retry = retry
+        self.rate_limiter = rate_limiter
         self.decode_auth = None
         self.import_key = None
         self.guid = restored_guid

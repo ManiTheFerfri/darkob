@@ -200,10 +200,14 @@ the endpoints do not exist, so they are settled rather than pending:
 
 ## P2 — larger work
 
-- **Resumable uploads/downloads** with byte-range checkpoints. Large media
-  on unstable networks is the top real-world failure.
+- **Resumable uploads/downloads**: downloads now borrow the pooled
+  session (they used to open their own, one TLS handshake per file)
+  and were verified against the live API. Byte-range resume is still
+  to do; uploads cannot resume because the endpoint returns a
+  `file_id` only for a complete body.
 - **Circuit breaker per endpoint** — **shipped** (`darkob.CircuitBreaker`).
-- **Rate-limit governor**: token bucket per chat and global.
+- **Rate-limit governor** — **shipped** (`darkob.RateLimiter`,
+  global + per-chat token buckets, applied to every attempt).
 - **Offline send queue**: buffer and flush on reconnect.
 - **Protocol version tracking** for the Messenger surface, with a
   compatibility table and a fast release path when Rubika changes.

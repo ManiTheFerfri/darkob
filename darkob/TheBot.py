@@ -30,6 +30,7 @@ class Bot(Session, Updates, Methods):
         max_retries: Union[int, float] = 5,
         verify_ssl: bool = True,
         retry=None,
+        rate_limiter=None,
         show_welcome: bool = True,
         run_all_handlers: bool = True
     ):
@@ -74,6 +75,7 @@ class Bot(Session, Updates, Methods):
         self.max_retries = int(max_retries)
         self.verify_ssl = bool(verify_ssl)
         self.retry = retry
+        self.rate_limiter = rate_limiter
         self._me_cache = None
         self.base_url = f"{base_url.rstrip('/')}/{token}"
         self.run_all_handlers = bool(run_all_handlers)

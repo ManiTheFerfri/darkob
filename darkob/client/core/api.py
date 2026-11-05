@@ -264,6 +264,10 @@ class Api:
         last_error: Any = None
 
         while attempts < attempts_budget:
+            limiter = getattr(self.client, 'rate_limiter', None)
+            if limiter is not None:
+                await limiter.acquire()
+
             if asyncio.current_task() is not call:
                 return None
 

@@ -45,6 +45,14 @@ class Request:
         )
 
         for attempt in range(attempts):
+            limiter = getattr(self, 'rate_limiter', None)
+            if limiter is not None:
+                payload = kwargs.get('json') or {}
+                key = None
+                if isinstance(payload, dict):
+                    key = payload.get('chat_id') or payload.get('object_guid')
+                await limiter.acquire(key)
+
             try:
                 async with session.request(method.upper(), url, **kwargs) as resp:
                     text = (await resp.text()).strip()

@@ -57,6 +57,28 @@ bot = Bot(token="...", max_retries=3)     # 3 attempts total
 
 Set `max_retries=0` to fail fast in tests.
 
+## Rate limiting
+
+Rubika throttles bots, and a burst of sends is the fastest way to
+earn a `TOO_REQUESTS`. A limiter keeps you under the ceiling before
+the server has to enforce it.
+
+```python
+from darkob import Bot, RateLimiter
+
+bot = Bot(
+    token="...",
+    rate_limiter=RateLimiter(rate=20, burst=5, per_chat_rate=3),
+)
+```
+
+`rate` is tokens per second, `burst` the bucket size. With
+`per_chat_rate`, each conversation gets its own bucket so one busy
+group cannot starve the rest; the buckets are capped and evicted
+oldest-first, so memory stays bounded.
+
+The limiter applies to every attempt, including retries.
+
 ## Circuit breaker
 
 Each data-centre endpoint has its own breaker. After 5 consecutive
