@@ -33,7 +33,7 @@ ask it to.
 ## Development install
 
 ```bash
-git clone https://github.com/ManiTheFerfri/darkob.git
+git clone https://github.com/ManiTheFerfri/Darkob.git
 cd darkob
 pip install -e ".[dev]"
 

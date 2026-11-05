@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.4.1"
+version = "0.4.2"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -64,10 +64,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ManiTheFerfri/darkob"
-Documentation = "https://ManiTheFerfri.github.io/darkob"
-Repository = "https://github.com/ManiTheFerfri/darkob"
-Issues = "https://github.com/ManiTheFerfri/darkob/issues"
+Homepage = "https://github.com/ManiTheFerfri/Darkob"
+Documentation = "https://ManiTheFerfri.github.io/Darkob"
+Repository = "https://github.com/ManiTheFerfri/Darkob"
+Issues = "https://github.com/ManiTheFerfri/Darkob/issues"
 Upstream = "https://github.com/MEH2RAB/maxrubika"
 
 [tool.setuptools]
