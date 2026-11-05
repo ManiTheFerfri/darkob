@@ -190,9 +190,8 @@ jobs:
   typing:
     name: typing (new modules)
     runs-on: ubuntu-latest
-    # Strict mode covers the modules written for typing support. It stays
-    # advisory until the inherited tree is migrated.
-    continue-on-error: true
+    # Strict mode over the modules written for typing. Enforced: these
+    # six modules must stay clean.
     steps:
       - uses: actions/checkout@v4
 

@@ -111,10 +111,27 @@ Measured with a benchmark harness, not guessed:
 
 ### Typing
 
-- `py.typed` marker and full annotations on the public surface.
-- `mypy --strict` starting with `router.py`, `fsm.py`, `keyboards.py`,
-  `formatting.py`, then the rest.
-- Type stubs for `types/event.py` — currently the least discoverable part.
+- `py.typed` marker shipped and verified inside the wheel.
+- `mypy --strict` on `router.py`, `retry.py`, `builders.py`,
+  `keyboards.py`, `formatting.py` and `testing.py` — **enforced in CI**.
+- Full annotations across the inherited tree: still pending.
+
+## Awaiting API documentation
+
+These are deliberately **not implemented**. Each needs a documented Bot
+API endpoint or payload shape, and guessing one would ship a method that
+looks right and fails in production — worse than not having it.
+
+| Item | Why it waits |
+| --- | --- |
+| `send_album` | No documented payload for multi-file messages |
+| `set_webhook` / `get_webhook_info` / `delete_webhook` | Webhooks are served by your app; no Bot API endpoint is documented |
+| `pin_message` / `unpin_message` (Bot surface) | Messenger has them; the Bot API surface is undocumented here |
+| `remove_commands` | Endpoint semantics unknown; `set_commands({})` is not obviously equivalent |
+| `sync_contacts` | Requires a documented contact payload |
+| `VoiceChat` wrapper | Needs the voice-chat state machine documented before wrapping |
+
+Unblocking any of these is a small change once the endpoint is known.
 
 ## P2 — larger work
 
