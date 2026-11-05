@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://manitheferfri.github.io/Darkob/assets/darkob-logo.png" alt="darkob" width="140"/>
+  <img src="https://manitheferfri.github.io/darkob/assets/darkob-logo.png" alt="darkob" width="140"/>
 </p>
 
 <h1 align="center">darkob</h1>
@@ -12,16 +12,16 @@
 <p align="center">
   <a href="https://pypi.org/project/darkob/"><img src="https://shieldcn.dev/pypi/darkob.svg" alt="PyPI"></a>
   <img src="https://shieldcn.dev/badge/python-3.9--3.14-4f46e5.svg" alt="Python 3.9-3.14">
-  <a href="https://github.com/ManiTheFerfri/Darkob/actions/workflows/ci.yml"><img src="https://shieldcn.dev/github/ci/ManiTheFerfri/Darkob.svg" alt="CI"></a>
-  <a href="LICENSE"><img src="https://shieldcn.dev/github/license/ManiTheFerfri/Darkob.svg" alt="License"></a>
-  <a href="https://github.com/ManiTheFerfri/Darkob/stargazers"><img src="https://shieldcn.dev/github/stars/ManiTheFerfri/Darkob.svg" alt="Stars"></a>
+  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://shieldcn.dev/github/ci/ManiTheFerfri/darkob.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://shieldcn.dev/github/license/ManiTheFerfri/darkob.svg" alt="License"></a>
+  <a href="https://github.com/ManiTheFerfri/darkob/stargazers"><img src="https://shieldcn.dev/github/stars/ManiTheFerfri/darkob.svg" alt="Stars"></a>
 </p>
 
 <p align="center">
-  <a href="https://manitheferfri.github.io/Darkob/"><b>Documentation</b></a> ·
-  <a href="https://manitheferfri.github.io/Darkob/llms-full.txt">AI context</a> ·
+  <a href="https://manitheferfri.github.io/darkob/"><b>Documentation</b></a> ·
+  <a href="https://manitheferfri.github.io/darkob/llms-full.txt">AI context</a> ·
   <a href="https://pypi.org/project/darkob/">PyPI</a> ·
-  <a href="https://github.com/ManiTheFerfri/Darkob/issues">Issues</a>
+  <a href="https://github.com/ManiTheFerfri/darkob/issues">Issues</a>
 </p>
 
 ---
@@ -118,19 +118,19 @@ step.
 
 ## Documentation
 
-Full site: **[manitheferfri.github.io/Darkob](https://manitheferfri.github.io/Darkob/)**
+Full site: **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/darkob/)**
 
 | | |
 | --- | --- |
-| [Quickstart](https://manitheferfri.github.io/Darkob/get-started/quickstart/) | Install to running bot in five minutes |
-| [Handlers](https://manitheferfri.github.io/Darkob/guides/handlers/) | Every decorator and what triggers it |
-| [Filters](https://manitheferfri.github.io/Darkob/guides/filters/) | All 42 constraints and how to compose them |
-| [Routers](https://manitheferfri.github.io/Darkob/guides/routers/) | Split a bot into modules |
-| [Conversations](https://manitheferfri.github.io/Darkob/guides/fsm/) | Multi-step flows |
-| [Keyboards](https://manitheferfri.github.io/Darkob/guides/keyboards/) | Keypads and text formatting |
-| [Errors](https://manitheferfri.github.io/Darkob/guides/errors/) | Exception hierarchy and retries |
-| [Bot API](https://manitheferfri.github.io/Darkob/api/bot/) · [Messenger API](https://manitheferfri.github.io/Darkob/api/messenger/) | Generated from the package |
-| [Roadmap](https://manitheferfri.github.io/Darkob/roadmap/) | What ships next, and what will not |
+| [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart/) | Install to running bot in five minutes |
+| [Handlers](https://manitheferfri.github.io/darkob/guides/handlers/) | Every decorator and what triggers it |
+| [Filters](https://manitheferfri.github.io/darkob/guides/filters/) | All 42 constraints and how to compose them |
+| [Routers](https://manitheferfri.github.io/darkob/guides/routers/) | Split a bot into modules |
+| [Conversations](https://manitheferfri.github.io/darkob/guides/fsm/) | Multi-step flows |
+| [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards/) | Keypads and text formatting |
+| [Errors](https://manitheferfri.github.io/darkob/guides/errors/) | Exception hierarchy and retries |
+| [Bot API](https://manitheferfri.github.io/darkob/api/bot/) · [Messenger API](https://manitheferfri.github.io/darkob/api/messenger/) | Generated from the package |
+| [Roadmap](https://manitheferfri.github.io/darkob/roadmap/) | What ships next, and what will not |
 
 ## Built for AI-assisted development
 
@@ -138,15 +138,15 @@ Most darkob bots are written by an assistant, so the docs are built to be
 read by a model.
 
 ```text
-https://manitheferfri.github.io/Darkob/llms-full.txt
+https://manitheferfri.github.io/darkob/llms-full.txt
 ```
 
 That single file is the whole thing: hard rules, every guide, and the full
 API with complete docstrings for all 688 methods — **318 KB**, one fetch,
 no follow-up links.
 
-- [`llms.txt`](https://manitheferfri.github.io/Darkob/llms.txt) — curated map
-- [`api.json`](https://manitheferfri.github.io/Darkob/api.json) — every method as JSON
+- [`llms.txt`](https://manitheferfri.github.io/darkob/llms.txt) — curated map
+- [`api.json`](https://manitheferfri.github.io/darkob/api.json) — every method as JSON
 - Every page is also served as raw Markdown: append `.md` to any URL
 - The API reference is generated from the installed package, so it cannot
   drift from the code
@@ -154,7 +154,7 @@ no follow-up links.
 ## Development
 
 ```bash
-git clone https://github.com/ManiTheFerfri/Darkob.git
+git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
 

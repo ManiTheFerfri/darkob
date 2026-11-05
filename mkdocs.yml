@@ -1,12 +1,12 @@
 site_name: darkob
-site_url: https://manitheferfri.github.io/Darkob/
+site_url: https://manitheferfri.github.io/darkob/
 site_description: >-
   Fast, stable async Python for the Rubika & Shad platforms. AI-first
   documentation with generated API reference, llms.txt and api.json.
 site_author: Mani Keikhosravi
 
-repo_name: ManiTheFerfri/Darkob
-repo_url: https://github.com/ManiTheFerfri/Darkob
+repo_name: ManiTheFerfri/darkob
+repo_url: https://github.com/ManiTheFerfri/darkob
 edit_uri: edit/main/docs/
 
 copyright: >
@@ -107,7 +107,7 @@ extra:
   generator: false
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/ManiTheFerfri/Darkob
+      link: https://github.com/ManiTheFerfri/darkob
       name: darkob on GitHub
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/darkob/

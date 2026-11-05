@@ -114,11 +114,11 @@ def show_welcome_message(show_welcome: bool = True) -> None:
     )
     text.append("\nGithub: ", style="white")
     text.append(
-        "https://github.com/ManiTheFerfri/Darkob", style="green underline"
+        "https://github.com/ManiTheFerfri/darkob", style="green underline"
     )
     text.append("\nDocument: ", style="white")
     text.append(
-        "https://ManiTheFerfri.github.io/Darkob\n", style="yellow underline"
+        "https://ManiTheFerfri.github.io/darkob\n", style="yellow underline"
     )
     console.print(text)
 

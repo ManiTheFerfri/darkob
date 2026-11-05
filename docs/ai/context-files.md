@@ -10,7 +10,7 @@ at the site root that tells a model what the project is and where the
 detail lives.
 
 ```text
-https://manitheferfri.github.io/Darkob/llms.txt
+https://manitheferfri.github.io/darkob/llms.txt
 ```
 
 Use it when the model needs an overview and the ability to ask for more.
@@ -21,7 +21,7 @@ The entire documentation — every guide, every page, both API surfaces —
 concatenated into one Markdown file with `SOURCE:` markers.
 
 ```text
-https://manitheferfri.github.io/Darkob/llms-full.txt
+https://manitheferfri.github.io/darkob/llms-full.txt
 ```
 
 Use it when you want the model to answer anything without follow-up
@@ -66,7 +66,7 @@ stubs, or drive an agent that must not hallucinate.
 import json, urllib.request
 
 api = json.load(urllib.request.urlopen(
-    "https://manitheferfri.github.io/Darkob/api.json"
+    "https://manitheferfri.github.io/darkob/api.json"
 ))
 
 bot_methods = {m["name"]: m for m in api["classes"]["Bot"]["methods"]}

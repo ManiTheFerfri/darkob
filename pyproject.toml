@@ -64,10 +64,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ManiTheFerfri/Darkob"
-Documentation = "https://ManiTheFerfri.github.io/Darkob"
-Repository = "https://github.com/ManiTheFerfri/Darkob"
-Issues = "https://github.com/ManiTheFerfri/Darkob/issues"
+Homepage = "https://github.com/ManiTheFerfri/darkob"
+Documentation = "https://ManiTheFerfri.github.io/darkob"
+Repository = "https://github.com/ManiTheFerfri/darkob"
+Issues = "https://github.com/ManiTheFerfri/darkob/issues"
 Upstream = "https://github.com/MEH2RAB/maxrubika"
 
 [tool.setuptools]
