@@ -10,12 +10,11 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/v/darkob?color=4f46e5&label=pypi" alt="PyPI"></a>
-  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/dm/darkob?color=4f46e5" alt="Downloads"></a>
-  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/pyversions/darkob?color=4f46e5" alt="Python"></a>
-  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ManiTheFerfri/darkob/ci.yml?branch=main&label=CI" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/ManiTheFerfri/darkob?color=4f46e5" alt="License"></a>
-  <a href="https://github.com/ManiTheFerfri/darkob/stargazers"><img src="https://img.shields.io/github/stars/ManiTheFerfri/darkob?style=flat&color=4f46e5" alt="Stars"></a>
+  <a href="https://pypi.org/project/darkob/"><img src="https://shieldcn.dev/pypi/darkob.svg" alt="PyPI"></a>
+  <img src="https://shieldcn.dev/badge/python-3.9--3.14-4f46e5.svg" alt="Python 3.9-3.14">
+  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://shieldcn.dev/github/ci/ManiTheFerfri/darkob.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://shieldcn.dev/github/license/ManiTheFerfri/darkob.svg" alt="License"></a>
+  <a href="https://github.com/ManiTheFerfri/darkob/stargazers"><img src="https://shieldcn.dev/github/stars/ManiTheFerfri/darkob.svg" alt="Stars"></a>
 </p>
 
 <p align="center">
