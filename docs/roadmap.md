@@ -157,7 +157,7 @@ the endpoints do not exist, so they are settled rather than pending:
 
 - **Resumable uploads/downloads** with byte-range checkpoints. Large media
   on unstable networks is the top real-world failure.
-- **Circuit breaker per endpoint** so a dead data centre stops being tried.
+- **Circuit breaker per endpoint** — **shipped** (`darkob.CircuitBreaker`).
 - **Rate-limit governor**: token bucket per chat and global.
 - **Offline send queue**: buffer and flush on reconnect.
 - **Protocol version tracking** for the Messenger surface, with a
@@ -165,6 +165,25 @@ the endpoints do not exist, so they are settled rather than pending:
 - **Session migration** from `maxrubika` by re-deriving the old key, so
   switching is not a re-login cliff.
 - **Benchmark suite in CI** with regression thresholds.
+
+## Verification
+
+Static review can prove an endpoint name and payload key match the
+documentation. It cannot prove the server accepts them. Two tools
+bridge that gap:
+
+- `scripts/benchmark.py` — measures the library's own overhead.
+- `scripts/conformance.py` — calls every Bot API method against a
+  real token, reports pass/fail/skip per method, cleans up after
+  itself, and exits non-zero on failure.
+
+Run the conformance check before tagging a release:
+
+```bash
+export DARKOB_BOT_TOKEN=...
+export DARKOB_CHAT_ID=g0...
+python scripts/conformance.py --writes
+```
 
 ## Known issues ledger
 

@@ -1,0 +1,765 @@
+﻿
+
+<!DOCTYPE html>
+
+<html lang="fa" class="js-focus-visible js" data-js-focus-visible="">
+  <head>
+    
+
+<script type="application/ld+json">
+    {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Rubika",
+  "url": "https://rubika.com",
+  "logo": "https://rubika.com/assets/logo.png",
+  "subOrganization": [
+    {
+      "@type": "Organization",
+      "name": "Rubika TV",
+      "url": "https://tv.rubika.com"
+    },
+    {
+      "@type": "Organization",
+      "name": "Rubika VOD",
+      "url": "https://vod.rubika.com"
+    }
+  ]
+}
+
+</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="icon" href="/static/bot_api/logo.svg"/>
+
+    <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.3" />
+
+    <title>بات روبیکا</title>
+
+    <link
+      rel="stylesheet"
+      href="/static/bot_api/main.7a952b86.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/static/bot_api/palette.cbb835fc.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" href="/static/bot_api/css"/>
+    <style>
+      :root {
+        --md-text-font: "B Nazanin";
+        --md-code-font: "Roboto Mono";
+      }
+    </style>
+
+    <link rel="stylesheet" href="/static/bot_api/termynal.css"/>
+    <link rel="stylesheet" href="/static/bot_api/custom.css"/>
+    <script>
+      (__md_scope = new URL(".", location)),
+        (__md_hash = (e) =>
+          [...e].reduce((e, _) => (e << 5) - e + _.charCodeAt(0), 0)),
+        (__md_get = (e, _ = localStorage, t = __md_scope) =>
+          JSON.parse(_.getItem(t.pathname + "." + e))),
+        (__md_set = (e, _, t = localStorage, a = __md_scope) => {
+          try {
+            t.setItem(a.pathname + "." + e, JSON.stringify(_));
+          } catch (e) {}
+        });
+    </script>
+    <link rel="stylesheet" href="/static/bot_api/style.css"/>
+  </head>
+
+  <body
+    dir="rtl"
+    data-md-color-scheme="default"
+    data-md-color-primary="purple"
+    data-md-color-accent="amber"
+  >
+    <script>
+      var palette = __md_get("__palette");
+      if (palette && "object" == typeof palette.color)
+        for (var key of Object.keys(palette.color))
+          document.body.setAttribute(
+            "data-md-color-" + key,
+            palette.color[key]
+          );
+    </script>
+
+    <input
+      class="md-toggle"
+      data-md-toggle="drawer"
+      type="checkbox"
+      id="__drawer"
+      autocomplete="off"
+    />
+    <input
+      class="md-toggle"
+      data-md-toggle="search"
+      type="checkbox"
+      id="__search"
+      autocomplete="off"
+    />
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      <a href="#_1" class="md-skip"> پرش به محتویات </a>
+    </div>
+    <div data-md-component="announce"></div>
+
+    <header class="md-header md-header--shadow" data-md-component="header">
+      <nav class="md-header__inner md-grid" aria-label="Header">
+        <a
+          href="/botapi"
+          title="Rubika Bot Father"
+          class="md-header__button md-logo"
+          aria-label="Rubika Bot Father"
+          data-md-component="logo"
+        >
+          <img src="/static/bot_api/logo.svg"alt="logo" />
+        </a>
+        <label class="md-header__button md-icon" for="__drawer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path>
+          </svg>
+        </label>
+        <div class="md-header__title" data-md-component="header-title">
+          <div class="md-header__ellipsis">
+            <div class="md-header__topic">
+              <span class="md-ellipsis"> بات روبیکا </span>
+            </div>
+            <div class="md-header__topic" data-md-component="header-topic">
+              <span class="md-ellipsis"> معرفی </span>
+            </div>
+          </div>
+        </div>
+
+        <form class="md-header__option" data-md-component="palette">
+          <input
+            class="md-option"
+            data-md-color-media=""
+            data-md-color-scheme="default"
+            data-md-color-primary="purple"
+            data-md-color-accent="amber"
+            aria-label="Switch to dark mode"
+            type="radio"
+            name="__palette"
+            id="__palette_1"
+          />
+
+          <label
+            class="md-header__button md-icon toggle-icon"
+            title="Switch to dark mode"
+            for="__palette_2"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="6"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <path
+                d="M12 2V3"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M12 21V22"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M22 12L21 12"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M3 12L2 12"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M19.0708 4.92969L18.678 5.32252"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M5.32178 18.6777L4.92894 19.0706"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M19.0708 19.0703L18.678 18.6775"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M5.32178 5.32227L4.92894 4.92943"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </label>
+
+          <input
+            class="md-option"
+            data-md-color-media=""
+            data-md-color-scheme="slate"
+            data-md-color-primary="purple"
+            data-md-color-accent="amber"
+            aria-label="Switch to light mode"
+            type="radio"
+            name="__palette"
+            id="__palette_2"
+          />
+
+          <label
+            class="md-header__button md-icon"
+            title="Switch to light mode"
+            for="__palette_1"
+            hidden=""
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19.9001 2.30719C19.7392 1.8976 19.1616 1.8976 19.0007 2.30719L18.5703 3.40247C18.5212 3.52752 18.4226 3.62651 18.298 3.67583L17.2067 4.1078C16.7986 4.26934 16.7986 4.849 17.2067 5.01054L18.298 5.44252C18.4226 5.49184 18.5212 5.59082 18.5703 5.71587L19.0007 6.81115C19.1616 7.22074 19.7392 7.22074 19.9001 6.81116L20.3305 5.71587C20.3796 5.59082 20.4782 5.49184 20.6028 5.44252L21.6941 5.01054C22.1022 4.849 22.1022 4.26934 21.6941 4.1078L20.6028 3.67583C20.4782 3.62651 20.3796 3.52752 20.3305 3.40247L19.9001 2.30719Z"
+                stroke="currentColor"
+              />
+              <path
+                d="M16.0328 8.12967C15.8718 7.72009 15.2943 7.72009 15.1333 8.12967L14.9764 8.52902C14.9273 8.65407 14.8287 8.75305 14.7041 8.80237L14.3062 8.95987C13.8981 9.12141 13.8981 9.70107 14.3062 9.86261L14.7041 10.0201C14.8287 10.0694 14.9273 10.1684 14.9764 10.2935L15.1333 10.6928C15.2943 11.1024 15.8718 11.1024 16.0328 10.6928L16.1897 10.2935C16.2388 10.1684 16.3374 10.0694 16.462 10.0201L16.8599 9.86261C17.268 9.70107 17.268 9.12141 16.8599 8.95987L16.462 8.80237C16.3374 8.75305 16.2388 8.65407 16.1897 8.52902L16.0328 8.12967Z"
+                stroke="currentColor"
+              />
+              <path
+                d="M21.0672 11.8568L20.4253 11.469L21.0672 11.8568ZM12.1432 2.93276L11.7553 2.29085V2.29085L12.1432 2.93276ZM21.25 12C21.25 17.1086 17.1086 21.25 12 21.25V22.75C17.9371 22.75 22.75 17.9371 22.75 12H21.25ZM12 21.25C6.89137 21.25 2.75 17.1086 2.75 12H1.25C1.25 17.9371 6.06294 22.75 12 22.75V21.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75V1.25C6.06294 1.25 1.25 6.06294 1.25 12H2.75ZM15.5 14.25C12.3244 14.25 9.75 11.6756 9.75 8.5H8.25C8.25 12.5041 11.4959 15.75 15.5 15.75V14.25ZM20.4253 11.469C19.4172 13.1373 17.5882 14.25 15.5 14.25V15.75C18.1349 15.75 20.4407 14.3439 21.7092 12.2447L20.4253 11.469ZM9.75 8.5C9.75 6.41182 10.8627 4.5828 12.531 3.57467L11.7553 2.29085C9.65609 3.5593 8.25 5.86509 8.25 8.5H9.75ZM12 2.75C11.9115 2.75 11.8077 2.71008 11.7324 2.63168C11.6686 2.56527 11.6538 2.50244 11.6503 2.47703C11.6461 2.44587 11.6482 2.35557 11.7553 2.29085L12.531 3.57467C13.0342 3.27065 13.196 2.71398 13.1368 2.27627C13.0754 1.82126 12.7166 1.25 12 1.25V2.75ZM21.7092 12.2447C21.6444 12.3518 21.5541 12.3539 21.523 12.3497C21.4976 12.3462 21.4347 12.3314 21.3683 12.2676C21.2899 12.1923 21.25 12.0885 21.25 12H22.75C22.75 11.2834 22.1787 10.9246 21.7237 10.8632C21.286 10.804 20.7293 10.9658 20.4253 11.469L21.7092 12.2447Z"
+                fill="currentColor"
+              />
+            </svg>
+          </label>
+        </form>
+      </nav>
+    </header>
+
+    <div class="md-container" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          <div
+            class="md-sidebar md-sidebar--primary"
+            data-md-component="sidebar"
+            data-md-type="navigation"
+            style=""
+          >
+            <div class="md-sidebar__scrollwrap" style="">
+              <div class="md-sidebar__inner">
+                <nav
+                  class="md-nav md-nav--primary"
+                  aria-label="Navigation"
+                  data-md-level="0"
+                >
+                  <label class="md-nav__title" for="__drawer">
+                    <a
+                      href="/botapi"
+                      title="Rubika Bot Father"
+                      class="md-nav__button md-logo"
+                      aria-label="Rubika Bot Father"
+                      data-md-component="logo"
+                    >
+                      <img
+                        src="./Rubika Bot Father_files/logo.svg"
+                        alt="logo"
+                      />
+                    </a>
+                    بات روبیکا
+                  </label>
+
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item md-nav__item--active">
+                      <input
+                        class="md-nav__toggle md-toggle"
+                        data-md-toggle="toc"
+                        type="checkbox"
+                        id="__toc"
+                      />
+
+                      <label
+                        class="md-nav__link md-nav__link--active"
+                        for="__toc"
+                      >
+                        معرفی
+                        <span class="md-nav__icon md-icon"></span>
+                      </label>
+
+                      <a
+                        href="/botapi"
+                        class="md-nav__link md-nav__link--active">
+                        معرفی
+                      </a>
+
+                      <nav
+                        class="md-nav md-nav--secondary"
+                        aria-label="فهرست موضوعات"
+                      >
+                        <label class="md-nav__title" for="__toc">
+                          <span class="md-nav__icon md-icon"></span>
+                          فهرست موضوعات
+                        </label>
+                        <ul class="md-nav__list" data-md-component="toc">
+                          <li class="md-nav__item">
+                            <a href="#_1" class="md-nav__link">
+                              مراحل استفاده
+                            </a>
+                          </li>
+
+                          <li class="md-nav__item">
+                            <a href="#_2" class="md-nav__link"> توضیحات </a>
+
+                            <nav class="md-nav" aria-label="توضیحات">
+                              <ul class="md-nav__list">
+                                <li class="md-nav__item">
+                                  <a href="#receiveupdate" class="md-nav__link">
+                                    receiveUpdate
+                                  </a>
+                                </li>
+
+                                <li class="md-nav__item">
+                                  <a
+                                    href="#receiveinlinemessage"
+                                    class="md-nav__link"
+                                  >
+                                    receiveInlineMessage
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                          </li>
+                        </ul>
+                      </nav>
+                    </li>
+
+                    <li class="md-nav__item">
+                      <a href="/botapi/methods" class="md-nav__link">
+                        متد ها
+                      </a>
+                    </li>
+
+                    <li class="md-nav__item">
+                      <a href="/botapi/models" class="md-nav__link">
+                        مدل ها
+                      </a>
+                    </li>
+                    <li class="md-nav__item">
+                      <a href="/botapi/group-channel" class="md-nav__link">
+                        گروه ها و کانال ها
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="md-sidebar md-sidebar--secondary"
+            data-md-component="sidebar"
+            data-md-type="toc"
+            style="top: 60px"
+          >
+            <div class="md-sidebar__scrollwrap" style="height: 756px">
+              <div class="md-sidebar__inner">
+                <nav
+                  class="md-nav md-nav--secondary"
+                  aria-label="فهرست موضوعات"
+                >
+                  <label class="md-nav__title" for="__toc">
+                    <span class="md-nav__icon md-icon"></span>
+                    فهرست موضوعات
+                  </label>
+                  <ul class="md-nav__list" data-md-component="toc">
+                    <li class="md-nav__item">
+                      <a href="#_1" class="md-nav__link"> مراحل استفاده </a>
+                    </li>
+
+                    <li class="md-nav__item">
+                      <a href="#_2" class="md-nav__link"> توضیحات </a>
+
+                      <nav class="md-nav" aria-label="توضیحات">
+                        <ul class="md-nav__list">
+                          <li class="md-nav__item">
+                            <a href="#receiveupdate" class="md-nav__link">
+                              receiveUpdate
+                            </a>
+                          </li>
+
+                          <li class="md-nav__item">
+                            <a
+                              href="#receiveinlinemessage"
+                              class="md-nav__link"
+                            >
+                              receiveInlineMessage
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              <h1>معرفی</h1>
+
+              <p>
+         روبیکا مجموعه‌ای از APIها را در اختیار توسعه‌دهندگان قرار می‌دهد که با استفاده از آن‌ها می‌توان بات ایجاد و مدیریت کرد. برای استفاده از این APIها، مراحل زیر را دنبال کنید.
+              </p>
+              <h2 id="_1">
+                مراحل استفاده<a
+                  class="headerlink"
+                  href="#_1"
+                  title="Permanent link"
+                  >¶</a
+                >
+              </h2>
+              <ul>
+                <li>۱.
+با استفاده از BotFather به آدرس <a href="https://rubika.ir/BotFather">BotFather@</a> در روبیکا، یک بات ایجاد کنید.
+
+           
+                </li>
+                <li>۲.
+توکن دریافتی را ذخیره کرده و در مراحل بعدی از آن استفاده کنید.                </li>
+                <li>۳.
+                   
+با استفاده از توکن مرحله‌ی قبل و <a href="/botapi/methods">متد</a> مورد نظر، یک <code>URL</code> با قالب زیر ایجاد کرده و درخواست خود را با متد <code>POST</code> ارسال کنید.
+                </li>
+              </ul>
+              <div class="highlight">
+                <pre
+                  id="__code_1"
+                ><span></span><button class="md-clipboard md-icon" title="کپی کردن" data-clipboard-target="#__code_1 &gt; code"></button><code><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">botapi</span><span class="o">.</span><span class="n">rubika</span><span class="o">.</span><span class="n">ir</span><span class="o">/</span><span class="n">v3</span><span class="o">/</span><span class="p">{</span><span class="n">token</span><span class="p">}</span><span class="o">/</span><span class="p">{</span><span class="n">method</span><span class="p">}</span>
+</code></pre>
+              </div>
+              <h2 id="_2">
+                توضیحات<a class="headerlink" href="#_2" title="Permanent link"
+                  >¶</a
+                >
+              </h2>
+              <p>
+                پس از ساخت بات در BotFather، برای اینکه بات شما از اقدامات کاربران (ارسال پیام، کلیک روی دکمه‌ها و …) مطلع شود، دو روش اصلی وجود دارد:
+
+              </p>
+              <p>
+                <p>
+                  <div style="direction: rtl; display: flex; flex-direction: row;">
+                    <div>
+                 <b>روش ۱:</b>  فراخوانی متد <a href="/botapi/methods#_7">getUpdates</a>   
+                    </div>
+                   <div style="margin: 0 10px;">
+                      (Long Polling)  
+                   </div> 
+                  </div>
+                </p>
+
+                <div>
+                  در این روش، بات شما به‌صورت دوره‌ای از سرور روبیکا بررسی می‌کند که آیا رویداد یا پیام جدیدی دریافت شده است یا خیر.
+                </div>
+                <div>
+برای پیاده‌سازی، باید در بازه‌های زمانی مشخص (برای مثال هر ۵ ثانیه) و با استفاده از مقدار <code>start_id</code> که از فراخوانی قبلی دریافت کرده‌اید، متد <code><a href="/botapi/methods#_7">getUpdates</a></code> را صدا بزنید.</div>
+                <div>
+در این روش ممکن است از رویدادها با تأخیر مطلع شوید، زیرا تا زمانی که درخواست جدیدی ارسال نکنید، پیام‌ها دریافت نمی‌شوند و به همان میزان نیز پاسخ بات به کاربر با تأخیر همراه خواهد بود.                </div>
+              </p>
+              <p></p>
+              <p>
+                <p>
+                  <div style="direction: rtl; display: flex; flex-direction: row;">
+                    <div>
+                      <b>روش ۲:</b> دریافت اطلاعات از طریق تعریف  Endpoint
+                    </div>
+                   <div style="margin: 0 10px;">
+                      (Webhook)  
+                   </div> 
+                  </div>
+                </p>
+
+                <div>
+            در این روش، با تنظیم یک <code>Endpoint</code> روی سرور خود، به‌محض وقوع هر رویداد مرتبط با بات (مانند ارسال پیام یا کلیک روی دکمه)، روبیکا اطلاعات رویداد را به آدرسی که مشخص کرده‌اید ارسال می‌کند. 
+                </div>
+                <div>
+
+                  برای فعال‌سازی این روش، با استفاده از متدی مانند <code><a href="/botapi/methods#url-endpoint">updateBotEndpoint</a></code>، آدرس سرور خود را به پلتفرم معرفی می‌کنید. پس از تنظیم <code>Endpoint</code>، در هر رویداد، هر زمان کاربر پیامی ارسال کند، پلتفرم یک درخواست <code>POST</code> شامل اطلاعات رویداد را (بر اساس نوع آن) در قالب‌هایی مانند <code>Update</code>، <code>InlineMessage</code> و … به <code>Endpoint</code> شما ارسال خواهد کرد.
+
+  </div>
+         
+                <div>
+<p>
+  <b>توجه: </b>
+  <div>
+این روش نیازمند یک سرور با دامنه عمومی و پشتیبانی از <code>SSL (HTTPS)</code> است، زیرا پلتفرم تنها به آدرس‌های امن متصل می‌شود.                </div>
+<div>
+  در صورت بروز خطا یا عدم دریافت پاسخ معتبر از <code>Endpoint</code>، امکان توقف موقت ارسال رویدادها توسط پلتفرم وجود دارد.
+</div>  
+</p>
+              </p>
+                         <p><br /></p>
+
+              <div>
+                       <div>
+              برای انواع مختلف رویدادها، لازم است <code>Endpoint</code>های مجزایی تعریف شود که مهم‌ترین آن‌ها در ادامه معرفی شده‌اند.
+                </div>
+              </div>
+              <!-- <ul>
+                <li>
+                  <code>receiveUpdate</code>آدرس مشخص شده در این پارامتر،
+                  رویدادهای مربوط به receiveUpdate را ارسال می کند.
+                </li>
+                <li>
+                  <code>receiveInlineMessage</code>آدرس مشخص شده در این پارامتر،
+                  رویدادهای مربوط به receiveInlineMessage را ارسال می کند.
+                </li>
+              </ul> -->
+              <h3 id="receiveupdate">
+                <u>receiveUpdate</u
+                ><a
+                  class="headerlink"
+                  href="#receiveupdate"
+                  title="Permanent link"
+                  >¶</a
+                >
+              </h3>
+              <p>
+هر زمان کاربر پیامی ارسال کند یا دکمه‌های <code>ChatKeypad</code> (دکمه‌های پایین صفحه چت) را لمس کند، شما یک درخواست <code>POST</code> دریافت می‌کنید که بدنه آن شامل شیء <code><a href="/botapi/models#update">Update</a></code>  است.
+              </p>
+              <p>
+                <br />
+                <i>نمونه body :</i>
+              </p>
+                   <div class="highlight">
+                <pre
+                  id="__code_3"
+                ><span></span><button class="md-clipboard md-icon" title="کپی کردن" data-clipboard-target="#__code_3 &gt; code"></button><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">"update"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NewMessage"</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{chat_id}"</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">"new_message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"message_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{message_id}"</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"custom text"</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1643122902"</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"is_edited"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"sender_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"sender_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{sender_id}"</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="nt">"aux_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">"start_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">"button_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{button_id}"</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre>
+              </div>
+              <!-- <ul>
+                <li>
+                  <b>type : </b> می‌تواند <b> NewMessage </b>,
+                  <b> StartedBot </b>, <b>StoppedBot</b> و... باشد.
+                </li>
+                <li><b>text : </b>متن دکمه‌ای که ارسال شده.</li>
+                <li>
+                  <b>button_id : </b>شناسه‌ای است که شما برای دکمه مورد نظر
+                  تنظیم کرده‌اید.
+                </li>
+                <li>
+                  <b>message_id : </b>شناسه‌ای یکتا که به پیام تعلق می‌گیرد.
+                </li>
+                <li>
+                  <b>chat_id : </b>شناسه‌ای یکتا که به مکالمه‌ی بین کاربر و ربات
+                  تعلق می‌گیرد
+                  <b> (شما در ادامه باید از این شناسه استفاده کنید.) </b>
+                </li>
+              </ul> -->
+              <p><br /></p>
+              <h3 id="receiveinlinemessage">
+                <u>receiveInlineMessage</u
+                ><a
+                  class="headerlink"
+                  href="#receiveinlinemessage"
+                  title="Permanent link"
+                  >¶</a
+                >
+              </h3>
+              <p>
+         هرگاه کاربر روی <code>InlineKeypad</code> (دکمه‌های شیشه‌ای زیر پیام‌ها) کلیک کند، یک درخواست <code>POST</code> دریافت می‌کنید که بدنه‌ی آن شامل شیء <code>POST</code> دریافت می‌کنید که بدنه (body) آن شامل شیء  <code><a href="/botapi/models#inlinemessage">InlineMessage</a></code> است.
+
+              </p>
+              <p>
+                <br />
+                <i>نمونه body :</i>
+              </p>
+     
+              <div class="highlight">
+                <pre
+                  id="__code_2"
+                ><span></span><button class="md-clipboard md-icon" title="کپی کردن" data-clipboard-target="#__code_2 &gt; code"></button><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">"inline_message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"sender_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{sender_id}"</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"custom text"</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"aux_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">"start_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">"button_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{button_id}"</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"message_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{message_id}"</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">"chat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{chat_id}"</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre>
+              </div>
+              <!-- <ul>
+                <li>
+                  <b>sender_id : </b> شناسه‌ای یکتا که به کاربر تعلق می‌گیرد.
+                </li>
+                <li><b>text : </b>متن دکمه‌ای که ارسال شده.</li>
+                <li>
+                  <b>button_id : </b>شناسه‌ای که شما برای دکمه مورد نظر تنظیم
+                  کرده‌اید.
+                </li>
+                <li>
+                  <b>message_id : </b>شناسه‌ای یکتا که به پیام تعلق می‌گیرد.
+                </li>
+                <li>
+                  <b>chat_id : </b>شناسه‌ای یکتا که به مکالمه‌ی بین کاربر و ربات
+                  تعلق می‌گیرد
+                  <b> (شما در ادامه باید از این شناسه استفاده کنید.) </b>
+                </li>
+              </ul> -->
+
+              <p>
+                به‌طور کلی، انتخاب بین دو روش دریافت رویداد به شرایط زیر بستگی دارد:
+              </p>
+              <ul>
+                <li style="list-style: circle;"> 
+                  روش getUpdates
+                  <div>
+مناسب برای پروژه‌های ساده، محیط‌های توسعه یا زمانی که امکان راه‌اندازی سرور عمومی و <code>HTTPS</code> وجود ندارد. این روش پیاده‌سازی ساده‌تری دارد، اما به‌دلیل ماهیت دوره‌ای درخواست‌ها، دریافت رویدادها با تأخیر همراه است.
+                  </div>
+                </li>
+                <li style="list-style: circle;"> 
+                  روش تعریف Endpoint
+                  <div>
+                    مناسب برای پروژه‌های پایدار و در مقیاس <code>production</code>است. در این روش، رویدادها به‌صورت آنی و بدون تأخیر به سرور شما ارسال می‌شوند. استفاده از این روش مستلزم داشتن سرور با دامنه عمومی و پشتیبانی از <code>SSL</code> است.
+                  </div>
+                </li>
+              </ul>
+              <div>
+                در محیط‌های عملیاتی، استفاده از <code>Webhook</code> به‌دلیل کارایی بالاتر و دریافت بلافاصله رویدادها توصیه می‌شود.
+              </div>
+
+              <p>
+                زمانی که شما از طرف بات به شکل بالا <code>Request</code> را دریافت و پردازش
+                کردید، می‌توانید با استفاده از
+                <a href="/botapi/methods">این متد‌ها</a> به آن پاسخ
+                دهید.
+              </p>
+            </article>
+          </div>
+
+          <script>
+            var tabs = __md_get("__tabs");
+            if (Array.isArray(tabs))
+              e: for (var set of document.querySelectorAll(".tabbed-set")) {
+                var tab,
+                  labels = set.querySelector(".tabbed-labels");
+                for (tab of tabs)
+                  for (var label of labels.getElementsByTagName("label"))
+                    if (label.innerText.trim() === tab) {
+                      var input = document.getElementById(label.htmlFor);
+                      input.checked = !0;
+                      continue e;
+                    }
+              }
+          </script>
+        </div>
+      </main>
+
+      <footer class="md-footer">
+        <nav class="md-footer__inner md-grid" aria-label="Footer">
+          <a
+            href="/botapi/methods"
+            class="md-footer__link md-footer__link--next"
+            aria-label="بعدی: متد ها"
+            rel="next"
+          >
+            <div class="md-footer__title">
+              <div class="md-ellipsis">
+                <span class="md-footer__direction"> بعدی </span>
+                متد ها
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"
+                ></path>
+              </svg>
+            </div>
+          </a>
+        </nav>
+      </footer>
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+    <script id="__config" type="application/json">
+      {
+        "base": ".",
+        "features": ["search.suggest", "search.highlight", "content.tabs.link"],
+        "search": "assets/javascripts/workers/search.5bf1dace.min.js",
+        "translations": {
+          "clipboard.copied": "\u06a9\u067e\u06cc \u0634\u062f",
+          "clipboard.copy": "\u06a9\u067e\u06cc \u06a9\u0631\u062f\u0646",
+          "search.config.lang": "en",
+          "search.config.pipeline": " ",
+          "search.config.separator": "[\\s\\-]+",
+          "search.placeholder": "\u062c\u0633\u062a\u062c\u0648",
+          "search.result.more.one": "1 more on this page",
+          "search.result.more.other": "# more on this page",
+          "search.result.none": "\u0633\u0646\u062f\u06cc \u06cc\u0627\u0641\u062a \u0646\u0634\u062f",
+          "search.result.one": "1 \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f",
+          "search.result.other": "# \u0633\u0646\u062f \u06cc\u0627\u0641\u062a \u0634\u062f",
+          "search.result.placeholder": "\u0628\u0631\u0627\u06cc \u0634\u0631\u0648\u0639 \u062c\u0633\u062a\u062c\u0648 \u062a\u0627\u06cc\u067e \u06a9\u0646\u06cc\u062f",
+          "search.result.term.missing": "Missing",
+          "select.version.title": "Select version"
+        }
+      }
+    </script>
+
+    <script src="/static/bot_api/bundle.37e9125f.min.js" ></script>
+
+    <script src="/static/bot_api/termynal.js" ></script>
+    <script src="/static/bot_api/custom.js" ></script>
+  </body>
+</html>

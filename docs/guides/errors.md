@@ -57,6 +57,25 @@ bot = Bot(token="...", max_retries=3)     # 3 attempts total
 
 Set `max_retries=0` to fail fast in tests.
 
+## Circuit breaker
+
+Each data-centre endpoint has its own breaker. After 5 consecutive
+failures it opens, and requests stop being sent to that endpoint
+for 30 seconds. After the timeout it half-opens and one request is
+allowed through as a probe; success closes it, failure reopens it.
+
+This stops a dead endpoint from consuming the retry budget of every
+request:
+
+```python
+client.connection.breaker_for("https://api.example")
+breaker.threshold = 10        # be more tolerant
+breaker.reset_timeout = 60.0  # wait longer before probing
+```
+
+If every endpoint is open, the request fails immediately with a log
+line instead of timing out.
+
 ## Retry policy
 
 For anything more than a count, pass a :class:`Retry` policy. It

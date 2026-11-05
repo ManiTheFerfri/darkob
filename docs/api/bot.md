@@ -237,6 +237,10 @@ Parameters:
             Passing an empty list ([]) or None removes the inline keypad
             from the message.
 
+The documented endpoint is ``editInlineKeypad`` (the reference
+page's prose heading says ``editMessageKeypad``, but every code
+sample for that section posts to ``editInlineKeypad``).
+
 Returns:
     dict: API response with message information.
 

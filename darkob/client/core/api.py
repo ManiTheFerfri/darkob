@@ -11,6 +11,7 @@ import darkob
 from ...types import Event
 from ..exceptions import (NetworkError, StopHandler, ServerError)
 from .configs import PLATFORMS
+from ...circuit import CircuitBreaker
 
 
 class _RateLimited(Exception):
@@ -74,6 +75,10 @@ class Api:
         # Pooled sessions for file servers; a new ClientSession per
         # transfer meant a fresh TLS handshake for every file.
         self._aux_sessions: Dict[str, aiohttp.ClientSession] = {}
+
+        # One breaker per endpoint, so a dead data centre stops being
+        # retried by every subsequent request.
+        self._breakers: Dict[str, CircuitBreaker] = {}
 
     @staticmethod
     def _normalize_url(url: Optional[str]) -> Optional[str]:
@@ -205,6 +210,14 @@ class Api:
 
         return candidates
 
+    def breaker_for(self, endpoint: str) -> CircuitBreaker:
+        """Return (creating if needed) the breaker for an endpoint."""
+        breaker = self._breakers.get(endpoint)
+        if breaker is None:
+            breaker = CircuitBreaker()
+            self._breakers[endpoint] = breaker
+        return breaker
+
     def _promote_endpoint(self, candidate: str) -> None:
         """Remember which endpoint just answered so we start there next time."""
         code = self._api_code_by_url.get(candidate)
@@ -226,6 +239,16 @@ class Api:
         if not candidates:
             self.logger.error("No API endpoints known; cannot send request.")
             return None
+
+        # Skip endpoints whose circuit is open.
+        healthy = [c for c in candidates if self.breaker_for(c).allows_request()]
+        if not healthy:
+            self.logger.error(
+                "All %d endpoints are circuit-open; skipping request.",
+                len(candidates),
+            )
+            return None
+        candidates = healthy
 
         # `max_retries` is a budget for this request, NOT per endpoint.
         # The previous implementation nested `for endpoint: for attempt:`,
@@ -268,16 +291,19 @@ class Api:
                         raise _RateLimited()
 
                     self._promote_endpoint(candidate)
+                    self.breaker_for(candidate).record_success()
                     return payload
 
             except _RateLimited:
                 last_error = "rate limited by the server"
+                self.breaker_for(candidate).record_failure()
                 if policy is not None:
                     delay = policy.delay(attempts + 1, rate_limited=True)
                 else:
                     delay = self._RATE_LIMIT_BACKOFF * (2 ** min(attempts, 4))
             except Exception as exc:
                 last_error = exc
+                self.breaker_for(candidate).record_failure()
 
             attempts += 1
             if attempts < attempts_budget:

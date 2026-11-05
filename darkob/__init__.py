@@ -39,6 +39,7 @@ from .fsm import (
 from .keyboards import Button, ChatKeyboard, InlineKeyboard, Keyboard
 from .builders import MessageBuilder
 from .retry import Retry
+from .circuit import CircuitBreaker
 from .formatting import (
     bold,
     code,
@@ -53,7 +54,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +84,7 @@ __all__ = [
     "Button",
     "MessageBuilder",
     "Retry",
+    "CircuitBreaker",
     "bold",
     "italic",
     "strike",
