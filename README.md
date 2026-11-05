@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/darkob-logo.png" alt="darkob" width="120"/>
+  <img src="https://raw.githubusercontent.com/ManiTheFerfri/darkob/main/assets/darkob-logo.png" alt="darkob" width="140"/>
 </p>
 
 <h1 align="center">darkob</h1>
