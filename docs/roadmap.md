@@ -24,8 +24,8 @@ Shipped in 0.1–0.2:
 - Session stability: credentials are restored from a saved session,
   sessions live outside the working directory, and an unreadable session
   file is quarantined instead of deleted.
-- `darkob` CLI: `login`, `sessions`, `new`, `run`, `doctor`.
-- 300+ tests, CI on 3.9–3.14 + Windows, generated API docs.
+- `get_me` cached on both surfaces (`refresh=True` to bypass).
+- 290 tests, CI on 3.9–3.14 + Windows, generated API docs.
 
 ## P0 — next
 
@@ -54,13 +54,15 @@ Shipped in 0.1–0.2:
 
 ### Faster
 
-| Change | Expected effect |
-| --- | --- |
-| Cache `get_me` on the client | Removes a round-trip from most bots' startup. |
-| Lazy `rich` import | `rich` is imported even for headless bots; cut import time. |
-| `orjson` when installed | 2–5× faster JSON on large payloads, stdlib fallback. |
-| Reuse one `Event` per update | One dict copy per event, not one per handler. |
-| Compile filter regexes eagerly | `Text`/`TextMatch` compile on first use inside the hot path. |
+Measured, not assumed:
+
+| Item | Result | Status |
+| --- | --- | --- |
+| Cache `get_me` | Removes a round-trip from every startup and profile read | **shipped** |
+| Lazy `rich` import | Measured: `rich` costs ~8 ms of a 603 ms import. Not worth the churn | **rejected** |
+| Eager filter regexes | Already eager — `Text`/`TextMatch` compile in `__init__` | **already done** |
+| `orjson` when installed | Unmeasured; needs a payload benchmark first | planned |
+| Import time | 603 ms total, of which `aiohttp` is 340 ms; `darkob` adds ~260 ms | investigate |
 
 ## P1 — planned
 

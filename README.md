@@ -1,32 +1,38 @@
 <p align="center">
-  <img src="assets/darkob-logo.png" alt="darkob" width="180"/>
+  <img src="assets/darkob-logo.png" alt="darkob" width="120"/>
 </p>
 
 <h1 align="center">darkob</h1>
 
 <p align="center">
-  <strong>Fast, stable async Python for the Rubika &amp; Shad platforms.</strong><br/>
-  Build bots and userbots that stay up, without the boilerplate.
+  <b>Fast, stable async Python for the Rubika & Shad platforms.</b><br/>
+  Build bots and userbots that stay up.
 </p>
 
 <p align="center">
-  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/v/darkob?color=blue" alt="PyPI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT"></a>
-  <img src="https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue.svg" alt="Python 3.9-3.14">
-  <img src="https://img.shields.io/badge/tests-121%20passing-brightgreen.svg" alt="Tests">
+  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/v/darkob?color=4f46e5&label=pypi" alt="PyPI"></a>
+  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/dm/darkob?color=4f46e5" alt="Downloads"></a>
+  <a href="https://pypi.org/project/darkob/"><img src="https://img.shields.io/pypi/pyversions/darkob?color=4f46e5" alt="Python"></a>
+  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ManiTheFerfri/darkob/ci.yml?branch=main&label=CI" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/ManiTheFerfri/darkob?color=4f46e5" alt="License"></a>
+  <a href="https://github.com/ManiTheFerfri/darkob/stargazers"><img src="https://img.shields.io/github/stars/ManiTheFerfri/darkob?style=flat&color=4f46e5" alt="Stars"></a>
+</p>
+
+<p align="center">
+  <a href="https://manitheferfri.github.io/darkob/"><b>Documentation</b></a> ·
+  <a href="https://manitheferfri.github.io/darkob/llms-full.txt">AI context</a> ·
+  <a href="https://pypi.org/project/darkob/">PyPI</a> ·
+  <a href="https://github.com/ManiTheFerfri/darkob/issues">Issues</a>
 </p>
 
 ---
 
-**darkob** (دارکوب, *woodpecker*) is a fork of
-[maxrubika](https://github.com/MEH2RAB/maxrubika) by
-[MEHRAB Farahmand](https://github.com/MEH2RAB), rebuilt around
-foundations you can trust. Same protocol, same power, far less
-guesswork when something goes wrong.
+```bash
+pip install darkob
+```
 
 ```python
-from darkob import Bot
+from darkob import Bot, Keyboard
 
 bot = Bot(token="YOUR_BOT_TOKEN")
 
@@ -34,210 +40,139 @@ bot = Bot(token="YOUR_BOT_TOKEN")
 async def start(bot, event):
     await event.reply("Welcome 👋")
 
+@bot.on_new_message()
+async def echo(bot, event):
+    await event.reply(event.text, inline_keypad=Keyboard().row("Yes", "No"))
+
 bot.run()
 ```
 
 ---
 
-## ✨ Why darkob
+## Why darkob
 
-The upstream library is feature-complete, but its foundations were never
-hardened. Speed and new features are only worth having on a base that
-does not quietly fail, so darkob starts there.
+A fork of [maxrubika](https://github.com/MEH2RAB/maxrubika), rebuilt so
+failures are visible and the fast paths are actually fast.
 
-| Inherited problem | What darkob does instead |
+| Inherited problem | What darkob does |
 | --- | --- |
-| Contacted PyPI at startup (`urlopen` inside the package init) | Importing darkob performs **no network I/O**. The update check is opt-in via `darkob.check_for_updates()`. |
-| TLS verification disabled on every connector | Verification is **on by default**; opt out explicitly with `verify_ssl=False`. |
-| Bare `except:` swallowed `KeyboardInterrupt` and `SystemExit` | Narrowed to `except Exception:`; session-loading failures are logged rather than silently returning `None`. |
-| `Data` used without being imported in the request path | Fixed — that branch would have raised `NameError` at runtime. |
-| Every update scanned **all** handlers, rebuilt the update name per handler, and spawned an OS thread per synchronous handler | **Indexed dispatch**: handlers grouped by update name once; blocking handlers run in the loop's bounded executor. |
-| Retries were `endpoints × max_retries` — 3 endpoints meant 9 attempts with exponential backoff | **Bounded budget** per request, endpoint rotation, jitter, and explicit `429` / `TOO_REQUESTS` backoff. |
-| A fresh `ClientSession` (and TLS handshake) per file download | **Pooled sessions** per file server, reused across downloads. |
-| No tests, no CI, no `pyproject.toml` | 121 tests, GitHub Actions across 3.9–3.14 plus Windows, modern packaging. |
+| Contacted PyPI at import time | Importing performs **no network I/O** |
+| TLS verification disabled everywhere | Verification **on by default**, opt out explicitly |
+| Bare `except:` swallowed `KeyboardInterrupt` | Narrowed to `Exception` and logged |
+| Background handler crashes vanished at GC | Logged the moment they happen |
+| Every event scanned all handlers | **Indexed dispatch**, built once |
+| Retries were `endpoints × max_retries` | **Bounded budget** with jitter and `429` handling |
+| A new TLS handshake per file download | **Pooled sessions** per host |
+| Saved sessions were opened but never read back | Credentials **restored**; sessions survive restarts |
+| A corrupt session file was deleted | **Quarantined**, never destroyed |
 
-## 🚀 Install
+## What's inside
 
-```bash
-pip install darkob
-```
+<table>
+<tr><td width="50%" valign="top">
 
-Latest development version:
+**Two surfaces, one library**
 
-```bash
-pip install git+https://github.com/ManiTheFerfri/darkob.git
-```
+`Bot` for the official Bot API. `Messenger` for real user accounts —
+channels, groups, voice chats, settings. `Shad` is the same protocol
+against Shad's hosts.
 
-## 📦 What's inside
+</td><td width="50%" valign="top">
 
-- **Two surfaces, one library.** `Bot` talks to the official Bot API;
-  `Messenger` drives a real user account, including channels, groups,
-  voice chats and stickers. `Shad` is the same Messenger protocol against
-  the Shad platform.
-- **Async first, sync friendly.** Every method works with `await` or
-  without it — darkob runs one background loop and hops onto it for you.
-- **Decorator handlers.** `on_message`, `on_command`, `on_callback`,
-  `on_edit_message`, and friends, with a composable filter system
-  (`&`, `|`, `~`).
-- **Routers.** Split a bot into feature modules and include them in one line.
-- **Finite state machines.** Multi-step conversations with pluggable
-  storage that can survive a restart.
-- **Polling or webhook.** `bot.run()` polls; `bot.run(webhook_url=...)`
-  serves a webhook instead.
+**Async first, sync friendly**
 
-## 🔀 Routers
+Every method works with `await` or without it. One background loop, no
+per-call threads.
 
-Handlers can live in their own modules and be registered from one place:
+</td></tr>
+<tr><td valign="top">
 
-```python
-from darkob import Bot, Router
+**Composable handlers**
 
-bot = Bot(token="YOUR_BOT_TOKEN")
-admin = Router("admin")
+Decorators, 42 filters with `&`, `|`, `~`, middleware, routers, and a
+global `on_error` handler.
 
-@admin.command("ban")
-async def ban(bot, event):
-    await bot.ban_member(event.chat_id, event.author_id)
-    await event.reply("Banned.")
+</td><td valign="top">
 
-bot.include_router(admin)
-bot.run()
-```
+**Conversations that survive restarts**
 
-Routers nest, so a larger bot can keep one root router per feature area.
+`FSMContext` with memory or JSON storage, and `StateFilter` to route by
+step.
 
-## 🧠 Conversations (FSM)
+</td></tr>
+<tr><td valign="top">
 
-Track which step a user is on and remember what they told you:
+**Shortcuts that save lines**
 
-```python
-from darkob import Bot, FSMContext, JsonFileStorage, StateFilter
+`event.reply(...)`, `bot.reply(event, text)`, `bot.edit(event, text)`,
+`bot.iter_updates()`.
 
-bot = Bot(token="YOUR_BOT_TOKEN")
-storage = JsonFileStorage("fsm.json")   # survives restarts
+</td><td valign="top">
 
-@bot.on_command("order")
-async def order(bot, event):
-    ctx = FSMContext(storage, key=event.chat_id)
-    await ctx.set_state("address")
-    await event.reply("What is your delivery address?")
+**Keyboards and formatting**
 
-@bot.on_new_message(StateFilter(storage, "address"))
-async def address(bot, event):
-    ctx = FSMContext(storage, key=event.chat_id)
-    await ctx.update_data(address=event.text)
-    await ctx.clear()
-    await event.reply("Order received ✅")
-```
+`Keyboard().row("Yes", "No")` instead of nested dicts. `bold()`,
+`italic()`, `link()`, `spoiler()` and friends.
 
-Swap `JsonFileStorage` for `MemoryStorage` in tests, or implement the
-`Storage` interface to back it with Redis or SQL.
+</td></tr>
+</table>
 
-## 👤 Userbots
+## Documentation
 
-```python
-from darkob import Messenger
+Full site: **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/darkob/)**
 
-app = Messenger(auth="...", private_key="...")
-```
-
-Authentication, session strings, platforms (`web`, `pwa`, `android`,
-`rubx`, `rubino`, …) and the full method surface are covered in the
-documentation.
-
-## 📚 Documentation
-
-The full site lives at **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/darkob/)**.
-
-| Area | Start here |
+| | |
 | --- | --- |
-| Install and run in 5 minutes | [Quickstart](docs/get-started/quickstart.md) |
-| Handlers and decorators | [Handlers](docs/guides/handlers.md) |
-| Filters | [Filters](docs/guides/filters.md) |
-| Routers | [Routers](docs/guides/routers.md) |
-| Conversations | [FSM](docs/guides/fsm.md) |
-| Errors and retries | [Errors](docs/guides/errors.md) |
-| Bot API reference | [api/bot.md](docs/api/bot.md) |
-| Messenger API reference | [api/messenger.md](docs/api/messenger.md) |
+| [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart/) | Install to running bot in five minutes |
+| [Handlers](https://manitheferfri.github.io/darkob/guides/handlers/) | Every decorator and what triggers it |
+| [Filters](https://manitheferfri.github.io/darkob/guides/filters/) | All 42 constraints and how to compose them |
+| [Routers](https://manitheferfri.github.io/darkob/guides/routers/) | Split a bot into modules |
+| [Conversations](https://manitheferfri.github.io/darkob/guides/fsm/) | Multi-step flows |
+| [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards/) | Keypads and text formatting |
+| [Errors](https://manitheferfri.github.io/darkob/guides/errors/) | Exception hierarchy and retries |
+| [Bot API](https://manitheferfri.github.io/darkob/api/bot/) · [Messenger API](https://manitheferfri.github.io/darkob/api/messenger/) | Generated from the package |
+| [Roadmap](https://manitheferfri.github.io/darkob/roadmap/) | What ships next, and what will not |
 
-### Built for AI-assisted development
+## Built for AI-assisted development
 
-Most darkob bots are written by an AI assistant, so the docs are designed
-to be read by a model:
+Most darkob bots are written by an assistant, so the docs are built to be
+read by a model.
 
-- [llms.txt](docs/llms.txt) — curated map in the [llms.txt](https://llmstxt.org/) format
-- [llms-full.txt](docs/llms-full.txt) — the entire documentation in one file
-- [pi.json](docs/api.json) — every public method as structured JSON
-- Every page is also served as raw Markdown: append .md to any URL
-- The API reference is **generated from the installed package**, so it cannot drift
-
-See the [AI workflow](docs/ai/index.md) and [prompt pack](docs/ai/prompt-pack.md).
-
-Every public method also ships a full docstring:
-
-```python
-from darkob import Bot
-import inspect
-
-for name in dir(Bot):
-    if not name.startswith("_"):
-        print(f"{name}: {inspect.getdoc(getattr(Bot, name))}\n")
+```text
+https://manitheferfri.github.io/darkob/llms-full.txt
 ```
 
-## 🗂 Project layout
+That single file is the whole thing: hard rules, every guide, and the full
+API with complete docstrings for all 688 methods — **318 KB**, one fetch,
+no follow-up links.
 
-```
-darkob/
-├── bot/          # Bot API surface: endpoint mixins, filters, registry, plugins
-├── client/       # Messenger API: chats, groups, channels, messages, settings
-├── types/        # Event and update models
-├── router.py     # Composable routers
-├── fsm.py        # Conversation state + pluggable storage
-├── hybrid.py     # Sync/async bridge
-└── data.py       # Attribute/item-accessible response wrapper
-```
+- [`llms.txt`](https://manitheferfri.github.io/darkob/llms.txt) — curated map
+- [`api.json`](https://manitheferfri.github.io/darkob/api.json) — every method as JSON
+- Every page is also served as raw Markdown: append `.md` to any URL
+- The API reference is generated from the installed package, so it cannot
+  drift from the code
 
-## 🛠 Development
+## Development
 
 ```bash
 git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
 
-pytest                    # 121 tests, no network required
-ruff check .              # lint
-pytest --cov=darkob       # coverage
+pytest --cov=darkob    # 290 tests, no network required
+ruff check .           # lint
 ```
 
 The suite never opens a socket: HTTP goes through fake transports, and a
 subprocess test asserts that importing `darkob` cannot reach the network.
 
-## 🗺 Roadmap
+## License
 
-The full, evidence-based roadmap lives in **[docs/roadmap.md](docs/roadmap.md)**.
-It covers the ecosystem data, three strategic bets, four horizons, explicit
-non-goals, success metrics and risks.
-
-Shipped so far:
-
-- [x] Foundation: packaging, TLS, logging, test suite, CI
-- [x] Performance: indexed dispatch, bounded retries, pooled sessions
-- [x] Routers, FSM with pluggable storage
-- [x] AI-first docs: llms.txt, api.json, generated API reference
-- [ ] MCP server, typed public API, pagination, Redis storage, CLI
-
-## 🤝 Contributing
-
-Issues and pull requests are welcome. Please run `pytest` and
-`ruff check .` before opening a PR; CI runs both on every push.
-
-## 📄 License & credits
-
-MIT. darkob is derived from
-[maxrubika](https://github.com/MEH2RAB/maxrubika), copyright
-MEHRAB Farahmand, and keeps the original MIT notice. See [LICENSE](LICENSE).
+MIT. Derived from [maxrubika](https://github.com/MEH2RAB/maxrubika),
+copyright MEHRAB Farahmand; the original MIT notice is preserved in
+[LICENSE](LICENSE).
 
 Maintained by [Mani Keikhosravi](https://github.com/ManiTheFerfri).
 
-> Not affiliated with Rubika or Shad. Use responsibly and in line with
-> the platforms' terms of service.
+> Not affiliated with Rubika or Shad. Use responsibly and in line with the
+> platforms' terms of service.

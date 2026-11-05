@@ -202,6 +202,8 @@ class Client(Methods):
         self.decode_auth = None
         self.import_key = None
         self.guid = restored_guid
+        self._me_cache = None
+        self._me_cached_at = 0.0
         self.key = None
         self.handlers = {}
         self.max_retries = max_retries

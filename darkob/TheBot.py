@@ -72,6 +72,7 @@ class Bot(Session, Updates, Methods):
         self.timeout = float(timeout)
         self.max_retries = int(max_retries)
         self.verify_ssl = bool(verify_ssl)
+        self._me_cache = None
         self.base_url = f"{base_url.rstrip('/')}/{token}"
         self.run_all_handlers = bool(run_all_handlers)
 

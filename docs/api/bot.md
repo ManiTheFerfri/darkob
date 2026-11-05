@@ -321,13 +321,20 @@ Parameters:
 ### get_me
 
 ```python
-get_me(self: 'darkob.Bot')
+get_me(self: 'darkob.Bot', refresh: bool=False)
 ```
 
 Get information about the authenticated bot.
 
+The result is cached for the lifetime of the bot, because a bot's
+identity does not change. Pass ``refresh=True`` to force a new
+request.
+
+Parameters:
+    refresh (bool): Ignore the cache and re-fetch. Defaults to False.
+
 Returns:
-    dict: Information about the authenticated bot.
+    Information about the authenticated bot.
 
 ### get_token_string
 

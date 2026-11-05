@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.3.0 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.4.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -1343,12 +1343,19 @@ Requests the file associated with the specified file ID.
 Parameters:
     file_id (str): The identifier of the file to retrieve. This should be a valid file ID within the system.
 
-### `get_me(self: 'darkob.Bot')`
+### `get_me(self: 'darkob.Bot', refresh: bool=False)`
 
 Get information about the authenticated bot.
 
+The result is cached for the lifetime of the bot, because a bot's
+identity does not change. Pass ``refresh=True`` to force a new
+request.
+
+Parameters:
+    refresh (bool): Ignore the cache and re-fetch. Defaults to False.
+
 Returns:
-    dict: Information about the authenticated bot.
+    Information about the authenticated bot.
 
 ### `get_token_string(self: 'darkob.Bot', password: Optional[str]=None)`
 
@@ -3424,9 +3431,17 @@ Parameters:
 Returns:
     Map view data.
 
-### `get_me(self: 'darkob.Client')`
+### `get_me(self: 'darkob.Client', refresh: bool=False, ttl: float=300.0)`
 
 Get information about the authenticated user.
+
+The result is cached for ``ttl`` seconds (default 5 minutes),
+because profile reads are frequent and rarely change. Pass
+``refresh=True`` to force a new request.
+
+Parameters:
+    refresh (bool): Ignore the cache. Defaults to False.
+    ttl (float): Cache lifetime in seconds. Defaults to 300.
 
 Returns:
     Information about the authenticated user.
@@ -7185,9 +7200,17 @@ Parameters:
 Returns:
     Map view data.
 
-### `get_me(self: 'darkob.Client')`
+### `get_me(self: 'darkob.Client', refresh: bool=False, ttl: float=300.0)`
 
 Get information about the authenticated user.
+
+The result is cached for ``ttl`` seconds (default 5 minutes),
+because profile reads are frequent and rarely change. Pass
+``refresh=True`` to force a new request.
+
+Parameters:
+    refresh (bool): Ignore the cache. Defaults to False.
+    ttl (float): Cache lifetime in seconds. Defaults to 300.
 
 Returns:
     Information about the authenticated user.

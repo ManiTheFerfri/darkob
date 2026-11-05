@@ -3303,10 +3303,18 @@ Returns:
 ### get_me
 
 ```python
-get_me(self: 'darkob.Client')
+get_me(self: 'darkob.Client', refresh: bool=False, ttl: float=300.0)
 ```
 
 Get information about the authenticated user.
+
+The result is cached for ``ttl`` seconds (default 5 minutes),
+because profile reads are frequent and rarely change. Pass
+``refresh=True`` to force a new request.
+
+Parameters:
+    refresh (bool): Ignore the cache. Defaults to False.
+    ttl (float): Cache lifetime in seconds. Defaults to 300.
 
 Returns:
     Information about the authenticated user.

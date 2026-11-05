@@ -1,6 +1,6 @@
 {
   "package": "darkob",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
@@ -114,10 +114,10 @@
         },
         {
           "name": "get_me",
-          "signature": "get_me(self: 'darkob.Bot')",
+          "signature": "get_me(self: 'darkob.Bot', refresh: bool=False)",
           "group": "bot",
           "module": "darkob.bot.get_me",
-          "doc": "Get information about the authenticated bot.\n\nReturns:\n    dict: Information about the authenticated bot."
+          "doc": "Get information about the authenticated bot.\n\nThe result is cached for the lifetime of the bot, because a bot's\nidentity does not change. Pass ``refresh=True`` to force a new\nrequest.\n\nParameters:\n    refresh (bool): Ignore the cache and re-fetch. Defaults to False.\n\nReturns:\n    Information about the authenticated bot."
         },
         {
           "name": "get_token_string",
@@ -1282,10 +1282,10 @@
         },
         {
           "name": "get_me",
-          "signature": "get_me(self: 'darkob.Client')",
+          "signature": "get_me(self: 'darkob.Client', refresh: bool=False, ttl: float=300.0)",
           "group": "users",
           "module": "darkob.client.users.get_me",
-          "doc": "Get information about the authenticated user.\n\nReturns:\n    Information about the authenticated user."
+          "doc": "Get information about the authenticated user.\n\nThe result is cached for ``ttl`` seconds (default 5 minutes),\nbecause profile reads are frequent and rarely change. Pass\n``refresh=True`` to force a new request.\n\nParameters:\n    refresh (bool): Ignore the cache. Defaults to False.\n    ttl (float): Cache lifetime in seconds. Defaults to 300.\n\nReturns:\n    Information about the authenticated user."
         },
         {
           "name": "get_message_info",
@@ -3549,10 +3549,10 @@
         },
         {
           "name": "get_me",
-          "signature": "get_me(self: 'darkob.Client')",
+          "signature": "get_me(self: 'darkob.Client', refresh: bool=False, ttl: float=300.0)",
           "group": "users",
           "module": "darkob.client.users.get_me",
-          "doc": "Get information about the authenticated user.\n\nReturns:\n    Information about the authenticated user."
+          "doc": "Get information about the authenticated user.\n\nThe result is cached for ``ttl`` seconds (default 5 minutes),\nbecause profile reads are frequent and rarely change. Pass\n``refresh=True`` to force a new request.\n\nParameters:\n    refresh (bool): Ignore the cache. Defaults to False.\n    ttl (float): Cache lifetime in seconds. Defaults to 300.\n\nReturns:\n    Information about the authenticated user."
         },
         {
           "name": "get_message_info",
