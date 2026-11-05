@@ -104,6 +104,58 @@ bold(f"{italic('nested')} works")
 `link()` raises `ValueError` on an empty URL rather than sending a
 malformed message.
 
+## Button types
+
+The Bot API documents 19 button types. Every one has a builder, and the
+fields each builder sends are the ones the reference lists — nothing is
+invented.
+
+```python
+from darkob import Button, Keyboard
+
+keypad = (
+    Keyboard()
+    .row(Button.simple("Plain"), Button.link("Docs", "https://rubika.ir"))
+    .row(Button.selection("Pick", title="Choose", items=[{"text": "A"}]))
+    .row(Button.calendar("Date", min_year=2024, max_year=2030))
+)
+```
+
+| Builder | `type` sent | Notes |
+| --- | --- | --- |
+| `Button.simple(text)` | `Simple` | |
+| `Button.link(text, url)` | `Link` | |
+| `Button.selection(text, title=, items=, columns_count=, is_multi_selection=)` | `Selection` | |
+| `Button.calendar(text, title=, min_year=, max_year=)` | `Calendar` | Persian/Gregorian field is not named in the reference |
+| `Button.number_picker(text, title=, min_value=, max_value=)` | `NumberPicker` | |
+| `Button.string_picker(text, title=, items=)` | `StringPicker` | |
+| `Button.location(text, image_url=)` | `Location` | |
+| `Button.text_box(text)` | `Textbox` | |
+| `Button.ask_my_phone(text)` / `Button.ask_my_location(text)` | `AskMyPhoneNumber` / `AskMyLocation` | |
+| `Button.barcode(text)` | `Barcode` | |
+| `Button.payment(text, **fields)` | `Payment` | **Requires** extra fields; a bare one is rejected by the API |
+| `Button.of("CameraImage", text)` | any | Escape hatch for the remaining types |
+
+Verified against the live API: all 19 types are accepted, except a bare
+`Payment` button, which returns `INVALID_INPUT`. `Button.payment` therefore
+raises `ValueError` if you do not pass the fields it needs.
+
+## Enums
+
+The documented enums live in `darkob.bot.models`, and the common ones are
+also exported from the package root:
+
+```python
+from darkob import ButtonType, ChatType, FileType
+from darkob.bot.models import ChatKeypadType, PollStatus, EventType
+
+FileType.Voice          # "Voice"
+ButtonType.Selection    # "Selection"
+```
+
+They subclass `str`, so they serialise to the exact wire value and compare
+equal to plain strings.
+
 ## Putting them together
 
 ```python

@@ -38,6 +38,7 @@ from .fsm import (
 
 from .keyboards import Button, ChatKeyboard, InlineKeyboard, Keyboard
 from .builders import MessageBuilder
+from .bot.models import ButtonType, ChatType, FileType
 from .retry import Retry
 from .circuit import CircuitBreaker
 from .formatting import (
@@ -54,7 +55,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.8.1"
+__version__ = "0.9.0"
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +84,9 @@ __all__ = [
     "ChatKeyboard",
     "Button",
     "MessageBuilder",
+    "ButtonType",
+    "ChatType",
+    "FileType",
     "Retry",
     "CircuitBreaker",
     "bold",
