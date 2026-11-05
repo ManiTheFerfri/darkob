@@ -34,6 +34,9 @@ having on a base you can trust.
 | Bare `except:` blocks swallowed `KeyboardInterrupt` and `SystemExit` | Narrowed to `except Exception:`; session-loading failures are now logged. |
 | A stray `f` prefix made a regex docstring emit `SyntaxWarning` | Fixed; the test suite treats `SyntaxWarning` as an error. |
 | No tests, no CI, no `pyproject.toml` | Test suite, GitHub Actions matrix (3.9–3.14), and modern packaging. |
+| Every update scanned **all** handlers, rebuilt the update name per handler, instantiated handler classes per event, and spawned an OS thread per synchronous handler | **Indexed dispatch**: handlers are grouped by update name once and reused; blocking handlers run in the loop's bounded executor. |
+| Retries were `endpoints × max_retries`, so 3 endpoints meant 9 attempts with exponential backoff | **Bounded budget**: one attempt budget per request, endpoint rotation, jitter, and explicit `429` / `TOO_REQUESTS` backoff. |
+| A fresh `ClientSession` (and TLS handshake) for every file download | **Pooled sessions** per file server, reused across downloads and closed with the client. |
 
 ## ✨ Features
 

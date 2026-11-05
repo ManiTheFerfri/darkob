@@ -1,13 +1,21 @@
-import threading
 import asyncio
 import inspect
-from typing import Dict, Optional, List
-import aiohttp
 import logging
+import random
+from contextlib import asynccontextmanager
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+
+import aiohttp
+
 import darkob
 from ...types import Event
 from ..exceptions import (NetworkError, StopHandler, ServerError)
 from .configs import PLATFORMS
+
+
+class _RateLimited(Exception):
+    """Internal signal: the endpoint asked us to slow down."""
+
 
 def capitalize(text: str) -> str:
     return "".join(word.title() for word in text.split("_"))
@@ -56,6 +64,17 @@ class Api:
         self.api_priority: List[str] = []
         self._api_code_by_url: Dict[str, str] = {}
 
+        # Handler dispatch index: update name -> matching (func, handler) pairs.
+        # Rebuilt only when the handler set changes, instead of scanning every
+        # registered handler for every incoming update.
+        self._dispatch_index: Optional[Dict[str, List[Tuple[Callable, Any]]]] = None
+        self._dispatch_sig: Optional[Tuple[int, int]] = None
+        self._background_tasks: Set["asyncio.Task"] = set()
+
+        # Pooled sessions for file servers; a new ClientSession per
+        # transfer meant a fresh TLS handshake for every file.
+        self._aux_sessions: Dict[str, aiohttp.ClientSession] = {}
+
     @staticmethod
     def _normalize_url(url: Optional[str]) -> Optional[str]:
         if not url:
@@ -67,8 +86,33 @@ class Api:
         return url if not url or url.endswith("/") else f"{url}/"
 
     async def close(self) -> None:
+        for session in self._aux_sessions.values():
+            if not session.closed:
+                await session.close()
+        self._aux_sessions.clear()
+
         if self.session and not self.session.closed:
             await self.session.close()
+
+    @asynccontextmanager
+    async def aux_session(
+        self, base_url: str, verify_ssl: bool = True
+    ):
+        """Yield a pooled session for an auxiliary host (file servers).
+
+        One session is kept per base URL for the client's lifetime and
+        closed by :meth:`close`, so repeated downloads reuse the
+        existing connection instead of paying a new TLS handshake.
+        """
+        session = self._aux_sessions.get(base_url)
+        if session is None or session.closed:
+            session = aiohttp.ClientSession(
+                base_url=base_url,
+                connector=aiohttp.TCPConnector(ssl=verify_ssl),
+            )
+            self._aux_sessions[base_url] = session
+
+        yield session
 
     async def get_dcs(self, max_retries: int = 3, backoff: float = 1.0) -> bool:
         platform = self.client._original_platform
@@ -140,23 +184,18 @@ class Api:
             "Could not reach Data Centers after multiple attempts."
         )
 
-    async def _http_request(
-        self,
-        data: Dict,
-        max_retries: int = 3,
-        backoff: float = 1.0
-    ) -> Optional[Dict]:
-
-        candidates = []
+    def _endpoint_candidates(self) -> List[str]:
+        """Ordered, de-duplicated list of endpoints to try."""
+        candidates: List[str] = []
         seen = set()
 
-        def add(url_str):
+        def add(url_str: Optional[str]) -> None:
             if not url_str:
                 return
-            u = url_str.rstrip("/")
-            if u not in seen:
-                seen.add(u)
-                candidates.append(u)
+            normalized = url_str.rstrip("/")
+            if normalized not in seen:
+                seen.add(normalized)
+                candidates.append(normalized)
 
         add(self.api_url)
         for code in self.api_priority:
@@ -164,65 +203,174 @@ class Api:
         for endpoint in self.api_map.values():
             add(endpoint)
 
-        for candidate in candidates:
-            for attempt in range(max_retries):
-                try:
-                    async with self.session.post(
-                        candidate, json=data, proxy=self.client.proxy
-                    ) as response:
-                        response.raise_for_status()
-                        code = self._api_code_by_url.get(candidate)
-                        if code:
-                            if code in self.api_priority:
-                                self.api_priority.remove(code)
-                            self.api_priority.insert(0, code)
-                            self.api_url = self.api_map.get(code, candidate)
-                        return await response.json()
-                except Exception as e:
-                    self.logger.warning(
-                        f"Request failed (attempt {attempt + 1}/{max_retries}): {e}"
-                    )
-                    if attempt < max_retries - 1:
-                        await asyncio.sleep(backoff * (2 ** attempt))
+        return candidates
 
-        self.logger.error(f"Request failed after exhausting all {len(candidates)} endpoints.")
+    def _promote_endpoint(self, candidate: str) -> None:
+        """Remember which endpoint just answered so we start there next time."""
+        code = self._api_code_by_url.get(candidate)
+        if not code:
+            return
+        if code in self.api_priority:
+            self.api_priority.remove(code)
+        self.api_priority.insert(0, code)
+        self.api_url = self.api_map.get(code, candidate)
+
+    async def _http_request(
+        self,
+        data: Dict,
+        max_retries: int = 3,
+        backoff: float = 1.0,
+    ) -> Optional[Dict]:
+        call = asyncio.current_task()
+        candidates = self._endpoint_candidates()
+        if not candidates:
+            self.logger.error("No API endpoints known; cannot send request.")
+            return None
+
+        # `max_retries` is a budget for this request, NOT per endpoint.
+        # The previous implementation nested `for endpoint: for attempt:`,
+        # which could fire len(endpoints) * max_retries requests and stall
+        # for minutes when the network was down.
+        attempts_budget = max(1, int(max_retries))
+        attempts = 0
+        last_error: Any = None
+
+        while attempts < attempts_budget:
+            if asyncio.current_task() is not call:
+                return None
+
+            candidate = candidates[attempts % len(candidates)]
+            # Back off once per full pass over the candidate list.
+            delay = backoff * (1 + attempts // len(candidates))
+
+            try:
+                async with self.session.post(
+                    candidate, json=data, proxy=self.client.proxy
+                ) as response:
+                    if response.status == 429:
+                        raise _RateLimited()
+
+                    response.raise_for_status()
+                    payload = await response.json()
+
+                    if (
+                        isinstance(payload, dict)
+                        and payload.get("status") == "TOO_REQUESTS"
+                    ):
+                        raise _RateLimited()
+
+                    self._promote_endpoint(candidate)
+                    return payload
+
+            except _RateLimited:
+                last_error = "rate limited by the server"
+                delay = self._RATE_LIMIT_BACKOFF * (2 ** min(attempts, 4))
+            except Exception as exc:
+                last_error = exc
+
+            attempts += 1
+            if attempts < attempts_budget:
+                self.logger.warning(
+                    "Request failed (attempt %d/%d) on %s: %s",
+                    attempts, attempts_budget, candidate, last_error,
+                )
+                # Jitter avoids thundering-herd retries across processes.
+                await asyncio.sleep(delay * (0.5 + random.random()))
+
+        self.logger.error(
+            "Request failed after %d attempt(s) across %d endpoint(s): %s",
+            attempts, len(candidates), last_error,
+        )
         return None
 
-    async def handle_update(self, name: str, event: dict) -> None:
-        for func, handler in self.client.handlers.items():
-            try:
-                if isinstance(handler, type):
-                    handler = handler()
+    #: Base delay (seconds) applied when the server signals rate limiting.
+    _RATE_LIMIT_BACKOFF = 5.0
 
-                if handler.__name__ != capitalize(name):
+    def _build_dispatch_index(self) -> Dict[str, List[Tuple[Callable, Any]]]:
+        """Group handlers by the update name they handle, once."""
+        index: Dict[str, List[Tuple[Callable, Any]]] = {}
+        handlers = self.client.handlers
+
+        for func, handler in handlers.items():
+            # Handler classes were previously instantiated for every incoming
+            # event; instantiate once here instead.
+            if isinstance(handler, type):
+                try:
+                    handler = handler()
+                except Exception:
+                    self.logger.exception(
+                        "Could not instantiate handler %r", handler
+                    )
                     continue
 
+            name = getattr(handler, "__name__", None)
+            if not name:
+                continue
+            index.setdefault(name, []).append((func, handler))
+
+        self._dispatch_index = index
+        self._dispatch_sig = (len(handlers), id(handlers))
+        return index
+
+    def invalidate_dispatch_index(self) -> None:
+        """Drop the cached index so the next update rebuilds it."""
+        self._dispatch_index = None
+        self._dispatch_sig = None
+
+    def _handlers_for(self, update_name: str) -> List[Tuple[Callable, Any]]:
+        handlers = self.client.handlers
+        signature = (len(handlers), id(handlers))
+
+        if self._dispatch_index is None or self._dispatch_sig != signature:
+            return self._build_dispatch_index().get(update_name, [])
+
+        return self._dispatch_index.get(update_name, [])
+
+    def _spawn(self, coro) -> None:
+        """Run a coroutine in the background, keeping a strong reference."""
+        task = asyncio.create_task(coro)
+        self._background_tasks.add(task)
+        task.add_done_callback(self._background_tasks.discard)
+
+    async def _execute_handler(self, func: Callable, event: Event) -> None:
+        if inspect.iscoroutinefunction(func):
+            if self.client.stop_on_first_match:
+                await func(event)
+            else:
+                self._spawn(func(event))
+            return
+
+        # Blocking handler: use the loop's bounded executor rather than
+        # spawning a brand-new OS thread for every single event.
+        if self.client.stop_on_first_match:
+            await asyncio.to_thread(func, event)
+        else:
+            self._spawn(asyncio.to_thread(func, event))
+
+    async def handle_update(self, name: str, event: dict) -> None:
+        # The update name is resolved once, not once per registered handler.
+        targets = self._handlers_for(capitalize(name))
+        if not targets:
+            return
+
+        for func, handler in targets:
+            try:
                 event_obj = Event(event.copy())
 
                 if not await handler(event=event_obj):
                     continue
 
-                handler_executed = False
-                if not inspect.iscoroutinefunction(func):
-                    if self.client.stop_on_first_match:
-                        await asyncio.to_thread(func, event_obj)
-                    else:
-                        threading.Thread(target=func, args=(event_obj,)).start()
-                    handler_executed = True
-                else:
-                    if self.client.stop_on_first_match:
-                        await func(event_obj)
-                    else:
-                        asyncio.create_task(func(event_obj))
-                    handler_executed = True
+                await self._execute_handler(func, event_obj)
 
-                if handler_executed and self.client.stop_on_first_match:
+                if self.client.stop_on_first_match:
                     break
             except StopHandler:
                 break
-            except Exception as e:
+            except Exception as exc:
                 self.logger.error(
-                    f"Handler '{name}' failed: {e}",
+                    "Handler '%s' failed: %s",
+                    name,
+                    exc,
                     extra={"data": event},
-                    exc_info=True
+                    exc_info=True,
                 )

@@ -1,7 +1,6 @@
 import os
 import asyncio
 import inspect
-import aiohttp
 import aiofiles
 import base64
 from typing import Callable, Optional, Union
@@ -121,10 +120,14 @@ class DownloadFile:
                 self.logger.error(f"Callback error: {e}")
 
         verify_ssl = getattr(self, "verify_ssl", True)
-        async with aiohttp.ClientSession(
-            base_url=base_url,
-            connector=aiohttp.TCPConnector(ssl=verify_ssl),
-        ) as session:
+        connection = getattr(self, "connection", None)
+        if connection is None:
+            raise exceptions.NoConnection(
+                "Client is not connected. Call 'start()' first."
+            )
+        # Reuse the pooled session for this file server rather than
+        # opening a new one (and a new TLS handshake) per download.
+        async with connection.aux_session(base_url, verify_ssl) as session:
             if save_dir:
                 filename = file_name or "download.bin"
                 filepath = os.path.join(save_dir, filename)
