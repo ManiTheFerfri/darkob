@@ -74,7 +74,7 @@ class Retry:
 
         generator = rng or random
         spread = base * self.jitter
-        return max(0.0, base - spread + spread * 2 * generator.random())
+        return float(max(0.0, base - spread + spread * 2 * generator.random()))
 
     def should_retry(self, attempt: int) -> bool:
         """True when another attempt is allowed after failed *attempt*."""

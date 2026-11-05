@@ -17,7 +17,7 @@ in ids and button types for anything left out.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, List, Optional, Union
+from typing import Any, Dict, Iterable, List, Optional, Union, cast
 
 __all__ = ["Button", "Keyboard", "InlineKeyboard", "ChatKeyboard"]
 
@@ -75,7 +75,7 @@ def _as_button(value: ButtonLike) -> Any:
     )
 
 
-class Keyboard(dict):
+class Keyboard(Dict[str, Any]):
     """An API-ready keypad: ``{"rows": [{"buttons": [...]}, ...]}``."""
 
     def __init__(self, *rows: Iterable[ButtonLike]) -> None:
@@ -89,7 +89,7 @@ class Keyboard(dict):
     @property
     def rows(self) -> List[Dict[str, Any]]:
         """The mutable row list (each row is ``{"buttons": [...]}``)."""
-        return self["rows"]
+        return cast(List[Dict[str, Any]], self["rows"])
 
     def row(self, *buttons: ButtonLike) -> "Keyboard":
         """Append one row of buttons. Returns the keyboard for chaining."""

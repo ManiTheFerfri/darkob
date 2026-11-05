@@ -152,8 +152,8 @@ class Router:
 
         chain = list(self._middlewares)
 
-        async def wrapped(bot, event):
-            async def run(index: int):
+        async def wrapped(bot: Any, event: Any) -> Any:
+            async def run(index: int) -> Any:
                 if index >= len(chain):
                     return await handler(bot, event)
 
