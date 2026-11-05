@@ -27,6 +27,8 @@ class FakeBot:
         bot.calls  # [("send_message", ("chat", "hi"), {})]
     """
 
+    calls: List[Tuple[str, Tuple[Any, ...], Dict[str, Any]]]
+
     def __init__(self, **attributes: Any) -> None:
         object.__setattr__(self, "calls", [])
         for name, value in attributes.items():

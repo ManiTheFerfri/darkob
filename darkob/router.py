@@ -28,7 +28,7 @@ ordering and semantics are identical to declaring the handlers inline.
 from __future__ import annotations
 
 import functools
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 __all__ = ["Router", "Route"]
 
@@ -42,8 +42,8 @@ class Route:
         self,
         kind: str,
         args: Tuple[Any, ...],
-        kwargs: dict,
-        handler: Callable,
+        kwargs: Dict[str, Any],
+        handler: Callable[..., Any],
     ) -> None:
         self.kind = kind
         self.args = args
@@ -63,7 +63,7 @@ class Router:
         self.name = name or f"router-{id(self):x}"
         self._routes: List[Route] = []
         self._children: List["Router"] = []
-        self._middlewares: List[Callable] = []
+        self._middlewares: List[Callable[..., Any]] = []
 
     # -- introspection ----------------------------------------------------
 
@@ -86,35 +86,35 @@ class Router:
     # -- declaration helpers ---------------------------------------------
 
     def _decorator(
-        self, kind: str, args: Tuple[Any, ...], kwargs: dict
-    ) -> Callable[[Callable], Callable]:
-        def register(handler: Callable) -> Callable:
+        self, kind: str, args: Tuple[Any, ...], kwargs: Dict[str, Any]
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+        def register(handler: Callable[..., Any]) -> Callable[..., Any]:
             self._routes.append(Route(kind, args, kwargs, handler))
             return handler
 
         return register
 
-    def update(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def update(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_update``."""
         return self._decorator("on_update", constraints, {})
 
-    def message(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def message(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_message``."""
         return self._decorator("on_message", constraints, {})
 
-    def new_message(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def new_message(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_new_message``."""
         return self._decorator("on_new_message", constraints, {})
 
-    def edit_message(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def edit_message(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_edit_message``."""
         return self._decorator("on_edit_message", constraints, {})
 
-    def delete_message(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def delete_message(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_delete_message``."""
         return self._decorator("on_delete_message", constraints, {})
 
-    def callback(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def callback(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_callback``."""
         return self._decorator("on_callback", constraints, {})
 
@@ -123,29 +123,29 @@ class Router:
         name: Any = None,
         *constraints: Any,
         prefixes: Optional[List[str]] = None,
-    ) -> Callable[[Callable], Callable]:
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_command``."""
         args = (name,) + constraints if name is not None else constraints
         kwargs = {"prefixes": prefixes} if prefixes is not None else {}
         return self._decorator("on_command", args, kwargs)
 
-    def event_data(self, *constraints: Any) -> Callable[[Callable], Callable]:
+    def event_data(self, *constraints: Any) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Mirror of ``bot.on_event_data``."""
         return self._decorator("on_event_data", constraints, {})
 
-    def middleware(self) -> Callable[[Callable], Callable]:
+    def middleware(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Wrap every handler in this router with a middleware.
 
         Middleware is called as ``middleware(bot, event, call_next)``;
         ``await call_next()`` continues the chain.
         """
-        def register(func: Callable) -> Callable:
+        def register(func: Callable[..., Any]) -> Callable[..., Any]:
             self._middlewares.append(func)
             return func
 
         return register
 
-    def _wrap(self, handler: Callable) -> Callable:
+    def _wrap(self, handler: Callable[..., Any]) -> Callable[..., Any]:
         """Apply this router's middleware chain around a handler."""
         if not self._middlewares:
             return handler
