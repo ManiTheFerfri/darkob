@@ -4,7 +4,7 @@
 ## [ساخت سشن (Session)](#messenger_examples_create_session)
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     pass
@@ -16,7 +16,7 @@ with Messenger("mySession") as app:
 ## [گرفتن همه چت‌ها](#messenger_examples_get_chats)
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     chats = app.get_chats()
@@ -29,7 +29,7 @@ with Messenger("mySession") as app:
 ## [نمایش تعداد چت‌ها](#messenger_examples_show_chat_counts)
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     chats = app.get_chats(show_chat_guids=True)
@@ -50,8 +50,8 @@ with Messenger("mySession") as app:
 
 ```python
 import asyncio, time
-from maxrubika import Messenger
-from maxrubika.client.filters import IsMe, Text
+from darkob import Messenger
+from darkob.client.filters import IsMe, Text
 
 app = Messenger("mySession")
 
@@ -96,8 +96,8 @@ app.run()
 
 ```python
 import re
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import Text
+from darkob import Bot, Messenger
+from darkob.bot.filters import Text
 
 bot = Bot("Token") # توکن بات خود را اینجا وارد کنید.
 app = Messenger("mySession") # سشن اکانت خود را اینجا وارد کنید.
@@ -129,7 +129,7 @@ bot.run()
 ## [پروفایل دو تایی (Dual Avatar)](#messenger_examples_dual_avatar)
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:  # نام سشن خود را اینجا وارد کنید
 
@@ -148,8 +148,8 @@ with Messenger("mySession") as app:  # نام سشن خود را اینجا وا
 ## [نمایش چت اکشن فیک](#messenger_examples_fake_action)
 
 ```python
-from maxrubika import Messenger
-from maxrubika.client.filters import IsMe
+from darkob import Messenger
+from darkob.client.filters import IsMe
 
 app= Messenger("mySession") # نام سشن اکانت خود را اینجا وارد کنید
 
@@ -168,7 +168,7 @@ app.run()
 ## [بررسی عضویت کاربر (Check Join)](#messenger_examples_check_join)
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
 
@@ -187,7 +187,7 @@ with Messenger("mySession") as app:
 ```python
 import asyncio, pytz
 from datetime import datetime, timedelta
-from maxrubika import Messenger
+from darkob import Messenger
 
 SESSION = "mySession" # نام سشن اکانت خود اینجا وارد شود
 CHAT_LINK = "" # لینک گروه خود اینجا وارد شود
@@ -248,7 +248,7 @@ asyncio.run(main())
 ```python
 import asyncio, pytz
 from datetime import datetime, timedelta
-from maxrubika import Messenger
+from darkob import Messenger
 
 SESSION = "mySession" # نام سشن اکانت خود اینجا وارد شود
 CHAT_LINK = "" # لینک کانال خود اینجا وارد شود

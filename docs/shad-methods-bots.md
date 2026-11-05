@@ -16,7 +16,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     info = app.get_bot_info("@ShowInfoBot")
@@ -39,7 +39,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     # یک بات
@@ -65,7 +65,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     info = app.get_service_info("s0abcdefghijklmnopqrstuvwxyz12")
@@ -88,7 +88,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.start_bot("@TestBot")
@@ -111,7 +111,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.stop_bot("@TestBot")
@@ -132,7 +132,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_bot_chat("@TestBot")
@@ -153,7 +153,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_service_chat("s0abcdefghijklmnopqrstuvwxyz12")

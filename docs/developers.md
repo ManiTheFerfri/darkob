@@ -35,9 +35,9 @@
 
 | عنوان | آدرس |
 |:------:|------|
-| کانال روبیکا | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
-| مخزن گیت‌هاب | [MEH2RAB/maxrubika](https://github.com/MEH2RAB/maxrubika) |
-| وب‌سایت رسمی | [MEH2RAB.GitHub.io/maxrubika](https://MEH2RAB.GitHub.io/maxrubika) |
+| کانال روبیکا | [ManiTheFerfri/darkob](https://github.com/ManiTheFerfri/darkob) |
+| مخزن گیت‌هاب | [MEH2RAB/darkob](https://github.com/ManiTheFerfri/darkob) |
+| وب‌سایت رسمی | [MEH2RAB.GitHub.io/darkob](https://ManiTheFerfri.github.io/darkob) |
 
 ---
 
@@ -49,6 +49,6 @@
 
 <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
 
-<a href="/maxrubika/" class="md-button" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; text-align: center; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به صفحه اصلی</a>
+<a href="/darkob/" class="md-button" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; text-align: center; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به صفحه اصلی</a>
 
 </div>

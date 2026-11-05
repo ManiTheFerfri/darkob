@@ -15,7 +15,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_message_info("@Online_User", message_id="12345678900")
@@ -48,7 +48,7 @@ with Messenger("mySession") as app:
 دریافت تمام پیام‌ها:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     messages = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
@@ -58,7 +58,7 @@ with Messenger("mySession") as app:
 دریافت فقط تصاویر و ویدیوها:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     images = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types=["image", "video"])
@@ -68,7 +68,7 @@ with Messenger("mySession") as app:
 دریافت پیام‌های یک کاربر خاص:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     user_msgs = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types="u0xyz789...")
@@ -92,7 +92,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     all_msgs = app.get_all_messages("u0abc123...")
@@ -113,7 +113,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     first = app.get_first_message("@MyGroup")
@@ -135,7 +135,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     first_msgs = app.get_first_messages("@MyGroup", limit=50)
@@ -156,7 +156,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     last = app.get_last_message("Cipher")
@@ -178,7 +178,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     last_msgs = app.get_last_messages("Cipher", limit=20)
@@ -200,7 +200,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     msgs = app.get_messages_by_id("https://rubika.ir/joing/CHAT123", message_ids=["12345678099", "45612378900", "12288762148"])
@@ -222,7 +222,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     interval = app.get_messages_interval("u0abc123...", middle_message_id="14523674102")
@@ -244,7 +244,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     updates = app.get_messages_updates("Undefined")
@@ -271,7 +271,7 @@ with Messenger("mySession") as app:
 دریافت پیام‌ها از جدیدترین:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     msgs = app.get_chat_messages("u0abc123...", sort="FromMax", limit=50)
@@ -281,7 +281,7 @@ with Messenger("mySession") as app:
 دریافت فقط فایل‌ها:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     files = app.get_chat_messages("@MyChannel", filter_type="File")
@@ -303,7 +303,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     results = app.search_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", text="سلام")
@@ -325,7 +325,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     results = app.search_chat_messages("u0abc123...", search_text="#مهم")
@@ -347,7 +347,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     results = app.search_global_messages("#مهم")
@@ -369,7 +369,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     url = app.get_message_url("@Online_User", message_id="12345674187")
@@ -391,7 +391,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     scheduled = app.get_scheduled_messages("@CodeYaran")
@@ -412,7 +412,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     pinned = app.get_pinned_messages("@MyGroup")
@@ -435,7 +435,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     reactions = app.get_messages_reactions("u0abc123...", min_id="100", max_id="200")

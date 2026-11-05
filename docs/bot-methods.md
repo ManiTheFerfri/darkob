@@ -9,7 +9,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     print(bot.get_me())
@@ -26,7 +26,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.get_chat_info("chat_id")
@@ -45,7 +45,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.get_chat_member("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
@@ -64,7 +64,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.get_updates(limit=50)
@@ -101,7 +101,7 @@ with Bot("token") as bot:
 ارسال یک پیام متنی ساده:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_message("chat_id", "این یک پیام تستی است.")
@@ -111,17 +111,17 @@ with Bot("token") as bot:
 ارسال پیام با استفاده از متادیتا:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
-    a = bot.send_message("chat_id", "> **سلام** به __کتابخانه__ ||MAXRubika|| ~~خوش آمدید.~~")
+    a = bot.send_message("chat_id", "> **سلام** به __کتابخانه__ ||Darkob|| ~~خوش آمدید.~~")
     print(a)
 ```
 
 ارسال پیام همراه با chat_keypad و inline_keypad (روش ساده):
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_message(
@@ -134,7 +134,7 @@ with Bot("token") as bot:
 ارسال پیام همراه با chat_keypad و inline_keypad (به صورت تاپل):
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_message(
@@ -157,7 +157,7 @@ with Bot("token") as bot:
 ارسال پیام همراه با chat_keypad و inline_keypad (روش سفارشی):
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_message(
@@ -210,7 +210,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.edit_message("chat_id", "message_id", "متن جدید")
@@ -238,7 +238,7 @@ with Bot("token") as bot:
 ویرایش inline_keypad به روش ساده:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     inline_keypad = [
@@ -250,7 +250,7 @@ with Bot("token") as bot:
 
 ویرایش inline_keypad به روش تاپل:
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     inline_keypad = [
@@ -266,7 +266,7 @@ with Bot("token") as bot:
 ویرایش inline_keypad به روش سفارشی (دیکشنری):
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     inline_keypad = {
@@ -281,7 +281,7 @@ with Bot("token") as bot:
 حذف کامل inline_keypad از یک پیام (با ارسال یک لیست خالی):
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     bot.edit_inline_keypad("chat_id", "message_id", inline_keypad=[])
@@ -306,7 +306,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     chat_keypad = {
@@ -331,7 +331,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.remove_chat_keypad("chat_id")
@@ -355,7 +355,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.delete_message("chat_id", "message_id")
@@ -377,7 +377,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     chat_id = "chat_id"
@@ -403,7 +403,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     from_chat_id = "c0asc...."
@@ -435,7 +435,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_contact(
@@ -466,7 +466,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_location(chat_id="chat_id", latitude=32.6546, longitude=51.6680)
@@ -496,7 +496,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_poll(
@@ -530,7 +530,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     b = bot.send_quiz(
@@ -567,7 +567,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_file(chat_id= "chat_id", file= "newfile.py", text= "فایل پایتونی تقدیم به شما")
@@ -601,7 +601,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_image(chat_id= "chat_id", image= "1.jpg", disable_notification= True)
@@ -635,7 +635,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_video(chat_id= "chat_id", video= "20260531.mp4", text= "این یک ویدئو است.")
@@ -669,7 +669,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_voice(chat_id= "chat_id", voice= "20260531.mp3")
@@ -703,7 +703,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_music(chat_id= "chat_id", music= "Hamid Hiraad - Khaste Shodam (320).mp3")
@@ -737,7 +737,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.send_gif(chat_id= "chat_id", gif= "2_5352595205864328454.mp4")
@@ -755,7 +755,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.request_send_file(file_type="Image")
@@ -778,7 +778,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     # مرحله اول: دریافت URL آپلود برای نوع فایل "Image"
@@ -810,7 +810,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     b = bot.download_file("file_id", save_as= True, path="/home/user/downloads")
@@ -828,7 +828,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     b = bot.get_file("file_id")
@@ -849,7 +849,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.ban_member(chat_id="g0xxxxxxxxxxxxxxx", sender_id="u0xxxxxxxxxxxxxxx")
@@ -870,7 +870,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.unban_member(chat_id="g0xxxxxxxxxxxxxxx", sender_id="u0xxxxxxxxxxxxxxx")
@@ -891,7 +891,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     is_admin = bot.member_is_admin("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
@@ -912,7 +912,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     is_owner = bot.member_is_owner("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
@@ -933,7 +933,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     is_joined = bot.member_is_joined("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
@@ -953,7 +953,7 @@ with Bot("token") as bot:
 **مثال‌ها:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 # روش اول: ارسال یک لیست از دیکشنری‌ها
 with Bot("token") as bot:
@@ -962,7 +962,7 @@ with Bot("token") as bot:
 ```
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 # روش دوم: ارسال یک دیکشنری ساده
 with Bot("token") as bot:
@@ -987,7 +987,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.update_bot_endpoints(
@@ -1009,7 +1009,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     a = bot.register_all_endpoints("https://myserver.com")
@@ -1027,7 +1027,7 @@ with Bot("token") as bot:
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     token_string = bot.get_token_string(password="my_pass")
@@ -1050,7 +1050,7 @@ with Bot("token") as bot:
 
 ```python
 import asyncio
-from maxrubika import Bot
+from darkob import Bot
 
 async def main():
     bot = Bot("token")
@@ -1073,7 +1073,7 @@ asyncio.run(main())
 **مثال (حالت Polling):**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("token")
 
@@ -1099,7 +1099,7 @@ bot.run()
 **مثال:**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("token") as bot:
     # ارسال یک درخواست سفارشی به API
@@ -1118,7 +1118,7 @@ with Bot("token") as bot:
 **مثال (Sync):**
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("token")
 
@@ -1140,7 +1140,7 @@ bot.disconnect()  # قطع اتصال
 
 ```python
 import asyncio
-from maxrubika import Bot
+from darkob import Bot
 
 async def main():
     bot = Bot("token")

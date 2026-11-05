@@ -16,7 +16,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     info = app.get_group_info("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
@@ -37,7 +37,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     link = app.get_group_link("g0G3R19035f77574adc0127ab97c999c")
@@ -58,7 +58,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_group_link("g0G3R19035f77574adc0127ab97c999c")
@@ -79,7 +79,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     count = app.get_group_online_count("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
@@ -108,7 +108,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.create_group(
@@ -137,7 +137,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_group("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
@@ -164,7 +164,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.join_group("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
@@ -185,7 +185,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.leave_group("g0CyVlK0cae995e5b46031170a358a4e")
@@ -221,7 +221,7 @@ with Shad("mySession") as app:
 ویرایش عنوان و توضیحات:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_group_info(
@@ -235,7 +235,7 @@ with Shad("mySession") as app:
 تنظیم ری‌اکشن‌های خاص:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_group_info(
@@ -248,7 +248,7 @@ with Shad("mySession") as app:
 تنظیم محدودیت زمانی:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_group_info(
@@ -277,7 +277,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_group_title("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "عنوان جدید")
@@ -299,7 +299,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_group_timer("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "30")
@@ -321,7 +321,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.edit_slow_mode("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "60")
@@ -343,7 +343,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     admins = app.get_group_admins("g0G3R19035f37574adc0127ab97c999c")
@@ -367,7 +367,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     access = app.get_group_admin_access("g0G3R19035f77574adc0127ab97c999c", "@Online_User")
@@ -388,7 +388,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     access = app.get_group_default_access("https://shad.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
@@ -417,7 +417,7 @@ with Shad("mySession") as app:
 فقط اجازه ارسال پیام:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_group_default_access(
@@ -430,7 +430,7 @@ with Shad("mySession") as app:
 بستن کامل گروه:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_group_default_access(
@@ -456,7 +456,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.lock_group("g0G3R19035f77574adc0127ab97c999c")
@@ -479,7 +479,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unlock_group("g0G3R19035f77574adc0127ab97c999c")
@@ -504,7 +504,7 @@ with Shad("mySession") as app:
 ۱. دریافت اعضای گروه:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c")
@@ -514,7 +514,7 @@ with Shad("mySession") as app:
 ۲. جستجوی یک کاربر خاص:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c", search_text="@Online_User")
@@ -536,7 +536,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     mentions = app.get_group_mention_list("g0G3R19035f77574adc0127ab97c999c")
@@ -560,7 +560,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     mentions = app.get_unread_mentions(
@@ -586,7 +586,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     participants = app.get_group_message_read_participants(

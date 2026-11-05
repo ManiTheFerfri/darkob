@@ -16,7 +16,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     guid = app.get_guid("@Online_User")
@@ -33,7 +33,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     my_guid = app.get_my_guid()
@@ -56,7 +56,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_info_by_username("Online_User")
@@ -77,7 +77,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_info_by_link("https://rubika.ir/joing/ABC123")
@@ -102,7 +102,7 @@ with Messenger("mySession") as app:
 ۱. دریافت اطلاعات کاربر:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_chat_info("@Online_User")
@@ -112,7 +112,7 @@ with Messenger("mySession") as app:
 ۲. دریافت اطلاعات گروه از لینک:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_chat_info("https://rubika.ir/joing/ABC123")
@@ -133,7 +133,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     info = app.get_chats_info(["u0abc123...", "g0xyz789...", "c0def456..."])
@@ -156,7 +156,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     chats = app.get_chats()
@@ -177,7 +177,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     updates = app.get_chats_updates()
@@ -198,7 +198,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     related = app.get_related_chats("g0abc123...")
@@ -219,7 +219,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     items = app.get_profile_link_items("u0abc123...")
@@ -240,7 +240,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     ads = app.get_chat_ads()
@@ -265,7 +265,7 @@ with Messenger("mySession") as app:
 جستجوی ساده:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     results = app.search_global_chats("برنامه‌نویس")
@@ -275,7 +275,7 @@ with Messenger("mySession") as app:
 جستجو با فیلتر نوع:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     results = app.search_global_chats(

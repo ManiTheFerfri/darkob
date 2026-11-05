@@ -10,7 +10,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -31,7 +31,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -52,7 +52,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -73,7 +73,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -94,7 +94,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -115,7 +115,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -136,7 +136,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -157,7 +157,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -178,7 +178,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -199,7 +199,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -220,7 +220,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -241,7 +241,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -262,7 +262,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -283,7 +283,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -304,7 +304,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -325,7 +325,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -346,7 +346,7 @@ app.run()
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 

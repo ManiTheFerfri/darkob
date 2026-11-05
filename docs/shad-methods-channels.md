@@ -16,7 +16,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     check = app.check_channel_username("@Undefined")
@@ -46,7 +46,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.create_channel(
@@ -78,7 +78,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.delete_channel("c0CyVlK0cae995e5b46031170a358a4e")
@@ -112,7 +112,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.edit_channel_info(
@@ -144,7 +144,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.edit_channel_title("@TheProgrammer", "new title")
@@ -171,7 +171,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_admin_access("@TheProgrammer", "@Online_User")
@@ -195,7 +195,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_admins("CodeYaran")
@@ -218,7 +218,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_info("MEH2RAB")
@@ -241,7 +241,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_link("c0G3R19035f77574adc0127ab97c999c")
@@ -271,7 +271,7 @@ with Shad("mySession") as app:
 نمایش اعضای کانال:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_members("c0G3R19035f77574adc0127ab97c999c")
@@ -281,7 +281,7 @@ with Shad("mySession") as app:
 جستجوی یک کاربر خاص:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     action = app.get_channel_members("PythonChannel", search_text="@ir_MAXWare")
@@ -305,7 +305,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     info = app.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BICEGHDGFBGJHCCD")
@@ -330,7 +330,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.get_channel_seen_count("CodeYaran", 157896351047, 189720063713)
@@ -353,7 +353,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     stats = app.get_channel_statistics("CodeYaran")
@@ -376,7 +376,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.join_channel("@TheComputeriha")
@@ -399,7 +399,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.leave_channel("@Rubika")
@@ -424,7 +424,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.seen_channel_messages("@PythonChannel", 11231014101, 52415414554)
@@ -447,7 +447,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_channel_link("@PC_and_Mobile")
@@ -471,7 +471,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_channel_type("@Undefined", channel_type="Private")
@@ -499,7 +499,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.update_channel_username("TheProgrammer", username="TheProgrammer2")

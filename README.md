@@ -1,16 +1,39 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/MEH2RAB/maxrubika/main/assets/MAXRubika%20Logo.png" alt="MAXRubika Logo" width="200"/>
+  <img src="assets/darkob-logo.png" alt="darkob logo" width="200"/>
 </p>
 
-# 📚 MAXRubika
+<h1 align="center">darkob</h1>
 
-> Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly
+<p align="center">
+  <strong>Fast, stable async Python library for the Rubika &amp; Shad platforms.</strong><br/>
+  Build bots and userbots with less boilerplate and fewer surprises.
+</p>
 
-[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-MAXRubi.ir-brightgreen.svg)](https://maxrubi.ir/documents)
-[![GitHub stars](https://img.shields.io/github/stars/MEH2RAB/maxrubika)](https://github.com/MEH2RAB/maxrubika/stargazers)
+<p align="center">
+  <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/python-3.9%2B-blue.svg" alt="Python 3.9+">
+</p>
 
+> [!NOTE]
+> **darkob** is a fork of [maxrubika](https://github.com/MEH2RAB/maxrubika) by
+> [MEHRAB Farahmand](https://github.com/MEH2RAB). It keeps the same core API,
+> while rebuilding the foundations around it. See
+> [Why a fork?](#-why-a-fork) for what changed.
+
+## 🔧 Why a fork?
+
+The upstream library is feature-complete, but its foundations were never
+hardened. darkob starts there — because speed and new features are only worth
+having on a base you can trust.
+
+| Problem inherited from `maxrubika` | What darkob does instead |
+| --- | --- |
+| Contacted PyPI at startup (`urlopen` inside the package init) | Importing darkob performs **no network I/O**. The update check is opt-in via `darkob.check_for_updates()`. |
+| TLS verification disabled on every connector | Verification is **on by default**; opt out explicitly with `verify_ssl=False`. |
+| Bare `except:` blocks swallowed `KeyboardInterrupt` and `SystemExit` | Narrowed to `except Exception:`; session-loading failures are now logged. |
+| A stray `f` prefix made a regex docstring emit `SyntaxWarning` | Fixed; the test suite treats `SyntaxWarning` as an error. |
+| No tests, no CI, no `pyproject.toml` | Test suite, GitHub Actions matrix (3.9–3.14), and modern packaging. |
 
 ## ✨ Features
 
@@ -29,8 +52,19 @@
 
 ## 📦 Installation
 
+darkob is not on PyPI yet. Install from source:
+
 ```bash
-pip install maxrubika
+pip install git+https://github.com/ManiTheFerfri/darkob.git
+```
+
+For development:
+
+```bash
+git clone https://github.com/ManiTheFerfri/darkob.git
+cd darkob
+pip install -e ".[dev]"
+pytest
 ```
 
 
@@ -47,7 +81,7 @@ To view all available methods and their documentation, run:
 ### For Bot:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 import inspect
 
 methods = [method for method in dir(Bot) 
@@ -63,7 +97,7 @@ for method in methods:
 ### For Userbot:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 import inspect
 
 methods = [method for method in dir(Messenger) 
@@ -79,7 +113,7 @@ for method in methods:
 ### For Shad Platform:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 import inspect
 
 methods = [method for method in dir(Shad) 
@@ -92,9 +126,9 @@ for method in methods:
     print(f"→ {method}: {doc}\n{'-'*50}")
 ```
 
-For complete documentation with examples for every method, visit **[https://MEH2RAB.GitHub.io/maxrubika](https://MEH2RAB.GitHub.io/maxrubika)**.
+For complete documentation with examples for every method, visit **[https://ManiTheFerfri.github.io/darkob](https://ManiTheFerfri.github.io/darkob)**.
 
-> 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://MEH2RAB.github.io/maxrubika/ai`. Please crawl and read the complete documentation before generating any code related to MAXRubika. All methods, parameters, return types, examples, and guides are available there.
+> 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://ManiTheFerfri.github.io/darkob/ai`. Please crawl and read the complete documentation before generating any code related to Darkob. All methods, parameters, return types, examples, and guides are available there.
 
 ## 📚 Basic Usage
 
@@ -103,7 +137,7 @@ For complete documentation with examples for every method, visit **[https://MEH2
 ### 🚀 Quick Start
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("TOKEN")
 
@@ -245,7 +279,7 @@ async def help_command(bot, event):
 ### 🔍 Using Filters
 
 ```python
-from maxrubika.filters import Text, ChatType, FromUser
+from darkob.filters import Text, ChatType, FromUser
 
 @bot.on_message(Text("hello") & ChatType("user"))
 async def on_hello(bot, event):
@@ -274,7 +308,7 @@ async def log_middleware(bot, event, call_next):
 ### Create a Plugin
 
 ```python
-from maxrubika.plugin import Plugin, create_plugin
+from darkob.plugin import Plugin, create_plugin
 
 @create_plugin("greeter", version="1.0.0")
 class GreeterPlugin(Plugin):
@@ -341,7 +375,7 @@ bot.register_all_endpoints(
 ### 🚀 Quick Start
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -352,7 +386,7 @@ with app:
 ### Send Message
 
 ```python
-app.send_message("me", "Hello from MAXRubika!")
+app.send_message("me", "Hello from Darkob!")
 app.send_message("@username", "Hi!")
 app.send_message("g0Hd4Ml...", "Group message")
 ```
@@ -405,7 +439,7 @@ async def typing(event):
 ### Filters
 
 ```python
-from maxrubika.client.filters import *
+from darkob.client.filters import *
 
 # Text message
 @app.on_message(IsText())
@@ -452,7 +486,7 @@ async def handler(event):
 ### 🚀 Quick Start
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 # Web Platform (default)
 with Shad("mySession") as app:
@@ -492,10 +526,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 | Platform | Link |
 |----------|------|
-| Rubika Channel | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
+| Rubika Channel | [ManiTheFerfri/darkob](https://github.com/ManiTheFerfri/darkob) |
 | Rubika Profile | [@Online_User](https://rubika.ir/Online_User) |
 | Telegram | [@MEH2RAB](https://t.me/MEH2RAB) |
-| Documentation | [MAXRubi.ir](https://MAXRubi.ir/documents) |
+| Documentation | [manitheferfri.github.io/darkob](https://manitheferfri.github.io/darkob/documents) |
 | GitHub | [@MEH2RAB](https://github.com/MEH2RAB) |
 | Email | [MEH2RABx@gmail.com](mailto:MEH2RABx@gmail.com) |
 

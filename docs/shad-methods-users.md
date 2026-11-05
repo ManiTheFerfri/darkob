@@ -10,7 +10,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     me = app.get_me()
@@ -33,7 +33,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     info = app.get_user_info("@Online_User")
@@ -56,7 +56,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     check = app.check_user_username("@Undefined")
@@ -77,7 +77,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     online = app.get_last_online("@Online_User")
@@ -98,7 +98,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     online = app.get_contacts_last_online(["@User1", "@User2", "u0abc123..."])
@@ -119,7 +119,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     contacts = app.get_contacts()
@@ -144,7 +144,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.add_contact(
@@ -169,7 +169,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_contact("@Online_User")
@@ -186,7 +186,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.reset_contacts()
@@ -207,7 +207,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     updates = app.get_contacts_updates()
@@ -228,7 +228,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.block_user("@SpamUser")
@@ -249,7 +249,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unblock_user("@SpamUser")
@@ -270,7 +270,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     blocked = app.get_blocked_users()
@@ -293,7 +293,7 @@ with Shad("mySession") as app:
 رفع مسدودیت همه کاربران:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unblock_all_users()
@@ -303,7 +303,7 @@ with Shad("mySession") as app:
 رفع مسدودیت همه به جز یک کاربر خاص:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unblock_all_users(exclude="@ImportantUser")
@@ -324,7 +324,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     groups = app.get_common_groups("@Online_User")
@@ -347,7 +347,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_user_chat("@TestUser")
@@ -373,7 +373,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     call = app.request_voice_call("@Online_User")
@@ -399,7 +399,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     call = app.request_video_call("@Online_User")
@@ -422,7 +422,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.discard_call(
@@ -443,7 +443,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     top = app.get_top_users()
@@ -464,7 +464,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.remove_from_top_users("@TestUser")
@@ -485,7 +485,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     playlist = app.get_saved_music_playlist("me")
@@ -502,7 +502,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     stories = app.get_contacts_stories()

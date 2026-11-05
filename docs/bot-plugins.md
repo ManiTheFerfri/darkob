@@ -10,7 +10,7 @@
 هر پلاگین یک کلاس است که از `Plugin` ارث‌بری می‌کند:
 
 ```python
-from maxrubika.bot.plugin import Plugin, PluginMeta
+from darkob.bot.plugin import Plugin, PluginMeta
 
 class MyPlugin(Plugin):
     meta = PluginMeta(
@@ -53,7 +53,7 @@ class MyPlugin(Plugin):
 ### روش ۱: با دکوراتور `@create_plugin`
 
 ```python
-from maxrubika.bot.plugin import Plugin, create_plugin
+from darkob.bot.plugin import Plugin, create_plugin
 
 @create_plugin("greeter", version="1.0.0", description="پلاگین خوش‌آمدگویی")
 class GreeterPlugin(Plugin):
@@ -66,7 +66,7 @@ class GreeterPlugin(Plugin):
 ### روش ۲: با `PluginMeta` (برای تنظیمات پیشرفته)
 
 ```python
-from maxrubika.bot.plugin import Plugin, PluginMeta
+from darkob.bot.plugin import Plugin, PluginMeta
 
 class AdminPlugin(Plugin):
     meta = PluginMeta(
@@ -129,7 +129,7 @@ class MyPlugin(Plugin):
 ### ثبت دستی
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("TOKEN")
 
@@ -158,7 +158,7 @@ my_bot/
 
 ```python
 # test.py
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("TOKEN")
 

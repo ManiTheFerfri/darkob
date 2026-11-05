@@ -10,7 +10,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     privacy = app.get_privacy_setting()
@@ -27,7 +27,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     notifications = app.get_notification_setting()
@@ -56,7 +56,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_notification(
@@ -108,7 +108,7 @@ with Messenger("mySession") as app:
 ۱. تنظیم آخرین بازدید فقط برای مخاطبین:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_setting(show_my_last_online="MyContacts")
@@ -118,7 +118,7 @@ with Messenger("mySession") as app:
 ۲. تنظیم با استثنا:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_setting(
@@ -145,7 +145,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_show_last_online("MyContacts")
@@ -167,7 +167,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_show_phone_number("Nobody")
@@ -189,7 +189,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_show_profile_photo("MyContacts")
@@ -211,7 +211,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_show_birthday("Nobody")
@@ -233,7 +233,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_can_join_chat_by("MyContacts")
@@ -255,7 +255,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.edit_can_called_by("Nobody")
@@ -276,7 +276,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.auto_delete_account(6)
@@ -298,7 +298,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.update_my_name(first_name="علی", last_name="حسینی")
@@ -321,7 +321,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.update_my_username("new_username")
@@ -342,7 +342,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.update_my_bio("این بیوگرافی من است.")
@@ -363,7 +363,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.update_my_birthday("2000-05-20")
@@ -391,7 +391,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.update_my_profile(
@@ -411,7 +411,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     status = app.get_two_passcode_status()
@@ -434,7 +434,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_two_step_verification(
@@ -458,7 +458,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.check_two_step_passcode("my_password")
@@ -479,7 +479,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.turn_off_two_step("my_password")
@@ -496,7 +496,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.abort_two_step_setup()
@@ -519,7 +519,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.change_password(
@@ -540,7 +540,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.request_forget_password()
@@ -562,7 +562,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.request_recovery_email(
@@ -587,7 +587,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.verify_recovery_email(
@@ -613,7 +613,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.login_disable_two_step(
@@ -638,7 +638,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.login_two_step_forget_password("09123456789")
@@ -659,7 +659,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.request_change_phone_number("09123456789")
@@ -681,7 +681,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.verify_change_phone_number(
@@ -701,7 +701,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     sessions = app.get_my_sessions()
@@ -718,7 +718,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     pending = app.get_unconfirmed_sessions()
@@ -739,7 +739,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.confirm_unconfirmed_session("session_key_123")
@@ -760,7 +760,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.deny_unconfirmed_session("session_key_123")
@@ -781,7 +781,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.terminate_session("session_key_123")
@@ -798,7 +798,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.terminate_other_sessions()
@@ -821,7 +821,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.logout()
@@ -844,7 +844,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.delete_account()
@@ -865,7 +865,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     folders = app.get_folders()
@@ -882,7 +882,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     suggested = app.get_suggested_folders()
@@ -910,7 +910,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.add_folder(
@@ -934,7 +934,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.delete_folder("folder_id_123")
@@ -955,7 +955,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.reorder_folder(["id3", "id1", "id2"])
@@ -980,7 +980,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.add_saved_music_playlist(
@@ -1009,7 +1009,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.add_saved_music_track("song.mp3")
@@ -1034,7 +1034,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_saved_music_playlist(
@@ -1059,7 +1059,7 @@ with Messenger("mySession") as app:
 حذف یک آهنگ خاص:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.delete_saved_music_playlist(position=1)
@@ -1069,7 +1069,7 @@ with Messenger("mySession") as app:
 حذف تمام آهنگ‌ها:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.delete_saved_music_playlist()
@@ -1086,14 +1086,14 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **save_as:** در صورت True بودن، auth و private_key در فایل JSON ذخیره می‌شود. (پیش‌فرض: True)
-- **file_name:** نام فایل سفارشی برای ذخیره. (پیش‌فرض: `maxrubika_{auth[:10]}`)
+- **file_name:** نام فایل سفارشی برای ذخیره. (پیش‌فرض: `darkob_{auth[:10]}`)
 
 **نکته:** این متد فقط با `api_version = 5` کار می‌کند.
 
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger(auth = "ahkjbsawthnh...", api_version=5) as app:
     result = app.upgrade_to_api6()

@@ -65,7 +65,7 @@
 با متد `get_token_string()` می‌توانید توکن فعلی بات را به یک TokenString رمزنگاری‌شده تبدیل کنید:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("TOKEN") as bot:
     # بدون رمز عبور
@@ -80,7 +80,7 @@ with Bot("TOKEN") as bot:
 ### استفاده از TokenString برای ساخت ربات:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot(token_string="ENCRYPTED_STRING", password="my_secret_password") as bot:
     print(bot.get_me())
@@ -102,7 +102,7 @@ with Bot(token_string="ENCRYPTED_STRING", password="my_secret_password") as bot:
 <a id="bot_connect_disconnect"></a>
 ## [نحوه اتصال و قطع اتصال](#bot_connect_disconnect)
 
-برای برقراری و قطع اتصال در کتابخانه MAXRubika، دو روش اصلی وجود دارد که بسته به نوع استفاده (Sync یا Async) و نیاز پروژه، می‌توانید یکی را انتخاب کنید.
+برای برقراری و قطع اتصال در کتابخانه Darkob، دو روش اصلی وجود دارد که بسته به نوع استفاده (Sync یا Async) و نیاز پروژه، می‌توانید یکی را انتخاب کنید.
 
 ### روش اول: استفاده از Context Manager
 
@@ -111,7 +111,7 @@ with Bot(token_string="ENCRYPTED_STRING", password="my_secret_password") as bot:
 #### حالت Sync:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 with Bot("Token") as bot:
     me = bot.get_me()
@@ -121,7 +121,7 @@ with Bot("Token") as bot:
 همچنین می‌توانید ابتدا شیء را بسازید و سپس از `with` استفاده کنید:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("Token")
 
@@ -134,7 +134,7 @@ with bot:
 
 ```python
 import asyncio
-from maxrubika import Bot
+from darkob import Bot
 
 async def main():
     async with Bot("Token") as bot:
@@ -148,7 +148,7 @@ asyncio.run(main())
 
 ```python
 import asyncio
-from maxrubika import Bot
+from darkob import Bot
 
 async def main():
     bot = Bot("Token")
@@ -169,7 +169,7 @@ asyncio.run(main())
 در کدهای Sync از متد `disconnect` استفاده کنید:
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("Token")
 
@@ -185,7 +185,7 @@ bot.disconnect()  # قطع اتصال در پایان عملیات
 
 ```python
 import asyncio
-from maxrubika import Bot
+from darkob import Bot
 
 async def main():
     bot = Bot("Token")
@@ -205,7 +205,7 @@ asyncio.run(main())
 #### مثال: استفاده از دکوراتور (بدون نیاز به قطع دستی)
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("Token")
 
@@ -242,15 +242,15 @@ bot.run()
 
 **مثال ۱ - ترکیب چند متادیتا:**
 
-    "> __سلام__ (کاربر عزیز)[u0] --به کتابخانه‌ی-- **MAXRubika** ||خوش آمدید||!"
+    "> __سلام__ (کاربر عزیز)[u0] --به کتابخانه‌ی-- **Darkob** ||خوش آمدید||!"
 
 **مثال ۲ - متادیتای تودرتو:**
 
-    "> ||__**این یک جمله از کتابخانه --MAXRubika-- است.**__||"
+    "> ||__**این یک جمله از کتابخانه --Darkob-- است.**__||"
 
 **مثال ۳ - بلاک کد کامل:**
 
-    """```from maxrubika import Messenger
+    """```from darkob import Messenger
     with Messenger("mySession") as app:
         info = client.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BEFIDIFGBJHJECCD")
         print(info)```"""

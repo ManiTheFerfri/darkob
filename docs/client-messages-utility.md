@@ -17,7 +17,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     text = app.transcribe_voice("u0abc123...", message_id="123456")
@@ -38,7 +38,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     status = app.get_poll_status("poll_123")
@@ -61,7 +61,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     voters = app.get_poll_option_voters("poll_123", selection_index=0)
@@ -83,7 +83,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.vote_poll("poll_123", selection_index=0)
@@ -104,7 +104,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.stop_poll("poll_123")
@@ -125,7 +125,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.retract_poll("poll_123")
@@ -148,7 +148,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.request_send_file(

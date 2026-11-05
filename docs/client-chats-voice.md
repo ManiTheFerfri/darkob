@@ -16,7 +16,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     voice = app.get_chat_voice_chat("g0abc123...")
@@ -37,7 +37,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.start_voice_chat("g0abc123...")
@@ -61,7 +61,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.join_voice_chat("g0abc123...")
@@ -84,7 +84,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.leave_voice_chat("g0abc123...")
@@ -110,7 +110,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     connection = app.play_voice_chat("g0abc123...", media="/path/to/audio.mp3")
@@ -135,7 +135,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.discard_voice_chat("g0abc123...")
@@ -159,7 +159,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     participants = app.get_voice_chat_participants("g0abc123...")
@@ -183,7 +183,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     updates = app.get_voice_chat_updates("g0abc123...")
@@ -208,7 +208,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.send_voice_chat_activity("g0abc123...")
@@ -233,7 +233,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_voice_chat_setting(
@@ -262,7 +262,7 @@ with Messenger("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     result = app.set_voice_chat_state("g0abc123...", action="Mute")

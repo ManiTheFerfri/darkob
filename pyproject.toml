@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "darkob"
+version = "0.1.0"
+description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "MEHRAB Farahmand", email = "MEH2RABx@gmail.com" },
+]
+maintainers = [
+    { name = "Mani Keikhosravi" },
+]
+keywords = [
+    "darkob",
+    "rubika",
+    "shad",
+    "bot",
+    "robot",
+    "asyncio",
+    "client",
+    "userbot",
+    "self-bot",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Communications :: Chat",
+    "Framework :: AsyncIO",
+    "Typing :: Typed",
+]
+dependencies = [
+    "aiohttp>=3.9",
+    "aiofiles",
+    "mutagen",
+    "pycryptodome",
+    "rich",
+]
+
+[project.optional-dependencies]
+opencv = ["opencv-python"]
+movie = ["numpy", "moviepy"]
+pillow = ["pillow"]
+aiortc = ["aiortc"]
+pro = ["aiortc", "pillow", "opencv-python", "numpy", "moviepy"]
+dev = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/ManiTheFerfri/darkob"
+Documentation = "https://ManiTheFerfri.github.io/darkob"
+Repository = "https://github.com/ManiTheFerfri/darkob"
+Issues = "https://github.com/ManiTheFerfri/darkob/issues"
+Upstream = "https://github.com/MEH2RAB/maxrubika"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["darkob*"]
+
+# ---------------------------------------------------------------------------
+# Linting
+#
+# Scope is deliberately conservative: these rules catch real defects (syntax
+# errors, undefined names, redefinitions) without drowning the 20k-line
+# inherited codebase in style noise. Tighten as the cleanup progresses.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+src = ["darkob", "tests"]
+
+[tool.ruff.lint]
+select = ["E9", "F63", "F7", "F82"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = []
+
+# ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers -p no:cacheprovider"
+filterwarnings = [
+    "error::SyntaxWarning",
+]

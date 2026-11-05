@@ -4,7 +4,7 @@
 ## [ساخت سشن (Session)](#shad_examples_create_session)
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     pass
@@ -16,7 +16,7 @@ with Shad("mySession") as app:
 ## [گرفتن همه چت‌ها](#shad_examples_get_chats)
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     chats = app.get_chats()
@@ -29,7 +29,7 @@ with Shad("mySession") as app:
 ## [نمایش تعداد چت‌ها](#shad_examples_show_chat_counts)
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     chats = app.get_chats(show_chat_guids=True)
@@ -50,8 +50,8 @@ with Shad("mySession") as app:
 
 ```python
 import asyncio, time
-from maxrubika import Shad
-from maxrubika.client.filters import IsMe, Text
+from darkob import Shad
+from darkob.client.filters import IsMe, Text
 
 app = Shad("mySession")
 
@@ -95,7 +95,7 @@ app.run()
 ## [پروفایل دو تایی (Dual Avatar)](#shad_examples_dual_avatar)
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:  # نام سشن خود را اینجا وارد کنید
 
@@ -114,8 +114,8 @@ with Shad("mySession") as app:  # نام سشن خود را اینجا وارد 
 ## [نمایش چت اکشن فیک](#shad_examples_fake_action)
 
 ```python
-from maxrubika import Shad
-from maxrubika.client.filters import IsMe
+from darkob import Shad
+from darkob.client.filters import IsMe
 
 app = Shad("mySession") # نام سشن اکانت خود را اینجا وارد کنید
 

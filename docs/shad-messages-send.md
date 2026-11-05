@@ -27,7 +27,7 @@
 ارسال پیام متنی ساده:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_message("@Online_User", text="سلام! چطوری؟")
@@ -37,7 +37,7 @@ with Shad("mySession") as app:
 ارسال پیام با ریپلای:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_message(
@@ -52,7 +52,7 @@ with Shad("mySession") as app:
 
 ```python
 from datetime import timedelta
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_message(
@@ -88,7 +88,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_image(
@@ -125,7 +125,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_video(
@@ -148,7 +148,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_video_message(
@@ -183,7 +183,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_gif(
@@ -216,7 +216,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_voice(
@@ -249,7 +249,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_music(
@@ -281,7 +281,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_file(
@@ -315,7 +315,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_sticker(
@@ -347,7 +347,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_poll(
@@ -380,7 +380,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_quiz(
@@ -410,7 +410,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_location(
@@ -438,7 +438,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_live(
@@ -464,7 +464,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_message_api_call(
@@ -490,7 +490,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_now_scheduled_message(
@@ -520,7 +520,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_contact(

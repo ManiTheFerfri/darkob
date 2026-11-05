@@ -1,0 +1,23 @@
+import inspect
+import darkob
+from ..core import handlers
+from ..filters import Filter
+
+class OnShowNotifications:
+    def on_show_notifications(self: "darkob.Client", *filters: Filter):
+        """Decorator for show notifications with optional filters."""
+        def MetaHandler(func):
+            async def wrapper(event):
+                for f in filters:
+                    if hasattr(f, 'evaluate'):
+                        if not await f.evaluate(event):
+                            return
+
+                result = func(event)
+                if inspect.isawaitable(result):
+                    result = await result
+                return result
+
+            self.add_handler(wrapper, handlers.ShowNotifications())
+            return func
+        return MetaHandler

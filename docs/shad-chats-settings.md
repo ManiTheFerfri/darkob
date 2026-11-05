@@ -17,7 +17,7 @@
 ۱. بی‌صدای دائمی:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.mute_chat("g0abc123...")
@@ -28,7 +28,7 @@ with Shad("mySession") as app:
 
 ```python
 from datetime import timedelta
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.mute_chat("g0abc123...", duration=timedelta(hours=2))
@@ -49,7 +49,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unmute_chat("g0abc123...")
@@ -70,7 +70,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.pin_chat("u0abc123...")
@@ -91,7 +91,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unpin_chat("u0abc123...")
@@ -113,7 +113,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.pin_chat_in_folder("u0abc123...", folder_id="folder_123")
@@ -135,7 +135,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unpin_chat_in_folder("u0abc123...", folder_id="folder_123")
@@ -156,7 +156,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.archive_chat("u0abc123...")
@@ -177,7 +177,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.unarchive_chat("u0abc123...")
@@ -199,7 +199,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_chat_protected_content("g0abc123...", enabled=True)
@@ -224,7 +224,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_chat_auto_delete("g0abc123...", auto_delete="7d")
@@ -245,7 +245,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_chat_history("u0abc123...")
@@ -269,7 +269,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_ask_spam("u0abc123...", action="BlockUser")
@@ -292,7 +292,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.upload_avatar(
@@ -316,7 +316,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     avatars = app.get_avatars("g0abc123...")
@@ -338,7 +338,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_avatar("me", avatar_id="avatar_123")
@@ -359,7 +359,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.delete_all_avatars("g0abc123...")

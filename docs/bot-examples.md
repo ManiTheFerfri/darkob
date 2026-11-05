@@ -6,7 +6,7 @@
 ## [دریافت پیام ساده](#bot_examples_simple_message)
 
 ```python
-from maxrubika import Bot
+from darkob import Bot
 
 bot = Bot("Token")
 
@@ -23,8 +23,8 @@ bot.run()
 ## [دریافت چت آیدی و سندر آیدی](#bot_examples_get_info)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import ChatType
+from darkob import Bot
+from darkob.bot.filters import ChatType
 
 bot = Bot("Token")
 
@@ -62,8 +62,8 @@ bot.run(0)
 ## [تاس، سکه و عدد تصادفی](#bot_examples_dice_coin_random)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import Text
+from darkob import Bot
+from darkob.bot.filters import Text
 import random
 
 bot = Bot("Token")
@@ -93,8 +93,8 @@ bot.run(0)
 ## [اکو کردن پیام‌ها](#bot_examples_echo_messages)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import *
+from darkob import Bot
+from darkob.bot.filters import *
 
 TOKEN = "Token"
 SENDER_ID = ""
@@ -120,8 +120,8 @@ bot.run(0)
 ## [اکو کردن پیام‌ها با استفاده از پراپرتی‌ها](#bot_examples_echo_messages2)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import FromUser
+from darkob import Bot
+from darkob.bot.filters import FromUser
 
 TOKEN = "Token"
 SENDER_ID = ""
@@ -145,8 +145,8 @@ bot.run(0)
 ## [سکوت کردن کاربران](#bot_examples_mute_users)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import ChatType, Text, IsReply, FromUser
+from darkob import Bot
+from darkob.bot.filters import ChatType, Text, IsReply, FromUser
 
 token = "Token"
 sender_id = ""
@@ -233,8 +233,8 @@ bot.run(0)
 ## [تگ (منشن) کردن کاربران](#bot_examples_tag_users)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import Text, IsReply, ChatType
+from darkob import Bot
+from darkob.bot.filters import Text, IsReply, ChatType
 import random
 import json
 import os
@@ -412,8 +412,8 @@ bot.run(0)
 
 ```python
 import re
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import Text
+from darkob import Bot, Messenger
+from darkob.bot.filters import Text
 
 bot = Bot("Token") # توکن بات خود را اینجا وارد کنید.
 app = Messenger("mySession") # سشن اکانت خود را اینجا وارد کنید.
@@ -445,9 +445,9 @@ bot.run()
 ## [کد بررسی عضویت به صورت مستقیم](#bot_examples_check_join)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import IsUser
-from maxrubika.bot.exceptions import InvalidAccess
+from darkob import Bot
+from darkob.bot.filters import IsUser
+from darkob.bot.exceptions import InvalidAccess
 
 bot = Bot("Token") # توکن بات خود اینجا وارد شود
 
@@ -474,8 +474,8 @@ bot.run()
 ## [کد بررسی عضویت با استفاده از فیلتر](#bot_examples_check_join2)
 
 ```python
-from maxrubika import Bot
-from maxrubika.bot.filters import IsJoined, IsUser
+from darkob import Bot
+from darkob.bot.filters import IsJoined, IsUser
 
 bot = Bot("Token")  # توکن بات خود را اینجا وارد کنید
 
@@ -506,12 +506,12 @@ bot.run()
 ```python
 import asyncio
 import time
-from maxrubika import Bot
-from maxrubika.bot.filters import IsGroup, IsJoined, FromChat
+from darkob import Bot
+from darkob.bot.filters import IsGroup, IsJoined, FromChat
 
 bot = Bot("Token") # توکن بات خود را اینجا وارد کنید
 
-CHANNEL_LINK = ["@TheMAXRubika", "@TheProgrammer"] # نام کاربری کانال‌های مورد نظر را اینجا وارد کنید
+CHANNEL_LINK = ["@YourChannel", "@TheProgrammer"] # نام کاربری کانال‌های مورد نظر را اینجا وارد کنید
 
 GROUP_ID = "" # چت آیدی گروه خود را اینجا وارد کنید
 

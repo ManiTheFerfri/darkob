@@ -59,7 +59,7 @@
 با استفاده از متد `get_string_session()` می‌توانید سشن فعلی خود را به یک رشته رمزنگاری‌شده تبدیل کنید:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     # بدون رمز عبور
@@ -72,7 +72,7 @@ with Messenger("mySession") as app:
 ### استفاده از StringSession برای ساخت کلاینت:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 # بدون رمز عبور
 with Messenger(string_session="ENCRYPTED_STRING") as app:
@@ -94,7 +94,7 @@ with Messenger(string_session="ENCRYPTED_STRING", password="my_secret_password")
 1. **اولویت `string_session`:** اگر هم `session` و هم `string_session` را بدهید، `string_session` استفاده می‌شود.
 2. **رمز عبور را نگه دارید:** اگر StringSession را با رمز عبور بسازید، **حتماً رمز را جای امنی نگه دارید.** بدون آن، StringSession قابل بازیابی نیست.
 3. **مخصوص API v6:** استفاده از `string_session` فقط در `api_version=6` پشتیبانی می‌شود.
-4. **سازگاری:** StringSession ساخته‌شده با کتابخانه MAXRubika فقط در همین کتابخانه قابل استفاده است.
+4. **سازگاری:** StringSession ساخته‌شده با کتابخانه Darkob فقط در همین کتابخانه قابل استفاده است.
 5. **مدیریت خطا:** اگر StringSession نامعتبر باشد یا رمز عبور اشتباه باشد، خطای `SessionError` برگردانده می‌شود.
 
 ---
@@ -121,12 +121,12 @@ with Messenger(string_session="ENCRYPTED_STRING", password="my_secret_password")
 
 **مثال ۱ - ترکیب چند متادیتا:**
 ```
-> __سلام__ [کاربر عزیز](u0) --به کتابخانه‌ی-- **MAXRubika** ||خوش آمدید||!
+> __سلام__ [کاربر عزیز](u0) --به کتابخانه‌ی-- **Darkob** ||خوش آمدید||!
 ```
 
 **مثال ۲ - متادیتای تودرتو:**
 ```
-> ||__**این یک جمله از کتابخانه --MAXRubika-- است.**__||
+> ||__**این یک جمله از کتابخانه --Darkob-- است.**__||
 ```
 
 **توجه:**
@@ -140,7 +140,7 @@ with Messenger(string_session="ENCRYPTED_STRING", password="my_secret_password")
 <a id="messenger_creation_guide"></a>
 ## [راهنمای ایجاد کلاینت (Messenger)](#messenger_creation_guide)
 
-برای ایجاد یک نمونه از کلاینت MAXRubika، می‌توانید از پارامترهای زیر استفاده کنید:
+برای ایجاد یک نمونه از کلاینت Darkob، می‌توانید از پارامترهای زیر استفاده کنید:
 
 | پارامتر | توضیح | نوع | پیش‌فرض |
 |:------:|------|:------:|:------:|
@@ -163,7 +163,7 @@ with Messenger(string_session="ENCRYPTED_STRING", password="my_secret_password")
 
 **روش ۱: استفاده از نشست (Session) - مخصوص API v6**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     # کد شما
@@ -172,7 +172,7 @@ with Messenger("mySession") as app:
 
 **روش ۲: استفاده از String Session - مخصوص API v6**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger(string_session="ENCRYPTED_STRING", password="my_pass") as app:
     # کد شما
@@ -181,7 +181,7 @@ with Messenger(string_session="ENCRYPTED_STRING", password="my_pass") as app:
 
 **روش ۳: استفاده از Auth و Private Key - مخصوص API v6**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger(
     auth="abcdefghijklmnopqrstuvwxyz12",
@@ -193,7 +193,7 @@ with Messenger(
 
 **روش ۴: استفاده از Auth - مخصوص API v5**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger(
     auth="abcdefghijklmnopqrstuvwxyz12",
@@ -215,7 +215,7 @@ with Messenger(
 <a id="messenger_connect_disconnect"></a>
 ## [نحوه اتصال و قطع اتصال](#messenger_connect_disconnect)
 
-برای برقراری و قطع اتصال در کتابخانه MAXRubika، دو روش اصلی وجود دارد که بسته به نوع استفاده (Sync یا Async) و نیاز پروژه، می‌توانید یکی را انتخاب کنید.
+برای برقراری و قطع اتصال در کتابخانه Darkob، دو روش اصلی وجود دارد که بسته به نوع استفاده (Sync یا Async) و نیاز پروژه، می‌توانید یکی را انتخاب کنید.
 
 ### روش اول: استفاده از Context Manager
 
@@ -224,7 +224,7 @@ with Messenger(
 #### حالت Sync:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     me = app.get_me()
@@ -234,7 +234,7 @@ with Messenger("mySession") as app:
 همچنین می‌توانید ابتدا شیء را بسازید و سپس از `with` استفاده کنید:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -247,7 +247,7 @@ with app:
 
 ```python
 import asyncio
-from maxrubika import Messenger
+from darkob import Messenger
 
 async def main():
     async with Messenger("mySession") as app:
@@ -261,7 +261,7 @@ asyncio.run(main())
 
 ```python
 import asyncio
-from maxrubika import Messenger
+from darkob import Messenger
 
 async def main():
     app = Messenger("mySession")
@@ -280,7 +280,7 @@ asyncio.run(main())
 #### حالت Sync:
 
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 app = Messenger("mySession")
 
@@ -296,7 +296,7 @@ app.disconnect()  # قطع اتصال در پایان عملیات
 
 ```python
 import asyncio
-from maxrubika import Messenger
+from darkob import Messenger
 
 async def main():
     app = Messenger("mySession")
@@ -320,8 +320,8 @@ asyncio.run(main())
 #### مثال: استفاده از دکوراتور (بدون نیاز به قطع دستی)
 
 ```python
-from maxrubika import Messenger
-from maxrubika.client.filters import Command
+from darkob import Messenger
+from darkob.client.filters import Command
 
 app = Messenger("mySession")
 
@@ -341,7 +341,7 @@ app.run()
 
 ### انعطاف‌پذیری در شناسایی مخاطبان و گروه‌ها
 
-تمامی متدهای کتابخانه **MAXRubika** که با گروه‌ها، کانال‌ها، گفتگوهای خصوصی یا هر نوع چت دیگری سروکار دارند، از **سه روش مختلف** برای شناسایی هدف پشتیبانی می‌کنند:
+تمامی متدهای کتابخانه **Darkob** که با گروه‌ها، کانال‌ها، گفتگوهای خصوصی یا هر نوع چت دیگری سروکار دارند، از **سه روش مختلف** برای شناسایی هدف پشتیبانی می‌کنند:
 
 | روش ورودی | فرمت | مثال |
 |:------:|------|------|
@@ -369,7 +369,7 @@ app.run()
 
 **مثال غیربهینه:**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     for _ in range(5):
@@ -378,7 +378,7 @@ with Messenger("mySession") as app:
 
 **مثال بهینه:**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     guid = app.get_guid("@YaserDev")
@@ -390,7 +390,7 @@ with Messenger("mySession") as app:
 
 **مثال ۱ - افزودن اعضا به گروه با روش‌های مختلف:**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     try:
@@ -405,7 +405,7 @@ with Messenger("mySession") as app:
 
 **مثال ۲ - تنظیم ادمین با استفاده از لینک دعوت و یوزرنیم:**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     try:
@@ -422,7 +422,7 @@ with Messenger("mySession") as app:
 
 **مثال ۳ - ارسال پیام به کانال با GUID و یوزرنیم:**
 ```python
-from maxrubika import Messenger
+from darkob import Messenger
 
 with Messenger("mySession") as app:
     try:

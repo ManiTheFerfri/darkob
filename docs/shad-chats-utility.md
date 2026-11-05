@@ -15,7 +15,7 @@
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.send_chat_activity("u0abc123...", activity="Typing")
@@ -39,7 +39,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.click_keypad_button("@MyBot", button_id="100")
@@ -56,7 +56,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     drafts = app.get_all_drafts()
@@ -77,7 +77,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.clear_chat_draft("u0abc123...")
@@ -94,7 +94,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.clear_all_drafts()
@@ -115,7 +115,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.seen_chats({
@@ -140,7 +140,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.set_chat_use_time("u0abc123...", use_time=60)
@@ -165,7 +165,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.report_chat(
@@ -190,7 +190,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.click_chat_ads("ads_123")
@@ -211,7 +211,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.dont_show_chat_ads("ads_123")
@@ -232,7 +232,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.report_chat_ads("ads_123")
@@ -253,7 +253,7 @@ with Shad("mySession") as app:
 **مثال:**
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.view_chat_ads("ads_123")
@@ -283,7 +283,7 @@ with Shad("mySession") as app:
 ۱. دریافت آخرین عکس پروفایل به صورت بایت:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     image_bytes = app.download_profile_picture("@Online_User")
@@ -293,7 +293,7 @@ with Shad("mySession") as app:
 ۲. ذخیره در مسیر دلخواه:
 
 ```python
-from maxrubika import Shad
+from darkob import Shad
 
 with Shad("mySession") as app:
     result = app.download_profile_picture("@Online_User", save_as="/path/to/folder")
