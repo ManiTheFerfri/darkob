@@ -90,7 +90,7 @@ jobs:
         # manually uploaded release is not reported as a failure.
         if: steps.check.outputs.exists != 'true'
         with:
-          skip_existing: true
+          skip-existing: true
         # No password: OIDC trusted publishing handles authentication.
 
   github-release:
