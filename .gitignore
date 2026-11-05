@@ -35,6 +35,10 @@ coverage.xml
 .dmypy.json
 .ruff_cache/
 
+# Local developer tooling installs
+.devtools/
+.piptmp/
+
 # Documentation build
 site/
 docs/_build/

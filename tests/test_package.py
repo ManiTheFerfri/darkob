@@ -58,3 +58,15 @@ def test_check_for_updates_returns_none_when_already_latest(monkeypatch):
 )
 def test_parse_version_is_tolerant(raw, expected):
     assert _parse_version(raw) == expected
+
+
+def test_client_request_module_imports_data():
+    """Regression: ``client/base/request.py`` used ``Data`` without importing it.
+
+    That branch returned ``Data({})`` and would have raised ``NameError`` at
+    runtime instead of returning an empty response.
+    """
+    from darkob.client.base import request as request_module
+    from darkob.data import Data
+
+    assert request_module.Data is Data

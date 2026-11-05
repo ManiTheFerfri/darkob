@@ -1,6 +1,7 @@
 from typing import Union, Optional, Dict
 from ..core.cipher import Cipher
 from ...types import Event
+from ...data import Data
 from .. import exceptions
 from ..exceptions import NoConnection
 import darkob

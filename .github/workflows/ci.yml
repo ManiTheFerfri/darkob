@@ -36,9 +36,6 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
-    # Non-blocking while the inherited 20k-line codebase is cleaned up.
-    # Remove `continue-on-error` once `ruff check` reports zero findings.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
