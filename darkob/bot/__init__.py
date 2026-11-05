@@ -19,6 +19,7 @@ from .member_is_joined import MemberIsJoined
 from .member_is_owner import MemberIsOwner
 from .register_all_endpoints import RegisterAllEndpoints
 from .remove_chat_keypad import RemoveChatKeypad
+from .remove_commands import RemoveCommands
 from .remove_member import RemoveMember
 from .request import Request
 from .request_send_file import RequestSendFile
@@ -61,6 +62,7 @@ class Methods(
     MemberIsOwner,
     RegisterAllEndpoints,
     RemoveChatKeypad,
+    RemoveCommands,
     RemoveMember,
     Request,
     RequestSendFile,

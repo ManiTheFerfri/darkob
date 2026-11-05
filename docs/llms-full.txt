@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.6.1 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.7.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -232,6 +232,20 @@ See [Filters](filters.md) for the full list.
 @bot.on_command()                       # any command
 @bot.on_command("help", prefixes=["/", "!"])
 ```
+
+## Editing a message
+
+```python
+await bot.edit_message(
+    event.chat_id,
+    event.message_id,
+    "Updated text",
+    inline_keypad=Keyboard().row("Done"),
+)
+```
+
+The inline keypad is optional; omit it to leave the existing buttons
+alone.
 
 ## Middleware
 
@@ -1213,7 +1227,7 @@ A workflow that reliably produces working bots:
 ---
 # COMPLETE API: every public signature
 
-## Bot (46 methods)
+## Bot (47 methods)
 
 ### `auto_delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], time: Union[float, int])`
 
@@ -1390,7 +1404,7 @@ Raises:
     InvalidInput: If 'chat_id' format is invalid, or if 'message_id' is not
         a digit-only string or an integer.
 
-### `edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None)`
+### `edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None)`
 
 Edits an existing message in a chat.
 
@@ -1399,6 +1413,9 @@ Parameters:
     message_id (Union[str, int]): The unique identifier of the message to edit.
     text (str): The new text of the message.
     metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
+    inline_keypad (dict or list, optional): Replacement inline
+        keyboard. Accepts a Keyboard builder, a list of rows, or a
+        raw keypad dict. Pass an empty list to remove it.
 
 Returns:
     dict: API response with message information.
@@ -1560,6 +1577,16 @@ Parameters:
 
 Returns:
     The API response after removing the chat keypad.
+
+### `remove_commands(self: 'darkob.Bot')`
+
+Remove every custom command previously registered for this bot.
+
+The Bot API exposes this as ``setCommands`` with an empty
+``bot_commands`` list, which is what this calls.
+
+Returns:
+    The API response.
 
 ### `remove_member(self: 'darkob.Bot', chat_id: str, sender_id: str)`
 

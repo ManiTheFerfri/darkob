@@ -1,4 +1,4 @@
-from typing import Union, Dict, Any, Optional
+from typing import Union, Dict, Any, List, Optional
 import re; import darkob
 from .metadata import to_metadata
 from .exceptions import InvalidInput
@@ -10,7 +10,8 @@ class EditMessage:
         chat_id: str,
         message_id: Union[str, int],
         text: str,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
+        inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None,
     ):
         """
         Edits an existing message in a chat.
@@ -20,6 +21,9 @@ class EditMessage:
             message_id (Union[str, int]): The unique identifier of the message to edit.
             text (str): The new text of the message.
             metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
+            inline_keypad (dict or list, optional): Replacement inline
+                keyboard. Accepts a Keyboard builder, a list of rows, or a
+                raw keypad dict. Pass an empty list to remove it.
 
         Returns:
             dict: API response with message information.
@@ -55,6 +59,11 @@ class EditMessage:
         }
         if metadata:
             payload['metadata'] = metadata
+
+        if inline_keypad is not None:
+            normalized = self._normalize_keypad(inline_keypad, is_inline=True)
+            if normalized:
+                payload['inline_keypad'] = normalized
 
         payload = {k: v for k, v in payload.items() if v is not None}
         result = await self.request('POST', 'editMessageText', json = payload)

@@ -1,11 +1,11 @@
 {
   "package": "darkob",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
       "summary": "The official Rubika Bot API. Token based, plain HTTP JSON.",
-      "method_count": 46,
+      "method_count": 47,
       "methods": [
         {
           "name": "auto_delete_message",
@@ -79,10 +79,10 @@
         },
         {
           "name": "edit_message",
-          "signature": "edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None)",
+          "signature": "edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None)",
           "group": "bot",
           "module": "darkob.bot.edit_message",
-          "doc": "Edits an existing message in a chat.\n\nParameters:\n    chat_id (str): chat_id of the chat.\n    message_id (Union[str, int]): The unique identifier of the message to edit.\n    text (str): The new text of the message.\n    metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).\n\nReturns:\n    dict: API response with message information."
+          "doc": "Edits an existing message in a chat.\n\nParameters:\n    chat_id (str): chat_id of the chat.\n    message_id (Union[str, int]): The unique identifier of the message to edit.\n    text (str): The new text of the message.\n    metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).\n    inline_keypad (dict or list, optional): Replacement inline\n        keyboard. Accepts a Keyboard builder, a list of rows, or a\n        raw keypad dict. Pass an empty list to remove it.\n\nReturns:\n    dict: API response with message information."
         },
         {
           "name": "forward_message",
@@ -181,6 +181,13 @@
           "group": "bot",
           "module": "darkob.bot.remove_chat_keypad",
           "doc": "Removes the custom reply keyboard from the specified chat.\n\nParameters:\n    chat_id (str): chat_id of the chat where the keypad should be removed.\n\nReturns:\n    The API response after removing the chat keypad."
+        },
+        {
+          "name": "remove_commands",
+          "signature": "remove_commands(self: 'darkob.Bot')",
+          "group": "bot",
+          "module": "darkob.bot.remove_commands",
+          "doc": "Remove every custom command previously registered for this bot.\n\nThe Bot API exposes this as ``setCommands`` with an empty\n``bot_commands`` list, which is what this calls.\n\nReturns:\n    The API response."
         },
         {
           "name": "remove_member",

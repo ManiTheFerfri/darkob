@@ -116,22 +116,42 @@ Measured with a benchmark harness, not guessed:
   `keyboards.py`, `formatting.py` and `testing.py` — **enforced in CI**.
 - Full annotations across the inherited tree: still pending.
 
-## Awaiting API documentation
+## Official Bot API parity
 
-These are deliberately **not implemented**. Each needs a documented Bot
-API endpoint or payload shape, and guessing one would ship a method that
-looks right and fails in production — worse than not having it.
+Audited against <https://rubika.ir/botapi> (methods, models and
+group/channel pages). The documentation defines **18 methods**:
 
-| Item | Why it waits |
+`sendMessage`, `editMessageText`, `editChatKeypad`, `sendFile`,
+`requestSendFile`, `getFile`, `sendLocation`, `sendContact`, `sendPoll`,
+`forwardMessage`, `deleteMessage`, `banChatMember`, `unbanChatMember`,
+`getChat`, `getMe`, `getUpdates`, `setCommands`, `updateBotEndpoints`.
+
+Every one of them is implemented, and every endpoint string matches.
+
+Two methods exist in darkob that the public docs do not list:
+`getChatMember` and `editMessageKeypad`. They are kept — removing a
+working method because a page omits it would break users — but they are
+undocumented upstream, so treat them as unsupported by Rubika.
+
+### Fixed by the audit
+
+- `edit_message` now accepts `inline_keypad`. The docs list it for
+  `editMessageText`; darkob previously ignored it, so a handler could not
+  change buttons after a callback.
+- `remove_commands()` added, matching the documented `setCommands` with an
+  empty `bot_commands` list.
+
+### Confirmed absent from the API
+
+These were previously listed as "awaiting documentation". The audit shows
+the endpoints do not exist, so they are settled rather than pending:
+
+| Feature | Reality |
 | --- | --- |
-| `send_album` | No documented payload for multi-file messages |
-| `set_webhook` / `get_webhook_info` / `delete_webhook` | Webhooks are served by your app; no Bot API endpoint is documented |
-| `pin_message` / `unpin_message` (Bot surface) | Messenger has them; the Bot API surface is undocumented here |
-| `remove_commands` | Endpoint semantics unknown; `set_commands({})` is not obviously equivalent |
-| `sync_contacts` | Requires a documented contact payload |
-| `VoiceChat` wrapper | Needs the voice-chat state machine documented before wrapping |
-
-Unblocking any of these is a small change once the endpoint is known.
+| `send_album` | No multi-file endpoint; use several `send_file` calls |
+| `set_webhook` / `get_webhook_info` / `delete_webhook` | No such endpoints; `updateBotEndpoints` registers a URL but exposes no read/delete |
+| Bot-side `pin_message` / `unpin_message` | Not part of the Bot API |
+| `sync_contacts` | Messenger-only; the Bot API has no contact sync |
 
 ## P2 — larger work
 

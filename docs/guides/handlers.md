@@ -55,6 +55,20 @@ See [Filters](filters.md) for the full list.
 @bot.on_command("help", prefixes=["/", "!"])
 ```
 
+## Editing a message
+
+```python
+await bot.edit_message(
+    event.chat_id,
+    event.message_id,
+    "Updated text",
+    inline_keypad=Keyboard().row("Done"),
+)
+```
+
+The inline keypad is optional; omit it to leave the existing buttons
+alone.
+
 ## Middleware
 
 A middleware wraps dispatch. Call `call_next()` to continue, or return

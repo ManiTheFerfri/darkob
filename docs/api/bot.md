@@ -4,12 +4,12 @@ The official Rubika Bot API. Token based, plain HTTP JSON.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**46 public methods.**
+**47 public methods.**
 
 ## Method index
 
 - **core** (1): [`include_router`](#include-router)
-- **bot** (45): [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
+- **bot** (46): [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
 
 ## core
 
@@ -247,7 +247,7 @@ Raises:
 ### edit_message
 
 ```python
-edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None)
+edit_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], text: str, metadata: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]=None)
 ```
 
 Edits an existing message in a chat.
@@ -257,6 +257,9 @@ Parameters:
     message_id (Union[str, int]): The unique identifier of the message to edit.
     text (str): The new text of the message.
     metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
+    inline_keypad (dict or list, optional): Replacement inline
+        keyboard. Accepts a Keyboard builder, a list of rows, or a
+        raw keypad dict. Pass an empty list to remove it.
 
 Returns:
     dict: API response with message information.
@@ -460,6 +463,20 @@ Parameters:
 
 Returns:
     The API response after removing the chat keypad.
+
+### remove_commands
+
+```python
+remove_commands(self: 'darkob.Bot')
+```
+
+Remove every custom command previously registered for this bot.
+
+The Bot API exposes this as ``setCommands`` with an empty
+``bot_commands`` list, which is what this calls.
+
+Returns:
+    The API response.
 
 ### remove_member
 
