@@ -31,7 +31,10 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import sqlite3
 import tempfile
+import threading
+import time
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict, Optional
 
@@ -41,6 +44,8 @@ __all__ = [
     "Storage",
     "MemoryStorage",
     "JsonFileStorage",
+    "TTLMemoryStorage",
+    "SQLiteStorage",
     "FSMContext",
     "StateFilter",
     "default_storage_key",
@@ -213,6 +218,125 @@ class JsonFileStorage(Storage):
             self._data.pop(key, None)
             self._flush()
 
+
+
+class TTLMemoryStorage(MemoryStorage):
+    """In-memory storage whose entries expire after ``ttl`` seconds.
+
+    Useful for conversation state that should not outlive a session: an
+    abandoned checkout half-fills memory forever otherwise.
+    """
+
+    def __init__(self, ttl: float = 3600.0) -> None:
+        if ttl <= 0:
+            raise ValueError("ttl must be greater than 0.")
+        super().__init__()
+        self.ttl = ttl
+        self._touched: Dict[str, float] = {}
+
+    def _expired(self, key: str) -> bool:
+        touched = self._touched.get(key)
+        return touched is not None and (time.time() - touched) >= self.ttl
+
+    def _touch(self, key: str) -> None:
+        self._touched[key] = time.time()
+
+    async def get_state(self, key: str) -> Optional[str]:
+        if self._expired(key):
+            await self.clear(key)
+            return None
+        return await super().get_state(key)
+
+    async def set_state(self, key: str, state: Optional[str]) -> None:
+        await super().set_state(key, state)
+        self._touch(key)
+
+    async def get_data(self, key: str) -> Dict[str, Any]:
+        if self._expired(key):
+            await self.clear(key)
+            return {}
+        return await super().get_data(key)
+
+    async def set_data(self, key: str, data: Dict[str, Any]) -> None:
+        await super().set_data(key, data)
+        self._touch(key)
+
+    async def clear(self, key: str) -> None:
+        await super().clear(key)
+        self._touched.pop(key, None)
+
+
+class SQLiteStorage(Storage):
+    """Durable storage backed by SQLite, safe for concurrent tasks.
+
+    One file, no server, survives restarts, and stays consistent when the
+    process is killed mid-write (WAL mode).
+    """
+
+    def __init__(self, path: str = "darkob_fsm.db") -> None:
+        self.path = path
+        self._lock = threading.Lock()
+        self._connection = sqlite3.connect(path, check_same_thread=False)
+        self._connection.execute("PRAGMA journal_mode=WAL")
+        self._connection.execute(
+            "CREATE TABLE IF NOT EXISTS fsm ("
+            "key TEXT PRIMARY KEY, state TEXT, data TEXT, updated REAL)"
+        )
+        self._connection.commit()
+
+    def _write(self, key: str, state: Optional[str], data: str) -> None:
+        with self._lock:
+            self._connection.execute(
+                "INSERT INTO fsm (key, state, data, updated) VALUES (?, ?, ?, ?) "
+                "ON CONFLICT(key) DO UPDATE SET state=excluded.state, "
+                "data=excluded.data, updated=excluded.updated",
+                (key, state, data, time.time()),
+            )
+            self._connection.commit()
+
+    def _read(self, key: str):
+        with self._lock:
+            cursor = self._connection.execute(
+                "SELECT state, data FROM fsm WHERE key = ?", (key,)
+            )
+            row = cursor.fetchone()
+            cursor.close()
+            return row
+
+    async def get_state(self, key: str) -> Optional[str]:
+        row = self._read(key)
+        if not row or not row[0]:
+            return None
+        return row[0]
+
+    async def set_state(self, key: str, state: Optional[str]) -> None:
+        current = self._read(key)
+        data = current[1] if current else "{}"
+        self._write(key, state, data)
+
+    async def get_data(self, key: str) -> Dict[str, Any]:
+        row = self._read(key)
+        if not row or not row[1]:
+            return {}
+        try:
+            value = json.loads(row[1])
+        except ValueError:
+            return {}
+        return value if isinstance(value, dict) else {}
+
+    async def set_data(self, key: str, data: Dict[str, Any]) -> None:
+        current = self._read(key)
+        state = current[0] if current else None
+        self._write(key, state, json.dumps(data, ensure_ascii=False))
+
+    async def clear(self, key: str) -> None:
+        with self._lock:
+            self._connection.execute("DELETE FROM fsm WHERE key = ?", (key,))
+            self._connection.commit()
+
+    async def close(self) -> None:
+        with self._lock:
+            self._connection.close()
 
 class FSMContext:
     """State and data for one conversation, bound to a storage and key."""

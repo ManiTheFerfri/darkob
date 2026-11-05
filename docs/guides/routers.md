@@ -57,6 +57,22 @@ Mirror the bot decorators exactly:
 Constraints are passed through unchanged, so a router route behaves
 identically to the same decorator written on the bot.
 
+## Router middleware
+
+A middleware declared on a router wraps **only** that router's
+handlers, including routers nested inside it.
+
+```python
+@router.middleware()
+async def log(bot, event, call_next):
+    print("before")
+    await call_next()
+    print("after")
+```
+
+Call `await call_next()` to continue; return without calling it to
+stop the handler. Multiple middlewares run outermost-first.
+
 ## Inspecting a router
 
 ```python

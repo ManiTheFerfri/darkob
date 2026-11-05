@@ -43,9 +43,22 @@ state, so it will not hijack unrelated messages.
 | --- | --- | --- |
 | `MemoryStorage()` | No | Tests, ephemeral bots |
 | `JsonFileStorage("fsm.json")` | Yes | Single-process bots |
+| `TTLMemoryStorage(ttl=3600)` | No | State that should expire |
+| `SQLiteStorage("fsm.db")` | Yes | Durable and concurrency-safe |
 
 `JsonFileStorage` writes atomically, tolerates a corrupt file (it starts
 empty rather than crashing), and is safe to call from concurrent tasks.
+
+`JsonFileStorage` writes atomically and tolerates a corrupt file.
+`SQLiteStorage` runs in WAL mode, so it survives a hard kill mid-write
+and is safe for several tasks writing at once.
+
+```python
+from darkob import SQLiteStorage, TTLMemoryStorage
+
+storage = SQLiteStorage("darkob_fsm.db")   # durable
+storage = TTLMemoryStorage(ttl=1800)         # forgets after 30 min
+```
 
 ## FSMContext
 

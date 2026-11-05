@@ -25,6 +25,13 @@ class Data:
                 f"'{type(self).__name__}' object has no attribute '{name}'"
             )
 
+        # Fast path: the overwhelming majority of lookups are
+        # top-level keys. Searching recursively for those cost ~0.9us
+        # per access, and `event.text` is called in every handler.
+        payload = self._data
+        if type(payload) is dict and name in payload:
+            return self._convert_value(payload[name])
+
         result = self.find_keys(name, default=_MISSING)
 
         if result is _MISSING:
@@ -136,9 +143,10 @@ class Data:
         if data is None:
             data = self._data
 
-        target = self._normalize_keys(keys)
+        single = keys if isinstance(keys, str) else None
+        target = None if single is not None else self._normalize_keys(keys)
 
-        if isinstance(data, list):
+        if type(data) is list:
             stack = data[::-1]
         else:
             stack = [data]
@@ -147,9 +155,15 @@ class Data:
             node = stack.pop()
 
             if type(node) is dict:
-                for key in node:
-                    if key in target:
-                        return self._convert_value(node[key])
+                # Single-key lookups skip building a frozenset every call;
+                # this is the hot path for event.text and friends.
+                if single is not None:
+                    if single in node:
+                        return self._convert_value(node[single])
+                else:
+                    for key in node:
+                        if key in target:
+                            return self._convert_value(node[key])
 
                 for value in reversed(tuple(node.values())):
                     if type(value) is dict or type(value) is list:

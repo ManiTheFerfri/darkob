@@ -34,6 +34,7 @@ class Client(Methods):
         timeout: Union[str, int, float] = 30,
         proxy: Optional[str] = None,
         verify_ssl: bool = True,
+        retry=None,
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino'] = 'pwa',
         api_version: Literal[5, 6] = 6,
@@ -54,6 +55,8 @@ class Client(Methods):
             timeout (int or float, optional): Request timeout in seconds (default: 30).
             proxy (str, optional): Proxy address (example: 'http://127.0.0.1:80').
             verify_ssl (bool, optional): Verify TLS certificates (default: True).
+            retry (Retry, optional): Retry policy. Overrides 'max_retries'
+                when provided.
                 Only disable this if you understand the risk; it makes the
                 connection vulnerable to interception.
             logger (logging.Logger, optional): Logger instance.
@@ -199,6 +202,7 @@ class Client(Methods):
         self.session = session
         self.proxy = proxy
         self.verify_ssl = verify_ssl
+        self.retry = retry
         self.decode_auth = None
         self.import_key = None
         self.guid = restored_guid

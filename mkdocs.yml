@@ -124,6 +124,7 @@ nav:
       - Filters: guides/filters.md
       - Routers: guides/routers.md
       - Keyboards and formatting: guides/keyboards.md
+      - Composing messages: guides/composing-messages.md
       - Conversations (FSM): guides/fsm.md
       - Errors: guides/errors.md
       - Sync and async: guides/sync-and-async.md

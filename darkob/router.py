@@ -27,6 +27,7 @@ ordering and semantics are identical to declaring the handlers inline.
 
 from __future__ import annotations
 
+import functools
 from typing import Any, Callable, List, Optional, Tuple
 
 __all__ = ["Router", "Route"]
@@ -56,12 +57,13 @@ class Route:
 class Router:
     """Groups handlers so they can be registered on a bot all at once."""
 
-    __slots__ = ("name", "_routes", "_children")
+    __slots__ = ("name", "_routes", "_children", "_middlewares")
 
     def __init__(self, name: Optional[str] = None) -> None:
         self.name = name or f"router-{id(self):x}"
         self._routes: List[Route] = []
         self._children: List["Router"] = []
+        self._middlewares: List[Callable] = []
 
     # -- introspection ----------------------------------------------------
 
@@ -131,6 +133,40 @@ class Router:
         """Mirror of ``bot.on_event_data``."""
         return self._decorator("on_event_data", constraints, {})
 
+    def middleware(self) -> Callable[[Callable], Callable]:
+        """Wrap every handler in this router with a middleware.
+
+        Middleware is called as ``middleware(bot, event, call_next)``;
+        ``await call_next()`` continues the chain.
+        """
+        def register(func: Callable) -> Callable:
+            self._middlewares.append(func)
+            return func
+
+        return register
+
+    def _wrap(self, handler: Callable) -> Callable:
+        """Apply this router's middleware chain around a handler."""
+        if not self._middlewares:
+            return handler
+
+        chain = list(self._middlewares)
+
+        async def wrapped(bot, event):
+            async def run(index: int):
+                if index >= len(chain):
+                    return await handler(bot, event)
+
+                middleware = chain[index]
+                return await middleware(
+                    bot, event, lambda: run(index + 1)
+                )
+
+            return await run(0)
+
+        functools.update_wrapper(wrapped, handler)
+        return wrapped
+
     # -- composition ------------------------------------------------------
 
     def include_router(self, router: "Router") -> "Router":
@@ -151,7 +187,7 @@ class Router:
 
         for route in self._routes:
             decorator = getattr(bot, route.kind)
-            decorator(*route.args, **route.kwargs)(route.handler)
+            decorator(*route.args, **route.kwargs)(self._wrap(route.handler))
             registered += 1
 
         for child in self._children:

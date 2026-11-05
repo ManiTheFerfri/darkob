@@ -38,7 +38,13 @@ class Request:
         session = await self._get_session()
         last_error = None
 
-        for attempt in range(self.max_retries):
+        policy = getattr(self, 'retry', None)
+        attempts = (
+            max(1, int(policy.attempts)) if policy is not None
+            else max(1, int(self.max_retries))
+        )
+
+        for attempt in range(attempts):
             try:
                 async with session.request(method.upper(), url, **kwargs) as resp:
                     text = (await resp.text()).strip()
@@ -86,11 +92,14 @@ class Request:
                 if isinstance(e, asyncio.TimeoutError):
                     e = Timeout(dev_message=f"Request timed out after {self.timeout}s")
 
-                if attempt < self.max_retries - 1:
+                if attempt < attempts - 1:
                     logger.warning(
-                        f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {type(e).__name__}"
+                        f"Request failed - Attempt {attempt + 1}/{attempts}: {type(e).__name__}"
                     )
-                    await asyncio.sleep(2 ** attempt)
+                    await asyncio.sleep(
+                        policy.delay(attempt + 1) if policy is not None
+                        else 2 ** attempt
+                    )
                     continue
                 raise e from None
 
@@ -99,15 +108,18 @@ class Request:
 
             except Exception as e:
                 last_error = e
-                logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {e}")
-                if attempt < self.max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)
+                logger.warning(f"Request failed - Attempt {attempt + 1}/{attempts}: {e}")
+                if attempt < attempts - 1:
+                    await asyncio.sleep(
+                        policy.delay(attempt + 1) if policy is not None
+                        else 2 ** attempt
+                    )
                     continue
 
         if last_error:
             raise Network(
-                dev_message=f"Request failed after {self.max_retries} attempts."
+                dev_message=f"Request failed after {attempts} attempts."
             ) from last_error
         raise Network(
-            dev_message=f"Failed to call {endpoint} after {self.max_retries} attempts."
+            dev_message=f"Failed to call {endpoint} after {attempts} attempts."
         )

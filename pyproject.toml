@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.5.0"
+version = "0.6.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -100,6 +100,24 @@ select = ["E9", "F63", "F7", "F82"]
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = false
+follow_imports = "silent"
+
+[[tool.mypy.overrides]]
+module = [
+    "darkob.retry",
+    "darkob.builders",
+    "darkob.keyboards",
+    "darkob.formatting",
+    "darkob.testing",
+    "darkob.router",
+]
+strict = true
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"

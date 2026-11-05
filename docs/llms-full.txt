@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.5.0 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.6.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -458,6 +458,22 @@ Mirror the bot decorators exactly:
 Constraints are passed through unchanged, so a router route behaves
 identically to the same decorator written on the bot.
 
+## Router middleware
+
+A middleware declared on a router wraps **only** that router's
+handlers, including routers nested inside it.
+
+```python
+@router.middleware()
+async def log(bot, event, call_next):
+    print("before")
+    await call_next()
+    print("after")
+```
+
+Call `await call_next()` to continue; return without calling it to
+stop the handler. Multiple middlewares run outermost-first.
+
 ## Inspecting a router
 
 ```python
@@ -536,9 +552,22 @@ state, so it will not hijack unrelated messages.
 | --- | --- | --- |
 | `MemoryStorage()` | No | Tests, ephemeral bots |
 | `JsonFileStorage("fsm.json")` | Yes | Single-process bots |
+| `TTLMemoryStorage(ttl=3600)` | No | State that should expire |
+| `SQLiteStorage("fsm.db")` | Yes | Durable and concurrency-safe |
 
 `JsonFileStorage` writes atomically, tolerates a corrupt file (it starts
 empty rather than crashing), and is safe to call from concurrent tasks.
+
+`JsonFileStorage` writes atomically and tolerates a corrupt file.
+`SQLiteStorage` runs in WAL mode, so it survives a hard kill mid-write
+and is safe for several tasks writing at once.
+
+```python
+from darkob import SQLiteStorage, TTLMemoryStorage
+
+storage = SQLiteStorage("darkob_fsm.db")   # durable
+storage = TTLMemoryStorage(ttl=1800)         # forgets after 30 min
+```
 
 ## FSMContext
 
@@ -788,6 +817,31 @@ bot = Bot(token="...", max_retries=3)     # 3 attempts total
 ```
 
 Set `max_retries=0` to fail fast in tests.
+
+## Retry policy
+
+For anything more than a count, pass a :class:`Retry` policy. It
+overrides `max_retries` on both the Bot and Messenger surfaces.
+
+```python
+from darkob import Retry
+
+bot = Bot(token="...", retry=Retry(attempts=5, backoff=0.5))
+bot = Bot(token="...", retry=Retry.none())        # fail fast
+bot = Bot(token="...", retry=Retry.patient())     # few, slow tries
+bot = Bot(token="...", retry=Retry.aggressive())  # many, quick tries
+```
+
+| Field | Meaning |
+| --- | --- |
+| `attempts` | Total attempts, including the first |
+| `backoff` | Base delay in seconds, growing linearly |
+| `jitter` | Fraction of the delay randomised (0–1) |
+| `max_delay` | Ceiling for any single wait |
+| `rate_limit_backoff` | Base delay when the server reports rate limiting |
+
+`Retry.delay(attempt)` and `Retry.should_retry(attempt)` are pure
+functions, so they are easy to unit test.
 
 ## What darkob does not do
 

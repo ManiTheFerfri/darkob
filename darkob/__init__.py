@@ -30,11 +30,15 @@ from .fsm import (
     FSMContext,
     JsonFileStorage,
     MemoryStorage,
+    SQLiteStorage,
+    TTLMemoryStorage,
     StateFilter,
     Storage,
 )
 
 from .keyboards import Button, ChatKeyboard, InlineKeyboard, Keyboard
+from .builders import MessageBuilder
+from .retry import Retry
 from .formatting import (
     bold,
     code,
@@ -49,7 +53,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 logger = logging.getLogger(__name__)
 
@@ -69,12 +73,16 @@ __all__ = [
     "FSMContext",
     "Storage",
     "MemoryStorage",
+    "TTLMemoryStorage",
+    "SQLiteStorage",
     "JsonFileStorage",
     "StateFilter",
     "Keyboard",
     "InlineKeyboard",
     "ChatKeyboard",
     "Button",
+    "MessageBuilder",
+    "Retry",
     "bold",
     "italic",
     "strike",

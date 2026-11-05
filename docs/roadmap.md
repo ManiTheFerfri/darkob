@@ -91,12 +91,12 @@ Measured, not assumed:
 
 | Item | Detail |
 | --- | --- |
-| `MessageBuilder` | Compose text + metadata + keypad, then `.send()`. |
+| `MessageBuilder` | **shipped** — `darkob.builders` |
 | Typed event properties | `event.text`, `event.chat_id`, `event.is_group` without `getattr` fallbacks. |
-| `Retry` policy object | Per-call overrides instead of only client-wide `max_retries`. |
+| `Retry` policy object | **shipped** — honoured by both surfaces |
 | `darkob.testing` | `FakeEvent`, `FakeBot`, `make_message()` — no token needed. |
-| More `Storage` backends | Redis, SQLite, in-memory TTL. |
-| Router middleware | Middleware scoped to a router subtree. |
+| More `Storage` backends | **shipped** — `SQLiteStorage`, `TTLMemoryStorage` |
+| Router middleware | **shipped** — `router.middleware()` |
 
 ### Performance targets
 

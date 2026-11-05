@@ -231,7 +231,12 @@ class Api:
         # The previous implementation nested `for endpoint: for attempt:`,
         # which could fire len(endpoints) * max_retries requests and stall
         # for minutes when the network was down.
-        attempts_budget = max(1, int(max_retries))
+        policy = getattr(self.client, 'retry', None)
+        if policy is not None:
+            attempts_budget = max(1, int(policy.attempts))
+            backoff = policy.backoff
+        else:
+            attempts_budget = max(1, int(max_retries))
         attempts = 0
         last_error: Any = None
 
@@ -241,7 +246,10 @@ class Api:
 
             candidate = candidates[attempts % len(candidates)]
             # Back off once per full pass over the candidate list.
-            delay = backoff * (1 + attempts // len(candidates))
+            if policy is not None:
+                delay = policy.delay(attempts + 1)
+            else:
+                delay = backoff * (1 + attempts // len(candidates))
 
             try:
                 async with self.session.post(
@@ -264,7 +272,10 @@ class Api:
 
             except _RateLimited:
                 last_error = "rate limited by the server"
-                delay = self._RATE_LIMIT_BACKOFF * (2 ** min(attempts, 4))
+                if policy is not None:
+                    delay = policy.delay(attempts + 1, rate_limited=True)
+                else:
+                    delay = self._RATE_LIMIT_BACKOFF * (2 ** min(attempts, 4))
             except Exception as exc:
                 last_error = exc
 

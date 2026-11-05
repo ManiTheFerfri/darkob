@@ -57,6 +57,31 @@ bot = Bot(token="...", max_retries=3)     # 3 attempts total
 
 Set `max_retries=0` to fail fast in tests.
 
+## Retry policy
+
+For anything more than a count, pass a :class:`Retry` policy. It
+overrides `max_retries` on both the Bot and Messenger surfaces.
+
+```python
+from darkob import Retry
+
+bot = Bot(token="...", retry=Retry(attempts=5, backoff=0.5))
+bot = Bot(token="...", retry=Retry.none())        # fail fast
+bot = Bot(token="...", retry=Retry.patient())     # few, slow tries
+bot = Bot(token="...", retry=Retry.aggressive())  # many, quick tries
+```
+
+| Field | Meaning |
+| --- | --- |
+| `attempts` | Total attempts, including the first |
+| `backoff` | Base delay in seconds, growing linearly |
+| `jitter` | Fraction of the delay randomised (0–1) |
+| `max_delay` | Ceiling for any single wait |
+| `rate_limit_backoff` | Base delay when the server reports rate limiting |
+
+`Retry.delay(attempt)` and `Retry.should_retry(attempt)` are pure
+functions, so they are easy to unit test.
+
 ## What darkob does not do
 
 - It never swallows `KeyboardInterrupt` or `SystemExit` — only `Exception`.

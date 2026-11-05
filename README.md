@@ -114,6 +114,21 @@ step.
 `italic()`, `link()`, `spoiler()` and friends.
 
 </td></tr>
+<tr><td valign="top">
+
+**Message builder**
+
+`MessageBuilder("hi").append(...).inline(kb).silent()` composes a
+message and emits only the options you set.
+
+</td><td valign="top">
+
+**Retries you can reason about**
+
+`Retry(attempts=5, backoff=0.5)` overrides `max_retries`, with a
+pure `delay()` you can unit test.
+
+</td></tr>
 </table>
 
 ## Documentation
@@ -128,6 +143,7 @@ Full site: **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/da
 | [Routers](https://manitheferfri.github.io/darkob/guides/routers/) | Split a bot into modules |
 | [Conversations](https://manitheferfri.github.io/darkob/guides/fsm/) | Multi-step flows |
 | [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards/) | Keypads and text formatting |
+| [Composing messages](https://manitheferfri.github.io/darkob/guides/composing-messages/) | Builder and formatting together |
 | [Errors](https://manitheferfri.github.io/darkob/guides/errors/) | Exception hierarchy and retries |
 | [Bot API](https://manitheferfri.github.io/darkob/api/bot/) · [Messenger API](https://manitheferfri.github.io/darkob/api/messenger/) | Generated from the package |
 | [Roadmap](https://manitheferfri.github.io/darkob/roadmap/) | What ships next, and what will not |
