@@ -2,59 +2,70 @@
 
 > darkob is a fast, stable async Python library for the Rubika and Shad
 > messaging platforms. It provides a Bot API client (`Bot`), a userbot
-> client (`Messenger`), and a Shad facade, plus composable routers and
-> finite-state machines — with no network I/O at import time.
+> client (`Messenger`), and a Shad facade, plus routers, conversational
+> state, keyboards for every documented button type, and the reliability
+> primitives most bots hand-roll: retry policy, rate limiting, a circuit
+> breaker, an offline send queue and resumable downloads.
 
-Key facts for AI assistants:
+Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
 
-- Install: `pip install darkob` (Python 3.9–3.14).
-- Imports: `from darkob import Bot, Router, FSMContext, Messenger, Shad`.
-- Handlers are `async def handler(bot, event)` registered with decorators
-  on a `Bot` instance (`@bot.on_new_message()`, `@bot.on_command("x")`).
-- Filters live in `darkob.bot.filters` and must be instantiated
-  (`IsGroup()`), composing with `&`, `|`, `~`.
-- Start with `bot.run()` (polling) or `bot.run(webhook_url=...)`.
-- Do not use aiogram, Pyrogram or Telegram idioms; there is no
-  `Dispatcher` and no `message` object — you get `event`.
-- Every public signature is in `api.json`; do not invent methods.
+## Hard rules for generated code
 
-## Docs
+- Install with `pip install darkob`; import from `darkob`.
+- Handlers are `async def handler(bot, event)` and are registered with
+  decorators on a `Bot` instance.
+- The second argument is `event`, never `message`. Use `event.chat_id`,
+  `event.text`, `event.message_id`, `event.reply(...)`.
+- Filters live in `darkob.bot.filters` and are **instantiated**:
+  `IsGroup()`, not `IsGroup`. They compose with `&`, `|`, `~`.
+- There is no `Dispatcher`, no `message_handler`, and no aiogram, Pyrogram
+  or Telegram types. A `Bot` registers and dispatches.
+- Do not invent methods. Anything not listed in the API section below does
+  not exist on this version.
+- Every public method exists in both sync and async form.
+
+## Start here
 
 - [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart.md): install, first bot, polling vs webhook
 - [Installation](https://manitheferfri.github.io/darkob/get-started/installation.md): requirements, extras, dev setup
-- [Migrating from maxrubika](https://manitheferfri.github.io/darkob/get-started/migrating-from-maxrubika.md): package rename and behavioural changes
+- [Migrating from maxrubika](https://manitheferfri.github.io/darkob/get-started/migrating-from-maxrubika.md): package rename, behavioural changes, session migration caveat
 
 ## Guides
 
-- [Handlers](https://manitheferfri.github.io/darkob/guides/handlers.md): every decorator and what triggers it
-- [Filters](https://manitheferfri.github.io/darkob/guides/filters.md): 42 constraints, composition, custom filters
-- [Routers](https://manitheferfri.github.io/darkob/guides/routers.md): split a bot into modules
-- [Conversations (FSM)](https://manitheferfri.github.io/darkob/guides/fsm.md): state, storage, StateFilter
-- [Errors](https://manitheferfri.github.io/darkob/guides/errors.md): exception hierarchy and retry semantics
-- [Sync and async](https://manitheferfri.github.io/darkob/guides/sync-and-async.md): both styles, and when each applies
-- [Testing bots](https://manitheferfri.github.io/darkob/guides/testing.md): offline patterns with fakes
+- [Handlers](https://manitheferfri.github.io/darkob/guides/handlers.md): every decorator, middleware, ordering, `on_error`
+- [Filters](https://manitheferfri.github.io/darkob/guides/filters.md): all 42 constraints, composition, custom filters
+- [Routers](https://manitheferfri.github.io/darkob/guides/routers.md): feature modules, nesting, router-scoped middleware
+- [Conversations (FSM)](https://manitheferfri.github.io/darkob/guides/fsm.md): 4 storage backends, `FSMContext`, `StateFilter`
+- [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards.md): all 19 button types and the enums
+- [Composing messages](https://manitheferfri.github.io/darkob/guides/composing-messages.md): `MessageBuilder` plus formatting helpers
+- [Errors](https://manitheferfri.github.io/darkob/guides/errors.md): exception hierarchy, `Retry`, circuit breaker, rate limiting, `SendQueue`
+- [Sync and async](https://manitheferfri.github.io/darkob/guides/sync-and-async.md): both styles and when each applies
+- [Testing bots](https://manitheferfri.github.io/darkob/guides/testing.md): `darkob.testing` (`FakeBot`, `FakeEvent`, `make_message`)
 - [Project layout](https://manitheferfri.github.io/darkob/guides/project-layout.md): module map and design rules
 
-## Project
+## Reliability primitives
 
-- [Roadmap](https://manitheferfri.github.io/darkob/roadmap.md): ecosystem data, strategic bets, horizons, non-goals, success metrics
-
-## AI workflow
-
-- [AI overview](https://manitheferfri.github.io/darkob/ai/index.md): which context file to use and when
-- [Prompt pack](https://manitheferfri.github.io/darkob/ai/prompt-pack.md): copy-paste system prompts
-- [Recipes](https://manitheferfri.github.io/darkob/ai/recipes.md): task-shaped examples
-- [Context files](https://manitheferfri.github.io/darkob/ai/context-files.md): llms.txt, api.json, raw Markdown
+- `Retry(attempts, backoff, jitter, max_delay)`: honoured by both surfaces; presets `Retry.none()`, `.aggressive()`, `.patient()`.
+- `RateLimiter(rate, burst, per_chat_rate)`: token buckets, global and per chat, applied to every attempt including retries.
+- `CircuitBreaker(threshold, reset_timeout)`: per endpoint; opens after consecutive failures, half-opens to probe.
+- `SendQueue(bot, path=)`: `put()` sends or queues; transient failures only; `flush()`, `start()`, `stop()`.
+- `ProtocolTracker(path=)`: snapshots the discovered endpoints, socket URL and app version, and reports drift.
+- `Bot.download_file(..., resume=True)`: streams to disk and resumes by byte range.
 
 ## API reference
 
-- [Bot](https://manitheferfri.github.io/darkob/api/bot.md): 42 methods, generated from the package
-- [Messenger](https://manitheferfri.github.io/darkob/api/messenger.md): 323 methods, generated from the package
+- [Bot](https://manitheferfri.github.io/darkob/api/bot.md): every method, generated from the package
+- [Messenger](https://manitheferfri.github.io/darkob/api/messenger.md): every method, generated from the package
 - [Shad](https://manitheferfri.github.io/darkob/api/shad.md): mirrors Messenger against Shad hosts
-- [api.json](https://manitheferfri.github.io/darkob/api.json): machine-readable index of every method
 
-## Optional
+## Machine-readable
 
-- [Full documentation in one file](https://manitheferfri.github.io/darkob/llms-full.txt): entire corpus, for large context windows
-- [Persian quickstart](https://manitheferfri.github.io/darkob/fa/quickstart.md): شروع سریع
+- [api.json](https://manitheferfri.github.io/darkob/api.json): every method as JSON (name, signature, module, full docstring)
+- [llms-full.txt](https://manitheferfri.github.io/darkob/llms-full.txt): the entire corpus in one file, in teaching order
+- Raw Markdown for every page: append `.md` to any URL
+
+## Project
+
+- [Roadmap](https://manitheferfri.github.io/darkob/roadmap.md): what is proven, what is impossible, and why
 - [Source](https://github.com/ManiTheFerfri/darkob): repository and issues
+- [Persian quickstart](https://manitheferfri.github.io/darkob/fa/quickstart.md): شروع سریع

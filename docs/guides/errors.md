@@ -78,6 +78,23 @@ timeout) are queued; a permanent error such as an invalid chat id
 is raised at once, and is dropped during a flush rather than
 blocking everything behind it.
 
+## Tracking protocol drift
+
+Rubika reshuffles its data-centre endpoints from time to time. A tracker
+makes that visible instead of mysterious:
+
+`python
+from darkob import ProtocolTracker
+
+tracker = ProtocolTracker(path="protocol.json")
+changes = tracker.record(client.connection, client)
+if changes:
+    print("protocol changed:", changes)
+`
+
+It snapshots the API and socket URLs, the endpoint codes, the platform and
+the app version, stores the last snapshot, and reports differences.
+
 ## Rate limiting
 
 Rubika throttles bots, and a burst of sends is the fastest way to

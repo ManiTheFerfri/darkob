@@ -247,6 +247,7 @@ def main() -> None:
         "guides/routers.md",
         "guides/fsm.md",
         "guides/keyboards.md",
+        "guides/composing-messages.md",
         "guides/errors.md",
         "guides/sync-and-async.md",
         "guides/testing.md",

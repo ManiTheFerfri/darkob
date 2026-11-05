@@ -5,8 +5,8 @@
 <h1 align="center">darkob</h1>
 
 <p align="center">
-  <b>Fast, stable async Python for the Rubika & Shad platforms.</b><br/>
-  Build bots and userbots that stay up.
+  <b>Fast, stable async Python for the Rubika &amp; Shad platforms.</b><br/>
+  Bots and userbots that stay up — with an API verified against the real server.
 </p>
 
 <p align="center">
@@ -18,10 +18,10 @@
 </p>
 
 <p align="center">
-  <a href="https://manitheferfri.github.io/darkob/"><b>Documentation</b></a> ·
+  <a href="https://manitheferfri.github.io/darkob/"><b>Docs</b></a> ·
   <a href="https://manitheferfri.github.io/darkob/llms-full.txt">AI context</a> ·
   <a href="https://pypi.org/project/darkob/">PyPI</a> ·
-  <a href="https://github.com/ManiTheFerfri/darkob/issues">Issues</a>
+  <a href="https://manitheferfri.github.io/darkob/roadmap/">Roadmap</a>
 </p>
 
 ---
@@ -37,11 +37,10 @@ bot = Bot(token="YOUR_BOT_TOKEN")
 
 @bot.on_command("start")
 async def start(bot, event):
-    await event.reply("Welcome 👋")
-
-@bot.on_new_message()
-async def echo(bot, event):
-    await event.reply(event.text, inline_keypad=Keyboard().row("Yes", "No"))
+    await event.reply(
+        "Welcome 👋",
+        inline_keypad=Keyboard().row("Docs", "Support"),
+    )
 
 bot.run()
 ```
@@ -51,19 +50,21 @@ bot.run()
 ## Why darkob
 
 A fork of [maxrubika](https://github.com/MEH2RAB/maxrubika), rebuilt so
-failures are visible and the fast paths are actually fast.
+failures are visible, the fast paths are actually fast, and the API surface
+matches the server.
 
 | Inherited problem | What darkob does |
 | --- | --- |
 | Contacted PyPI at import time | Importing performs **no network I/O** |
-| TLS verification disabled everywhere | Verification **on by default**, opt out explicitly |
-| Bare `except:` swallowed `KeyboardInterrupt` | Narrowed to `Exception` and logged |
+| TLS verification disabled everywhere | Verification **on by default**, opt-out explicit |
+| Bare `except:` swallowed `KeyboardInterrupt` | Narrowed to `Exception`, and logged |
 | Background handler crashes vanished at GC | Logged the moment they happen |
 | Every event scanned all handlers | **Indexed dispatch**, built once |
 | Retries were `endpoints × max_retries` | **Bounded budget** with jitter and `429` handling |
-| A new TLS handshake per file download | **Pooled sessions** per host |
-| Saved sessions were opened but never read back | Credentials **restored**; sessions survive restarts |
+| A new TLS handshake per download | **Pooled sessions** everywhere, including files |
+| Saved sessions opened but never read | Credentials **restored**; sessions survive restarts |
 | A corrupt session file was deleted | **Quarantined**, never destroyed |
+| Keypad editing called a non-existent endpoint | Fixed by live testing, pinned by a regression test |
 
 ## What's inside
 
@@ -86,50 +87,94 @@ per-call threads.
 </td></tr>
 <tr><td valign="top">
 
-**Composable handlers**
+**Handlers, filters, routers**
 
-Decorators, 42 filters with `&`, `|`, `~`, middleware, routers, and a
-global `on_error` handler.
+Decorators, 42 filters composing with `&`, `|`, `~`, middleware, nested
+routers, and a global `on_error` handler.
 
 </td><td valign="top">
 
-**Conversations that survive restarts**
+**Conversations**
 
-`FSMContext` with memory or JSON storage, and `StateFilter` to route by
-step.
+`FSMContext` with four storage backends: memory, TTL memory, JSON file,
+and SQLite (WAL, concurrent-safe).
 
 </td></tr>
 <tr><td valign="top">
 
-**Shortcuts that save lines**
+**Keyboards for every button type**
 
-`event.reply(...)`, `bot.reply(event, text)`, `bot.edit(event, text)`,
-`bot.iter_updates()`.
+`Keyboard().row(...)` builders for all **19 documented button types** —
+selection, calendar, number/string pickers, location, textbox, barcode,
+camera and gallery variants.
 
 </td><td valign="top">
 
-**Keyboards and formatting**
+**Message helpers**
 
-`Keyboard().row("Yes", "No")` instead of nested dicts. `bold()`,
-`italic()`, `link()`, `spoiler()` and friends.
+`MessageBuilder` for text + keypad + reply target, `bold()` / `link()` /
+`code()` formatting, and `event.reply(...)` shortcuts.
 
 </td></tr>
 <tr><td valign="top">
 
-**Message builder**
+**Iterators, not pagination loops**
 
-`MessageBuilder("hi").append(...).inline(kb).silent()` composes a
-message and emits only the options you set.
+`bot.iter_updates()` and `client.iter_messages()` own the cursor and stop
+when it stops advancing.
 
 </td><td valign="top">
 
-**Retries you can reason about**
+**Testing toolkit**
 
-`Retry(attempts=5, backoff=0.5)` overrides `max_retries`, with a
-pure `delay()` you can unit test.
+`darkob.testing` ships `FakeBot`, `FakeEvent` and `make_message`, so a
+handler test needs no token and no network.
 
 </td></tr>
 </table>
+
+## Reliability
+
+Six primitives that most bot libraries leave to the user:
+
+| Primitive | What it buys you |
+| --- | --- |
+| `Retry(attempts=, backoff=, jitter=)` | A policy you can reason about, honoured by both surfaces |
+| `RateLimiter(rate=, per_chat_rate=)` | Token buckets globally and per chat, applied to every attempt |
+| `CircuitBreaker` | A dead data centre stops burning your retry budget |
+| `SendQueue(path=)` | Messages survive a dropped connection and flush on reconnect |
+| `ProtocolTracker` | Reports when Rubika reshuffles its endpoints |
+| Resumable downloads | Byte-range resume that survives an interrupted file |
+
+```python
+from darkob import Bot, RateLimiter, Retry, SendQueue
+
+bot = Bot(
+    token="...",
+    retry=Retry(attempts=4, backoff=0.5),
+    rate_limiter=RateLimiter(rate=20, per_chat_rate=3),
+)
+
+outbox = SendQueue(bot, path="outbox.json")
+outbox.start()
+```
+
+## Verified against the real API
+
+The Bot API documents **19 endpoints**. All are implemented, and **18 were
+exercised against a live server** — including the full file round-trip
+(`requestSendFile → uploadFile → getFile → sendFile → download`) and
+byte-range resume.
+
+That testing caught three things static reading could not:
+
+1. `editInlineKeypad` — the docs' own cURL — answers `INVALID_INPUT: Invalid Method`. The working endpoint is `editMessageKeypad`.
+2. A bare `Payment` button is rejected; `Button.payment()` now demands its fields instead of failing at send time.
+3. `Bot.download_file` was opening its own HTTP session, paying a fresh TLS handshake per file.
+
+The remaining two gaps are documented rather than guessed: `getChatMember`
+needs a group chat to verify, and `setCommands` has no read-back, so
+testing it would destroy your command list.
 
 ## Documentation
 
@@ -138,15 +183,13 @@ Full site: **[manitheferfri.github.io/darkob](https://manitheferfri.github.io/da
 | | |
 | --- | --- |
 | [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart/) | Install to running bot in five minutes |
-| [Handlers](https://manitheferfri.github.io/darkob/guides/handlers/) | Every decorator and what triggers it |
-| [Filters](https://manitheferfri.github.io/darkob/guides/filters/) | All 42 constraints and how to compose them |
-| [Routers](https://manitheferfri.github.io/darkob/guides/routers/) | Split a bot into modules |
-| [Conversations](https://manitheferfri.github.io/darkob/guides/fsm/) | Multi-step flows |
-| [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards/) | Keypads and text formatting |
-| [Composing messages](https://manitheferfri.github.io/darkob/guides/composing-messages/) | Builder and formatting together |
-| [Errors](https://manitheferfri.github.io/darkob/guides/errors/) | Exception hierarchy and retries |
+| [Handlers](https://manitheferfri.github.io/darkob/guides/handlers/) · [Filters](https://manitheferfri.github.io/darkob/guides/filters/) | Every decorator and all 42 constraints |
+| [Routers](https://manitheferfri.github.io/darkob/guides/routers/) | Split a bot into modules, with scoped middleware |
+| [Conversations](https://manitheferfri.github.io/darkob/guides/fsm/) | State, storage backends, `StateFilter` |
+| [Keyboards](https://manitheferfri.github.io/darkob/guides/keyboards/) | All button types and formatting |
+| [Composing messages](https://manitheferfri.github.io/darkob/guides/composing-messages/) | `MessageBuilder` and formatting together |
+| [Errors](https://manitheferfri.github.io/darkob/guides/errors/) | Retries, breaker, rate limiting, queue |
 | [Bot API](https://manitheferfri.github.io/darkob/api/bot/) · [Messenger API](https://manitheferfri.github.io/darkob/api/messenger/) | Generated from the package |
-| [Roadmap](https://manitheferfri.github.io/darkob/roadmap/) | What ships next, and what will not |
 
 ## Built for AI-assisted development
 
@@ -157,15 +200,13 @@ read by a model.
 https://manitheferfri.github.io/darkob/llms-full.txt
 ```
 
-That single file is the whole thing: hard rules, every guide, and the full
-API with complete docstrings for all 688 methods — **318 KB**, one fetch,
-no follow-up links.
+One file, one fetch: hard rules, every guide, and the complete API with
+full docstrings for all 688 methods.
 
 - [`llms.txt`](https://manitheferfri.github.io/darkob/llms.txt) — curated map
 - [`api.json`](https://manitheferfri.github.io/darkob/api.json) — every method as JSON
 - Every page is also served as raw Markdown: append `.md` to any URL
-- The API reference is generated from the installed package, so it cannot
-  drift from the code
+- The API reference is generated from the installed package, so it cannot drift
 
 ## Development
 
@@ -174,12 +215,25 @@ git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
 
-pytest --cov=darkob    # 290 tests, no network required
-ruff check .           # lint
+pytest --cov=darkob     # 463 tests, no network required
+ruff check .            # lint
+mypy darkob/router.py darkob/retry.py darkob/builders.py \
+     darkob/keyboards.py darkob/formatting.py darkob/testing.py
 ```
 
 The suite never opens a socket: HTTP goes through fake transports, and a
 subprocess test asserts that importing `darkob` cannot reach the network.
+
+Two extra tools live in `scripts/`:
+
+- `benchmark.py` — micro-benchmarks for the hot paths, no network.
+- `conformance.py` — exercises every Bot API method against a real token,
+  cleans up after itself, and exits non-zero on failure.
+
+## Roadmap
+
+See [docs/roadmap.md](docs/roadmap.md) — milestones 1–3 and P0–P2 are
+closed. It records what is proven, what is impossible, and why.
 
 ## License
 
