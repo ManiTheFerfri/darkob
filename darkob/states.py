@@ -25,6 +25,9 @@ __all__ = ["State", "StatesGroup"]
 class State(str):
     """A named conversation state. Compares equal to its string form."""
 
+    name: str
+    owner: str
+
     def __new__(cls, name: str = "", owner: str = "") -> "State":
         value = f"{owner}.{name}" if owner else name
         instance = super().__new__(cls, value)

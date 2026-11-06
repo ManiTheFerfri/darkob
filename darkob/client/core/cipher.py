@@ -1,3 +1,4 @@
+from typing import Any
 import re
 from ...utils.json_backend import dumps, loads
 import base64
@@ -84,7 +85,7 @@ class Cipher:
         return loads(dec_res)
 
     @classmethod
-    def decrypt_v5(cls, data: str, key: str):
+    def decrypt_v5(cls, data: str, key: Any):
         key_bytes = key.encode() if isinstance(key, str) else key
         aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
         dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
@@ -100,7 +101,7 @@ class Cipher:
         return base64.b64encode(aes.encrypt(raw)).decode("UTF-8")
 
     @classmethod
-    def encrypt_v5(cls, data: str, key: str):
+    def encrypt_v5(cls, data: str, key: Any):
         if isinstance(data, dict):
             data = dumps(data)
         key_bytes = key.encode() if isinstance(key, str) else key

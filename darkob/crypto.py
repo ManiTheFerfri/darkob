@@ -97,19 +97,30 @@ class CryptoEngine:
 
     # -- synchronous ------------------------------------------------------
 
+    def _require_key(self) -> str:
+        """The AES key as a string, or a clear error."""
+        if self._key is None:
+            raise RuntimeError("CryptoEngine has no auth key; pass auth=...")
+        return self._key
+
+    def _require_key_bytes(self) -> bytes:
+        if self._key_bytes is None:
+            self._require_key()
+        return self._key_bytes  # type: ignore[return-value]
+
     def encrypt_json(self, data: Any) -> str:
         """Serialise and encrypt in one step."""
         payload = dumps(data) if not isinstance(data, str) else data
         if self._api_version == 5:
-            return Cipher.encrypt_v5(payload, key=self._key_bytes)
-        return Cipher.encrypt(payload, key=self._key)
+            return Cipher.encrypt_v5(payload, key=self._require_key_bytes())
+        return Cipher.encrypt(payload, key=self._require_key())
 
     def decrypt_json(self, data: str) -> Any:
         """Decrypt and deserialise in one step."""
         if self._api_version == 5:
-            decrypted = Cipher.decrypt_v5(data, key=self._key_bytes)
+            decrypted = Cipher.decrypt_v5(data, key=self._require_key_bytes())
         else:
-            decrypted = Cipher.decrypt(data, key=self._key)
+            decrypted = Cipher.decrypt(data, key=self._require_key())
         return decrypted if isinstance(decrypted, (dict, list)) else loads(decrypted)
 
     def sign(self, data: str) -> str:

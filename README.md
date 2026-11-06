@@ -159,6 +159,25 @@ outbox = SendQueue(bot, path="outbox.json")
 outbox.start()
 ```
 
+## Performance
+
+Measured with `benchmarks/benchmark_suite.py`, compared against
+maxrubika 1.17.0 on the same machine:
+
+| Benchmark | darkob | maxrubika | Difference |
+| --- | --- | --- | --- |
+| Cold import | 614.3 ms | 614.0 ms | comparable |
+| Deserialize 10,000 updates | 1.3 ms | 1.2 ms | 0.9x slower |
+| Nested key lookup x10,000 | 1.5 ms | 8.9 ms | 5.9x faster |
+| Retained memory, 5,000 objects | 822 KB | 783 KB | comparable |
+| Media metadata (image header) | 1.1 ms | n/a | n/a |
+
+Nested lookups are where the difference is felt: an `Event` exposes ~40
+properties, and darkob serves them from a per-payload index instead of
+searching the structure on every access. Import time and retained memory
+are close, which is the honest result — the win is in the hot path, not in
+cold start.
+
 ## Verified against the real API
 
 The Bot API documents **19 endpoints**. All are implemented, and **18 were

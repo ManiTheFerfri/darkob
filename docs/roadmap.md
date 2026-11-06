@@ -337,6 +337,17 @@ export DARKOB_CHAT_ID=g0...
 python scripts/conformance.py --writes
 ```
 
+## v1.0 groundwork (Phase 7)
+
+- **Comparison benchmark.** enchmarks/benchmark_suite.py measures cold
+  import, deserialization, nested lookups, retained memory and media
+  parsing against maxrubika on the same machine, and emits the Markdown
+  table used in the README. It refuses to time a rival whose parser is
+  unavailable rather than reporting exception overhead as a speedup.
+- **pyright gates.** The modules written for typing support are checked by
+  pyright in CI and must stay at zero errors; package-wide type
+  completeness is reported separately as the inherited tree is migrated.
+
 ## v1.0 groundwork (Phases 2, 3, 6)
 
 - **Latency-aware failover.** Each endpoint keeps an exponential

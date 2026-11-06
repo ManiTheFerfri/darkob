@@ -54,7 +54,8 @@ except ImportError:  # pragma: no cover
         """Deserialise JSON from ``str`` or ``bytes``."""
         return json.loads(data)
 
-    def convert(data: Dict[str, Any], cls: Type[T]) -> T:
-        """Build *cls* from a mapping, ignoring unknown keys."""
+    def _convert_stdlib(data: Dict[str, Any], cls: Type[T]) -> T:
         annotations = getattr(cls, "__annotations__", {})
         return cls(**{key: value for key, value in data.items() if key in annotations})
+
+    convert = _convert_stdlib
