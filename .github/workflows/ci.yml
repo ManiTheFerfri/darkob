@@ -169,25 +169,6 @@ jobs:
       - name: Build the documentation site
         run: mkdocs build
 
-  benchmark:
-    name: benchmarks
-    runs-on: ubuntu-latest
-    # Reported, not enforced: timings are noisy on shared CI runners.
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e .
-
-      - name: Micro-benchmarks
-        run: python scripts/benchmark.py
-
   typing:
     name: typing (new modules)
     runs-on: ubuntu-latest
@@ -250,6 +231,9 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           python -m pip install -e .
+
+      - name: Micro-benchmarks
+        run: python scripts/benchmark.py
 
       - name: Comparison table
         run: python benchmarks/benchmark_suite.py
