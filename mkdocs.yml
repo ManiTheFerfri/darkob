@@ -119,6 +119,15 @@ nav:
       - Installation: get-started/installation.md
       - Quickstart: get-started/quickstart.md
       - Migrating from maxrubika: get-started/migrating-from-maxrubika.md
+  - Tutorials:
+      - Your first bot in 10 minutes: tutorials/first-bot.md
+      - Testing without a token: tutorials/testing-without-a-token.md
+  - How-to guides:
+      - Resumable downloads: how-to/resumable-downloads.md
+      - Rate-limit safely: how-to/rate-limit-safely.md
+      - Observe in production: how-to/observe-in-production.md
+      - Health checks: how-to/health-checks.md
+      - Write a plugin: how-to/write-a-plugin.md
   - Guides:
       - Handlers: guides/handlers.md
       - Filters: guides/filters.md
@@ -131,6 +140,11 @@ nav:
       - Sync and async: guides/sync-and-async.md
       - Testing bots: guides/testing.md
       - Project layout: guides/project-layout.md
+  - Explanation:
+      - Architecture: explanation/architecture.md
+      - Bot vs Messenger vs Shad: explanation/bot-vs-messenger-vs-shad.md
+      - Concurrency: explanation/concurrency.md
+      - Reliability: explanation/reliability.md
   - AI workflow:
       - Overview: ai/index.md
       - Prompt pack: ai/prompt-pack.md
@@ -141,6 +155,7 @@ nav:
       - Messenger: api/messenger.md
       - Shad: api/shad.md
       - Models and enums: api/models.md
+  - Performance: performance.md
   - Roadmap: roadmap.md
   - فارسی:
       - شروع سریع: fa/quickstart.md

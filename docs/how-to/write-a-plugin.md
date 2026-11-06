@@ -35,7 +35,7 @@ class AntiSpam(Plugin):
 | `version` | `"1.0.0"` | Reported by `get_plugin_info` |
 | `description` | `""` | Human-readable summary |
 | `author` | `"Unknown"` | Reported by `get_plugin_info` |
-| `homepage` | `None` | Reported by `get_plugin_info` |
+
 | `dependencies` | `()` | Plugin names enabled before this one |
 | `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
 | `default_config` | `{}` | Merged under the config you pass in |
@@ -49,15 +49,12 @@ Without a `name`, the identifier falls back to the lowercased class name;
 ```python
 async def setup(self) -> None:      # called by enable()
     ...
-
 async def teardown(self) -> None:   # called by disable()
     ...
-
 def configure(self, config: dict) -> dict:   # validate/rewrite config
     return config
-
 self.get_config("words", [])        # one value
-self.update_config({"words": []})   # merge over the defaults
+self.update_config({"words": []})   # merged over the defaults
 self.is_ready                       # True between setup and teardown
 ```
 
@@ -93,7 +90,6 @@ class Audit(Plugin):
     async def after_response(self, action, data):
         self.seen.append(action)
         return None                           # keep the payload
-
     async def on_error(self, error, context):
         print("failed:", type(error).__name__, context.get("action"))
 ```
@@ -164,9 +160,8 @@ With `strict_hooks=True` the hook's exception propagates out of
 `run_on_update`, `apply_before_request`, `apply_after_response` or
 `run_on_error` instead of being swallowed.
 
-!!! note "`PluginTester` accepts the same flag"
-    `PluginTester(MyPlugin, strict_hooks=True)` wires the strict manager for
-    you, which is the easiest way to assert that a hook *does* raise.
+`PluginTester(MyPlugin, strict_hooks=True)` wires the strict manager for
+you, which is the easiest way to assert that a hook *does* raise.
 
 ## Test it with `PluginTester`
 
@@ -183,27 +178,19 @@ async def test_blocked_word_is_consumed():
     async with PluginTester(AntiSpam) as tester:
         assert await tester.on_update(make_message("buy crypto now")) is True
         assert await tester.on_update(make_message("hello")) is False
-
-
-async def test_config_comes_from_the_meta_default():
-    tester = PluginTester(AntiSpam)
-    await tester.start()
-    assert tester.plugin("anti-spam").blocked == {"buy crypto"}
-    await tester.stop()
 ```
 
 `PluginTester` can also drive the other three hooks — `before_request`,
 `after_response`, `on_error` — plus `enabled` and `active`. Pass
-`config={"anti-spam": {"words": ["spam"]}}` to override the defaults before
-`setup()` runs.
+`config={"anti-spam": {"words": ["spam"]}}` to override the meta defaults
+before `setup()` runs.
 
 ## Discovery
 
 `PluginManager(bot)` auto-discovers by default: it imports every `*.py` in
-the `plugins/` directory next to your bot and every entry point registered
+the `plugins/` directory next to your bot, and every entry point registered
 under the `rubika.plugins` group. Pass `auto_discover=False` (or
-`plugins_dir=None`) to keep enabling explicit, which is what a test or a
-small bot usually wants.
+`plugins_dir=None`) to keep enabling explicit.
 
 ## See also
 
@@ -212,3 +199,5 @@ small bot usually wants.
 - [Architecture](../explanation/architecture.md)
 - [Testing without a token](../tutorials/testing-without-a-token.md)
 - [Project layout](../guides/project-layout.md)
+
+

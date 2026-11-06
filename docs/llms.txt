@@ -29,6 +29,23 @@ Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
 - [Quickstart](https://manitheferfri.github.io/darkob/get-started/quickstart.md): install, first bot, polling vs webhook
 - [Installation](https://manitheferfri.github.io/darkob/get-started/installation.md): requirements, extras, dev setup
 - [Migrating from maxrubika](https://manitheferfri.github.io/darkob/get-started/migrating-from-maxrubika.md): package rename, behavioural changes, session migration caveat
+- [Your first bot in 10 minutes](https://manitheferfri.github.io/darkob/tutorials/first-bot.md): a guided build from an empty file
+- [Testing without a token](https://manitheferfri.github.io/darkob/tutorials/testing-without-a-token.md): `FakeBot`, `make_message`, offline tests
+
+## How-to guides
+
+- [Resumable downloads](https://manitheferfri.github.io/darkob/how-to/resumable-downloads.md): streaming to disk and resuming by byte range
+- [Rate-limit safely](https://manitheferfri.github.io/darkob/how-to/rate-limit-safely.md): `RateLimiter` and the adaptive AIMD limiter
+- [Observe in production](https://manitheferfri.github.io/darkob/how-to/observe-in-production.md): `darkob.metrics`, Prometheus exposition
+- [Health checks](https://manitheferfri.github.io/darkob/how-to/health-checks.md): liveness and readiness endpoints
+- [Write a plugin](https://manitheferfri.github.io/darkob/how-to/write-a-plugin.md): `Plugin`, the four hooks, `PluginTester`
+
+## Explanation
+
+- [Architecture](https://manitheferfri.github.io/darkob/explanation/architecture.md): the request pipeline and dispatch
+- [Bot vs Messenger vs Shad](https://manitheferfri.github.io/darkob/explanation/bot-vs-messenger-vs-shad.md): which client, and why
+- [Concurrency](https://manitheferfri.github.io/darkob/explanation/concurrency.md): one loop per client, `TaskGroup`, free-threaded caveats
+- [Reliability](https://manitheferfri.github.io/darkob/explanation/reliability.md): retries, breakers, flood ceiling, outbox
 
 ## Guides
 
@@ -47,10 +64,18 @@ Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
 
 - `Retry(attempts, backoff, jitter, max_delay)`: honoured by both surfaces; presets `Retry.none()`, `.aggressive()`, `.patient()`.
 - `RateLimiter(rate, burst, per_chat_rate)`: token buckets, global and per chat, applied to every attempt including retries.
+- `AdaptiveRateLimiter(...)`: same, plus AIMD control — halves on a `429`/`TOO_REQUESTS`, climbs back additively, honours `Retry-After`. The client reports throttles automatically.
 - `CircuitBreaker(threshold, reset_timeout)`: per endpoint; opens after consecutive failures, half-opens to probe.
 - `SendQueue(bot, path=)`: `put()` sends or queues; transient failures only; `flush()`, `start()`, `stop()`.
 - `ProtocolTracker(path=)`: snapshots the discovered endpoints, socket URL and app version, and reports drift.
 - `Bot.download_file(..., resume=True)`: streams to disk and resumes by byte range.
+
+## Observability and plugins
+
+- `darkob.metrics`: `enable_metrics()`, then `metrics.snapshot()` or `metrics.render_prometheus()`. Off by default; the instrumentation is a single boolean check when disabled.
+- `darkob.health`: `HealthRegistry()` with `tcp_check()` and `queue_backlog_check()`; `asgi_app()` for FastAPI/Starlette, `aiohttp_handler()` for aiohttp.
+- `darkob.plugin`: `Plugin` + `PluginMeta`, hooks `on_update`, `before_request`, `after_response`, `on_error`; `PluginTester` for tests.
+- `darkob.utils.concurrency`: `TaskGroup`, `timeout_after`, `LazyLock` — version-independent structured concurrency.
 
 ## API reference
 

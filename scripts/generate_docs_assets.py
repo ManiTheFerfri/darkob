@@ -243,6 +243,7 @@ def main() -> None:
         "get-started/installation.md",
         "get-started/quickstart.md",
         "get-started/migrating-from-maxrubika.md",
+        "tutorials/first-bot.md",
         "guides/handlers.md",
         "guides/filters.md",
         "guides/routers.md",
@@ -253,6 +254,10 @@ def main() -> None:
         "guides/errors.md",
         "guides/sync-and-async.md",
         "guides/testing.md",
+        "how-to/observe-in-production.md",
+        "how-to/health-checks.md",
+        "how-to/write-a-plugin.md",
+        "explanation/concurrency.md",
         "performance.md",
         "ai/index.md",
     ]

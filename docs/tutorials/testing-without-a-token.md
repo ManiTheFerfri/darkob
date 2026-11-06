@@ -176,17 +176,11 @@ async def test_echo():
 ```
 
 Set the environment variable for the test run (a pattern-valid fake is
-enough — nothing connects):
+enough — nothing connects), then run the suite:
 
 ```bash
 export RUBIKA_BOT_TOKEN="ABCDE000000000000000000000000000000000000000000000000000000000000"
-```
-
-```powershell
-$env:RUBIKA_BOT_TOKEN = "ABCDE000000000000000000000000000000000000000000000000000000000000"
-```
-
-```bash
+# PowerShell: $env:RUBIKA_BOT_TOKEN = "ABCDE..."
 pytest -q
 ```
 
@@ -195,13 +189,6 @@ pytest -q
     match the expected shape, so importing `bot.py` with no token hangs CI
     instead of failing. Keep the token in the environment, and let the
     placeholder live only in tests you build yourself.
-
-## 7. Three rules that keep the suite honest
-
-1. Never let a test reach the real API — use `FakeBot`, never a live token.
-2. Freeze time and randomness before asserting on retries or backoff.
-3. Test the failing path as often as the happy one; that is where darkob's
-   own bugs were found.
 
 ## See also
 
