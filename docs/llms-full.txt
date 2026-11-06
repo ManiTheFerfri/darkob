@@ -287,6 +287,204 @@ an issue if the new behaviour is wrong.
 
 
 ---
+# SOURCE: tutorials/first-bot.md
+
+
+A hands-on walkthrough that ends with a bot which echoes, answers one command, and puts a working button under a message.
+
+## 1. Install
+
+```bash
+pip install darkob
+```
+
+darkob needs Python 3.9 or newer. Confirm the install:
+
+```bash
+python -c "import darkob; print(darkob.__version__)"
+```
+
+Importing darkob performs no network I/O, so this works offline.
+
+## 2. Get a bot token
+
+Create a bot with Rubika's official bot creator and copy the token it
+shows you. A token is 64 characters: five uppercase letters, then 59
+characters that are digits or uppercase letters.
+
+!!! warning "The token is a password"
+    Anyone holding it can send messages as your bot. Keep it out of the
+    repository and read it from the environment instead:
+
+    ```python
+    import os
+    token = os.environ["RUBIKA_BOT_TOKEN"]
+    ```
+
+## 3. A bot that echoes messages
+
+Create `bot.py`:
+
+```python title="bot.py"
+from darkob import Bot
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+@bot.on_new_message()
+async def echo(bot, event):
+    await event.reply(event.text)
+
+bot.run()
+```
+
+`Bot(...)` validates the token and creates its handler registry; the HTTP
+session is opened on first use. `bot.run()` then starts long polling and
+blocks until you stop it.
+
+Run it and send the bot any message:
+
+```bash
+python bot.py
+```
+
+A one-time banner appears, then `Bot started in polling mode...`. The bot
+answers with the same text you sent. Stop it with Ctrl+C.
+
+A handler is a plain async function taking two arguments: the bot, and the
+event. `event.text` holds the message text, or `None` when the update
+carries none, and `event.reply(text)` sends into the same chat as a
+threaded reply.
+
+!!! note "A mistyped token does not raise"
+    If the token does not match the expected shape, `Bot(...)` asks for
+    one interactively in the terminal. A prompt in the middle of a
+    deployment log means the token was wrong, not missing.
+
+## 4. Only answer commands
+
+Echoing everything is rarely useful. A filter decides whether a handler
+runs, so add one:
+
+```python title="bot.py"
+from darkob import Bot
+from darkob.bot.filters import Command
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+@bot.on_new_message(Command("echo"))
+async def echo(bot, event):
+    await event.reply(event.command_args or "nothing to echo")
+
+bot.run()
+```
+
+Now `/echo hello` replies `hello`, while a plain `hello` is ignored. The
+filter matches `/echo` and `/echo@your_bot`, and lets every other command
+fall through to other handlers.
+
+`event.command_args` is everything after the command, or `""`.
+
+!!! tip "One decorator instead of two filters"
+    `@bot.on_command("echo")` applies the message and command filters for
+    you, and takes a list: `@bot.on_command(["echo", "بازگو"])`. Once your
+    bot has several commands, that shortcut keeps the code shorter.
+
+## 5. Add an inline keyboard button
+
+Buttons live under the message, so they need an inline keypad. Give each
+button an `id`; that id is what comes back when somebody presses it.
+
+```python title="bot.py"
+from darkob import Bot, Button, Keyboard
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+@bot.on_command("menu")
+async def menu(bot, event):
+    keypad = Keyboard().row(
+        Button("Say hi", id="hi"),
+        Button("Docs", id="docs"),
+    )
+    await bot.send_message(event.chat_id, "Pick one:", inline_keypad=keypad)
+
+@bot.on_callback()
+async def on_button(bot, event):
+    if event.button_id == "hi":
+        await event.reply("Hi there 👋")
+    else:
+        await event.reply("Docs: https://github.com/ManiTheFerfri/darkob")
+
+bot.run()
+```
+
+A press arrives as an `InlineMessage` update, and `@bot.on_callback()`
+fires on exactly that. `event.button_id` holds the `id` you set, and
+`event.reply(...)` still works because the payload carries the chat and
+message it belongs to.
+
+Buttons without an explicit `id` get a numeric one assigned for you
+(`"100"`, `"101"`, …). That is fine for a static menu, but an explicit id
+is what makes the handler readable.
+
+## 6. Run it
+
+The finished file:
+
+```python title="bot.py"
+import os
+
+from darkob import Bot, Button, Keyboard
+from darkob.bot.filters import Command
+
+bot = Bot(token=os.environ["RUBIKA_BOT_TOKEN"])
+
+@bot.on_new_message(Command("echo"))
+async def echo(bot, event):
+    await event.reply(event.command_args or "nothing to echo")
+
+@bot.on_command("menu")
+async def menu(bot, event):
+    keypad = Keyboard().row(
+        Button("Say hi", id="hi"),
+        Button("Docs", id="docs"),
+    )
+    await bot.send_message(event.chat_id, "Pick one:", inline_keypad=keypad)
+
+@bot.on_callback()
+async def on_button(bot, event):
+    if event.button_id == "hi":
+        await event.reply("Hi there 👋")
+    else:
+        await event.reply("Docs: https://github.com/ManiTheFerfri/darkob")
+
+bot.run()
+```
+
+```bash
+python bot.py
+```
+
+Send `/echo hi`, then `/menu` and press a button. Both handlers fire, in
+that order of registration, for events that match them.
+
+## Where to go next
+
+- More decorators and middleware: [Handlers](../guides/handlers.md)
+- Narrow handlers by chat, media or text: [Filters](../guides/filters.md)
+- Every button type the API accepts: [Keyboards and formatting](../guides/keyboards.md)
+- Multi-step conversations: [Conversations (FSM)](../guides/fsm.md)
+- Test all of this without a token: [Testing without a token](testing-without-a-token.md)
+
+## See also
+
+- [Quickstart](../get-started/quickstart.md)
+- [Installation](../get-started/installation.md)
+- [Errors](../guides/errors.md)
+- [Testing bots](../guides/testing.md)
+- [Architecture](../explanation/architecture.md)
+
+
+---
 # SOURCE: guides/handlers.md
 
 
@@ -1593,6 +1791,738 @@ your filters:
 ```python
 event = make_message(text="hi", is_group=True)
 ```
+
+
+---
+# SOURCE: how-to/observe-in-production.md
+
+
+Turn on darkob's in-process metrics, read them as a dict, and expose them to Prometheus without adding a metrics server dependency.
+
+## Turn it on
+
+```python
+from darkob.metrics import enable_metrics, metrics
+
+enable_metrics()          # off by default
+bot.run()
+```
+
+`enable_metrics()` configures and enables the shared registry and returns
+it. All arguments are keyword-only:
+
+| Argument | Default | Meaning |
+| --- | --- | --- |
+| `prefix` | `"darkob"` | Prefix applied to every metric name when rendering |
+| `histogram_capacity` | `512` | Samples kept per histogram for percentiles |
+| `reset` | `True` | Clear anything recorded before enabling |
+
+`disable_metrics()` turns instrumentation off again and keeps whatever was
+already recorded.
+
+!!! note "Import `metrics` from `darkob.metrics`"
+    The registry instance is deliberately **not** re-exported from the
+    package root: `from darkob import metrics` would be ambiguous with the
+    module of the same name. Import the functions from the root, the
+    instance from the module:
+
+    ```python
+    from darkob import enable_metrics          # function
+    from darkob.metrics import metrics         # registry instance
+    ```
+
+## What gets recorded for you
+
+| Metric | Kind | Recorded when |
+| --- | --- | --- |
+| `darkob.updates` | counter | An update is received |
+| `darkob.update.seconds` | histogram | Dispatch of one update finishes |
+| `darkob.handlers.skipped` | counter | A handler's filters did not match |
+| `darkob.handlers.called` | counter | A handler passed its filters |
+| `darkob.handlers.errors` | counter | A handler raised |
+| `darkob.api.requests` | counter | An HTTP call is issued |
+| `darkob.api.errors` | counter | An HTTP call failed |
+| `darkob.api.retries` | counter | A retry follows a failure |
+| `darkob.api.ratelimited` | counter | The server throttled a call |
+| `darkob.api.seconds` | histogram | Latency of one HTTP call |
+| `darkob.queue.pending` | gauge | **Not recorded automatically** — set it yourself |
+
+!!! warning "Where the built-in counters actually fire"
+    The instrumentation lives in the Messenger/Shad request loop and
+    dispatch path. `darkob.Bot` does not record `darkob.api.*` or
+    `darkob.updates` on its own request path, and nothing in the library
+    writes `darkob.queue.pending`; the queue exposes `pending` instead, so
+    record it on your own schedule:
+
+    ```python
+    metrics.set("darkob.queue.pending", queue.pending)
+    ```
+
+    Every counter, gauge and histogram you create yourself works the same
+    way on both surfaces.
+
+## Read a snapshot
+
+```python
+snapshot = metrics.snapshot()
+```
+
+```python
+{
+  "counters": {"darkob.api.requests": 1284},
+  "gauges": {},
+  "histograms": {
+    "darkob.api.seconds": {
+      "count": 1284, "sum": 23.5, "min": 0.004, "max": 2.1,
+      "mean": 0.018, "p50": 0.012, "p95": 0.041, "p99": 0.5,
+    }
+  },
+}
+```
+
+(Values shortened for readability.) `snapshot()` is plain JSON-safe data,
+so `json.dumps(metrics.snapshot())` works as-is. Percentiles come from a
+bounded ring buffer of the last `histogram_capacity` samples per histogram
+— memory stays flat however long the bot runs, and the sort only happens
+when you ask for a snapshot.
+
+## Render the Prometheus text format
+
+```python
+print(metrics.render_prometheus())
+```
+
+```text
+# TYPE darkob_api_requests counter
+darkob_api_requests 1284
+# TYPE darkob_api_seconds summary
+darkob_api_seconds{quantile="0.5"} 0.012
+darkob_api_seconds{quantile="0.95"} 0.041
+darkob_api_seconds{quantile="0.99"} 0.5
+darkob_api_seconds_count 1284
+darkob_api_seconds_sum 23.5
+```
+
+Dots become underscores, the configured prefix is prepended once, counters
+become `counter` lines, gauges `gauge` lines, and histograms become
+`summary` metrics with `quantile` labels plus `_count` and `_sum`. Pass
+`render_prometheus(prefix="mybot")` to change the prefix for one render.
+
+## Scrape it with aiohttp
+
+darkob's webhook server is created inside `bot.run()` and is not exposed,
+so serve metrics on their own port:
+
+```python title="metrics_server.py"
+from aiohttp import web
+
+from darkob.metrics import metrics
+
+
+async def scrape(request):
+    return web.Response(
+        text=metrics.render_prometheus(),
+        content_type="text/plain",
+        charset="utf-8",
+    )
+
+
+app = web.Application()
+app.router.add_get("/metrics", scrape)
+web.run_app(app, host="127.0.0.1", port=9101)
+```
+
+```yaml title="prometheus.yml"
+scrape_configs:
+  - job_name: darkob
+    static_configs:
+      - targets: ["127.0.0.1:9101"]
+```
+
+Bind to `127.0.0.1` and let Prometheus reach it over a private network or
+an authenticated proxy: metric names and label-less values are harmless,
+but the endpoint still leaks your traffic volume.
+
+## Record your own numbers
+
+The same registry is public, so application metrics sit next to the
+built-in ones:
+
+```python
+from darkob.metrics import metrics
+
+metrics.increment("orders.created")
+metrics.decrement("orders.queued")
+metrics.set("workers.busy", 3)
+metrics.adjust("workers.busy", -1)
+metrics.observe("orders.total_seconds", 0.42)
+
+with metrics.timer("orders.checkout"):
+    await checkout()
+
+@metrics.time_it("catalog.search")
+async def search(query: str) -> list:
+    ...
+```
+
+`time_it` handles sync and async callables, and uses
+`module.qualname` when you pass no name.
+
+!!! note "What 'off' actually costs"
+    While the registry is disabled the library's own instrumentation costs
+    one attribute read and a branch per hot-path call — it records nothing,
+    which is why metrics are opt-in. Your own `metrics.increment(...)` calls
+    are not guarded: they record whether or not you called
+    `enable_metrics()` first.
+
+## See also
+
+- [Health checks](health-checks.md)
+- [Rate-limit safely](rate-limit-safely.md)
+- [Reliability](../explanation/reliability.md)
+- [Architecture](../explanation/architecture.md)
+- [Errors](../guides/errors.md)
+
+
+---
+# SOURCE: how-to/health-checks.md
+
+
+Expose liveness and readiness probes so a container orchestrator restarts a wedged bot and stops routing traffic to one that cannot reach Rubika.
+
+## Liveness versus readiness
+
+A polling bot needs no health endpoint: if the process runs, it works. A
+bot behind a webhook, in a container, or behind a load balancer does need
+one, because "the process is up" and "the bot can do its job" are different
+facts.
+
+| Probe | Question | Failure means |
+| --- | --- | --- |
+| **liveness** | Is this process still functioning? | Restart it |
+| **readiness** | Should traffic be sent here? | Stop routing, keep running |
+
+Only **critical readiness** checks can make a service unready. A failing
+non-critical check marks the report `degraded` and still answers `200`: a
+missing optional dependency should not get your pod killed.
+
+## Register checks
+
+```python
+from darkob.health import HealthRegistry, queue_backlog_check, tcp_check
+
+health = HealthRegistry()                     # default per-check timeout: 5s
+health.add("api", tcp_check("messenger.rubika.ir", 443), kind="readiness")
+health.add("outbox", queue_backlog_check(queue, max_pending=500),
+           kind="readiness", critical=False)
+health.add("loop", lambda: True, kind="liveness")
+```
+
+`add(name, check, *, kind="readiness", critical=True, timeout=None)`
+returns the check unchanged, so it doubles as a decorator:
+
+```python
+@health.add("db")
+async def check_db() -> bool:
+    return await pool.ping()
+```
+
+| Argument | Default | Meaning |
+| --- | --- | --- |
+| `name` | required | Identifier in the report |
+| `check` | `None` | Callable; omit it to use `add` as a decorator |
+| `kind` | `"readiness"` | `"readiness"` or `"liveness"` — anything else is a `ValueError` |
+| `critical` | `True` | Whether a failing readiness check makes the service unready |
+| `timeout` | `None` | Overrides the registry timeout for this check |
+
+`remove(name)`, `clear()`, `names` and `len(health)` manage the registry.
+
+## Writing a check
+
+A check returns `True`, `False`, a string, or an awaitable of either. A
+**string means "unhealthy"** and is used as the detail, which is the
+cheapest way to say why:
+
+```python
+@health.add("quota")
+async def quota_ok():
+    left = await remaining_quota()
+    return True if left > 100 else f"only {left} requests left"
+```
+
+darkob catches whatever a check raises and reports it as a failure
+(`"TimeoutError: …"`), including timeouts, so one broken probe can never
+take the endpoint down with it. Checks run concurrently.
+
+!!! warning "Do not probe the API from a readiness check"
+    A check that logs in or calls `getMe` spends your quota and can be
+    throttled. Prefer a TCP connect, a queue depth, or a value your bot
+    already tracks.
+
+## The two ready-made checks
+
+```python
+from darkob.health import queue_backlog_check, tcp_check
+
+tcp_check("messenger.rubika.ir", 443)          # port=443, timeout=2.0
+queue_backlog_check(queue, max_pending=1000)   # accepts a SendQueue
+```
+
+`tcp_check(host, port=443, *, timeout=2.0)` opens a TCP connection and
+closes it immediately: enough to separate "the network is gone" from "the
+process is wedged", without authenticating.
+
+`queue_backlog_check(queue, max_pending=1000)` reads `queue.pending`, and
+falls back to `len(queue)` for any object without that attribute. A
+`SendQueue` that keeps growing is the earliest sign that sends are failing.
+Pair it with `critical=False`: a backlog should degrade, not restart.
+
+## Read the report
+
+```python
+report = await health.report()          # or report("readiness") / report("liveness")
+report.status        # "ok" | "degraded" | "down"
+report.ok            # True when the service is usable
+report.live, report.ready
+report.http_status   # 200 or 503
+report.to_dict()     # JSON-safe dict
+report.to_json()     # compact JSON string
+```
+
+The body looks like this:
+
+```json
+{"status": "ok", "ok": true, "live": true, "ready": true, "duration": 0.004,
+ "checks": [{"name": "api", "healthy": true, "detail": "ok",
+             "kind": "readiness", "duration": 0.004}]}
+```
+
+`await health.ready()` and `await health.live()` are shortcuts returning a
+single boolean.
+
+| Situation | `status` | `ok` | HTTP |
+| --- | --- | --- | --- |
+| Everything passes | `ok` | `True` | 200 |
+| A non-critical readiness check fails | `degraded` | `True` | 200 |
+| A critical readiness check fails | `down` | `False` | 503 |
+| A liveness check fails | `down` | `False` | 503 |
+
+A liveness failure also sets `live=False`; readiness only affects `ready`.
+
+## Serve it
+
+### aiohttp
+
+```python title="health_server.py"
+from aiohttp import web
+
+from darkob.health import HealthRegistry, queue_backlog_check
+
+health = HealthRegistry()
+health.add("outbox", queue_backlog_check(queue, 500), critical=False)
+
+app = web.Application()
+app.router.add_get("/healthz", health.aiohttp_handler())
+app.router.add_get("/livez", health.aiohttp_handler("/livez"))
+
+web.run_app(app, host="127.0.0.1", port=8081)
+```
+
+`aiohttp_handler(path=None)` answers with `request.path` by default, so
+pass the path explicitly when you mount the handler somewhere outside the
+standard names below.
+
+### Any ASGI framework
+
+The registry maps paths itself:
+
+| Paths | Probe |
+| --- | --- |
+| `/health`, `/healthz`, `/health/ready`, `/ready`, `/readyz` | readiness |
+| `/health/live`, `/live`, `/livez`, `/health/liveness` | liveness |
+
+`health.asgi_app()` returns a self-contained ASGI application for those
+paths — it answers `GET` and `HEAD`, refuses other methods with `405`, and
+returns `404` for unknown paths. Hand it to any server that accepts an ASGI
+app. If your framework's router wants a request handler instead, return
+the report yourself — three lines that work anywhere aiohttp does:
+
+```python
+from aiohttp import web
+
+async def healthz(request):
+    report = await health.report()
+    return web.Response(
+        text=report.to_json(),
+        status=report.http_status,
+        content_type="application/json",
+    )
+```
+
+## See also
+
+- [Observe in production](observe-in-production.md)
+- [Reliability](../explanation/reliability.md)
+- [Errors](../guides/errors.md)
+- [Architecture](../explanation/architecture.md)
+- [Project layout](../guides/project-layout.md)
+
+
+---
+# SOURCE: how-to/write-a-plugin.md
+
+
+Package cross-cutting behaviour — filtering, rewriting, error reporting — as a `Plugin` with a lifecycle instead of another handler.
+
+## A plugin is a class and some metadata
+
+```python title="plugins/anti_spam.py"
+from darkob.plugin import Plugin, PluginMeta
+
+
+class AntiSpam(Plugin):
+    meta = PluginMeta(
+        name="anti-spam",
+        version="1.0.0",
+        description="Drops messages that contain blocked words.",
+        dependencies=(),
+        default_config={"words": ["buy crypto"]},
+    )
+
+    async def setup(self) -> None:
+        self.blocked = {w.lower() for w in self.get_config("words", [])}
+
+    async def on_update(self, event):
+        text = (event.text or "").lower()
+        if any(word in text for word in self.blocked):
+            return True      # consume: no handler sees this update
+        return None          # let dispatch continue
+```
+
+`PluginMeta` is a frozen dataclass:
+
+| Field | Default | Purpose |
+| --- | --- | --- |
+| `name` | required | Identifier, lowercased on registration |
+| `version` | `"1.0.0"` | Reported by `get_plugin_info` |
+| `description` | `""` | Human-readable summary |
+| `author` | `"Unknown"` | Reported by `get_plugin_info` |
+| `homepage` | `None` | Reported by `get_plugin_info` |
+| `dependencies` | `()` | Plugin names enabled before this one |
+| `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
+| `default_config` | `{}` | Merged under the config you pass in |
+| `enabled_by_default` | `False` | Picked up by `enable_defaults()` |
+
+Without a `name`, the identifier falls back to the lowercased class name;
+`register_plugin(MyPlugin, name="custom")` overrides both.
+
+## Lifecycle and configuration
+
+```python
+async def setup(self) -> None:      # called by enable()
+    ...
+
+async def teardown(self) -> None:   # called by disable()
+    ...
+
+def configure(self, config: dict) -> dict:   # validate/rewrite config
+    return config
+
+self.get_config("words", [])        # one value
+self.update_config({"words": []})   # merge over the defaults
+self.is_ready                       # True between setup and teardown
+```
+
+A plugin receives its config at construction. `set_config()` on the manager
+applies to a live instance too.
+
+## The four hooks
+
+| Hook | Signature | Return value |
+| --- | --- | --- |
+| `on_update` | `(event)` | `True` consumes the update; `None`/`False` continues |
+| `before_request` | `(action, data)` | A dict replaces the request body; `None` keeps it |
+| `after_response` | `(action, data)` | A replacement payload; `None` keeps it |
+| `on_error` | `(error, context)` | Ignored |
+
+Every hook is a no-op in the base class, so a plugin that only implements
+`setup()`/`teardown()` keeps working. At dispatch, only the hooks a plugin
+actually **overrides** are called, in the order the plugins were enabled.
+
+```python title="plugins/audit.py"
+class Audit(Plugin):
+    meta = PluginMeta(name="audit")
+
+    def __init__(self, bot, *, config=None):
+        super().__init__(bot, config=config)
+        self.seen = []
+
+    async def before_request(self, action, data):
+        if action == "sendMessage":
+            return {**data, "disable_notification": True}
+        return None                           # keep the original body
+
+    async def after_response(self, action, data):
+        self.seen.append(action)
+        return None                           # keep the payload
+
+    async def on_error(self, error, context):
+        print("failed:", type(error).__name__, context.get("action"))
+```
+
+!!! warning "`before_request` must return a dict"
+    Anything else is reported to the hook-failure path and ignored, and the
+    original body is sent, so a typo in a rewrite hook cannot silently
+    corrupt every request — but it also means the failure is quiet unless
+    you watch the logs.
+
+## Register and enable
+
+```python
+from plugins.anti_spam import AntiSpam
+
+bot = Bot(token="YOUR_BOT_TOKEN")
+
+identifier = bot.plugin_manager.register_plugin(AntiSpam)   # "anti-spam"
+plugin = await bot.plugin_manager.enable(identifier)        # instance
+```
+
+`Bot(...)` creates the manager for you, so registration is one call.
+
+!!! note "Where the hooks actually fire"
+    The four hooks are called from the client's request and dispatch loop
+    (`Messenger` / `Shad`). The `PluginManager` on a `Bot` handles the whole
+    lifecycle — registration, dependencies, config, enable/disable, reload —
+    and is what `PluginTester` drives, but `darkob.Bot`'s own update
+    dispatch and its Bot-API request path do not currently call the hooks.
+
+`register_plugin` returns the normalised identifier and raises
+`PluginDefinitionError` for a class that does not subclass `Plugin`, an
+empty name, or a duplicate.
+
+`enable()` returns the live instance and, on the way, enables the plugin's
+`dependencies` first. A failure in `setup()` raises `PluginLoadError` and
+leaves the plugin disabled; a circular dependency raises `PluginLoadError`
+too.
+
+```python
+bot.plugin_manager.is_registered("anti-spam")   # True
+bot.plugin_manager.is_enabled("anti-spam")      # True
+bot.plugin_manager.enabled_plugins              # ["anti-spam"]
+bot.plugin_manager.get_plugin("anti-spam")      # the instance
+await bot.plugin_manager.disable("anti-spam")   # teardown, returns bool
+await bot.plugin_manager.disable_all()
+await bot.plugin_manager.reload("anti-spam")    # re-executes the file
+```
+
+`disable()` refuses while another enabled plugin depends on this one, and
+returns `False` instead of raising.
+
+## Failure isolation
+
+A plugin that raises inside a hook is logged and skipped; the bot keeps
+running. Turn that off when a plugin must fail closed — a security filter
+that breaks should stop traffic, not vanish:
+
+```python
+from darkob.plugin import PluginManager
+
+manager = PluginManager(bot, auto_discover=False, strict_hooks=True)
+manager.register_plugin(AntiSpam)
+await manager.enable("anti-spam")
+```
+
+With `strict_hooks=True` the hook's exception propagates out of
+`run_on_update`, `apply_before_request`, `apply_after_response` or
+`run_on_error` instead of being swallowed.
+
+!!! note "`PluginTester` accepts the same flag"
+    `PluginTester(MyPlugin, strict_hooks=True)` wires the strict manager for
+    you, which is the easiest way to assert that a hook *does* raise.
+
+## Test it with `PluginTester`
+
+`PluginTester` registers, enables and drives plugins against a
+`FakeBot` — no token, no network:
+
+```python title="tests/test_anti_spam.py"
+from darkob.plugin import PluginTester
+from darkob.testing import make_message
+from plugins.anti_spam import AntiSpam
+
+
+async def test_blocked_word_is_consumed():
+    async with PluginTester(AntiSpam) as tester:
+        assert await tester.on_update(make_message("buy crypto now")) is True
+        assert await tester.on_update(make_message("hello")) is False
+```
+
+`PluginTester` can also drive the other three hooks — `before_request`,
+`after_response`, `on_error` — plus `enabled` and `active`. Pass
+`config={"anti-spam": {"words": ["spam"]}}` to override the meta defaults
+before `setup()` runs.
+
+## Discovery
+
+`PluginManager(bot)` auto-discovers by default: it imports every `*.py` in
+the `plugins/` directory next to your bot, and every entry point registered
+under the `rubika.plugins` group. Pass `auto_discover=False` (or
+`plugins_dir=None`) to keep enabling explicit.
+
+## See also
+
+- [Handlers](../guides/handlers.md)
+- [Errors](../guides/errors.md)
+- [Architecture](../explanation/architecture.md)
+- [Testing without a token](../tutorials/testing-without-a-token.md)
+- [Project layout](../guides/project-layout.md)
+
+
+---
+# SOURCE: explanation/concurrency.md
+
+
+darkob runs on one event loop and owns its state without locks — which is why it is safe to share a client between tasks, and unsafe to share it between loops or threads.
+
+## One loop owns everything
+
+Every mutable structure inside the library belongs to the event loop that
+is running it:
+
+| State | Where it lives |
+| --- | --- |
+| Handler dispatch index | `Api._dispatch_index` |
+| Endpoint latency averages | `Api._latency` |
+| Circuit breakers | `Api._breakers` |
+| Rate-limit buckets | `RateLimiter._global`, `RateLimiter._chats` |
+| Conversation registry | `ConversationManager._waiters` |
+| Metric registry | `darkob.metrics.metrics` |
+
+None of these needs a lock, because `asyncio` is cooperative: a section of
+code that never awaits cannot be interleaved with another task. Every
+mutation above is such a section — a dict read followed by a dict write, a
+counter increment, a deque append. Where an operation genuinely has to span
+an await, the code uses an `asyncio.Lock` instead of a thread lock:
+
+- `TokenBucket` locks around refill-plus-take, and sleeps *outside* the
+  lock;
+- `SendQueue` locks around the whole flush so two flushes cannot interleave.
+
+`asyncio.Lock` itself only works on one loop, which is another way of
+saying the same thing.
+
+!!! warning "One client per loop, one loop per client"
+    darkob is **not** safe to share across threads or across event loops.
+    Awaiting one `Bot` from two `asyncio.run()` calls, or from a second
+    thread's loop, can corrupt the dispatch index, the breakers and the
+    buckets — the exact failures the lock-free design avoids by assuming a
+    single loop. Create the client inside the loop that will use it and
+    keep it there.
+
+Sharing a client between **tasks** on that loop is fine and is the intended
+model: a handler, a background task and a metrics scrape can all use the
+same object.
+
+## The sync bridge does not change the rule
+
+Calling an async method without `await` runs it on a dedicated worker
+thread's loop (`darkob/hybrid.py`). That is still exactly one loop, so it
+is safe — as long as you do not also drive the same client from your own
+loop. The wrapper detects a running loop and returns the coroutine
+unchanged, so mixed style within one process means "pick one per client".
+
+## `darkob.utils.concurrency`
+
+`asyncio.TaskGroup` and `asyncio.timeout` are Python 3.11 additions, and
+darkob supports 3.9. This module makes one style available everywhere:
+
+```python
+from darkob.utils.concurrency import TaskGroup, timeout_after
+
+async with TaskGroup() as group:
+    group.create_task(fetch(a))
+    group.create_task(fetch(b))
+# both finished, or the first failure cancelled the other one
+
+async with timeout_after(5.0):
+    await slow_call()
+```
+
+| Name | Meaning |
+| --- | --- |
+| `native_task_group` / `native_timeout` | `True` on 3.11+, `False` below |
+| `TaskGroup` | `asyncio.TaskGroup` on 3.11+, else a compatible reimplementation |
+| `timeout_after(seconds)` | `asyncio.timeout` on 3.11+, else a compatible reimplementation; `None` means no timeout |
+| `TaskGroupError` | Raised on 3.9/3.10 when one or more grouped tasks fail |
+
+The failure type therefore differs by interpreter, and callers should not
+depend on it:
+
+- on 3.9/3.10 a `TaskGroupError` is raised, a plain `Exception` subclass
+  carrying `.exceptions` (and `.errors`) as a tuple;
+- on 3.11+ the interpreter's native `ExceptionGroup` is raised.
+
+A failing task cancels its siblings in both cases, which is the whole point
+of structured concurrency — and the reason the library does not use it
+everywhere.
+
+## Why handler dispatch does not use `TaskGroup`
+
+Handlers are independent. One failing handler must not cancel the others,
+and one slow handler must not take its siblings down with it. Structured
+concurrency gives the opposite guarantee: the first failure cancels the
+group. So:
+
+- **Bot** dispatch awaits each handler in turn, inside a `try/except` that
+  logs the failure and keeps going (`HandlerRegistry._invoke`).
+- **Messenger/Shad** dispatch spawns each matching handler as a task and
+  keeps a strong reference to it, with a done-callback that logs the
+  exception (`Api._spawn`). One handler's exception is a log line, not a
+  cancellation of the rest.
+
+Wrapping either in a `TaskGroup` would be a regression: a broken command in
+one handler would silently cancel the sibling that was still replying.
+
+The same reasoning applies to health checks. `HealthRegistry.report()`
+runs every probe with `asyncio.gather`, not `TaskGroup`, so that one failing
+probe still lets the others report — a liveness endpoint that hides six
+green checks because the seventh raised is worse than useless.
+
+## Free-threaded builds (PEP 703)
+
+!!! warning "Not validated"
+    darkob has never been run on a free-threaded interpreter. Nothing in
+    the codebase special-cases a `--disable-gil` build.
+
+The GIL is load-bearing for the lock-free updates described above:
+`dict.get()` followed by `dict[key] = value`, or `counter += 1`, is atomic
+only while a single thread holds the GIL. On a free-threaded build those
+sequences can interleave, so the "no locks needed" argument stops holding.
+
+The supported configuration on such a build is unchanged: **one client, one
+event loop, one thread driving it.** Do not treat the absence of locks as a
+promise of thread safety — it is a consequence of the single-loop rule.
+(On CPython 3.13 and later, `sys._is_gil_enabled()` reports whether the GIL
+is active in the running interpreter.)
+
+## Practical rules
+
+1. Construct clients inside the loop that will use them.
+2. Share a client across tasks; never across loops or threads.
+3. Use `asyncio.create_task` for fire-and-forget work and keep a reference
+   to the task, so it is not garbage-collected mid-flight.
+4. Bound concurrency: `max_concurrent_updates` (default 32) caps updates,
+   `RateLimiter` caps outgoing calls.
+5. Prefer `timeout_after()` over hand-rolled `wait_for` when the code has to
+   run on 3.9 as well as 3.11+.
+
+## See also
+
+- [Architecture](architecture.md)
+- [Reliability](reliability.md)
+- [Errors](../guides/errors.md)
+- [Sync and async](../guides/sync-and-async.md)
+- [Project layout](../guides/project-layout.md)
 
 
 ---
@@ -10172,6 +11102,7 @@ Every name exported from the package root, so no part of the library is missing 
 - `darkob.PluginTester` — Drive a plugin's lifecycle and hooks without a real bot.
 - `darkob.create_plugin`
 - `darkob.TaskGroup` — Asynchronous context manager for managing groups of tasks.
+- `darkob.LazyLock` — An ``asyncio.Lock`` created on first use, not on construction.
 - `darkob.async_timeout` — Awaitable context manager bounding the body by *seconds*.
 - `darkob.ProtocolTracker` — Keep the last snapshot on disk and report what changed.
 - `darkob.ProtocolSnapshot` — The endpoint layout a client discovered.
