@@ -35,7 +35,6 @@ class AntiSpam(Plugin):
 | `version` | `"1.0.0"` | Reported by `get_plugin_info` |
 | `description` | `""` | Human-readable summary |
 | `author` | `"Unknown"` | Reported by `get_plugin_info` |
-
 | `dependencies` | `()` | Plugin names enabled before this one |
 | `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
 | `default_config` | `{}` | Merged under the config you pass in |
@@ -90,6 +89,7 @@ class Audit(Plugin):
     async def after_response(self, action, data):
         self.seen.append(action)
         return None                           # keep the payload
+
     async def on_error(self, error, context):
         print("failed:", type(error).__name__, context.get("action"))
 ```

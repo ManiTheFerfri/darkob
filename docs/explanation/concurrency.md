@@ -26,8 +26,16 @@ an await, the code uses an `asyncio.Lock` instead of a thread lock:
   lock;
 - `SendQueue` locks around the whole flush so two flushes cannot interleave.
 
-`asyncio.Lock` itself only works on one loop, which is another way of
-saying the same thing.
+These locks are `LazyLock` wrappers: the underlying `asyncio.Lock` is
+created on first `async with`, not at construction. That lets a
+`RateLimiter`, a `SendQueue` or a storage backend be built at import time,
+where Python 3.9 has no running loop to bind a lock to. The lock binds to
+the first loop that uses it, which is another way of saying the same thing
+as the rule below.
+
+The one thread lock in the library is `SQLiteStorage`, which guards
+blocking `sqlite3` calls; it is safe cross-thread precisely because it does
+not touch the event-loop state above.
 
 !!! warning "One client per loop, one loop per client"
     darkob is **not** safe to share across threads or across event loops.
@@ -72,6 +80,7 @@ async with timeout_after(5.0):
 | `TaskGroup` | `asyncio.TaskGroup` on 3.11+, else a compatible reimplementation |
 | `timeout_after(seconds)` | `asyncio.timeout` on 3.11+, else a compatible reimplementation; `None` means no timeout |
 | `TaskGroupError` | Raised on 3.9/3.10 when one or more grouped tasks fail |
+| `LazyLock` | An `async with`-compatible lock created on first use, so objects can be built outside a loop |
 
 The failure type therefore differs by interpreter, and callers should not
 depend on it:
