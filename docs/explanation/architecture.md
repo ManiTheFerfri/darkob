@@ -28,7 +28,7 @@ engines**:
 | Rate limiter | `acquire(chat_id)` before each attempt | `acquire()` before each attempt |
 | Dispatch engine | `darkob/bot/registry.py` | `Api._dispatch_update` |
 | Handler lookup | Linear scan of every handler | Indexed by update name |
-| Concurrency | One event at a time, handlers awaited | Handlers spawned as tasks |
+| Concurrency | Polling awaits each update; webhook updates run under a semaphore | Handlers spawned as tasks |
 
 ## Inside the Bot
 
@@ -40,10 +40,12 @@ collaborators: `HandlerRegistry` (handlers, middlewares, lifecycle hooks),
 is wrapped so it also works synchronously.
 
 An update arrives either from the polling loop or from the webhook handler
-in `darkob/bot/updates.py`, and both funnel into `_safe_feed`:
+in `darkob/bot/updates.py`. The webhook path resolves pending conversations
+first (`_safe_feed`); the polling loop feeds the registry directly. Past
+that point both paths are the same:
 
 ```text
-update → ConversationManager.resolve()      # a pending ask() may consume it
+update → ConversationManager.resolve()      # webhook only: ask() may consume it
        → HandlerRegistry.feed()
        → middleware chain, outermost first
        → every (constraints, handler) pair, in registration order
@@ -108,7 +110,7 @@ that every update scans the registered handlers.
 flowchart TD
     A[Incoming update] --> B{Surface}
 
-    B -->|Bot| C["ConversationManager.resolve()"]
+    B -->|Bot| C["ConversationManager.resolve()<br/>webhook path"]
     C --> D["HandlerRegistry.feed()"]
     D --> E["Middleware chain"]
     E --> F["Linear scan of (constraints, handler)"]

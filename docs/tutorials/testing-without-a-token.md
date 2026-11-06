@@ -44,8 +44,6 @@ Handlers are plain async functions, so a test needs a bot to register them
 and an event to pass in. Both are cheap to build:
 
 ```python title="tests/test_echo.py"
-import pytest
-
 from darkob import Bot
 from darkob.bot.filters import Command
 from darkob.testing import FakeBot, make_message
@@ -95,7 +93,7 @@ Run it:
 pytest -q
 ```
 
-```
+```text
 ...                                                              [100%]
 3 passed
 ```
@@ -129,6 +127,10 @@ A test that asserts on the outgoing call from the `menu` handler built in
 [First bot](first-bot.md):
 
 ```python
+from bot import menu
+from darkob.testing import FakeBot, make_message
+
+
 async def test_menu_sends_an_inline_keypad():
     fake = FakeBot()
     event = make_message(text="/menu")
@@ -197,3 +199,4 @@ pytest -q
 - [Filters](../guides/filters.md)
 - [First bot](first-bot.md)
 - [Errors](../guides/errors.md)
+

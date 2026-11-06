@@ -2207,7 +2207,6 @@ class AntiSpam(Plugin):
 | `version` | `"1.0.0"` | Reported by `get_plugin_info` |
 | `description` | `""` | Human-readable summary |
 | `author` | `"Unknown"` | Reported by `get_plugin_info` |
-| `homepage` | `None` | Reported by `get_plugin_info` |
 | `dependencies` | `()` | Plugin names enabled before this one |
 | `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
 | `default_config` | `{}` | Merged under the config you pass in |
@@ -2221,15 +2220,12 @@ Without a `name`, the identifier falls back to the lowercased class name;
 ```python
 async def setup(self) -> None:      # called by enable()
     ...
-
 async def teardown(self) -> None:   # called by disable()
     ...
-
 def configure(self, config: dict) -> dict:   # validate/rewrite config
     return config
-
 self.get_config("words", [])        # one value
-self.update_config({"words": []})   # merge over the defaults
+self.update_config({"words": []})   # merged over the defaults
 self.is_ready                       # True between setup and teardown
 ```
 
@@ -2336,9 +2332,8 @@ With `strict_hooks=True` the hook's exception propagates out of
 `run_on_update`, `apply_before_request`, `apply_after_response` or
 `run_on_error` instead of being swallowed.
 
-!!! note "`PluginTester` accepts the same flag"
-    `PluginTester(MyPlugin, strict_hooks=True)` wires the strict manager for
-    you, which is the easiest way to assert that a hook *does* raise.
+`PluginTester(MyPlugin, strict_hooks=True)` wires the strict manager for
+you, which is the easiest way to assert that a hook *does* raise.
 
 ## Test it with `PluginTester`
 
@@ -2408,8 +2403,16 @@ an await, the code uses an `asyncio.Lock` instead of a thread lock:
   lock;
 - `SendQueue` locks around the whole flush so two flushes cannot interleave.
 
-`asyncio.Lock` itself only works on one loop, which is another way of
-saying the same thing.
+These locks are `LazyLock` wrappers: the underlying `asyncio.Lock` is
+created on first `async with`, not at construction. That lets a
+`RateLimiter`, a `SendQueue` or a storage backend be built at import time,
+where Python 3.9 has no running loop to bind a lock to. The lock binds to
+the first loop that uses it, which is another way of saying the same thing
+as the rule below.
+
+The one thread lock in the library is `SQLiteStorage`, which guards
+blocking `sqlite3` calls; it is safe cross-thread precisely because it does
+not touch the event-loop state above.
 
 !!! warning "One client per loop, one loop per client"
     darkob is **not** safe to share across threads or across event loops.
@@ -2454,6 +2457,7 @@ async with timeout_after(5.0):
 | `TaskGroup` | `asyncio.TaskGroup` on 3.11+, else a compatible reimplementation |
 | `timeout_after(seconds)` | `asyncio.timeout` on 3.11+, else a compatible reimplementation; `None` means no timeout |
 | `TaskGroupError` | Raised on 3.9/3.10 when one or more grouped tasks fail |
+| `LazyLock` | An `async with`-compatible lock created on first use, so objects can be built outside a loop |
 
 The failure type therefore differs by interpreter, and callers should not
 depend on it:
