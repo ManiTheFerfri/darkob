@@ -40,6 +40,10 @@ construction.
 - **No network.** Nothing here measures latency against the Rubika API. In a
   running bot, network time dominates every row; these figures describe CPU
   work per update.
+- **The dispatch rows time the client dispatch path**, the one both libraries
+  expose identically, which is what keeps the comparison fair. `darkob.Bot`
+  routes through its own handler registry — a linear scan, not an index — so
+  its per-update cost differs and is not what those rows measure.
 - **The micro-benchmarks isolate one code path each.** The 5.7× nested lookup
   is a real measurement on a payload shape those properties actually walk, but
   the end-to-end gain in a bot is smaller. The dispatch rows are the ones you

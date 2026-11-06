@@ -205,6 +205,11 @@ Two more caveats, stated plainly:
 
 - **Nothing here measures the network.** In a running bot, network latency
   dominates every row. These numbers describe CPU work per update.
+- **The dispatch rows measure the client dispatch path** — the one both
+  libraries expose identically, which is what makes the comparison fair.
+  `darkob.Bot` routes through its own handler registry, which is a linear
+  scan rather than an index; it is a different code path and is not what these
+  rows time.
 - **The micro-benchmarks isolate one code path each.** The 5.7× nested lookup
   is real but applies to a payload shape those properties actually walk; the
   end-to-end gain is smaller. The dispatch rows are the ones you will notice,

@@ -1845,21 +1845,27 @@ already recorded.
 | `darkob.api.retries` | counter | A retry follows a failure |
 | `darkob.api.ratelimited` | counter | The server throttled a call |
 | `darkob.api.seconds` | histogram | Latency of one HTTP call |
-| `darkob.queue.pending` | gauge | **Not recorded automatically** — set it yourself |
+| `darkob.queue.pending` | gauge | Messages waiting in a `SendQueue` |
 
-!!! warning "Where the built-in counters actually fire"
-    The instrumentation lives in the Messenger/Shad request loop and
-    dispatch path. `darkob.Bot` does not record `darkob.api.*` or
-    `darkob.updates` on its own request path, and nothing in the library
-    writes `darkob.queue.pending`; the queue exposes `pending` instead, so
-    record it on your own schedule:
+!!! note "Where the counters fire"
+    Both surfaces are instrumented. On `Messenger`/`Shad` the counters come
+    from the client request loop and its dispatch path; on `Bot` they come
+    from `Bot.request` and the polling/webhook funnel, so `darkob.api.*`,
+    `darkob.updates` and the `darkob.handlers.*` counters all tick there too.
+
+    `SendQueue` publishes `darkob.queue.pending` itself, on every enqueue,
+    flush and drain — you do not have to poll it.
+
+    This was not always true: 0.18.0 wired the `Bot` surface, which had been
+    bypassing the instrumentation entirely because it owns a separate request
+    path. If you are on an earlier build, set the gauge yourself:
 
     ```python
     metrics.set("darkob.queue.pending", queue.pending)
     ```
 
-    Every counter, gauge and histogram you create yourself works the same
-    way on both surfaces.
+    Every counter, gauge and histogram you create yourself works the same way
+    on both surfaces.
 
 ## Read a snapshot
 
@@ -2207,6 +2213,7 @@ class AntiSpam(Plugin):
 | `version` | `"1.0.0"` | Reported by `get_plugin_info` |
 | `description` | `""` | Human-readable summary |
 | `author` | `"Unknown"` | Reported by `get_plugin_info` |
+| `homepage` | `None` | Reported by `get_plugin_info` |
 | `dependencies` | `()` | Plugin names enabled before this one |
 | `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
 | `default_config` | `{}` | Merged under the config you pass in |
@@ -2229,8 +2236,8 @@ self.update_config({"words": []})   # merged over the defaults
 self.is_ready                       # True between setup and teardown
 ```
 
-A plugin receives its config at construction. `set_config()` on the manager
-applies to a live instance too.
+A plugin receives its config at construction; `set_config()` on the manager
+also applies to a live instance.
 
 ## The four hooks
 
@@ -2286,11 +2293,26 @@ plugin = await bot.plugin_manager.enable(identifier)        # instance
 `Bot(...)` creates the manager for you, so registration is one call.
 
 !!! note "Where the hooks actually fire"
-    The four hooks are called from the client's request and dispatch loop
-    (`Messenger` / `Shad`). The `PluginManager` on a `Bot` handles the whole
-    lifecycle — registration, dependencies, config, enable/disable, reload —
-    and is what `PluginTester` drives, but `darkob.Bot`'s own update
-    dispatch and its Bot-API request path do not currently call the hooks.
+    Both surfaces call all four hooks. On `Messenger`/`Shad` they run from the
+    client's request and dispatch loop; on `Bot` they run from `Bot.request`
+    and from `_safe_feed`, the funnel that polling and webhook updates both
+    pass through.
+
+    This was not always true. Until 0.18.0 the `Bot` surface had its own
+    request path and dispatch loop that never invoked a hook, so a plugin
+    written against the client worked on the userbot and silently did nothing
+    on a bot. `tests/test_bot_instrumentation.py` now asserts the wiring on
+    `Bot` specifically, because asserting it on the internal helper is what
+    let the gap survive.
+
+    A plugin can consume an update and stop dispatch below it:
+
+    ```python
+    async def on_update(self, event):
+        if is_spam(event):
+            return True      # no handler, and no ask(), will see it
+        return None
+    ```
 
 `register_plugin` returns the normalised identifier and raises
 `PluginDefinitionError` for a class that does not subclass `Plugin`, an
@@ -2573,6 +2595,10 @@ construction.
 - **No network.** Nothing here measures latency against the Rubika API. In a
   running bot, network time dominates every row; these figures describe CPU
   work per update.
+- **The dispatch rows time the client dispatch path**, the one both libraries
+  expose identically, which is what keeps the comparison fair. `darkob.Bot`
+  routes through its own handler registry — a linear scan, not an index — so
+  its per-update cost differs and is not what those rows measure.
 - **The micro-benchmarks isolate one code path each.** The 5.7× nested lookup
   is a real measurement on a payload shape those properties actually walk, but
   the end-to-end gain in a bot is smaller. The dispatch rows are the ones you

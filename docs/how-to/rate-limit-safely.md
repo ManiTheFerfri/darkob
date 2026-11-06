@@ -100,12 +100,16 @@ A plain `RateLimiter` has the same methods, and they do nothing: no rate
 change, no pause, no error. That is the point of `adaptive=False` — enabling
 it can never alter the behaviour of a bot that already worked.
 
-!!! warning "The Bot surface does not feed the limiter"
+!!! note "Both surfaces feed the limiter"
     `darkob.Bot` acquires a token before each attempt, using the payload's
-    `chat_id` (or `object_guid`) as the per-chat key, but it does not call
-    `on_throttle()` or `on_success()` — its request path raises
-    `TooRequests` straight to you. On a bot, an adaptive limiter therefore
-    stays at its starting rate unless you report outcomes yourself:
+    `chat_id` (or `object_guid`) as the per-chat key, and it reports outcomes
+    back the same way the userbot surface does: a `429` or a
+    `{"status": "TOO_REQUESTS"}` body calls `on_throttle()` with any
+    `Retry-After` the server sent, and a success calls `on_success()`. There
+    is nothing to wire up when you pass a limiter to `Bot(...)`.
+
+    You only need to report outcomes yourself if you bypass `Bot.request` —
+    for instance by calling `aiohttp` directly:
 
     ```python
     from darkob.bot.exceptions import TooRequests
