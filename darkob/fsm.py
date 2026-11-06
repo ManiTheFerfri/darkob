@@ -39,6 +39,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict, Optional
 
 from .bot.filters import EventConstraint
+from .utils.concurrency import LazyLock
 
 __all__ = [
     "Storage",
@@ -99,7 +100,9 @@ class MemoryStorage(Storage):
     def __init__(self) -> None:
         self._states: Dict[str, Optional[str]] = {}
         self._data: Dict[str, Dict[str, Any]] = {}
-        self._lock = asyncio.Lock()
+        # Lazy: a storage backend is often built at import time, where a 3.9
+        # interpreter has no running loop to bind a lock to.
+        self._lock = LazyLock()
 
     async def get_state(self, key: str) -> Optional[str]:
         async with self._lock:
@@ -134,7 +137,9 @@ class JsonFileStorage(Storage):
 
     def __init__(self, path: str = "darkob_fsm.json") -> None:
         self.path = path
-        self._lock = asyncio.Lock()
+        # Lazy: a storage backend is often built at import time, where a 3.9
+        # interpreter has no running loop to bind a lock to.
+        self._lock = LazyLock()
         self._loaded = False
         self._states: Dict[str, str] = {}
         self._data: Dict[str, Dict[str, Any]] = {}

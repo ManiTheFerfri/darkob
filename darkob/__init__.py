@@ -73,7 +73,7 @@ from .plugin import (
     PluginTester,
     create_plugin,
 )
-from .utils.concurrency import TaskGroup, timeout_after as async_timeout
+from .utils.concurrency import LazyLock, TaskGroup, timeout_after as async_timeout
 from .protocol import ProtocolSnapshot, ProtocolTracker
 from .formatting import (
     bold,
@@ -148,6 +148,7 @@ __all__ = [
     "PluginTester",
     "create_plugin",
     "TaskGroup",
+    "LazyLock",
     "async_timeout",
     "ProtocolTracker",
     "ProtocolSnapshot",

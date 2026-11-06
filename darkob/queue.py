@@ -28,6 +28,7 @@ from typing import Any, Deque, Dict, List, Optional
 from .bot.exceptions import Network as BotNetwork
 from .client.exceptions import NetworkError
 from .metrics import metrics as _metrics
+from .utils.concurrency import LazyLock
 
 __all__ = ["SendQueue", "QueueFull"]
 
@@ -60,7 +61,8 @@ class SendQueue:
         self.max_size = max_size
         self.retry_delay = retry_delay
         self._items: Deque[Dict[str, Any]] = deque(maxlen=None)
-        self._lock = asyncio.Lock()
+        # Lazily, so a SendQueue can be built at import time on Python 3.9.
+        self._lock = LazyLock()
         self._worker: Optional[asyncio.Task] = None
         self._stopping = False
 

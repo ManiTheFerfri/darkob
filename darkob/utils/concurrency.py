@@ -34,6 +34,7 @@ from types import TracebackType
 from typing import Any, Awaitable, List, Optional, Set, Tuple, Type, TypeVar
 
 __all__ = [
+    "LazyLock",
     "TaskGroup",
     "TaskGroupError",
     "TimeoutError_",
@@ -52,6 +53,60 @@ native_timeout = sys.version_info >= (3, 11)
 # ``asyncio.TimeoutError`` is ``TimeoutError`` from 3.11 onwards; alias it so
 # callers can be version-agnostic.
 TimeoutError_ = TimeoutError
+
+
+class LazyLock:
+    """An ``asyncio.Lock`` created on first use, not on construction.
+
+    Python 3.9 binds a lock to the running loop when it is built, and raises
+    ``RuntimeError: There is no current event loop`` when there is none. That
+    makes eager construction a footgun for anything a user builds at import
+    time — a ``TokenBucket``, a ``SendQueue``, or a storage backend::
+
+        limiter = RateLimiter(rate=20)   # module scope, no loop yet
+
+    Creating the lock inside the first ``async with`` removes that ordering
+    requirement on every version, and changes nothing on 3.10+, where locks
+    are already loop-agnostic.
+
+    It is a drop-in replacement for ``asyncio.Lock`` in the ``async with``
+    pattern. Use it wherever a lock lives on an object that can be built
+    outside a coroutine.
+    """
+
+    __slots__ = ("_lock",)
+
+    def __init__(self) -> None:
+        self._lock: Optional["asyncio.Lock"] = None
+
+    def _resolve(self) -> "asyncio.Lock":
+        lock = self._lock
+        if lock is None:
+            lock = asyncio.Lock()
+            self._lock = lock
+        return lock
+
+    async def __aenter__(self) -> "LazyLock":
+        await self._resolve().acquire()
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc: Optional[BaseException],
+        tb: Optional[TracebackType],
+    ) -> bool:
+        lock = self._lock
+        if lock is not None and lock.locked():
+            lock.release()
+        return False
+
+    def locked(self) -> bool:
+        """``True`` when the underlying lock is held."""
+        return self._lock is not None and self._lock.locked()
+
+    def __repr__(self) -> str:
+        return f"LazyLock(created={self._lock is not None})"
 
 
 class TaskGroupError(Exception):
@@ -217,7 +272,15 @@ class _FallbackTaskGroup:
                 raise child_error
 
 
-TaskGroup = asyncio.TaskGroup if native_task_group else _FallbackTaskGroup
+# ``TaskGroup`` is resolved with getattr, not attribute access: pyright is
+# configured for Python 3.10 (the project supports 3.9+), where the attribute
+# does not exist, and a plain ``asyncio.TaskGroup`` reference is a hard type
+# error there even though the branch is unreachable at runtime.
+TaskGroup: Any
+if native_task_group:
+    TaskGroup = getattr(asyncio, "TaskGroup")
+else:
+    TaskGroup = _FallbackTaskGroup
 
 
 class _Timeout:
@@ -302,7 +365,8 @@ def timeout_after(seconds: Optional[float]) -> Any:
     if seconds is None:
         return _NullTimeout()
     if native_timeout:
-        return asyncio.timeout(seconds)
+        # getattr for the same reason as TaskGroup above: pyright targets 3.10.
+        return getattr(asyncio, "timeout")(seconds)
     return _Timeout(seconds)
 
 
