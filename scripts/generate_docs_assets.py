@@ -242,6 +242,7 @@ def main() -> None:
     CURATED = [
         "get-started/installation.md",
         "get-started/quickstart.md",
+        "get-started/migrating-from-maxrubika.md",
         "guides/handlers.md",
         "guides/filters.md",
         "guides/routers.md",

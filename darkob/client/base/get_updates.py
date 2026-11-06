@@ -41,7 +41,18 @@ class GetUpdates:
         if existing is None or existing.done():
             self._keep_socket_task = asyncio.create_task(self._keep_socket())
 
+        first_connection = True
         while True:
+            if not first_connection:
+                # Reconnected: pull anything missed while the socket was
+                # down before resuming the live stream.
+                try:
+                    await self.get_chats_updates()
+                    self.logger.info("Recovered missed updates after reconnect.")
+                except Exception as exc:
+                    self.logger.warning("Gap recovery failed: %s", exc)
+            first_connection = False
+
             try:
                 async with self.connection.session.ws_connect(
                     self.connection.wss_url, proxy=self.proxy

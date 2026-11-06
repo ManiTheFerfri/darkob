@@ -2,6 +2,7 @@ import asyncio
 import inspect
 import logging
 import random
+import time
 from contextlib import asynccontextmanager
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
@@ -79,6 +80,10 @@ class Api:
         # One breaker per endpoint, so a dead data centre stops being
         # retried by every subsequent request.
         self._breakers: Dict[str, CircuitBreaker] = {}
+
+        # Exponential moving average of each endpoint's latency, so
+        # the fastest healthy node is tried first.
+        self._latency: Dict[str, float] = {}
 
     @staticmethod
     def _normalize_url(url: Optional[str]) -> Optional[str]:
@@ -208,7 +213,26 @@ class Api:
         for endpoint in self.api_map.values():
             add(endpoint)
 
-        return candidates
+        # Healthy nodes first, then the fastest measured one. The
+        # discovery order stays as the tie-break.
+        order = {url: index for index, url in enumerate(candidates)}
+        return sorted(
+            candidates,
+            key=lambda url: (
+                self.breaker_for(url).is_open(),
+                self._latency.get(url, float('inf')),
+                order[url],
+            ),
+        )
+
+    def record_latency(self, endpoint: str, seconds: float) -> None:
+        """Fold one measurement into the endpoint's moving average."""
+        milliseconds = seconds * 1000.0
+        previous = self._latency.get(endpoint)
+        self._latency[endpoint] = (
+            milliseconds if previous is None
+            else previous * 0.8 + milliseconds * 0.2
+        )
 
     def breaker_for(self, endpoint: str) -> CircuitBreaker:
         """Return (creating if needed) the breaker for an endpoint."""
@@ -278,6 +302,7 @@ class Api:
             else:
                 delay = backoff * (1 + attempts // len(candidates))
 
+            started = time.perf_counter()
             try:
                 async with self.session.post(
                     candidate, json=data, proxy=self.client.proxy
@@ -296,6 +321,9 @@ class Api:
 
                     self._promote_endpoint(candidate)
                     self.breaker_for(candidate).record_success()
+                    self.record_latency(
+                        candidate, time.perf_counter() - started
+                    )
                     return payload
 
             except _RateLimited:
@@ -305,6 +333,15 @@ class Api:
                     delay = policy.delay(attempts + 1, rate_limited=True)
                 else:
                     delay = self._RATE_LIMIT_BACKOFF * (2 ** min(attempts, 4))
+
+                threshold = getattr(self.client, 'flood_sleep_threshold', 0) or 0
+                if threshold and delay > threshold:
+                    self.logger.error(
+                        'Rate limited with a %.1fs wait, above the %.1fs '
+                        'flood threshold; giving up on this request.',
+                        delay, threshold,
+                    )
+                    return None
             except Exception as exc:
                 last_error = exc
                 self.breaker_for(candidate).record_failure()

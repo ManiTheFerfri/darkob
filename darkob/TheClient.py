@@ -37,6 +37,7 @@ class Client(Methods):
         retry=None,
         rate_limiter=None,
         max_concurrent_updates: int = 32,
+        flood_sleep_threshold: float = 60.0,
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino'] = 'pwa',
         api_version: Literal[5, 6] = 6,
@@ -207,6 +208,7 @@ class Client(Methods):
         self.retry = retry
         self.rate_limiter = rate_limiter
         self.max_concurrent_updates = max(1, int(max_concurrent_updates))
+        self.flood_sleep_threshold = float(flood_sleep_threshold)
         self.decode_auth = None
         self.import_key = None
         self.guid = restored_guid

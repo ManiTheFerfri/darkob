@@ -21,6 +21,21 @@ pip install darkob
 The exported names are unchanged: `Bot`, `bot`, `Client`, `Messenger`,
 `messenger`, `Shad`, `shad`.
 
+## 1b. Or change nothing but the import
+
+If you would rather migrate later, run the existing code through
+the compatibility shim — the only change is the import line:
+
+```diff
+- from maxrubika import Messenger
++ from darkob.compat.maxrubika import Messenger
+```
+
+Everything maxrubika exported is re-exported there, plus the new
+darkob APIs, so a half-migrated file still imports cleanly. The
+module emits a `DeprecationWarning` on import to remind you it is a
+migration aid, not a destination.
+
 ## 2. Re-authenticate existing sessions
 
 !!! warning "Old session files will not load"

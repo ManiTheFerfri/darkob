@@ -337,6 +337,23 @@ export DARKOB_CHAT_ID=g0...
 python scripts/conformance.py --writes
 ```
 
+## v1.0 groundwork (Phases 2, 3, 6)
+
+- **Latency-aware failover.** Each endpoint keeps an exponential
+  moving average of its response time; candidates are ordered
+  healthy-first, fastest-first, with discovery order as the
+  tie-break. Combined with the circuit breaker, a slow or dead node is
+  demoted instead of being retried blindly.
+- **Flood ceiling.** `Client(flood_sleep_threshold=60)` refuses to
+  sleep through a long rate-limit wait: above the ceiling the request
+  fails fast with a log line instead of hanging a handler.
+- **WebSocket gap recovery.** After a reconnect the client pulls
+  missed updates before resuming the live stream.
+- **Crypto engine.** `darkob.CryptoEngine` caches the AES key, IV and
+  parsed RSA signer for the session, and payloads at or above 256 KB
+  are encrypted on a worker thread so the loop keeps serving handlers.
+- **`darkob.compat.maxrubika`.** A one-import migration shim.
+
 ## v1.0 groundwork (Phase 4)
 
 - **`bot.ask()` / `client.ask()`.** Await the next matching message in

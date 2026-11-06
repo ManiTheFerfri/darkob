@@ -1,3 +1,4 @@
+import asyncio
 from typing import Optional, Dict
 from ..core.cipher import Cipher
 from ...types import Event
@@ -6,6 +7,9 @@ from .. import exceptions
 from ..exceptions import NoConnection
 import darkob
 import json
+
+#: Payloads at or above this size are encrypted off the event loop.
+LARGE_PAYLOAD = 256 * 1024
 
 class Request:
     async def request(
@@ -67,10 +71,24 @@ class Request:
         data_enc = {"method": method, "input": input or {}, "client": client}
 
         if encrypt:
-            if self.API_VERSION == 5:
-                data["data_enc"] = Cipher.encrypt_v5(
-                    json.dumps(data_enc), key=self.key
-                )
+            # Large payloads (long media metadata, big batches) are encrypted
+            # on a worker thread so other handlers keep running.
+            plain = json.dumps(data_enc)
+            if len(plain) >= LARGE_PAYLOAD:
+                if self.API_VERSION == 5:
+                    data["data_enc"] = await asyncio.to_thread(
+                        Cipher.encrypt_v5, plain, self.key
+                    )
+                else:
+                    data["data_enc"] = await asyncio.to_thread(
+                        Cipher.encrypt, plain, self.key
+                    )
+                    if not tmp_session:
+                        data["sign"] = await asyncio.to_thread(
+                            Cipher.sign, self.import_key, data["data_enc"]
+                        )
+            elif self.API_VERSION == 5:
+                data["data_enc"] = Cipher.encrypt_v5(plain, key=self.key)
             else:
                 data["data_enc"] = Cipher.encrypt(data_enc, key=self.key)
                 if not tmp_session:
