@@ -6,7 +6,7 @@ from typing import Optional
 from aiohttp import web
 import darkob
 
-from rich.console import Console
+from ..utils.console import Console
 
 console = Console(highlight=False)
 logger = logging.getLogger(__name__)

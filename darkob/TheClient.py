@@ -2,8 +2,7 @@ from typing import Optional, Union, Literal
 import os
 import logging
 import re
-from rich.console import Console
-from rich.text import Text
+from .utils.console import Console, Text
 import darkob
 from .client import Methods
 from .client.core.session import Session

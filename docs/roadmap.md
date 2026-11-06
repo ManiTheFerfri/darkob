@@ -337,6 +337,24 @@ export DARKOB_CHAT_ID=g0...
 python scripts/conformance.py --writes
 ```
 
+## v1.0 groundwork (Phase 1)
+
+- **Dependency diet.** `mutagen` and `rich` are no longer core
+  dependencies. `async with`-style console output falls back to a
+  tiny stand-in, and media metadata is parsed from binary headers.
+  No public method or export was removed (verified by diffing the
+  public surface against the previous release: Bot 49, Messenger
+  329, Shad 330, exports 43 — identical).
+- **`darkob.utils.media_parser`.** PNG, JPEG, GIF, WebP, MP3 and
+  MP4 header parsing in pure Python: dimensions, duration, bitrate,
+  sample rate and the ID3 artist, in memory, in about 0.8 us for a
+  PNG.
+- **`darkob.utils.json_backend`.** Uses `msgspec` when installed and
+  falls back to the standard library otherwise; wired into the
+  cipher and the Bot request path.
+- **Optional extras:** `darkob[speed]` (msgspec) and `darkob[cli]`
+  (rich).
+
 ## Closed after the deep audit
 
 - Webhook requests can now be authenticated with a shared secret;

@@ -1,5 +1,5 @@
 import re
-import json
+from ...utils.json_backend import dumps, loads
 import base64
 import string
 import secrets
@@ -81,7 +81,7 @@ class Cipher:
         dec_res = re.sub(r'"time":,', '"time":0,', dec_res)
         dec_res = re.sub(r'"size":,', '"size":0,', dec_res)
 
-        return json.loads(dec_res)
+        return loads(dec_res)
 
     @classmethod
     def decrypt_v5(cls, data: str, key: str):
@@ -89,12 +89,12 @@ class Cipher:
         aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
         dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
         dec_res = unpad(dec, AES.block_size).decode("UTF-8")
-        return json.loads(dec_res)
+        return loads(dec_res)
 
     @classmethod
     def encrypt(cls, data: str, key: str):
         if isinstance(data, dict):
-            data = json.dumps(data)
+            data = dumps(data)
         raw = pad(data.encode("UTF-8"), AES.block_size)
         aes = AES.new(key.encode(), AES.MODE_CBC, cls.AES_IV)
         return base64.b64encode(aes.encrypt(raw)).decode("UTF-8")
@@ -102,7 +102,7 @@ class Cipher:
     @classmethod
     def encrypt_v5(cls, data: str, key: str):
         if isinstance(data, dict):
-            data = json.dumps(data)
+            data = dumps(data)
         key_bytes = key.encode() if isinstance(key, str) else key
         raw = pad(data.encode("UTF-8"), AES.block_size)
         aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)

@@ -1,5 +1,7 @@
 import asyncio
 import json
+
+from ..utils.json_backend import loads
 import logging
 import darkob
 from ..data import Data
@@ -70,7 +72,7 @@ class Request:
                         )
 
                     try:
-                        data = json.loads(text)
+                        data = loads(text)
                     except json.JSONDecodeError as e:
                         raise JSONDecode(
                             dev_message=f"Failed to parse JSON response. Raw: {text[:200]}"

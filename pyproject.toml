@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.12.0"
+version = "0.13.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -45,17 +45,17 @@ classifiers = [
 dependencies = [
     "aiohttp>=3.9",
     "aiofiles",
-    "mutagen",
-    "pycryptodome",
-    "rich",
+    "pycryptodome>=3.20",
 ]
 
 [project.optional-dependencies]
+speed = ["msgspec>=0.18"]
+cli = ["rich>=13.7"]
 opencv = ["opencv-python"]
 movie = ["numpy", "moviepy"]
 pillow = ["pillow"]
 aiortc = ["aiortc"]
-pro = ["aiortc", "pillow", "opencv-python", "numpy", "moviepy"]
+pro = ["aiortc", "pillow", "opencv-python", "numpy", "moviepy", "rich", "msgspec"]
 dev = [
     "pytest>=8",
     "pytest-asyncio>=0.24",

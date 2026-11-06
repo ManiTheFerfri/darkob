@@ -18,8 +18,7 @@ from ..core.configs import (
     SHAD_PLATFORM_ALIASES,
     PLATFORM_NAME_TO_KEY
 )
-from rich.console import Console
-from rich.text import Text
+from ...utils.console import Console, Text
 
 console = Console()
 

@@ -2,7 +2,7 @@ import re
 import asyncio
 from typing import Union, Optional
 import aiohttp
-from rich.console import Console
+from .utils.console import Console
 
 import darkob
 from .bot import Methods

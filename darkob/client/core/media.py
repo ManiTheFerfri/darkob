@@ -7,7 +7,7 @@ import os
 import typing
 import base64
 import tempfile
-import mutagen
+from ...utils.media_parser import parse_audio
 import warnings
 
 DEFAULT_THUMB_BASE64 = "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"
@@ -248,32 +248,23 @@ class MediaThumbnail:
 class Audio:
     @classmethod
     def get_audio_info(cls, audio: bytes) -> AudioResult:
-        filename = None
+        """Read duration and artist from the MP3 header, in memory.
+
+        This used to write the bytes to a temporary file and hand it to
+        `mutagen`. Parsing the header directly removes a hard dependency
+        and the disk round-trip.
+        """
         try:
-            with tempfile.NamedTemporaryFile('wb', suffix='.rpa', delete=False) as file:
-                file.write(audio)
-                filename = file.name
+            info = parse_audio(audio)
+            if info is None:
+                return AudioResult(1, '')
 
-            audio_file = mutagen.File(filename, easy=True)
-            performer = ''
-            duration = 1
-
-            if audio_file is not None:
-                duration = int(audio_file.info.length) if hasattr(audio_file.info, 'length') else 1
-
-                try:
-                    performer = audio_file.tags.get('artist', [''])[0]
-                except (AttributeError, KeyError, IndexError, TypeError):
-                    pass
-
-            os.remove(filename)
-            return AudioResult(duration, performer)
+            duration = int(info.duration) if info.duration else 1
+            return AudioResult(duration, info.performer or '')
 
         except Exception as e:
-            if filename and os.path.exists(filename):
-                try:
-                    os.remove(filename)
-                except Exception:
-                    logger.debug("Suppressed exception", exc_info=True)
-            warnings.warn(f'Failed to process audio metadata. Details: {e} Using default values.')
+            warnings.warn(
+                f'Failed to process audio metadata. Details: {e} '
+                'Using default values.'
+            )
             return AudioResult(1, '')

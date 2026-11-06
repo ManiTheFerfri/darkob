@@ -13,8 +13,7 @@ import logging
 from datetime import datetime
 from typing import List, Optional, Tuple
 
-from rich.console import Console
-from rich.text import Text
+from .utils.console import Console, Text
 
 from .TheBot import Bot
 from .TheBot import Bot as bot
@@ -58,7 +57,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.12.0"
+__version__ = "0.13.0"
 
 logger = logging.getLogger(__name__)
 

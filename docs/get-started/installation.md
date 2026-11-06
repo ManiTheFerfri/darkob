@@ -11,7 +11,23 @@
 pip install darkob
 ```
 
-Optional extras, needed only for specific media features:
+The core install is deliberately small — `aiohttp`, `aiofiles` and
+`pycryptodome`. Nothing else is required, and no method is lost
+when the extras are absent.
+
+Optional extras:
+
+```bash
+pip install "darkob[speed]"   # msgspec: faster JSON on every update
+pip install "darkob[cli]"     # rich: styled console banner and prompts
+```
+
+Media metadata (audio duration, image and video dimensions) needs
+**no** dependency at all: `darkob.utils.media_parser` reads the
+binary headers directly with the standard library. That used to
+require `mutagen` plus a temporary file per upload.
+
+Further extras, needed only for specific media features:
 
 ```bash
 pip install "darkob[opencv]"     # video thumbnails via OpenCV
