@@ -1,0 +1,44 @@
+# The image installs darkob from PyPI, so the build context needs none of the
+# repository. This file keeps the context small and makes sure that a future
+# COPY cannot pick up development files, build output, or local secrets.
+
+# Version control and CI configuration
+.git/
+.github/
+
+# Development-only trees
+tests/
+docs/
+benchmarks/
+scripts/
+assets/
+api_docs/
+.devtools/
+.piptmp/
+mkdocs.yml
+pyrightconfig.json
+hooks.py
+setup.py
+
+# Build output and caches
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.ruff_cache/
+.pytest_cache/
+pytest-cache-files-*/
+coverage.xml
+htmlcov/
+*.log
+
+# Prose, not needed at run time
+*.md
+
+# Security, not tidiness: an .env file is exactly where a bot token tends to
+# live. If one reached the build context, a later COPY could bake it into a
+# layer that anyone able to pull the image can read. Never ship one.
+.env
+.env.*

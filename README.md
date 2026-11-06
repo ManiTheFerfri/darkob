@@ -161,16 +161,21 @@ outbox.start()
 
 ## Performance
 
-Measured with `benchmarks/benchmark_suite.py` against maxrubika 1.17.0 on
-the same machine, each case in a fresh process:
+Measured with `benchmarks/benchmark_suite.py` against maxrubika 1.17.0 on the
+same machine, each case in a fresh process so neither library inherits the
+other's warm state:
 
 | Benchmark | darkob | maxrubika | Result |
 | --- | --- | --- | --- |
-| Read `event.text` ×20,000 | 13.9 ms | 20.3 ms | 1.5× faster |
-| Nested key lookup ×20,000 | 3.0 ms | 17.0 ms | 5.7× faster |
-| Filter evaluation ×5,000 | 5.7 ms | 6.5 ms | 1.2× faster |
-| Route an update, 50 handlers | 5.3 ms | 8.1 ms | 1.5× faster |
-| Route an update, 500 handlers | 5.4 ms | 8.0 ms | 1.5× faster |
+| Read `event.text` ×20,000 | 13.5 ms | 20.9 ms | **1.5× faster** |
+| Nested key lookup ×20,000 | 3.0 ms | 16.8 ms | **5.7× faster** |
+| Filter evaluation ×5,000 | 5.1 ms | 10.5 ms | **1.4× faster** |
+| Route 5,000 updates, 50 handlers | 160 ms | 344 ms | **2.2× faster** |
+| Route 5,000 updates, 500 handlers | 1.50 s | 3.33 s | **2.2× faster** |
+
+Under realistic load (`benchmarks/scenarios.py`, same machine): **17,500
+updates/s** routing 1,000 updates against 100 registered handlers, and a 4 MiB
+download resumed from 50% completes in **1.9 ms** of library overhead.
 
 Three things carry the difference:
 
@@ -178,10 +183,39 @@ Three things carry the difference:
    access, so `event.text` — which searches `text` then `caption` — no
    longer walks the structure on every read.
 2. **Dispatch is an index, not a scan.** Handlers are grouped by update
-   name once, so routing cost stays flat whether a bot registers 50
-   handlers or 500.
+   name once, so routing cost scales with the handlers that match, not with
+   the handlers that exist.
 3. **The update name and waiter list are cheap.** `capitalize()` is
    memoised and a pending `ask()` costs one integer check per update.
+
+### Read this before quoting those numbers
+
+The benchmark used to be wrong, and in our favour, which is the worst kind of
+wrong. Its dispatch cases registered handlers as
+`{handler: MessageUpdates() for _ in range(count)}` — a dict keyed by the
+function object, so 500 identical entries collapsed into **one key**. Both
+"50 handlers" and "500 handlers" were measuring a single handler, which is why
+the two rows previously reported nearly identical times.
+
+With distinct handlers the gap widened rather than narrowed: 1.5× became 2.2×,
+because an index only helps once there is something to index. `README` numbers
+before 0.18.0 should be discarded.
+
+Two more caveats, stated plainly:
+
+- **Nothing here measures the network.** In a running bot, network latency
+  dominates every row. These numbers describe CPU work per update.
+- **The micro-benchmarks isolate one code path each.** The 5.7× nested lookup
+  is real but applies to a payload shape those properties actually walk; the
+  end-to-end gain is smaller. The dispatch rows are the ones you will notice,
+  because routing runs on every single update.
+
+CI enforces this: `benchmarks/check_regression.py` fails the build when a
+head-to-head factor drops by more than 25%, or a calibration-normalised
+scenario ratio rises by more than 75% (wider, because the committed baseline
+was recorded on a different platform). See
+[`benchmarks/README.md`](benchmarks/README.md) for the methodology, the
+recording hardware and the exact commands.
 
 ## Verified against the real API
 

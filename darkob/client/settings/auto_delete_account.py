@@ -17,7 +17,7 @@ class AutoDeleteAccount:
             The updated privacy settings.
 
         Examples:
-            >>> await client.auto_delete_account(6)
-            >>> await client.auto_delete_account("12m")
+            >>> await client.auto_delete_account(6)  # doctest: +SKIP
+            >>> await client.auto_delete_account("12m")  # doctest: +SKIP
         """
         return await self.set_setting(inactive_account_delete = setting)

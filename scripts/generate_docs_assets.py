@@ -253,6 +253,7 @@ def main() -> None:
         "guides/errors.md",
         "guides/sync-and-async.md",
         "guides/testing.md",
+        "performance.md",
         "ai/index.md",
     ]
 

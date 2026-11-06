@@ -1,0 +1,27 @@
+{
+  "generated": "2026-11-06T17:21:34+00:00",
+  "environment": {
+    "python": "3.14.7",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+    "cpu_count": 12,
+    "darkob": "0.17.0",
+    "maxrubika": "1.17.0"
+  },
+  "head_to_head": {
+    "Read `event.text` \u00d720,000": 1.49,
+    "Nested key lookup \u00d720,000": 5.72,
+    "Filter evaluation \u00d75,000": 1.42,
+    "Route an update, 50 handlers": 2.15,
+    "Route an update, 500 handlers": 2.22
+  },
+  "scenarios": {
+    "dispatch_1000x100": 4.778099,
+    "sendqueue_100": 0.006217,
+    "resume_download_4mb": 0.193476,
+    "filters_2000x5": 0.72793,
+    "json_5000": 0.998297
+  }
+}

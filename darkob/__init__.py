@@ -42,8 +42,38 @@ from .retry import Retry
 from .circuit import CircuitBreaker
 from .converse import ConversationManager, NoReply
 from .states import State, StatesGroup
-from .ratelimit import RateLimiter, TokenBucket
+from .ratelimit import AdaptiveRateLimiter, RateLimiter, TokenBucket
 from .queue import QueueFull, SendQueue
+
+# Observability. `darkob.metrics.metrics` (the shared registry instance) is
+# deliberately NOT re-exported here: it would shadow the `darkob.metrics`
+# module of the same name. Import it from `darkob.metrics` directly.
+from .metrics import (
+    Histogram,
+    Metrics,
+    disable_metrics,
+    enable_metrics,
+    get_metrics,
+)
+from .health import (
+    HealthRegistry,
+    HealthReport,
+    HealthResult,
+    queue_backlog_check,
+    tcp_check,
+)
+
+# Plugin development kit. Re-exported from `darkob.bot.plugin`, which owns the
+# lifecycle implementation; `darkob.plugin` adds the hook protocol docs and
+# the testing utilities.
+from .plugin import (
+    Plugin,
+    PluginManager,
+    PluginMeta,
+    PluginTester,
+    create_plugin,
+)
+from .utils.concurrency import TaskGroup, timeout_after as async_timeout
 from .protocol import ProtocolSnapshot, ProtocolTracker
 from .formatting import (
     bold,
@@ -59,7 +89,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.17.0"
+__version__ = "0.18.0"
 
 logger = logging.getLogger(__name__)
 
@@ -98,9 +128,27 @@ __all__ = [
     "State",
     "StatesGroup",
     "RateLimiter",
+    "AdaptiveRateLimiter",
     "TokenBucket",
     "SendQueue",
     "QueueFull",
+    "Metrics",
+    "Histogram",
+    "enable_metrics",
+    "disable_metrics",
+    "get_metrics",
+    "HealthRegistry",
+    "HealthReport",
+    "HealthResult",
+    "tcp_check",
+    "queue_backlog_check",
+    "Plugin",
+    "PluginManager",
+    "PluginMeta",
+    "PluginTester",
+    "create_plugin",
+    "TaskGroup",
+    "async_timeout",
     "ProtocolTracker",
     "ProtocolSnapshot",
     "bold",

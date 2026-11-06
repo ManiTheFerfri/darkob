@@ -27,6 +27,7 @@ from typing import Any, Deque, Dict, List, Optional
 
 from .bot.exceptions import Network as BotNetwork
 from .client.exceptions import NetworkError
+from .metrics import metrics as _metrics
 
 __all__ = ["SendQueue", "QueueFull"]
 
@@ -104,6 +105,15 @@ class SendQueue:
         """How many messages are waiting."""
         return len(self._items)
 
+    def _publish_depth(self) -> None:
+        """Keep the ``darkob.queue.pending`` gauge in step with the outbox.
+
+        A growing backlog is the first sign that sends are failing, long
+        before the queue overflows — but only if something is watching.
+        """
+        if _metrics.enabled:
+            _metrics.set("darkob.queue.pending", len(self._items))
+
     async def put(self, chat_id: str, text: Optional[str] = None, **kwargs: Any) -> bool:
         """Send now, or queue if the network is down.
 
@@ -128,6 +138,7 @@ class SendQueue:
                     "than growing without bound."
                 )
             self._items.append(payload)
+            self._publish_depth()
             self._save()
         return False
 
@@ -152,6 +163,7 @@ class SendQueue:
                     delivered += 1
 
             if delivered:
+                self._publish_depth()
                 self._save()
 
         return delivered
@@ -160,6 +172,7 @@ class SendQueue:
         """Remove and return everything queued."""
         items = list(self._items)
         self._items.clear()
+        self._publish_depth()
         self._save()
         return items
 

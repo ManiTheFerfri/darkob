@@ -1,0 +1,74 @@
+name: Feature request
+description: Propose a new capability or a change to darkob's behaviour.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: |
+        What are you trying to do that darkob makes hard or impossible today?
+        Describe the problem before the solution — that is what makes a proposal
+        reviewable.
+      placeholder: |
+        I want to rate-limit outgoing messages per chat. Right now I have to
+        hand-roll an asyncio.Semaphore per chat and wire it into every handler...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-api
+    attributes:
+      label: Proposed API
+      description: |
+        How would you like to call it? A short sketch of the call site is worth
+        more than a paragraph of prose. Show real imports from `darkob`.
+      render: python
+      placeholder: |
+        from darkob import Bot
+
+        bot = Bot(token="YOUR_BOT_TOKEN", per_chat_concurrency=3)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        Workarounds you tried, other libraries' approaches, or why the obvious
+        design is not good enough. "None" is an acceptable answer if you explain
+        why the proposal is the only reasonable shape.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: maxrubika-parity
+    attributes:
+      label: Does this exist in maxrubika?
+      description: |
+        darkob is a fork of maxrubika and must stay a superset of its public API,
+        so parity matters. If it exists upstream, darkob should usually match it
+        rather than invent a different shape.
+      options:
+        - It does not exist in maxrubika
+        - It exists in maxrubika and darkob should match it
+        - It exists in maxrubika but darkob should improve on it
+    validations:
+      required: true
+
+  - type: dropdown
+    id: willingness
+    attributes:
+      label: Willingness to implement
+      description: |
+        There is no obligation here — a well-argued request is useful on its own.
+        Knowing whether you can take it on changes how the issue is triaged.
+      options:
+        - I can implement it and open a pull request
+        - I can help with tests or documentation
+        - I can test a prototype against my bot
+        - I cannot implement it
+    validations:
+      required: true

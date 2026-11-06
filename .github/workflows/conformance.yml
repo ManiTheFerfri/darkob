@@ -1,0 +1,119 @@
+name: Conformance (live API)
+
+# Nightly live-API smoke test. The static tests prove that endpoint names and
+# payload keys match the documentation; only a real token proves that the
+# server still accepts them. On failure a tracking issue is opened (or the
+# existing one is commented on) instead of a red run nobody reads.
+#
+# scripts/conformance.py reads DARKOB_BOT_TOKEN and DARKOB_CHAT_ID from the
+# environment, so the two repository secrets below are mapped to those names.
+# Repository setup: add secrets DARKOB_TEST_TOKEN and DARKOB_TEST_CHAT_ID; the
+# bot must already be a member of that chat.
+# Exit code 0 means every check passed, 1 means at least one check FAILED, and
+# 2 means the invocation itself was wrong (missing token, or --writes without
+# a chat id). Skipped checks do not fail the run.
+on:
+  schedule:
+    # 03:00 UTC every night.
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    inputs:
+      writes:
+        description: "Also exercise write endpoints (sends, edits, then cleans up)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write   # needed to open or comment on the failure issue
+
+# A new nightly run supersedes a stuck one rather than queueing behind it.
+concurrency:
+  group: conformance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  live:
+    name: live API
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # The names scripts/conformance.py actually reads.
+      DARKOB_BOT_TOKEN: ${{ secrets.DARKOB_TEST_TOKEN }}
+      DARKOB_CHAT_ID: ${{ secrets.DARKOB_TEST_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package and dev dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Explain the skip when no token is configured
+        if: env.DARKOB_BOT_TOKEN == ''
+        run: echo "::notice::DARKOB_TEST_TOKEN is not set; skipping the live conformance run."
+
+      # Secrets are not available in `if:` expressions, so the guard checks the
+      # job env variable that was populated from the secret above. This keeps
+      # forks and repos without the secret green instead of failing.
+      - name: Run conformance against the live API
+        id: conformance
+        if: env.DARKOB_BOT_TOKEN != ''
+        shell: bash
+        run: |
+          # Make the script's exit code the step's exit code: without pipefail
+          # `tee` is the last command and a failing run would look successful.
+          set -o pipefail
+          args=()
+          if [[ "${{ inputs.writes }}" == "true" ]]; then
+            args+=(--writes)
+          fi
+          python scripts/conformance.py "${args[@]}" 2>&1 | tee conformance.log
+
+      - name: Open or update the conformance issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          OUTCOME: ${{ steps.conformance.outcome }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "The ${GITHUB_WORKFLOW} run failed."
+            echo ""
+            echo "- Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Conformance step outcome: \`${OUTCOME}\`"
+            echo ""
+            echo "Last 80 lines of \`conformance.log\`:"
+            echo ""
+            echo '~~~~text'
+            if [ -s conformance.log ]; then
+              tail -n 80 conformance.log
+            else
+              echo "conformance.log was not produced: the run failed before scripts/conformance.py executed."
+            fi
+            echo '~~~~'
+          } > issue-body.md
+
+          # The label must exist before it can be applied; ignore "already exists".
+          gh label create conformance \
+            --description "Nightly live-API conformance failures" \
+            --color B60205 >/dev/null 2>&1 || true
+
+          existing="$(gh issue list --label conformance --state open \
+            --limit 1 --json number --jq '.[0].number // empty')"
+          if [ -n "${existing}" ]; then
+            echo "Adding a comment to open issue #${existing}."
+            gh issue comment "${existing}" --body-file issue-body.md
+          else
+            gh issue create \
+              --title "conformance failure $(date -u +%F)" \
+              --label conformance \
+              --body-file issue-body.md
+          fi
