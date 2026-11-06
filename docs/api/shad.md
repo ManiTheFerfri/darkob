@@ -843,7 +843,7 @@ Returns:
     The result of the API call.
 
 Example:
-    >>> await client.send_message_api_call(
+    >>> await client.send_message_api_call(  # doctest: +SKIP
     ...     chat="b0C2y04506bd2306f068aa161e0502db",
     ...     message_id="1499338519906784",
     ...     button_id="b0SPm00c8ab83b689ac2eeffe16ec7db"
@@ -3564,8 +3564,8 @@ Returns:
     The updated privacy settings.
 
 Examples:
-    >>> await client.auto_delete_account(6)
-    >>> await client.auto_delete_account("12m")
+    >>> await client.auto_delete_account(6)  # doctest: +SKIP
+    >>> await client.auto_delete_account("12m")  # doctest: +SKIP
 
 ### change_password
 

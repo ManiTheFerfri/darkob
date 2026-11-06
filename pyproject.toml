@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.17.0"
+version = "0.18.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -27,7 +27,13 @@ keywords = [
     "self-bot",
 ]
 classifiers = [
+    # Pre-1.0 on purpose: the public surface is stable and additive, but
+    # SemVer still allows a breaking change in a minor release.
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -43,9 +49,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "aiohttp>=3.9",
-    "aiofiles",
-    "pycryptodome>=3.20",
+    # Range specifiers, not pins: a hard pin here becomes a resolver conflict
+    # in every downstream project. The upper bounds guard against a major
+    # release that changes semantics under us.
+    "aiohttp>=3.9,<4",
+    "aiofiles>=22.1,<26",
+    "pycryptodome>=3.20,<4",
 ]
 
 [project.optional-dependencies]

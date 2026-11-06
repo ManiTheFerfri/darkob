@@ -1,0 +1,54 @@
+name: Documentation issue
+description: A docs page is wrong, missing, outdated, or hard to follow.
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Page or section
+      description: |
+        Link the page on <https://manitheferfri.github.io/darkob/> and name the
+        section, or give the file path in `docs/` if you are reading the source.
+      placeholder: "docs/guides/keyboards.md — the 'Inline keypads' section"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      description: |
+        Quote the confusing sentence or describe the gap. If the docs disagree
+        with the actual behaviour of the library, say which one you think is
+        right and include the version you are running.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-wording
+    attributes:
+      label: Suggested wording
+      description: |
+        The replacement text or the example you would add, if you have one.
+        Runnable Python examples are especially welcome.
+      render: markdown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: What kind of documentation is this?
+      description: |
+        darkob's docs follow the Diátaxis split, and each kind has a different
+        job: a tutorial teaches, a how-to guide solves a specific problem, a
+        reference describes exactly, and an explanation gives background.
+      options:
+        - Tutorial (learning by doing)
+        - How-to guide (solving a specific problem)
+        - Reference (exact description of the API)
+        - Explanation (background and design rationale)
+        - Not sure
+    validations:
+      required: true

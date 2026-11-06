@@ -47,7 +47,14 @@ class FakeBot:
     # -- assertions -------------------------------------------------------
 
     def called(self, method: str) -> bool:
-        """True when *method* was called at least once."""
+        """True when *method* was called at least once.
+
+        Examples:
+            >>> from darkob.testing import FakeBot
+            >>> bot = FakeBot()
+            >>> bot.called("send_message")
+            False
+        """
         return any(call[0] == method for call in self.calls)
 
     def calls_to(self, method: str) -> List[Tuple[Any, ...]]:

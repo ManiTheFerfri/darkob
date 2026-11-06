@@ -1,0 +1,132 @@
+name: Bug report
+description: Something in darkob crashes, misbehaves, or does not match the documentation.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the actual behaviour. What you observed, not what you expected.
+      placeholder: |
+        Calling bot.send_message() with a Keyboard raised a TypeError when the
+        keyboard had more than 3 rows...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected behaviour
+      description: What did you expect darkob to do instead, and why? Link the docs page or docstring that led you to expect it.
+      placeholder: |
+        The message should be sent with all rows, as documented in
+        docs/guides/keyboards.md.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: |
+        The shortest self-contained script that triggers the problem. Remove
+        everything that is not required to reproduce it, and replace real bot
+        tokens and `Messenger` session strings with obvious fakes.
+      render: python
+      placeholder: |
+        import asyncio
+
+        from darkob import Bot, Keyboard
+
+        bot = Bot(token="YOUR_BOT_TOKEN")
+
+
+        async def main():
+            await bot.send_message(
+                chat_id="00000000000000000000000000000000",
+                text="hi",
+                inline_keypad=Keyboard().row("A", "B").row("C", "D"),
+            )
+
+
+        asyncio.run(main())
+    validations:
+      required: true
+
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Traceback or error output
+      description: |
+        The full traceback if you have one, with the `darkob` frames intact.
+        Delete tokens, session strings and chat identifiers first.
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: darkob-version
+    attributes:
+      label: darkob version
+      description: Output of `python -c "import darkob; print(darkob.__version__)"`.
+      placeholder: "0.17.0"
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      description: Output of `python --version`. Supported versions are 3.9 through 3.14.
+      placeholder: "3.12.4"
+    validations:
+      required: true
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      description: OS and version. Note whether it is Linux, macOS or Windows, and the architecture if it is unusual.
+      placeholder: "Windows 11 24H2 (x86_64)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: Which client is involved?
+      description: The class you instantiate in the reproduction.
+      options:
+        - Bot
+        - Messenger
+        - Shad
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where does the problem occur?
+      description: |
+        A problem that only shows up against the live API is a different class of
+        bug from one that reproduces offline with fake transports.
+      options:
+        - Against the live Rubika/Shad API
+        - In a unit test using fake transports
+        - Both
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      description: Both boxes must be ticked. A report with a live token in it will be deleted.
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I removed every bot token and Messenger session string from this report, including from logs, screenshots and stack traces.
+          required: true

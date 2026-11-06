@@ -105,6 +105,66 @@ class Plugin:
         """Is the plugin ready to work?"""
         return self._is_ready
 
+    # -- pipeline hooks ---------------------------------------------------
+    #
+    # Every hook is optional. The defaults below do nothing, so a plugin that
+    # implements only setup()/teardown() behaves exactly as before; override
+    # just the hooks you need. Hooks run only while the plugin is enabled, in
+    # the order the plugins were enabled.
+
+    async def on_update(self, event: Any) -> Optional[bool]:
+        """Inspect every incoming update, before any handler runs.
+
+        This is where a plugin can filter, enrich, or log traffic without the
+        application registering a handler for it.
+
+        Args:
+            event: The incoming ``Event``.
+
+        Returns:
+            ``True`` to consume the update: no handler will see it.
+            ``None`` or ``False`` to let dispatch continue.
+        """
+        return None
+
+    async def before_request(
+        self, action: str, data: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
+        """Inspect or rewrite an outgoing API request.
+
+        Args:
+            action: The endpoint name, for example ``"sendMessage"``.
+            data: The JSON body about to be posted.
+
+        Returns:
+            A replacement body to send instead, or ``None`` to send *data*
+            unchanged.
+        """
+        return None
+
+    async def after_response(self, action: str, data: Any) -> Any:
+        """Inspect or rewrite a successful response body.
+
+        Args:
+            action: The endpoint name that was called.
+            data: The decoded response payload.
+
+        Returns:
+            A replacement payload, or ``None`` to keep the original.
+        """
+        return None
+
+    async def on_error(
+        self, error: BaseException, context: Dict[str, Any]
+    ) -> None:
+        """Observe a failure in the request or handler pipeline.
+
+        Called for every failed API call and every exception raised by a
+        handler. Use it to report to an error tracker; it is called
+        best-effort and must not raise.
+        """
+        return None
+
 class PluginLoadError(Exception):
     """Raised when plugin loading fails."""
     pass
@@ -123,10 +183,17 @@ class PluginManager:
         *,
         auto_discover: bool = True,
         plugins_dir: Optional[str] = "plugins",
-        plugin_configs: Optional[Dict[str, Dict[str, Any]]] = None
+        plugin_configs: Optional[Dict[str, Dict[str, Any]]] = None,
+        strict_hooks: bool = False,
     ):
         self.bot = bot
         self.plugins_dir = plugins_dir
+        #: When True, an exception raised inside a pipeline hook propagates
+        #: instead of being logged and skipped. Off by default: a buggy
+        #: plugin should not take the bot down with it. Turn it on in
+        #: development, and in production for security plugins whose failure
+        #: must fail closed.
+        self.strict_hooks = strict_hooks
         self._registry: Dict[str, Type[Plugin]] = {}
         self._instances: Dict[str, Plugin] = {}
         self._enabled: Dict[str, Plugin] = {}
@@ -474,6 +541,108 @@ class PluginManager:
     def is_enabled(self, identifier: str) -> bool:
         """Is plugin enabled?"""
         return self._normalize(identifier) in self._enabled
+
+    @property
+    def active(self) -> int:
+        """How many plugins are enabled.
+
+        The client checks this before touching the hook pipeline, so bots
+        with no plugins pay a single integer comparison per update.
+        """
+        return len(self._enabled)
+
+    # -- pipeline hooks ---------------------------------------------------
+
+    def _hook_plugins(self, hook: str) -> List[Plugin]:
+        """Enabled plugins that actually override *hook*, in enable order."""
+        base = getattr(Plugin, hook, None)
+        return [
+            plugin
+            for plugin in self._enabled.values()
+            if getattr(type(plugin), hook, None) is not base
+        ]
+
+    def _report_hook_failure(
+        self, plugin: Plugin, hook: str, error: BaseException
+    ) -> None:
+        """Log (and optionally re-raise) a failure inside a hook."""
+        if self.strict_hooks:
+            raise error
+        logger.error(
+            "Plugin %r raised in %s(): %s",
+            plugin.meta.name or type(plugin).__name__,
+            hook,
+            error,
+            exc_info=error,
+        )
+
+    async def run_on_update(self, event: Any) -> bool:
+        """Give plugins a chance to consume *event*.
+
+        Returns:
+            ``True`` when a plugin consumed the update, meaning dispatch must
+            stop before any handler runs.
+        """
+        for plugin in self._hook_plugins("on_update"):
+            try:
+                if await plugin.on_update(event):
+                    return True
+            except Exception as error:
+                self._report_hook_failure(plugin, "on_update", error)
+        return False
+
+    async def apply_before_request(
+        self, action: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Let plugins rewrite the body of an outgoing request."""
+        for plugin in self._hook_plugins("before_request"):
+            try:
+                replacement = await plugin.before_request(action, data)
+            except Exception as error:
+                self._report_hook_failure(plugin, "before_request", error)
+                continue
+            if replacement is not None:
+                if not isinstance(replacement, dict):
+                    self._report_hook_failure(
+                        plugin,
+                        "before_request",
+                        TypeError("before_request() must return a dict or None"),
+                    )
+                    continue
+                data = replacement
+        return data
+
+    async def apply_after_response(self, action: str, data: Any) -> Any:
+        """Let plugins rewrite a successful response payload."""
+        for plugin in self._hook_plugins("after_response"):
+            try:
+                replacement = await plugin.after_response(action, data)
+            except Exception as error:
+                self._report_hook_failure(plugin, "after_response", error)
+                continue
+            if replacement is not None:
+                data = replacement
+        return data
+
+    async def run_on_error(
+        self, error: BaseException, context: Optional[Dict[str, Any]] = None
+    ) -> None:
+        """Tell plugins about a failure. Never raises by default."""
+        if not self._enabled:
+            return
+        payload = context if context is not None else {}
+        for plugin in self._hook_plugins("on_error"):
+            try:
+                await plugin.on_error(error, payload)
+            except Exception as hook_error:
+                if self.strict_hooks:
+                    raise
+                logger.debug(
+                    "Plugin %r raised in on_error(): %s",
+                    plugin.meta.name or type(plugin).__name__,
+                    hook_error,
+                    exc_info=hook_error,
+                )
 
     def set_config(self, identifier: str, config: Dict[str, Any]) -> None:
         """Set plugin configuration."""

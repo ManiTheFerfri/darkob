@@ -13,10 +13,38 @@ from ...types import Event
 from ..exceptions import (NetworkError, StopHandler, ServerError)
 from .configs import PLATFORMS
 from ...circuit import CircuitBreaker
+from ...metrics import metrics as _metrics
 
 
 class _RateLimited(Exception):
-    """Internal signal: the endpoint asked us to slow down."""
+    """Internal signal: the endpoint asked us to slow down.
+
+    Carries the server's ``Retry-After`` header when it sent one, so the
+    rate limiter can pause for exactly as long as asked instead of guessing.
+    """
+
+    def __init__(self, retry_after: Optional[float] = None) -> None:
+        super().__init__("rate limited by the server")
+        self.retry_after = retry_after
+
+
+def _retry_after_seconds(response: Any) -> Optional[float]:
+    """Read a numeric ``Retry-After`` header; ignore HTTP-date forms.
+
+    Defensive on purpose: reading an optional header must never be the thing
+    that breaks a request, and duck-typed test doubles may not carry headers.
+    """
+    headers = getattr(response, "headers", None)
+    if not headers:
+        return None
+    raw = headers.get("Retry-After")
+    if not raw:
+        return None
+    try:
+        value = float(raw)
+    except (TypeError, ValueError):
+        return None
+    return value if value >= 0 else None
 
 
 _CAPITALIZED: Dict[str, str] = {}
@@ -265,7 +293,33 @@ class Api:
         self.api_priority.insert(0, code)
         self.api_url = self.api_map.get(code, candidate)
 
+    def _plugin_manager(self) -> Any:
+        """The client's plugin manager, if it has one.
+
+        ``Bot`` creates one in its constructor; ``Messenger`` and ``Shad`` do
+        not. Returning ``None`` costs one ``getattr`` on the hot path.
+        """
+        return getattr(self.client, "plugin_manager", None)
+
     async def _http_request(
+        self,
+        data: Dict,
+        max_retries: int = 3,
+        backoff: float = 1.0,
+    ) -> Optional[Dict]:
+        if not _metrics.enabled:
+            return await self._send_request(data, max_retries, backoff)
+
+        _metrics.increment("darkob.api.requests")
+        started = time.perf_counter()
+        try:
+            return await self._send_request(data, max_retries, backoff)
+        finally:
+            _metrics.observe(
+                "darkob.api.seconds", time.perf_counter() - started
+            )
+
+    async def _send_request(
         self,
         data: Dict,
         max_retries: int = 3,
@@ -300,6 +354,16 @@ class Api:
         attempts = 0
         last_error: Any = None
 
+        # Plugins get one chance to rewrite the request body, before any
+        # attempt is made. `active` is an int, so bots without plugins pay a
+        # single comparison per request.
+        manager = self._plugin_manager()
+        hooks = manager is not None and bool(manager.active)
+        action = ""
+        if hooks and isinstance(data, dict):
+            action = data.get("method") or ""
+            data = await manager.apply_before_request(action, data)
+
         while attempts < attempts_budget:
             limiter = getattr(self.client, 'rate_limiter', None)
             if limiter is not None:
@@ -321,7 +385,7 @@ class Api:
                     candidate, json=data, proxy=self.client.proxy
                 ) as response:
                     if response.status == 429:
-                        raise _RateLimited()
+                        raise _RateLimited(_retry_after_seconds(response))
 
                     response.raise_for_status()
                     payload = await response.json()
@@ -337,11 +401,29 @@ class Api:
                     self.record_latency(
                         candidate, time.perf_counter() - started
                     )
+                    if hooks and action:
+                        payload = await manager.apply_after_response(
+                            action, payload
+                        )
+                    # Let an adaptive limiter climb back towards its ceiling.
+                    # It has to happen here rather than in an `else:` branch:
+                    # the success path returns from inside the try block.
+                    on_success = getattr(limiter, "on_success", None)
+                    if on_success is not None:
+                        on_success()
                     return payload
 
-            except _RateLimited:
+            except _RateLimited as rate_limited:
                 last_error = "rate limited by the server"
                 self.breaker_for(candidate).record_failure()
+                if _metrics.enabled:
+                    _metrics.increment("darkob.api.ratelimited")
+                # Tell an adaptive limiter to back off. It may also pause
+                # acquisition for as long as the server asked.
+                on_throttle = getattr(limiter, "on_throttle", None)
+                if on_throttle is not None:
+                    on_throttle(rate_limited.retry_after)
+
                 if policy is not None:
                     delay = policy.delay(attempts + 1, rate_limited=True)
                 else:
@@ -358,9 +440,18 @@ class Api:
             except Exception as exc:
                 last_error = exc
                 self.breaker_for(candidate).record_failure()
+                if _metrics.enabled:
+                    _metrics.increment("darkob.api.errors")
+                if hooks:
+                    await manager.run_on_error(
+                        exc,
+                        {"action": action, "endpoint": candidate},
+                    )
 
             attempts += 1
             if attempts < attempts_budget:
+                if _metrics.enabled:
+                    _metrics.increment("darkob.api.retries")
                 self.logger.warning(
                     "Request failed (attempt %d/%d) on %s: %s",
                     attempts, attempts_budget, candidate, last_error,
@@ -457,6 +548,27 @@ class Api:
             self._spawn(asyncio.to_thread(func, event))
 
     async def handle_update(self, name: str, event: dict) -> None:
+        if not _metrics.enabled:
+            await self._dispatch_update(name, event)
+            return
+
+        _metrics.increment("darkob.updates")
+        started = time.perf_counter()
+        try:
+            await self._dispatch_update(name, event)
+        finally:
+            _metrics.observe(
+                "darkob.update.seconds", time.perf_counter() - started
+            )
+
+    async def _dispatch_update(self, name: str, event: dict) -> None:
+        # Plugins sit outside normal dispatch: one that returns True consumes
+        # the update before ask() or any handler can see it.
+        manager = self._plugin_manager()
+        if manager is not None and manager.active:
+            if await manager.run_on_update(Event(event.copy())):
+                return
+
         # A pending ask() consumes the update before dispatch. Checking the
         # waiter count first avoids building an Event for every update when
         # no conversation is in flight.
@@ -470,12 +582,19 @@ class Api:
         if not targets:
             return
 
+        tracked = _metrics.enabled
+
         for func, handler in targets:
             try:
                 event_obj = Event(event.copy())
 
                 if not await handler(event=event_obj):
+                    if tracked:
+                        _metrics.increment("darkob.handlers.skipped")
                     continue
+
+                if tracked:
+                    _metrics.increment("darkob.handlers.called")
 
                 await self._execute_handler(func, event_obj)
 
@@ -484,6 +603,8 @@ class Api:
             except StopHandler:
                 break
             except Exception as exc:
+                if tracked:
+                    _metrics.increment("darkob.handlers.errors")
                 self.logger.error(
                     "Handler '%s' failed: %s",
                     name,
@@ -491,3 +612,5 @@ class Api:
                     extra={"data": event},
                     exc_info=True,
                 )
+                if manager is not None and manager.active:
+                    await manager.run_on_error(exc, {"update": name})

@@ -1,0 +1,5 @@
+{
+  "examples": 24,
+  "note": "Runnable docstring examples (``>>>`` blocks without +SKIP). The ratchet in tests/test_docstrings.py allows this number to rise, never to fall. Run `python scripts/docstring_coverage.py` for the full picture: most of the public API still has prose examples rather than verified ones, and raising this number is ongoing work.",
+  "as_of": "0.18.0"
+}

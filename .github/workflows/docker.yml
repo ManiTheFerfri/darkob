@@ -1,0 +1,90 @@
+name: Docker
+
+# Build the runtime image. On a version tag it is published to GitHub Container
+# Registry; a pull request that touches the Dockerfile only builds it, so a
+# broken image is caught before merge and can never be published by a PR.
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - ".github/workflows/docker.yml"
+  workflow_dispatch:
+
+# Least privilege: read the repository, write only to the package registry.
+# Authentication uses the built-in GITHUB_TOKEN, no long-lived secret.
+permissions:
+  contents: read
+  packages: write
+
+# Publishing must not cancel itself: a tag push that races another would leave
+# a partial set of tags behind. The group is per ref, so PR builds never share
+# a group with a tag build.
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  image:
+    name: build and publish image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # No login on pull requests: forks have no push rights anyway, and a PR
+      # must never be able to publish a tag.
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tags and labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # Explicitly lowercase. The repository owner is ManiTheFerfri, but
+          # ghcr.io rejects uppercase image paths, so ${{ github.repository }}
+          # cannot be used verbatim here.
+          images: ghcr.io/manitheferfri/darkob
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          # Conditional, so a pull request builds the image but never pushes.
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Write the image digest to the run summary
+        run: |
+          {
+            echo "### darkob image"
+            echo ""
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Registry | \`ghcr.io/manitheferfri/darkob\` |"
+            echo "| Digest | \`${{ steps.build.outputs.digest || 'not pushed (pull request build)' }}\` |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+            echo ""
+            echo "Tags:"
+            echo ""
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

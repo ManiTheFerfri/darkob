@@ -219,8 +219,11 @@ jobs:
   benchmark:
     name: benchmarks
     runs-on: ubuntu-latest
-    # Reported, not enforced: timings are noisy on shared runners.
-    continue-on-error: true
+    # Blocking. The gate compares *derived* quantities only — darkob-vs-
+    # maxrubika factors (both measured on this same runner, so the comparison
+    # is machine-independent) and calibration-normalised scenario ratios —
+    # never an absolute duration. The scenario tolerance is wider because the
+    # committed baseline was recorded on another platform.
     steps:
       - uses: actions/checkout@v4
 
@@ -228,21 +231,48 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: |
+      - name: Install
+        run: |
           python -m pip install --upgrade pip
           python -m pip install -e .
+          python -m pip install maxrubika
 
-      - name: Micro-benchmarks
-        run: python scripts/benchmark.py
+      - name: Head-to-head comparison
+        run: python benchmarks/benchmark_suite.py | tee head-to-head.md
 
-      - name: Comparison table
-        run: python benchmarks/benchmark_suite.py
+      - name: Scenario benchmarks
+        run: python benchmarks/scenarios.py | tee scenarios.md
 
-  security:
-    name: dependency audit
+      - name: Fail on a performance regression
+        run: |
+          python benchmarks/check_regression.py \
+            --tolerance 0.25 --scenario-tolerance 0.75
+
+      - name: Publish the results to the job summary
+        if: always()
+        run: |
+          {
+            echo '## Head-to-head vs maxrubika'
+            echo
+            cat head-to-head.md || true
+            echo
+            echo '## Scenarios'
+            echo
+            cat scenarios.md || true
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: benchmark-results
+          path: |
+            head-to-head.md
+            scenarios.md
+          retention-days: 30
+
+  docstrings:
+    name: docstring examples
     runs-on: ubuntu-latest
-    # Reported, not enforced: upstream advisories should not block every PR.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -250,6 +280,49 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: |
-          python -m pip install --upgrade pip pip-audit
-          pip-audit --desc on || true
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      # Every ``>>>`` block in the package is executed, and the count is
+      # ratcheted so examples cannot be quietly deleted.
+      - name: Run every executable docstring example
+        run: python -m pytest tests/test_docstrings.py -v
+
+      - name: Report how much of the public API has a verified example
+        continue-on-error: true
+        run: python scripts/docstring_coverage.py --top 20
+
+  security:
+    name: security audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install pip-audit bandit
+
+      # Scoped to the modules written for darkob, the same way mypy and
+      # pyright are: the inherited tree has not been triaged yet, and a gate
+      # that is red on day one is a gate nobody reads.
+      - name: Static analysis (bandit, medium severity and up)
+        run: |
+          bandit -ll -q \
+            darkob/ratelimit.py darkob/queue.py darkob/retry.py \
+            darkob/circuit.py darkob/protocol.py darkob/states.py \
+            darkob/converse.py darkob/crypto.py darkob/metrics.py \
+            darkob/health.py darkob/plugin.py darkob/formatting.py \
+            darkob/keyboards.py darkob/builders.py darkob/utils
+
+      # Blocking only when an advisory affects a runtime dependency. A
+      # `pytest` or `setuptools` advisory must not fail a pull request.
+      - name: Dependency audit
+        run: python scripts/audit_gate.py

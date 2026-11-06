@@ -120,10 +120,20 @@ async def _dispatch_run(module: str, handlers: int, events: int) -> float:
         async def __call__(self, event: Any = None) -> bool:
             return False  # never matches: measures pure routing cost
 
-    async def handler(event: Any) -> None:
-        return None
+    # Handlers are keyed by the function object, so each one MUST be a
+    # distinct function. Building them in a dict comprehension over one
+    # shared `handler` collapsed all N entries into a single key and quietly
+    # benchmarked 1 handler at every "N handlers" size.
+    def build_handlers(count: int) -> Dict[Any, Any]:
+        registry: Dict[Any, Any] = {}
+        for index in range(count):
+            async def handler(event: Any = None, _index: int = index) -> None:
+                return None
 
-    client.handlers = {handler: MessageUpdates() for _ in range(handlers)}
+            registry[handler] = MessageUpdates()
+        return registry
+
+    client.handlers = build_handlers(handlers)
     if hasattr(api, "_dispatch_index"):
         api._dispatch_index = None
 

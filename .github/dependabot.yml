@@ -1,0 +1,55 @@
+# Dependabot policy for darkob.
+#
+# Security fixes and ordinary version bumps arrive as pull requests, not as
+# silent drift: everything is reviewed before it lands. Dev-dependency minor and
+# patch updates are grouped into one PR per week to keep review cheap, while the
+# two dependencies darkob actually ships (aiohttp, pycryptodome) never take a
+# major bump automatically — a major version of an HTTP client or a crypto
+# library needs a deliberate look at the changelog, the retry/TLS behaviour and
+# the test matrix, not a green checkmark on a Tuesday morning.
+version: 2
+updates:
+  # Runtime and development dependencies from pyproject.toml.
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Tehran"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      # One PR for the dev toolchain (pytest, ruff, coverage) instead of five.
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Majors of the shipped dependencies are upgraded by hand, with a full
+      # test run on 3.9 through 3.14 and a benchmark comparison.
+      - dependency-name: "aiohttp"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "pycryptodome"
+        update-types:
+          - "version-update:semver-major"
+
+  # Keep the workflow actions current; one grouped PR per week is enough.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Tehran"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
