@@ -2,11 +2,13 @@ import asyncio
 import hmac
 import json
 import logging
+import time
 from typing import Any, Dict
 
 from aiohttp import web
 
 import darkob
+from ..metrics import metrics as _metrics
 from ..types.incoming import Events
 
 logger = logging.getLogger(__name__)
@@ -53,13 +55,36 @@ class Updates:
         return Events(data=raw, bot=self)
 
     async def _safe_feed(self: "darkob.Bot", event):
+        """The single funnel every incoming update passes through.
+
+        Polling and webhook both end up here, so plugin hooks, conversation
+        resolution and metrics only have to be wired once. Before this, the
+        polling loop called ``_registry.feed`` directly and therefore skipped
+        both pending ``ask()`` calls and any plugin hook.
+        """
+        manager = getattr(self, "plugin_manager", None)
+        tracked = _metrics.enabled
+        started = time.perf_counter() if tracked else 0.0
+        if tracked:
+            _metrics.increment("darkob.updates")
+
         try:
+            # A plugin that consumes the update stops everything below it.
+            if manager is not None and manager.active:
+                if await manager.run_on_update(event):
+                    return
+
             conversations = getattr(self, "_conversations", None)
             if conversations is not None and await conversations.resolve(event):
                 return
             await self._registry.feed(event)
         except Exception:
             logger.exception("Error while feeding event")
+        finally:
+            if tracked:
+                _metrics.observe(
+                    "darkob.update.seconds", time.perf_counter() - started
+                )
 
     # -- webhook ----------------------------------------------------------
 

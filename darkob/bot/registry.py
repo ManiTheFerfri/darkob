@@ -6,6 +6,7 @@ import inspect
 import logging
 from typing import Any, Callable, List, Tuple
 
+from ..metrics import metrics as _metrics
 from .filters import EventConstraint
 
 logger = logging.getLogger(__name__)
@@ -104,6 +105,8 @@ class HandlerRegistry:
             else:
                 handler(self._bot, event)
         except Exception as exc:
+            if _metrics.enabled:
+                _metrics.increment("darkob.handlers.errors")
             logger.exception(
                 "Handler %s raised an exception", handler.__name__
             )
@@ -114,13 +117,18 @@ class HandlerRegistry:
         # who is skipped). False: only the first matching handler runs.
         run_all = self._bot.run_all_handlers
         matched = False
+        tracked = _metrics.enabled
 
         for constraints, handler in self._handlers:
             if await self._satisfies(event, constraints):
                 matched = True
+                if tracked:
+                    _metrics.increment("darkob.handlers.called")
                 await self._invoke(handler, event)
                 if not run_all:
                     return
+            elif tracked:
+                _metrics.increment("darkob.handlers.skipped")
 
         if not matched:
             logger.debug("No handler matched event update_type=%s", getattr(event, 'update_type', '?'))

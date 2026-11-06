@@ -14,6 +14,7 @@ from ..exceptions import (NetworkError, StopHandler, ServerError)
 from .configs import PLATFORMS
 from ...circuit import CircuitBreaker
 from ...metrics import metrics as _metrics
+from ...utils.http import retry_after_seconds as _retry_after_seconds
 
 
 class _RateLimited(Exception):
@@ -26,25 +27,6 @@ class _RateLimited(Exception):
     def __init__(self, retry_after: Optional[float] = None) -> None:
         super().__init__("rate limited by the server")
         self.retry_after = retry_after
-
-
-def _retry_after_seconds(response: Any) -> Optional[float]:
-    """Read a numeric ``Retry-After`` header; ignore HTTP-date forms.
-
-    Defensive on purpose: reading an optional header must never be the thing
-    that breaks a request, and duck-typed test doubles may not carry headers.
-    """
-    headers = getattr(response, "headers", None)
-    if not headers:
-        return None
-    raw = headers.get("Retry-After")
-    if not raw:
-        return None
-    try:
-        value = float(raw)
-    except (TypeError, ValueError):
-        return None
-    return value if value >= 0 else None
 
 
 _CAPITALIZED: Dict[str, str] = {}

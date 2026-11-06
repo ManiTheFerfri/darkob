@@ -43,7 +43,11 @@ class Start:
                         for raw_update in raw_updates:
                             try:
                                 event = self._parse_raw_update(raw_update)
-                                await self._registry.feed(event)
+                                # Through the shared funnel, not straight to
+                                # the registry: this is what makes plugin
+                                # hooks and pending ask() calls work in
+                                # polling mode too.
+                                await self._safe_feed(event)
                             except Exception as e:
                                 logger.warning(f"Failed to process update: {e}")
 

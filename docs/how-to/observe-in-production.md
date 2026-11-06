@@ -48,21 +48,27 @@ already recorded.
 | `darkob.api.retries` | counter | A retry follows a failure |
 | `darkob.api.ratelimited` | counter | The server throttled a call |
 | `darkob.api.seconds` | histogram | Latency of one HTTP call |
-| `darkob.queue.pending` | gauge | **Not recorded automatically** — set it yourself |
+| `darkob.queue.pending` | gauge | Messages waiting in a `SendQueue` |
 
-!!! warning "Where the built-in counters actually fire"
-    The instrumentation lives in the Messenger/Shad request loop and
-    dispatch path. `darkob.Bot` does not record `darkob.api.*` or
-    `darkob.updates` on its own request path, and nothing in the library
-    writes `darkob.queue.pending`; the queue exposes `pending` instead, so
-    record it on your own schedule:
+!!! note "Where the counters fire"
+    Both surfaces are instrumented. On `Messenger`/`Shad` the counters come
+    from the client request loop and its dispatch path; on `Bot` they come
+    from `Bot.request` and the polling/webhook funnel, so `darkob.api.*`,
+    `darkob.updates` and the `darkob.handlers.*` counters all tick there too.
+
+    `SendQueue` publishes `darkob.queue.pending` itself, on every enqueue,
+    flush and drain — you do not have to poll it.
+
+    This was not always true: 0.18.0 wired the `Bot` surface, which had been
+    bypassing the instrumentation entirely because it owns a separate request
+    path. If you are on an earlier build, set the gauge yourself:
 
     ```python
     metrics.set("darkob.queue.pending", queue.pending)
     ```
 
-    Every counter, gauge and histogram you create yourself works the same
-    way on both surfaces.
+    Every counter, gauge and histogram you create yourself works the same way
+    on both surfaces.
 
 ## Read a snapshot
 

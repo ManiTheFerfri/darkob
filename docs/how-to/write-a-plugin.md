@@ -35,6 +35,7 @@ class AntiSpam(Plugin):
 | `version` | `"1.0.0"` | Reported by `get_plugin_info` |
 | `description` | `""` | Human-readable summary |
 | `author` | `"Unknown"` | Reported by `get_plugin_info` |
+| `homepage` | `None` | Reported by `get_plugin_info` |
 | `dependencies` | `()` | Plugin names enabled before this one |
 | `required_permissions` | `()` | Declarative only — **not** enforced by the manager |
 | `default_config` | `{}` | Merged under the config you pass in |
@@ -57,8 +58,8 @@ self.update_config({"words": []})   # merged over the defaults
 self.is_ready                       # True between setup and teardown
 ```
 
-A plugin receives its config at construction. `set_config()` on the manager
-applies to a live instance too.
+A plugin receives its config at construction; `set_config()` on the manager
+also applies to a live instance.
 
 ## The four hooks
 
@@ -114,11 +115,26 @@ plugin = await bot.plugin_manager.enable(identifier)        # instance
 `Bot(...)` creates the manager for you, so registration is one call.
 
 !!! note "Where the hooks actually fire"
-    The four hooks are called from the client's request and dispatch loop
-    (`Messenger` / `Shad`). The `PluginManager` on a `Bot` handles the whole
-    lifecycle — registration, dependencies, config, enable/disable, reload —
-    and is what `PluginTester` drives, but `darkob.Bot`'s own update
-    dispatch and its Bot-API request path do not currently call the hooks.
+    Both surfaces call all four hooks. On `Messenger`/`Shad` they run from the
+    client's request and dispatch loop; on `Bot` they run from `Bot.request`
+    and from `_safe_feed`, the funnel that polling and webhook updates both
+    pass through.
+
+    This was not always true. Until 0.18.0 the `Bot` surface had its own
+    request path and dispatch loop that never invoked a hook, so a plugin
+    written against the client worked on the userbot and silently did nothing
+    on a bot. `tests/test_bot_instrumentation.py` now asserts the wiring on
+    `Bot` specifically, because asserting it on the internal helper is what
+    let the gap survive.
+
+    A plugin can consume an update and stop dispatch below it:
+
+    ```python
+    async def on_update(self, event):
+        if is_spam(event):
+            return True      # no handler, and no ask(), will see it
+        return None
+    ```
 
 `register_plugin` returns the normalised identifier and raises
 `PluginDefinitionError` for a class that does not subclass `Plugin`, an
