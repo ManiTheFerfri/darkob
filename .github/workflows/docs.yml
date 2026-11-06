@@ -4,6 +4,13 @@ on:
   push:
     branches: ["main"]
 
+# Two pushes in quick succession used to race: the second deploy
+# failed with "deployment request failed ... in progress deployment".
+# Queue them instead of running concurrently.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
