@@ -1,4 +1,3 @@
-from typing import Union
 import darkob
 from ...data import Data
 

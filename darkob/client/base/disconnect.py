@@ -23,7 +23,7 @@ class Disconnect:
             try:
                 self.logger.debug(f'Error during disconnect: {e}')
             except Exception:
-                pass
+                logger.debug("Suppressed exception", exc_info=True)
 
     def disconnect(self: "darkob.Client") -> None:
         """

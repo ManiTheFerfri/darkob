@@ -31,6 +31,8 @@ class Bot(Session, Updates, Methods):
         verify_ssl: bool = True,
         retry=None,
         rate_limiter=None,
+        webhook_secret=None,
+        max_concurrent_updates: int = 32,
         show_welcome: bool = True,
         run_all_handlers: bool = True
     ):
@@ -76,6 +78,8 @@ class Bot(Session, Updates, Methods):
         self.verify_ssl = bool(verify_ssl)
         self.retry = retry
         self.rate_limiter = rate_limiter
+        self.webhook_secret = webhook_secret
+        self.max_concurrent_updates = max(1, int(max_concurrent_updates))
         self._me_cache = None
         self.base_url = f"{base_url.rstrip('/')}/{token}"
         self.run_all_handlers = bool(run_all_handlers)

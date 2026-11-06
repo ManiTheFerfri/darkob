@@ -1,6 +1,5 @@
 from typing import Union, List
 import darkob
-from ..exceptions import InvalidInput
 
 class GetChatsInfo:
     async def get_chats_info(

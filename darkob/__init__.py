@@ -58,7 +58,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.11.2"
+__version__ = "0.12.0"
 
 logger = logging.getLogger(__name__)
 

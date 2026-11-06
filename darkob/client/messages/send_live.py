@@ -2,7 +2,7 @@ from typing import Union, Optional
 from pathlib import Path
 from os import path
 import random
-import aiohttp
+from ..core.transport import borrowed_session
 import aiofiles
 import darkob
 from ..core import media
@@ -48,7 +48,7 @@ class SendLive:
                     async with aiofiles.open(str(thumb), 'rb') as f:
                         thumb_data = await f.read()
             elif isinstance(thumb, str) and thumb.startswith('http'):
-                async with aiohttp.ClientSession() as cs:
+                async with borrowed_session(self.connection.session) as cs:
                     async with cs.get(thumb) as resp:
                         thumb_data = await resp.read()
 

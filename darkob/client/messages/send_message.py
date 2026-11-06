@@ -5,16 +5,15 @@ from datetime import timedelta, datetime
 import base64
 import random
 import aiohttp
+from ..core.transport import borrowed_session
 import aiofiles
 import mimetypes
-import asyncio
 import time as time_module
 import darkob
 from ...data import Data
 from ..core import media
 from ..core import to_metadata
 from ..exceptions import InvalidInput
-from .message_result import MessageResult
 
 async def get_mime_from_url(session: "aiohttp.ClientSession", url: str):
     async with session.head(url) as response:
@@ -153,7 +152,7 @@ class SendMessage:
                     kwargs['file_name'] = kwargs.get('file_name', path.basename(file_inline))
                     file_inline = await file.read()
             else:
-                async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
+                async with borrowed_session(self.connection.session) as cs:
                     mime = await get_mime_from_url(session=cs, url=file_inline)
                     kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input['rnd']), mime or f'.{type}']))
                     async with cs.get(file_inline) as result:
@@ -210,7 +209,7 @@ class SendMessage:
                         async with aiofiles.open(str(use_thumb), 'rb') as f:
                             thumb_data = await f.read()
                 elif isinstance(use_thumb, str) and use_thumb.startswith('http'):
-                    async with aiohttp.ClientSession() as cs:
+                    async with borrowed_session(self.connection.session) as cs:
                         async with cs.get(use_thumb) as resp:
                             thumb_data = await resp.read()
                 else:

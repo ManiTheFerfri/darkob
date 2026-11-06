@@ -1,6 +1,5 @@
-from typing import Optional, Literal
+from typing import Optional
 import darkob
-from ..exceptions import InvalidInput
 
 class SendCode:
     async def send_code(

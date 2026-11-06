@@ -1,5 +1,4 @@
 from typing import Union, List
-import re
 import darkob
 from ..exceptions import InvalidInput
 

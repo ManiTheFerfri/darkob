@@ -1,5 +1,4 @@
 from typing import Optional, Coroutine
-import asyncio
 
 class Run:
     async def run(self, coroutine: Optional[Coroutine] = None):

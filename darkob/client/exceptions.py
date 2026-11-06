@@ -1,6 +1,9 @@
 """Rubika Messenger Exception Classes for handling API errors."""
+import logging
 import json
 from typing import Optional, Union, Dict
+
+logger = logging.getLogger(__name__)
 
 class ClientError(Exception):
     def __init__(self, message=None, request=None):
@@ -50,7 +53,7 @@ class RequestError(ClientError):
                 if csm:
                     self.dev_message = csm.get('link', {}).get('alert_data', {}).get('message')
             except Exception:
-                pass
+                logger.debug("Suppressed exception", exc_info=True)
 
             result_message = message
         else:

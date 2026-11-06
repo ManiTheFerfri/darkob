@@ -1,8 +1,11 @@
 from __future__ import annotations
+import logging
 
 import re
 from abc import ABC, abstractmethod
-from typing import Any, List, Optional, Pattern, Union
+from typing import Any, List, Pattern, Union
+
+logger = logging.getLogger(__name__)
 
 class Filter(ABC):
     """Base class for all event filters."""
@@ -125,7 +128,7 @@ class FromChat(Filter):
                     if resolved and (resolved.startswith('g0') or resolved.startswith('c0')):
                         self._ids.append(resolved)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
         self._resolved = True
 
     async def evaluate(self, event: Any) -> bool:
@@ -156,7 +159,7 @@ class FromUser(Filter):
                     if resolved and resolved.startswith('u0'):
                         self._ids.append(resolved)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
         self._resolved = True
 
     async def evaluate(self, event: Any) -> bool:
@@ -193,7 +196,7 @@ class FromBot(Filter):
                     if resolved and resolved.startswith('b0'):
                         self._ids.append(resolved)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
         self._resolved = True
 
     async def evaluate(self, event: Any) -> bool:
@@ -226,7 +229,7 @@ class FromActivity(Filter):
                     if resolved and resolved.startswith('u0'):
                         self._ids.append(resolved)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
         self._resolved = True
 
     async def evaluate(self, event: Any) -> bool:

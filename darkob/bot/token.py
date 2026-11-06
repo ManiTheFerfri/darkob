@@ -1,9 +1,8 @@
-import os
 import json
 import zlib
 import base64
 import secrets
-from hashlib import sha256, sha512, pbkdf2_hmac
+from hashlib import sha512, pbkdf2_hmac
 from Crypto.Cipher import AES
 
 class TokenString:

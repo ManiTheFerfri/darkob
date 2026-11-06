@@ -59,6 +59,20 @@ bot.run(
 Turbo mode is `bot.run()` with no arguments — it polls every 5 ms by
 default, tunable with `poll_interval`.
 
+!!! warning "Always set a webhook secret"
+    A webhook URL that leaks lets anyone inject fake updates into
+    your bot — a fake `/start`, a fake admin command. darkob cannot
+    verify who posted, so agree on a shared secret:
+
+    ```python
+    bot = Bot(token="...", webhook_secret="long-random-string")
+    bot.run(webhook_url="https://example.com/wk?secret=long-random-string")
+    ```
+
+    Requests without a matching `?secret=` or `X-Webhook-Secret`
+    header are rejected with `401`. With no secret configured, a
+    warning is logged on the first webhook request.
+
 ## 5. Tell users what the bot can do
 
 ```python

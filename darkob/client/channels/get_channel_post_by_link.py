@@ -4,7 +4,7 @@ import re
 import darkob
 from ...data import Data
 from ..exceptions import InvalidInput
-from ..core.configs import PLATFORMS
+from ..core.transport import borrowed_session
 
 class GetChannelPostByLink:
     async def get_channel_post_by_link(
@@ -92,8 +92,13 @@ class GetChannelPostByLink:
         timeout = aiohttp.ClientTimeout(total=30, connect=10)
 
         try:
-            async with aiohttp.ClientSession(timeout=timeout) as session:
-                async with session.get(url, headers=headers, allow_redirects=True) as response:
+            async with borrowed_session(self.connection.session) as session:
+                async with session.get(
+                    url,
+                    headers=headers,
+                    allow_redirects=True,
+                    timeout=aiohttp.ClientTimeout(total=timeout),
+                ) as response:
                     if response.status != 200:
                         return None
                     html = await response.text(encoding='utf-8')

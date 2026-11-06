@@ -337,6 +337,22 @@ export DARKOB_CHAT_ID=g0...
 python scripts/conformance.py --writes
 ```
 
+## Closed after the deep audit
+
+- Webhook requests can now be authenticated with a shared secret;
+  previously any POST was dispatched as an update.
+- Inbound updates (webhook and WebSocket) run under a semaphore;
+  the keep-alive loop can no longer be started twice.
+- The last five per-call `ClientSession` sites now borrow the pooled
+  session, so no path pays a fresh TLS handshake.
+- `Data` builds a key index on first access: deep payload lookups
+  went from 3.9 us to 0.5 us, which matters because an Event
+  exposes ~40 such properties.
+- Nineteen silent `except: pass` blocks now log at debug level; the
+  one that remains is `__del__`, where logging can itself fail.
+- `ruff` F401 is enabled, so unused imports cannot accumulate.
+- CI fails if coverage drops below 30%.
+
 ## Known issues ledger
 
 | Issue | Severity | Status |

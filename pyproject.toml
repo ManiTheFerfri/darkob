@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.11.2"
+version = "0.12.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -92,7 +92,7 @@ target-version = "py39"
 src = ["darkob", "tests"]
 
 [tool.ruff.lint]
-select = ["E9", "F63", "F7", "F82"]
+select = ["E9", "F63", "F7", "F82", "F401"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = []

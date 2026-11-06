@@ -1,5 +1,4 @@
 from typing import Optional, Union, Literal
-import asyncio
 import os
 import logging
 import re
@@ -7,8 +6,7 @@ from rich.console import Console
 from rich.text import Text
 import darkob
 from .client import Methods
-from .client.core.cipher import Cipher
-from .client.core.session import Session, StringSession
+from .client.core.session import Session
 from .client.exceptions import (
     ApiVersionError,
     PlatformError,
@@ -19,6 +17,8 @@ from .client.exceptions import (
     SessionError
 )
 from .client.core.configs import DEFAULT_PLATFORM, PLATFORMS, VALID_PLATFORMS, USER_AGENT
+
+logger = logging.getLogger(__name__)
 
 class Client(Methods):
     USER_AGENT = USER_AGENT
@@ -36,6 +36,7 @@ class Client(Methods):
         verify_ssl: bool = True,
         retry=None,
         rate_limiter=None,
+        max_concurrent_updates: int = 32,
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino'] = 'pwa',
         api_version: Literal[5, 6] = 6,
@@ -205,6 +206,7 @@ class Client(Methods):
         self.verify_ssl = verify_ssl
         self.retry = retry
         self.rate_limiter = rate_limiter
+        self.max_concurrent_updates = max(1, int(max_concurrent_updates))
         self.decode_auth = None
         self.import_key = None
         self.guid = restored_guid
@@ -232,7 +234,7 @@ class Client(Methods):
         try:
             self.disconnect()
         except Exception:
-            pass
+            logger.debug("Suppressed exception", exc_info=True)
 
     async def __aenter__(self) -> "Client":
         if not getattr(self, 'connection', None):
@@ -243,7 +245,7 @@ class Client(Methods):
         try:
             await self.close()
         except Exception:
-            pass
+            logger.debug("Suppressed exception", exc_info=True)
 
     async def stop(self) -> None:
         if hasattr(self, 'connection'):

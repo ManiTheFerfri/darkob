@@ -1,7 +1,10 @@
+import logging
 import darkob
 from typing import Union, List, Optional
 from ...data import Data
 from ..exceptions import InvalidInput
+
+logger = logging.getLogger(__name__)
 
 class AcceptAllJoinRequests:
     async def accept_all_join_requests(
@@ -44,7 +47,7 @@ class AcceptAllJoinRequests:
                     if guid.startswith("u0"):
                         exclude_guids.append(guid)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
 
         filtered_guids = [g for g in reversed(user_guids) if g not in exclude_guids]
 

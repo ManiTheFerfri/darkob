@@ -1,5 +1,8 @@
+import logging
 import darkob
 from ...data import Data
+
+logger = logging.getLogger(__name__)
 
 class DeleteAllMyGifSet:
     async def delete_all_my_gif_set(self: "darkob.Client"):
@@ -27,7 +30,7 @@ class DeleteAllMyGifSet:
                 await self.delete_my_gif_set(file_id)
                 deleted_count += 1
             except Exception:
-                pass
+                logger.debug("Suppressed exception", exc_info=True)
 
         return Data({
             "status": "OK",

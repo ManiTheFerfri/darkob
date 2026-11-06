@@ -1,6 +1,6 @@
 from .handler_manager import HandlerManager
 from .media import *
-from .metadata import to_metadata
+from .metadata import to_metadata as to_metadata
 
 class Core(
     HandlerManager

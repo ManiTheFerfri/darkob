@@ -8,7 +8,7 @@ one message at a time.
 
 from __future__ import annotations
 
-from typing import Any, AsyncIterator, Optional
+from typing import AsyncIterator, Optional
 
 import darkob
 from ...data import Data

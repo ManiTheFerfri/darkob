@@ -78,6 +78,18 @@ timeout) are queued; a permanent error such as an invalid chat id
 is raised at once, and is dropped during a flush rather than
 blocking everything behind it.
 
+## Bounding concurrency
+
+Inbound updates run as background tasks under a semaphore, so a
+burst cannot create unbounded work:
+
+```python
+bot = Bot(token="...", max_concurrent_updates=16)
+```
+
+The default is 32. The same limit applies to the Messenger
+WebSocket path.
+
 ## Tracking protocol drift
 
 Rubika reshuffles its data-centre endpoints from time to time. A tracker

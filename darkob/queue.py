@@ -17,11 +17,11 @@ Swapping ``bot.send_message`` for ``queue.put`` is the whole integration.
 
 from __future__ import annotations
 
+import logging
 import asyncio
 import json
 import os
 import tempfile
-import time
 from collections import deque
 from typing import Any, Deque, Dict, List, Optional
 
@@ -33,6 +33,8 @@ __all__ = ["SendQueue", "QueueFull"]
 #: Errors that mean "try again later" rather than "this message is bad".
 TRANSIENT = (BotNetwork, NetworkError, asyncio.TimeoutError, OSError)
 
+
+logger = logging.getLogger(__name__)
 
 class QueueFull(RuntimeError):
     """Raised when the queue is at capacity and cannot accept more."""
@@ -171,7 +173,7 @@ class SendQueue:
             except asyncio.CancelledError:
                 raise
             except Exception:
-                pass
+                logger.debug("Suppressed exception", exc_info=True)
 
     def start(self) -> "asyncio.Task":
         """Start a background task that flushes periodically."""

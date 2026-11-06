@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.11.2 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.12.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 
@@ -139,6 +139,20 @@ bot.run(
 
 Turbo mode is `bot.run()` with no arguments — it polls every 5 ms by
 default, tunable with `poll_interval`.
+
+!!! warning "Always set a webhook secret"
+    A webhook URL that leaks lets anyone inject fake updates into
+    your bot — a fake `/start`, a fake admin command. darkob cannot
+    verify who posted, so agree on a shared secret:
+
+    ```python
+    bot = Bot(token="...", webhook_secret="long-random-string")
+    bot.run(webhook_url="https://example.com/wk?secret=long-random-string")
+    ```
+
+    Requests without a matching `?secret=` or `X-Webhook-Secret`
+    header are rejected with `401`. With no secret configured, a
+    warning is logged on the first webhook request.
 
 ## 5. Tell users what the bot can do
 
@@ -1013,6 +1027,18 @@ await queue.put(event.chat_id, "report ready")
 timeout) are queued; a permanent error such as an invalid chat id
 is raised at once, and is dropped during a flush rather than
 blocking everything behind it.
+
+## Bounding concurrency
+
+Inbound updates run as background tasks under a semaphore, so a
+burst cannot create unbounded work:
+
+```python
+bot = Bot(token="...", max_concurrent_updates=16)
+```
+
+The default is 32. The same limit applies to the Messenger
+WebSocket path.
 
 ## Tracking protocol drift
 

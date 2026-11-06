@@ -1,10 +1,35 @@
 import asyncio
 import aiohttp
-import logging
 import darkob
 from ..core.cipher import Cipher
 
 class GetUpdates:
+    def _spawn_ws_update(self, coro):
+        """Run one update under a concurrency ceiling.
+
+        Every inbound WebSocket message used to create a task with no
+        bound, so a busy account could spawn thousands of live tasks.
+        """
+        semaphore = getattr(self, "_update_semaphore", None)
+        if semaphore is None:
+            limit = int(getattr(self, "max_concurrent_updates", 32) or 32)
+            semaphore = asyncio.Semaphore(max(1, limit))
+            self._update_semaphore = semaphore
+
+        tasks = getattr(self, "_update_tasks", None)
+        if tasks is None:
+            tasks = set()
+            self._update_tasks = tasks
+
+        async def _guarded():
+            async with semaphore:
+                await coro
+
+        task = asyncio.create_task(_guarded())
+        tasks.add(task)
+        task.add_done_callback(tasks.discard)
+        return task
+
     async def get_updates(self: "darkob.Client"):
         """
         Listen for updates from Rubika's WebSocket.
@@ -12,7 +37,9 @@ class GetUpdates:
         Returns:
             None
         """
-        asyncio.create_task(self._keep_socket())
+        existing = getattr(self, "_keep_socket_task", None)
+        if existing is None or existing.done():
+            self._keep_socket_task = asyncio.create_task(self._keep_socket())
 
         while True:
             try:
@@ -30,7 +57,9 @@ class GetUpdates:
 
                     async for msg in ws:
                         if msg.type == aiohttp.WSMsgType.TEXT:
-                            asyncio.create_task(self._handle_text_message(msg.json()))
+                            self._spawn_ws_update(
+                                self._handle_text_message(msg.json())
+                            )
                         elif msg.type in (aiohttp.WSMsgType.CLOSED, aiohttp.WSMsgType.ERROR):
                             self.logger.warning("WebSocket connection lost; initiating reconnect...")
                             break

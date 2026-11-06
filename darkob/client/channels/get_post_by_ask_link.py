@@ -1,8 +1,11 @@
+import logging
 import base64
 import json
 import darkob
 from ...data import Data
 from ..exceptions import InvalidInput
+
+logger = logging.getLogger(__name__)
 
 class GetPostByAskLink:
     async def get_post_by_ask_link(
@@ -71,7 +74,7 @@ class GetPostByAskLink:
             url_data = url_result.to_dict() if hasattr(url_result, 'to_dict') else url_result
             share_link = url_data.get('share_url')
         except Exception:
-            pass
+            logger.debug("Suppressed exception", exc_info=True)
 
         result_dict = {
             "channel_guid": channel.get('channel_guid'),

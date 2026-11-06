@@ -1,6 +1,5 @@
 from typing import List, Union
 import darkob
-from ..exceptions import InvalidInput
 
 class ReorderStickerSets:
     async def reorder_sticker_sets(

@@ -7,7 +7,6 @@ from types import SimpleNamespace
 import pytest
 
 from darkob import Bot
-from darkob.bot import registry as registry_module
 
 from conftest import VALID_TOKEN
 

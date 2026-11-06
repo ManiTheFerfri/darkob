@@ -6,7 +6,6 @@ import asyncio
 from types import SimpleNamespace
 
 import aiohttp
-import pytest
 
 from darkob.client.core.api import Api
 

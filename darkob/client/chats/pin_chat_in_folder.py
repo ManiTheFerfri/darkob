@@ -1,5 +1,4 @@
 import darkob
-from ..exceptions import InvalidInput
 
 class PinChatInFolder:
     async def pin_chat_in_folder(

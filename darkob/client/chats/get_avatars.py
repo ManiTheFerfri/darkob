@@ -1,5 +1,4 @@
 import darkob
-from ..exceptions import InvalidInput
 
 class GetAvatars:
     async def get_avatars(self: "darkob.Client", chat: str):

@@ -1,6 +1,5 @@
 from typing import Union
 import darkob
-from ..exceptions import InvalidInput
 
 class SendNowScheduledMessage:
     async def send_now_scheduled_message(

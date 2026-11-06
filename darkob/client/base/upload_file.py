@@ -2,12 +2,12 @@ import base64
 import os
 import asyncio
 import inspect
-import aiohttp
 import aiofiles
 from typing import Callable, Optional, Union
 import darkob
 from ...data import Data
 from .. import exceptions
+from ..core.transport import borrowed_session
 
 class UploadFile:
     async def upload_file(
@@ -45,7 +45,7 @@ class UploadFile:
 
         if isinstance(file, str):
             if file.startswith('http'):
-                async with aiohttp.ClientSession() as session:
+                async with borrowed_session(self.connection.session) as session:
                     async with session.get(file) as resp:
                         file = await resp.read()
                 file_name = file_name or file.split('/')[-1].split('?')[0]

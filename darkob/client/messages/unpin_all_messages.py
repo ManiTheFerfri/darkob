@@ -1,5 +1,4 @@
 import darkob
-from ...data import Data
 
 class UnpinAllMessages:
     async def unpin_all_messages(self: "darkob.Client", chat: str):

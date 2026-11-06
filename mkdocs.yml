@@ -139,6 +139,7 @@ nav:
       - Bot: api/bot.md
       - Messenger: api/messenger.md
       - Shad: api/shad.md
+      - Models and enums: api/models.md
   - Roadmap: roadmap.md
   - فارسی:
       - شروع سریع: fa/quickstart.md

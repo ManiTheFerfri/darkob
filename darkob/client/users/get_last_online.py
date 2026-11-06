@@ -1,7 +1,6 @@
 import darkob
 from datetime import datetime
 from ...data import Data
-from ..exceptions import InvalidInput
 
 class GetLastOnline:
     async def get_last_online(

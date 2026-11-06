@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-import pytest
 
-from darkob.testing import FakeBot, FakeEvent, make_message
+from darkob.testing import FakeBot, make_message
 from darkob.types.event import Event
 
 

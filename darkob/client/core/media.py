@@ -1,6 +1,7 @@
 """
 Media processing module for thumbnails and audio metadata.
 """
+import logging
 import io
 import os
 import typing
@@ -30,6 +31,8 @@ except ImportError:
     PILImage = None
     PIL_AVAILABLE = False
 
+logger = logging.getLogger(__name__)
+
 class ResultMedia:
     def __repr__(self) -> str:
         return repr(vars(self))
@@ -53,7 +56,7 @@ class ResultMedia:
                 if image is not None:
                     self.image = self.ndarray_to_bytes(image)
             except Exception:
-                pass
+                logger.debug("Suppressed exception", exc_info=True)
 
     def ndarray_to_bytes(self, image, *args, **kwargs) -> str:
         if hasattr(cv2, 'resize'):
@@ -163,12 +166,12 @@ class MediaThumbnail:
                     try:
                         capture.close()
                     except Exception:
-                        pass
+                        logger.debug("Suppressed exception", exc_info=True)
                 if file_name and os.path.exists(file_name):
                     try:
                         os.remove(file_name)
                     except Exception:
-                        pass
+                        logger.debug("Suppressed exception", exc_info=True)
 
         if cv2 is None:
             cls._no_library_warning()
@@ -199,7 +202,7 @@ class MediaThumbnail:
                 try:
                     capture.release()
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
 
         return cls._default_thumbnail()
 
@@ -238,7 +241,7 @@ class MediaThumbnail:
         try:
             return cls.from_video(data)
         except Exception:
-            pass
+            logger.debug("Suppressed exception", exc_info=True)
 
         return cls._default_thumbnail()
 
@@ -271,6 +274,6 @@ class Audio:
                 try:
                     os.remove(filename)
                 except Exception:
-                    pass
+                    logger.debug("Suppressed exception", exc_info=True)
             warnings.warn(f'Failed to process audio metadata. Details: {e} Using default values.')
             return AudioResult(1, '')

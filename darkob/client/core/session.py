@@ -374,4 +374,7 @@ class Session:
         try:
             self.close()
         except Exception:
+            # Interpreter shutdown: module globals (including the
+            # logger) may already be gone, so logging here would raise
+            # a second error. Swallowing is the only safe option.
             pass

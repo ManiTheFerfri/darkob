@@ -1,5 +1,5 @@
 import json
-from typing import Optional, Set, Any, List, Union
+from typing import Any, Dict, List, Optional, Set, Union
 
 _MISSING = object()
 
@@ -9,6 +9,7 @@ class Data:
     def __init__(self, data: Any):
         self._data = data
         self._memo = {}
+        self._index = None
 
     def __str__(self) -> str:
         return self.jsonify(indent=2)
@@ -18,7 +19,7 @@ class Data:
 
     def __getattr__(self, name: str):
         if (
-            name in ('_data', '_memo')
+            name in ('_data', '_memo', '_index')
             or (name.startswith('__') and name.endswith('__'))
         ):
             raise AttributeError(
@@ -85,6 +86,7 @@ class Data:
     def __setitem__(self, key, value):
         if isinstance(self._data, (dict, list)):
             self._data[key] = value
+            self._index = None
             return
 
         raise TypeError(
@@ -101,6 +103,7 @@ class Data:
     def __delitem__(self, key):
         if isinstance(self._data, (dict, list)):
             del self._data[key]
+            self._index = None
             return
 
         raise TypeError(
@@ -134,16 +137,58 @@ class Data:
 
         return value
 
+    def _build_index(self) -> Dict[Any, Any]:
+        """Flatten every key reachable from the payload, once.
+
+        Traversal mirrors :meth:`find_keys` (depth-first, children in
+        insertion order) and keeps the first occurrence of each key, so a
+        lookup returns exactly what the recursive search would have.
+        """
+        index: Dict[Any, Any] = {}
+        payload = self._data
+        stack = payload[::-1] if type(payload) is list else [payload]
+
+        while stack:
+            node = stack.pop()
+
+            if type(node) is dict:
+                for key, value in node.items():
+                    if key not in index:
+                        index[key] = value
+
+                for value in reversed(tuple(node.values())):
+                    if type(value) is dict or type(value) is list:
+                        stack.append(value)
+
+            elif type(node) is list:
+                for item in reversed(node):
+                    if type(item) is dict or type(item) is list:
+                        stack.append(item)
+
+        return index
+
     def find_keys(
         self,
         keys: Union[str, List[Any]],
         data: Any = None,
         default: Any = None,
     ) -> Any:
+        single = keys if isinstance(keys, str) else None
+
+        # Fast path first: a single key over the object's own payload is
+        # served from the index. This is the path event.text etc. take.
+        # It must run before data is defaulted below, or data is never
+        # None here and the index would be bypassed.
+        if single is not None and data is None:
+            if self._index is None:
+                self._index = self._build_index()
+            if single in self._index:
+                return self._convert_value(self._index[single])
+            return default
+
         if data is None:
             data = self._data
 
-        single = keys if isinstance(keys, str) else None
         target = None if single is not None else self._normalize_keys(keys)
 
         if type(data) is list:

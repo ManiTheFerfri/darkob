@@ -1,6 +1,8 @@
 from ..hybrid import wrap_methods
 
-from . import exceptions, filters, enums
+from . import enums as enums
+from . import exceptions as exceptions
+from . import filters as filters
 from .base import Base
 from .bots import Bots
 from .channels import Channels
