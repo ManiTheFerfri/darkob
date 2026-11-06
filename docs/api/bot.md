@@ -4,12 +4,12 @@ The official Rubika Bot API. Token based, plain HTTP JSON.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**47 public methods.**
+**48 public methods.**
 
 ## Method index
 
 - **core** (1): [`include_router`](#include-router)
-- **bot** (46): [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
+- **bot** (47): [`ask`](#ask), [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
 
 ## core
 
@@ -28,6 +28,23 @@ Lets a bot be split into feature modules::
 Returns the router so calls can be chained.
 
 ## bot
+
+### ask
+
+```python
+ask(localself, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)
+```
+
+Send a prompt and await the next matching reply in that chat.
+
+While the prompt is pending, the first message in the chat that
+passes *filters* is returned to you instead of being dispatched to
+handlers, so a two-step flow needs no state flag::
+
+    name = await bot.ask(chat_id, "Your name?", timeout=30)
+
+Raises:
+    darkob.NoReply: when nothing arrives within ``timeout``.
 
 ### auto_delete_message
 

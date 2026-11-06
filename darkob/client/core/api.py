@@ -407,6 +407,13 @@ class Api:
             self._spawn(asyncio.to_thread(func, event))
 
     async def handle_update(self, name: str, event: dict) -> None:
+        # A pending ask() consumes the update before dispatch.
+        conversations = getattr(self.client, "_conversations", None)
+        if conversations is not None and await conversations.resolve(
+            Event(event.copy())
+        ):
+            return
+
         # The update name is resolved once, not once per registered handler.
         targets = self._handlers_for(capitalize(name))
         if not targets:

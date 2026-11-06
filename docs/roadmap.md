@@ -337,6 +337,16 @@ export DARKOB_CHAT_ID=g0...
 python scripts/conformance.py --writes
 ```
 
+## v1.0 groundwork (Phase 4)
+
+- **`bot.ask()` / `client.ask()`.** Await the next matching message in
+  a chat; the reply is consumed before normal dispatch, so a two-step
+  flow needs no state flag. Filters, timeouts (`NoReply`) and a prompt
+  with a keypad are supported.
+- **`StatesGroup` / `State`.** Declarative, namespaced conversation
+  states that are `str` subclasses, so they work with every existing
+  storage backend and `StateFilter` unchanged.
+
 ## v1.0 groundwork (Phase 1)
 
 - **Dependency diet.** `mutagen` and `rich` are no longer core

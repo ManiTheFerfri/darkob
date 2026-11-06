@@ -54,6 +54,9 @@ class Updates:
 
     async def _safe_feed(self: "darkob.Bot", event):
         try:
+            conversations = getattr(self, "_conversations", None)
+            if conversations is not None and await conversations.resolve(event):
+                return
             await self._registry.feed(event)
         except Exception:
             logger.exception("Error while feeding event")

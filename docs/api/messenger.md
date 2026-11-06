@@ -4,7 +4,7 @@ A real user account (userbot): channels, groups, voice chats, settings.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**324 public methods.**
+**325 public methods.**
 
 ## Method index
 
@@ -17,7 +17,7 @@ A real user account (userbot): channels, groups, voice chats, settings.
 - **extras** (30): [`add_live_comment`](#add-live-comment), [`add_sticker_set`](#add-sticker-set), [`add_to_my_gif_set`](#add-to-my-gif-set), [`archive_sticker_set`](#archive-sticker-set), [`delete_all_my_gif_set`](#delete-all-my-gif-set), [`delete_my_gif_set`](#delete-my-gif-set), [`delete_sticker_set`](#delete-sticker-set), [`feedback_voice_transcription`](#feedback-voice-transcription), [`get_available_reactions`](#get-available-reactions), [`get_link_from_app_url`](#get-link-from-app-url), [`get_live_comments`](#get-live-comments), [`get_live_play_url`](#get-live-play-url), [`get_live_status`](#get-live-status), [`get_location_view`](#get-location-view), [`get_my_archived_sticker_sets`](#get-my-archived-sticker-sets), [`get_my_gif_set`](#get-my-gif-set), [`get_my_sticker_sets`](#get-my-sticker-sets), [`get_sticker_set_by_id`](#get-sticker-set-by-id), [`get_sticker_setting`](#get-sticker-setting), [`get_stickers_by_emoji`](#get-stickers-by-emoji), [`get_stickers_by_set_ids`](#get-stickers-by-set-ids), [`get_time`](#get-time), [`get_trend_sticker_sets`](#get-trend-sticker-sets), [`get_wallet_transaction_message`](#get-wallet-transaction-message), [`get_wallpapers`](#get-wallpapers), [`reorder_sticker_sets`](#reorder-sticker-sets), [`report_live`](#report-live), [`reset_wallpapers`](#reset-wallpapers), [`search_stickers`](#search-stickers), [`set_current_live_location`](#set-current-live-location)
 - **bots** (7): [`delete_bot_chat`](#delete-bot-chat), [`delete_service_chat`](#delete-service-chat), [`get_bot_info`](#get-bot-info), [`get_inline_bots`](#get-inline-bots), [`get_service_info`](#get-service-info), [`start_bot`](#start-bot), [`stop_bot`](#stop-bot)
 - **base** (12): [`close`](#close), [`connect`](#connect), [`disconnect`](#disconnect), [`download_file`](#download-file), [`get_string_session`](#get-string-session), [`get_updates`](#get-updates), [`request`](#request), [`run`](#run), [`send_code`](#send-code), [`sign_in`](#sign-in), [`start`](#start), [`upload_file`](#upload-file)
-- **core** (3): [`add_handler`](#add-handler), [`remove_handler`](#remove-handler), [`stop`](#stop)
+- **core** (4): [`add_handler`](#add-handler), [`ask`](#ask), [`remove_handler`](#remove-handler), [`stop`](#stop)
 - **decorators** (17): [`on_add_reaction`](#on-add-reaction), [`on_call_signal`](#on-call-signal), [`on_call_update`](#on-call-update), [`on_chat_updates`](#on-chat-updates), [`on_delete_message`](#on-delete-message), [`on_draft_message`](#on-draft-message), [`on_edit_message`](#on-edit-message), [`on_message`](#on-message), [`on_new_message`](#on-new-message), [`on_remove_notifications`](#on-remove-notifications), [`on_remove_reaction`](#on-remove-reaction), [`on_scheduled_message`](#on-scheduled-message), [`on_show_activities`](#on-show-activities), [`on_show_notifications`](#on-show-notifications), [`on_unconfirmed_session`](#on-unconfirmed-session), [`on_voice_chat_participant`](#on-voice-chat-participant), [`on_voice_chat_update`](#on-voice-chat-update)
 
 ## messages
@@ -4964,6 +4964,17 @@ add_handler(self: 'darkob.Client', func: Callable, handler: Union[ChatUpdates, M
 ```
 
 _No docstring available._
+
+### ask
+
+```python
+ask(self, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)
+```
+
+Send a prompt and await the next matching reply in that chat.
+
+The reply is returned to you instead of being dispatched to
+handlers while the prompt is pending.
 
 ### remove_handler
 

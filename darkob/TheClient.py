@@ -1,4 +1,4 @@
-from typing import Optional, Union, Literal
+from typing import Any, Optional, Union, Literal
 import os
 import logging
 import re
@@ -16,6 +16,7 @@ from .client.exceptions import (
     SessionError
 )
 from .client.core.configs import DEFAULT_PLATFORM, PLATFORMS, VALID_PLATFORMS, USER_AGENT
+from .converse import ConversationManager, ask as ask_conversation
 
 logger = logging.getLogger(__name__)
 
@@ -211,11 +212,37 @@ class Client(Methods):
         self.guid = restored_guid
         self._me_cache = None
         self._me_cached_at = 0.0
+        self._conversations = ConversationManager()
         self.key = None
         self.handlers = {}
         self.max_retries = max_retries
         self.stop_on_first_match = stop_on_first_match
         self.continue_on_error = continue_on_error
+
+    async def ask(
+        self,
+        chat_id: str,
+        text: Optional[str] = None,
+        *,
+        filters: Optional[list] = None,
+        timeout: float = 60.0,
+        inline_keypad: Any = None,
+        chat_keypad: Any = None,
+    ):
+        """Send a prompt and await the next matching reply in that chat.
+
+        The reply is returned to you instead of being dispatched to
+        handlers while the prompt is pending.
+        """
+        return await ask_conversation(
+            self,
+            chat_id,
+            text,
+            filters=filters,
+            timeout=timeout,
+            inline_keypad=inline_keypad,
+            keypad=chat_keypad,
+        )
 
     def __del__(self) -> None:
         try:

@@ -126,6 +126,7 @@ nav:
       - Keyboards and formatting: guides/keyboards.md
       - Composing messages: guides/composing-messages.md
       - Conversations (FSM): guides/fsm.md
+      - Inline conversations: guides/inline-conversations.md
       - Errors: guides/errors.md
       - Sync and async: guides/sync-and-async.md
       - Testing bots: guides/testing.md

@@ -1,12 +1,19 @@
 {
   "package": "darkob",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
       "summary": "The official Rubika Bot API. Token based, plain HTTP JSON.",
-      "method_count": 47,
+      "method_count": 48,
       "methods": [
+        {
+          "name": "ask",
+          "signature": "ask(localself, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)",
+          "group": "bot",
+          "module": "darkob.bot.shortcuts",
+          "doc": "Send a prompt and await the next matching reply in that chat.\n\nWhile the prompt is pending, the first message in the chat that\npasses *filters* is returned to you instead of being dispatched to\nhandlers, so a two-step flow needs no state flag::\n\n    name = await bot.ask(chat_id, \"Your name?\", timeout=30)\n\nRaises:\n    darkob.NoReply: when nothing arrives within ``timeout``."
+        },
         {
           "name": "auto_delete_message",
           "signature": "auto_delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int], time: Union[float, int])",
@@ -340,7 +347,7 @@
     },
     "Messenger": {
       "summary": "A real user account (userbot): channels, groups, voice chats, settings.",
-      "method_count": 324,
+      "method_count": 325,
       "methods": [
         {
           "name": "abort_two_step_setup",
@@ -453,6 +460,13 @@
           "group": "extras",
           "module": "darkob.client.extras.archive_sticker_set",
           "doc": "Archive a sticker set.\n\nParameters:\n    sticker_set_id (str): The ID of the sticker set.\n\nReturns:\n    The result of the API call."
+        },
+        {
+          "name": "ask",
+          "signature": "ask(self, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)",
+          "group": "core",
+          "module": "darkob.TheClient",
+          "doc": "Send a prompt and await the next matching reply in that chat.\n\nThe reply is returned to you instead of being dispatched to\nhandlers while the prompt is pending."
         },
         {
           "name": "auto_delete_account",
@@ -2614,7 +2628,7 @@
     },
     "Shad": {
       "summary": "The Shad education platform. Same Messenger protocol, Shad hosts.",
-      "method_count": 324,
+      "method_count": 325,
       "methods": [
         {
           "name": "abort_two_step_setup",
@@ -2727,6 +2741,13 @@
           "group": "extras",
           "module": "darkob.client.extras.archive_sticker_set",
           "doc": "Archive a sticker set.\n\nParameters:\n    sticker_set_id (str): The ID of the sticker set.\n\nReturns:\n    The result of the API call."
+        },
+        {
+          "name": "ask",
+          "signature": "ask(self, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)",
+          "group": "core",
+          "module": "darkob.TheClient",
+          "doc": "Send a prompt and await the next matching reply in that chat.\n\nThe reply is returned to you instead of being dispatched to\nhandlers while the prompt is pending."
         },
         {
           "name": "auto_delete_account",

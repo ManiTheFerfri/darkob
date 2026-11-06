@@ -13,6 +13,7 @@ from .bot.exceptions import TokenError
 from .bot.registry import HandlerRegistry
 from .bot.bridge import DecoratorBridge
 from .bot.plugin import PluginManager
+from .converse import ConversationManager
 
 console = Console(highlight=False)
 
@@ -84,6 +85,7 @@ class Bot(Session, Updates, Methods):
         self.base_url = f"{base_url.rstrip('/')}/{token}"
         self.run_all_handlers = bool(run_all_handlers)
 
+        self._conversations = ConversationManager()
         self._registry = HandlerRegistry(self)
         self._bridge = DecoratorBridge(self._registry)
         self.plugin_manager = PluginManager(self)

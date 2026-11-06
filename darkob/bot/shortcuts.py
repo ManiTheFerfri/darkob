@@ -66,6 +66,39 @@ class Shortcuts:
             localself._message_id(event),
         )
 
+    async def ask(
+        localself,
+        chat_id: str,
+        text: Optional[str] = None,
+        *,
+        filters: Optional[list] = None,
+        timeout: float = 60.0,
+        inline_keypad: Any = None,
+        chat_keypad: Any = None,
+    ) -> Any:
+        """Send a prompt and await the next matching reply in that chat.
+
+        While the prompt is pending, the first message in the chat that
+        passes *filters* is returned to you instead of being dispatched to
+        handlers, so a two-step flow needs no state flag::
+
+            name = await bot.ask(chat_id, "Your name?", timeout=30)
+
+        Raises:
+            darkob.NoReply: when nothing arrives within ``timeout``.
+        """
+        from .converse import ask as _ask
+
+        return await _ask(
+            localself,
+            chat_id,
+            text,
+            filters=filters,
+            timeout=timeout,
+            inline_keypad=inline_keypad,
+            keypad=chat_keypad,
+        )
+
     # -- updates as an async iterator --------------------------------------
 
     async def iter_updates(

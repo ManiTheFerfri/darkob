@@ -40,6 +40,8 @@ from .builders import MessageBuilder
 from .bot.models import ButtonType, ChatType, FileType
 from .retry import Retry
 from .circuit import CircuitBreaker
+from .converse import ConversationManager, NoReply
+from .states import State, StatesGroup
 from .ratelimit import RateLimiter, TokenBucket
 from .queue import QueueFull, SendQueue
 from .protocol import ProtocolSnapshot, ProtocolTracker
@@ -57,7 +59,7 @@ from .formatting import (
 
 __author__ = "MEHRAB Farahmand"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.13.0"
+__version__ = "0.14.0"
 
 logger = logging.getLogger(__name__)
 
@@ -91,6 +93,10 @@ __all__ = [
     "FileType",
     "Retry",
     "CircuitBreaker",
+    "ConversationManager",
+    "NoReply",
+    "State",
+    "StatesGroup",
     "RateLimiter",
     "TokenBucket",
     "SendQueue",
