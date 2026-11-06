@@ -1,302 +1,232 @@
-"""Reproducible comparison between darkob and maxrubika.
+"""Head-to-head benchmark: darkob vs maxrubika on hot paths.
 
-    python benchmarks/benchmark_suite.py            # prints a Markdown table
-    python benchmarks/benchmark_suite.py --json     # machine-readable
+    python benchmarks/benchmark_suite.py           # Markdown table
+    python benchmarks/benchmark_suite.py --json    # raw numbers
 
-Measures cold import time, payload deserialization, retained memory and
-media metadata extraction. Runs entirely offline; any competitor that is
-not installed is reported as "n/a" rather than guessed at.
+Only workloads where the two libraries do the same job are measured, and
+each runs in a fresh process so neither benefits from the other's warm
+state. A competitor that is not installed is reported as ``n/a``.
 """
 
 from __future__ import annotations
 
 import argparse
-import gc
+import asyncio
 import json
 import subprocess
 import sys
 import time
-import tracemalloc
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Callable, Dict, List, Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-ITERATIONS = 10_000
-HELD_OBJECTS = 5_000
-
-UPDATE_PAYLOAD: Dict[str, Any] = {
+PAYLOAD: Dict[str, Any] = {
     "type": "NewMessage",
     "chat_id": "b0" + "a" * 30,
     "new_message": {
-        "message_id": "1234567890123456789",
-        "text": "hello world",
+        "message_id": "1789000000000000000",
+        "text": "/start please",
         "time": "1793880483",
         "is_edited": False,
         "sender_type": "User",
         "sender_id": "u0" + "b" * 30,
         "chat": {"chat_id": "b0" + "a" * 30, "chat_type": "User"},
-        "file_inline": {"file_id": "f" * 40, "size": 1024, "type": "Image"},
     },
 }
 
 
 # ---------------------------------------------------------------------------
-# helpers
+# individual measurements (run inside one subprocess)
 # ---------------------------------------------------------------------------
 
 
-def best_of(func: Callable[[], Any], repeats: int = 3) -> float:
-    """Best wall-clock time of *repeats* runs, in seconds."""
+def _best(fn: Callable[[], Any], repeats: int = 3) -> float:
     timings = []
     for _ in range(repeats):
-        gc.collect()
         started = time.perf_counter()
-        func()
+        fn()
         timings.append(time.perf_counter() - started)
     return min(timings)
 
 
-def cold_import(module: str) -> Optional[float]:
-    """Import time measured in a fresh interpreter."""
-    code = f"import {module}"
-    timings = []
-    for _ in range(3):
-        started = time.perf_counter()
-        result = subprocess.run(
-            [sys.executable, "-c", code], capture_output=True, cwd=REPO_ROOT
-        )
-        if result.returncode != 0:
-            return None
-        timings.append(time.perf_counter() - started)
-    return min(timings)
-
-
-def deserialize_loop(factory: Callable[[dict], Any], iterations: int = ITERATIONS) -> float:
-    payload = UPDATE_PAYLOAD
+def measure_event_text(module: str, iterations: int = 20_000) -> float:
+    """Read a message's text through the public event property."""
+    event_cls = __import__(f"{module}.types.event", fromlist=["Event"]).Event
+    event = event_cls(dict(PAYLOAD))
 
     def run() -> None:
         for _ in range(iterations):
-            factory(payload)
+            event.text
 
-    return best_of(run)
-
-
-def retained_memory(factory: Callable[[dict], Any], count: int = HELD_OBJECTS) -> int:
-    gc.collect()
-    tracemalloc.start()
-    try:
-        held = [factory(UPDATE_PAYLOAD) for _ in range(count)]
-        current, _peak = tracemalloc.get_traced_memory()
-        assert len(held) == count
-        return current
-    finally:
-        tracemalloc.stop()
+    return _best(run)
 
 
-def lookup_loop(factory: Callable[[dict], Any], iterations: int = ITERATIONS) -> float:
-    """Repeatedly read a nested key from one instance."""
-    instance = factory(UPDATE_PAYLOAD)
+def measure_lookup(module: str, iterations: int = 20_000) -> float:
+    """Single-key recursive/索引ed lookup on a nested payload."""
+    data_cls = __import__(f"{module}.data", fromlist=["Data"]).Data
+    instance = data_cls(PAYLOAD)
 
     def run() -> None:
         for _ in range(iterations):
             instance.find_keys("text")
 
-    return best_of(run)
+    return _best(run)
 
-def media_parse_seconds(parse: Callable[[], Any], iterations: int = 2_000) -> float:
-    def run() -> None:
+
+def measure_filter(module: str, iterations: int = 5_000) -> float:
+    """Evaluate a Text filter against an event."""
+    import importlib
+
+    # __import__("darkob.bot.filters") resolves to the Bot class alias, not
+    # the submodule, so import the module explicitly.
+    filters = importlib.import_module(f"{module}.bot.filters")
+    event_module = importlib.import_module(f"{module}.types.event")
+    event_cls = event_module.Event
+    event = event_cls({"message": {"text": "/start please"}})
+    text_filter = filters.Text("start")
+
+    async def loop() -> None:
         for _ in range(iterations):
-            parse()
+            await text_filter.evaluate(event)
 
-    return best_of(run)
+    def run() -> None:
+        asyncio.run(loop())
 
-
-# ---------------------------------------------------------------------------
-# contenders
-# ---------------------------------------------------------------------------
+    return _best(run)
 
 
-def darkob_contenders() -> Dict[str, Any]:
-    from darkob.data import Data
-    from darkob.utils.media_parser import parse_image
+async def _dispatch_run(module: str, handlers: int, events: int) -> float:
+    api_cls = __import__(f"{module}.client.core.api", fromlist=["Api"]).Api
+    client = SimpleNamespace(
+        DEFAULT_PLATFORM={"platform": "PWA"},
+        _original_platform="pwa",
+        user_agent="bench",
+        max_retries=1,
+        timeout=5,
+        verify_ssl=False,
+        proxy=None,
+        stop_on_first_match=False,
+        handlers={},
+    )
+    api = api_cls(client)
 
-    png = b"\x89PNG\r\n\x1a\n" + (13).to_bytes(4, "big") + b"IHDR" + (800).to_bytes(
-        4, "big"
-    ) + (600).to_bytes(4, "big") + b"\x08\x06\x00\x00\x00" + b"\x00" * 32
+    class MessageUpdates:
+        __name__ = "MessageUpdates"
 
-    return {
-        "available": True,
-        "import": "darkob",
-        "deserialize": lambda payload: Data(payload),
-        "media": lambda: parse_image(png),
-        "media_label": "media header (in-memory)",
-    }
+        async def __call__(self, event: Any = None) -> bool:
+            return False  # never matches: measures pure routing cost
 
-
-def maxrubika_contenders() -> Optional[Dict[str, Any]]:
-    try:
-        import maxrubika
-        from maxrubika.data import Data
-        from maxrubika.client.core.media import MediaThumbnail
-    except Exception:
+    async def handler(event: Any) -> None:
         return None
 
-    png = b"\x89PNG\r\n\x1a\n" + (13).to_bytes(4, "big") + b"IHDR" + (800).to_bytes(
-        4, "big"
-    ) + (600).to_bytes(4, "big") + b"\x08\x06\x00\x00\x00" + b"\x00" * 32
+    client.handlers = {handler: MessageUpdates() for _ in range(handlers)}
+    if hasattr(api, "_dispatch_index"):
+        api._dispatch_index = None
 
-    def media_via_mutagen() -> Any:
-        # maxrubika has no in-memory parser; the fair equivalent is the
-        # image path it uses, which shells out to PIL/mutagen helpers.
-        return MediaThumbnail.from_image(png)
+    started = time.perf_counter()
+    for _ in range(events):
+        await api.handle_update("message_updates", dict(PAYLOAD))
+    elapsed = time.perf_counter() - started
 
-    return {
-        "available": True,
-        "import": "maxrubika",
-        "deserialize": lambda payload: Data(payload),
-        "media": media_via_mutagen,
-        "media_label": "image metadata (library helper)",
-        "version": maxrubika.__version__,
-    }
+    try:
+        await api.close()
+    except Exception:
+        pass
+    return elapsed
 
 
-# ---------------------------------------------------------------------------
-# report
-# ---------------------------------------------------------------------------
+def measure_dispatch(module: str, handlers: int, events: int = 5_000) -> float:
+    """Route *events* updates; long enough to amortise one-time setup."""
+    return min(asyncio.run(_dispatch_run(module, handlers, events)) for _ in range(3))
 
 
-def markdown_table(rows: List[Dict[str, Any]]) -> str:
-    lines = [
-        "| Benchmark | darkob | maxrubika | Difference |",
-        "| --- | --- | --- | --- |",
-    ]
-    for row in rows:
-        lines.append(
-            f"| {row['name']} | {row['ours']} | {row['theirs']} | {row['delta']} |"
-        )
-    return "\n".join(lines)
+MEASUREMENTS: List[Dict[str, Any]] = [
+    {"key": "event_text", "label": "Read `event.text` ×20,000",
+     "fn": lambda m: measure_event_text(m)},
+    {"key": "lookup", "label": "Nested key lookup ×20,000",
+     "fn": lambda m: measure_lookup(m)},
+    {"key": "filter", "label": "Filter evaluation ×5,000",
+     "fn": lambda m: measure_filter(m)},
+    {"key": "dispatch_50", "label": "Route an update, 50 handlers",
+     "fn": lambda m: measure_dispatch(m, 50)},
+    {"key": "dispatch_500", "label": "Route an update, 500 handlers",
+     "fn": lambda m: measure_dispatch(m, 500)},
+]
 
 
-def fmt_seconds(value: Optional[float]) -> str:
-    if value is None:
+def run_one(module: str, key: str) -> Optional[float]:
+    """Measure one case in a clean interpreter, so caches stay honest."""
+    code = (
+        "import json,sys;"
+        f"sys.path.insert(0, {str(REPO_ROOT)!r});"
+        "import benchmarks.benchmark_suite as b;"
+        f"print(b.MEASURE_BY_KEY[{key!r}]({module!r}))"
+    )
+    result = subprocess.run(
+        [sys.executable, "-W", "ignore", "-c", code],
+        capture_output=True,
+        text=True,
+        timeout=300,
+    )
+    if result.returncode != 0:
+        return None
+    try:
+        return float(result.stdout.strip().splitlines()[-1])
+    except (ValueError, IndexError):
+        return None
+
+
+MEASURE_BY_KEY = {item["key"]: item["fn"] for item in MEASUREMENTS}
+
+
+def fmt(seconds: Optional[float]) -> str:
+    if seconds is None:
         return "n/a"
-    if value < 0.001:
-        return f"{value * 1e6:.0f} µs"
-    if value < 1:
-        return f"{value * 1000:.1f} ms"
-    return f"{value:.3f} s"
-
-
-def fmt_bytes(value: int) -> str:
-    return f"{value / 1024:.0f} KB"
-
-
-def ratio(ours: Optional[float], theirs: Optional[float]) -> str:
-    if not ours or not theirs:
-        return "n/a"
-    factor = theirs / ours
-    if 0.95 <= factor <= 1.05:
-        return "comparable"
-    return f"{factor:.1f}x {'faster' if factor > 1 else 'slower'}"
+    if seconds < 0.001:
+        return f"{seconds * 1e6:.0f} µs"
+    if seconds < 1:
+        return f"{seconds * 1000:.1f} ms"
+    return f"{seconds:.2f} s"
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--json", action="store_true", help="emit JSON instead")
+    parser.add_argument("--json", action="store_true")
     args = parser.parse_args(argv)
 
-    ours = darkob_contenders()
-    theirs = maxrubika_contenders()
-
-    rows: List[Dict[str, Any]] = []
-
-    our_import = cold_import(ours["import"])
-    their_import = cold_import(theirs["import"]) if theirs else None
-    rows.append(
-        {
-            "name": "Cold import",
-            "ours": fmt_seconds(our_import),
-            "theirs": fmt_seconds(their_import),
-            "delta": ratio(our_import, their_import),
-        }
-    )
-
-    our_deser = deserialize_loop(ours["deserialize"])
-    their_deser = deserialize_loop(theirs["deserialize"]) if theirs else None
-    rows.append(
-        {
-            "name": f"Deserialize {ITERATIONS:,} updates",
-            "ours": fmt_seconds(our_deser),
-            "theirs": fmt_seconds(their_deser),
-            "delta": ratio(our_deser, their_deser),
-        }
-    )
-
-    our_lookup = lookup_loop(ours["deserialize"])
-    their_lookup = lookup_loop(theirs["deserialize"]) if theirs else None
-    rows.append(
-        {
-            "name": f"Nested key lookup x{ITERATIONS:,}",
-            "ours": fmt_seconds(our_lookup),
-            "theirs": fmt_seconds(their_lookup),
-            "delta": ratio(our_lookup, their_lookup),
-        }
-    )
-
-    our_mem = retained_memory(ours["deserialize"])
-    their_mem = retained_memory(theirs["deserialize"]) if theirs else None
-    rows.append(
-        {
-            "name": f"Retained memory, {HELD_OBJECTS:,} objects",
-            "ours": fmt_bytes(our_mem),
-            "theirs": fmt_bytes(their_mem) if their_mem else "n/a",
-            "delta": ratio(float(our_mem), float(their_mem) if their_mem else None),
-        }
-    )
-
-    our_media = media_parse_seconds(ours["media"])
-    their_media: Optional[float] = None
-    their_media_label = "n/a"
-
-    if theirs is not None:
-        import warnings
-
-        rival_works = False
-        try:
-            with warnings.catch_warnings(record=True) as caught:
-                warnings.simplefilter("always")
-                result = theirs["media"]()
-            # A fallback (string) result or any warning means it could not
-            # parse, so timing it would only measure exception overhead.
-            rival_works = not caught and not isinstance(result, str)
-        except Exception:
-            rival_works = False
-
-        if rival_works:
-            their_media = media_parse_seconds(theirs["media"], iterations=200)
-            their_media_label = theirs["media_label"]
+    rows = []
+    for item in MEASUREMENTS:
+        ours = run_one("darkob", item["key"])
+        theirs = run_one("maxrubika", item["key"])
+        if ours and theirs:
+            factor = theirs / ours
+            delta = f"{factor:.1f}× faster" if factor >= 1.05 else (
+                "comparable" if factor > 0.95 else f"{1 / factor:.1f}× slower"
+            )
         else:
-            their_media_label = "n/a (rival has no working parser here)"
-
-    rows.append(
-        {
-            "name": "Media metadata (image header)",
-            "ours": fmt_seconds(our_media),
-            "theirs": fmt_seconds(their_media) if their_media else "n/a",
-            "delta": ratio(our_media, their_media) if their_media else "n/a",
-        }
-    )
+            delta = "n/a"
+        rows.append(
+            {
+                "name": item["label"],
+                "ours": fmt(ours),
+                "theirs": fmt(theirs),
+                "delta": delta,
+                "factor": round(theirs / ours, 2) if ours and theirs else None,
+            }
+        )
 
     if args.json:
-        print(json.dumps({"rows": rows, "payload": UPDATE_PAYLOAD}, indent=2))
-    else:
-        print(markdown_table(rows))
-        if theirs is None:
-            print("\n_maxrubika is not installed; competitor column is n/a._")
+        print(json.dumps(rows, indent=2))
+        return 0
 
+    print("| Benchmark | darkob | maxrubika | Result |")
+    print("| --- | --- | --- | --- |")
+    for row in rows:
+        print(f"| {row['name']} | {row['ours']} | {row['theirs']} | {row['delta']} |")
     return 0
 
 

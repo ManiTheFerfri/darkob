@@ -65,15 +65,17 @@ class Waiter:
 class ConversationManager:
     """Registry of pending conversations, keyed by chat."""
 
-    __slots__ = ("_waiters",)
+    __slots__ = ("_waiters", "_count")
 
     def __init__(self) -> None:
         self._waiters: Dict[str, List[Waiter]] = {}
+        self._count = 0
 
     def register(self, chat_id: str, filters: Optional[List[Matcher]] = None) -> Waiter:
         """Create and track a waiter for *chat_id*."""
         waiter = Waiter(chat_id, list(filters or []))
         self._waiters.setdefault(chat_id, []).append(waiter)
+        self._count += 1
         return waiter
 
     def unregister(self, waiter: Waiter) -> None:
@@ -83,6 +85,7 @@ class ConversationManager:
             return
         if waiter in bucket:
             bucket.remove(waiter)
+            self._count -= 1
         if not bucket:
             self._waiters.pop(waiter.chat_id, None)
 
@@ -112,7 +115,7 @@ class ConversationManager:
     def pending(self, chat_id: Optional[str] = None) -> int:
         """Number of pending conversations, overall or for one chat."""
         if chat_id is None:
-            return sum(len(bucket) for bucket in self._waiters.values())
+            return self._count
         return len(self._waiters.get(chat_id, ()))
 
     def cancel_all(self) -> None:
@@ -121,6 +124,7 @@ class ConversationManager:
             for waiter in bucket:
                 waiter.cancel()
         self._waiters.clear()
+        self._count = 0
 
     def __repr__(self) -> str:
         return f"ConversationManager(pending={self.pending()})"

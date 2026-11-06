@@ -175,15 +175,27 @@ class Data:
     ) -> Any:
         single = keys if isinstance(keys, str) else None
 
-        # Fast path first: a single key over the object's own payload is
-        # served from the index. This is the path event.text etc. take.
-        # It must run before data is defaulted below, or data is never
-        # None here and the index would be bypassed.
-        if single is not None and data is None:
+        # Fast path first: lookups over the object's own payload are served
+        # from the index. This must run before `data` is defaulted below, or
+        # `data` is never None here and the index would be bypassed.
+        #
+        # Multi-key lookups matter as much as single ones: `Event.text`
+        # searches ("text", "caption"). Semantics are preserved exactly —
+        # the first key *in traversal order* wins, not the first in the
+        # caller's list, which is what the recursive search does.
+        if data is None and (single is not None or isinstance(keys, (list, tuple, set, frozenset))):
             if self._index is None:
                 self._index = self._build_index()
-            if single in self._index:
-                return self._convert_value(self._index[single])
+
+            if single is not None:
+                if single in self._index:
+                    return self._convert_value(self._index[single])
+                return default
+
+            wanted = self._normalize_keys(keys)
+            for name, value in self._index.items():
+                if name in wanted:
+                    return self._convert_value(value)
             return default
 
         if data is None:

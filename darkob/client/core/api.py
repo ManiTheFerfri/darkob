@@ -19,8 +19,21 @@ class _RateLimited(Exception):
     """Internal signal: the endpoint asked us to slow down."""
 
 
+_CAPITALIZED: Dict[str, str] = {}
+
+
 def capitalize(text: str) -> str:
-    return "".join(word.title() for word in text.split("_"))
+    """``message_updates`` -> ``MessageUpdates``, memoised.
+
+    Called once per incoming update; update type names come from a
+    small fixed set, so the string work is pure waste after the
+    first occurrence.
+    """
+    cached = _CAPITALIZED.get(text)
+    if cached is None:
+        cached = "".join(word.title() for word in text.split("_"))
+        _CAPITALIZED[text] = cached
+    return cached
 
 class Api:
     HEADERS = {
@@ -444,12 +457,13 @@ class Api:
             self._spawn(asyncio.to_thread(func, event))
 
     async def handle_update(self, name: str, event: dict) -> None:
-        # A pending ask() consumes the update before dispatch.
+        # A pending ask() consumes the update before dispatch. Checking the
+        # waiter count first avoids building an Event for every update when
+        # no conversation is in flight.
         conversations = getattr(self.client, "_conversations", None)
-        if conversations is not None and await conversations.resolve(
-            Event(event.copy())
-        ):
-            return
+        if conversations is not None and conversations.pending():
+            if await conversations.resolve(Event(event.copy())):
+                return
 
         # The update name is resolved once, not once per registered handler.
         targets = self._handlers_for(capitalize(name))

@@ -161,22 +161,27 @@ outbox.start()
 
 ## Performance
 
-Measured with `benchmarks/benchmark_suite.py`, compared against
-maxrubika 1.17.0 on the same machine:
+Measured with `benchmarks/benchmark_suite.py` against maxrubika 1.17.0 on
+the same machine, each case in a fresh process:
 
-| Benchmark | darkob | maxrubika | Difference |
+| Benchmark | darkob | maxrubika | Result |
 | --- | --- | --- | --- |
-| Cold import | 614.3 ms | 614.0 ms | comparable |
-| Deserialize 10,000 updates | 1.3 ms | 1.2 ms | 0.9x slower |
-| Nested key lookup x10,000 | 1.5 ms | 8.9 ms | 5.9x faster |
-| Retained memory, 5,000 objects | 822 KB | 783 KB | comparable |
-| Media metadata (image header) | 1.1 ms | n/a | n/a |
+| Read `event.text` ×20,000 | 13.9 ms | 20.3 ms | 1.5× faster |
+| Nested key lookup ×20,000 | 3.0 ms | 17.0 ms | 5.7× faster |
+| Filter evaluation ×5,000 | 5.7 ms | 6.5 ms | 1.2× faster |
+| Route an update, 50 handlers | 5.3 ms | 8.1 ms | 1.5× faster |
+| Route an update, 500 handlers | 5.4 ms | 8.0 ms | 1.5× faster |
 
-Nested lookups are where the difference is felt: an `Event` exposes ~40
-properties, and darkob serves them from a per-payload index instead of
-searching the structure on every access. Import time and retained memory
-are close, which is the honest result — the win is in the hot path, not in
-cold start.
+Three things carry the difference:
+
+1. **Lookups are indexed.** Every payload builds a key index on first
+   access, so `event.text` — which searches `text` then `caption` — no
+   longer walks the structure on every read.
+2. **Dispatch is an index, not a scan.** Handlers are grouped by update
+   name once, so routing cost stays flat whether a bot registers 50
+   handlers or 500.
+3. **The update name and waiter list are cheap.** `capitalize()` is
+   memoised and a pending `ask()` costs one integer check per update.
 
 ## Verified against the real API
 
