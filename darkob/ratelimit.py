@@ -49,6 +49,8 @@ import asyncio
 import time
 from typing import Any, Callable, Dict, Optional
 
+from .utils.concurrency import LazyLock
+
 __all__ = ["TokenBucket", "RateLimiter", "AdaptiveRateLimiter"]
 
 
@@ -74,7 +76,9 @@ class TokenBucket:
         self._tokens = self.capacity
         self._clock = clock
         self._updated = clock()
-        self._lock = asyncio.Lock()
+        # Lazily, not eagerly: a limiter built at import time has no running
+        # loop to bind a 3.9 lock to.
+        self._lock = LazyLock()
 
     # -- internals --------------------------------------------------------
 

@@ -18,8 +18,19 @@ from __future__ import annotations
 import asyncio
 from typing import Any, Optional
 
-from Crypto.Signature import pkcs1_15
-from Crypto.PublicKey import RSA
+# nosec B413, deliberately, and only for this rule:
+#
+# bandit's B413 blacklists the ``Crypto`` import name because it was chosen by
+# pycrypto, which is abandoned. darkob depends on **pycryptodome**, the
+# maintained fork that kept the namespace, and its declared dependency in
+# pyproject.toml is ``pycryptodome>=3.20,<4`` — pycrypto itself is not
+# installable alongside it. The finding is a name collision, not a vulnerability,
+# and bandit has no way to tell the two projects apart from the import alone.
+#
+# Suppressing by rule ID rather than a bare ``# nosec`` means any *other*
+# finding on these lines is still reported.
+from Crypto.Signature import pkcs1_15  # nosec B413
+from Crypto.PublicKey import RSA  # nosec B413
 
 from .client.core.cipher import Cipher
 from .utils.json_backend import dumps, loads
