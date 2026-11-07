@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pathlib
+import re
 import urllib.error
 import urllib.request
 
@@ -13,9 +15,6 @@ from darkob import _parse_version
 
 def test_version_matches_pyproject():
     """Guards against the packaged metadata drifting from __version__."""
-    import pathlib
-    import re
-
     pyproject = pathlib.Path(__file__).resolve().parents[1] / "pyproject.toml"
     match = re.search(
         r'^version\s*=\s*"([^"]+)"', pyproject.read_text(encoding="utf-8"), re.M
@@ -25,9 +24,24 @@ def test_version_matches_pyproject():
     assert darkob.__version__ == match.group(1)
 
 
+def test_author_is_the_darkob_maintainer():
+    """`authors` in packaging metadata means who publishes this package."""
+    assert darkob.__author__ == "Mani Keikhosravi"
+    assert darkob.__maintainer__ == darkob.__author__
+
+
 def test_upstream_attribution_is_preserved():
     """MIT requires keeping the original author's notice."""
-    assert darkob.__author__ == "MEHRAB Farahmand"
+    assert darkob.__upstream_author__ == "MEHRAB Farahmand"
+    assert "maxrubika" in darkob.__upstream_url__
+
+    licence = (
+        pathlib.Path(__file__).resolve().parents[1] / "LICENSE"
+    ).read_text(encoding="utf-8")
+    assert "MEHRAB Farahmand" in licence, (
+        "the original MIT copyright notice must survive in LICENSE"
+    )
+    assert "Mani Keikhosravi" in licence
 
 
 def test_check_for_updates_returns_none_when_offline(monkeypatch):

@@ -87,9 +87,15 @@ from .formatting import (
     underline,
 )
 
-__author__ = "MEHRAB Farahmand"
+__author__ = "Mani Keikhosravi"
+__email__ = "darkking7055@gmail.com"
 __maintainer__ = "Mani Keikhosravi"
-__version__ = "0.18.0"
+#: Upstream credit, not package authorship. darkob is derived from maxrubika,
+#: and the MIT notice names its author; this keeps that machine-readable so a
+#: test can pin it rather than leaving it to prose that can be edited away.
+__upstream_author__ = "MEHRAB Farahmand"
+__upstream_url__ = "https://github.com/MEH2RAB/maxrubika"
+__version__ = "0.18.1"
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.18.0 — async Python for the Rubika and Shad messaging platforms.
+darkob 0.18.1 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
 

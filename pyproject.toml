@@ -4,16 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.18.0"
+version = "0.18.1"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
+# `authors` means "author of *this* distribution", so it names the person who
+# writes darkob. Upstream credit for maxrubika belongs to MEHRAB Farahmand and
+# is preserved in three other places, all of which ship: the MIT notice in
+# LICENSE, `project.urls.Upstream` below, and the prose in README/CONTRIBUTING.
+# Listing him here instead conflated "whose code this derives from" with "who
+# publishes this package", which is not what the field is for.
 authors = [
-    { name = "MEHRAB Farahmand", email = "MEH2RABx@gmail.com" },
+    { name = "Mani Keikhosravi", email = "darkking7055@gmail.com" },
 ]
 maintainers = [
-    { name = "Mani Keikhosravi" },
+    { name = "Mani Keikhosravi", email = "darkking7055@gmail.com" },
 ]
 keywords = [
     "darkob",
