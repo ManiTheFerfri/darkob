@@ -25,7 +25,7 @@ from darkob import __all__ as _darkob_exports
 __all__ = list(_darkob_exports)
 
 #: maxrubika's own last version, kept so version checks keep working.
-__maxrubika_version__ = "1.18.0"
+__maxrubika_version__ = "1.18.1"
 
 warnings.warn(
     "darkob.compat.maxrubika is a migration shim. Import from 'darkob' "

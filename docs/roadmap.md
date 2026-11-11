@@ -24,7 +24,7 @@ Shipped through 0.19:
 - Pooled HTTP sessions; no per-download TLS handshake.
 - Payloads at or above 256 KB are encrypted on a worker thread.
 
-**Upstream v1.18.0 (new in 0.19)**
+**Upstream v1.18.0 / v1.18.1 (new in 0.19.x)**
 
 - Merged upstream's grouped endpoints and new `Rubino`, `RubiAI`, `RubikaTV`
   surfaces without deleting a pre-existing method or any of darkob's hardening.
@@ -79,7 +79,7 @@ Shipped through 0.19:
 
 **Process**
 
-- 781 tests, CI on 3.9–3.14 plus Windows, generated API docs for all six
+- 800 tests, CI on 3.9–3.14 plus Windows, generated API docs for all six
   clients, `py.typed`.
 - `benchmarks/benchmark_suite.py` (head-to-head) and `benchmarks/scenarios.py`
   (realistic load), with `check_regression.py` gating CI.
