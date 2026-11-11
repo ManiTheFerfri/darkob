@@ -33,6 +33,17 @@ def _public_error(bot: "darkob.Bot", error: Exception) -> Exception:
     message = redact_secrets(error, bot.token)
     if message == str(error):
         return error
+    if isinstance(error, APIException):
+        # Preserve typed throttling/error handling while sanitising the URL.
+        # `RuntimeError` would erase TooRequests and its structured status.
+        if type(error) is APIException:
+            return APIException(
+                status=error.status,
+                dev_message=message,
+            )
+        # Specific subclasses (TooRequests, ServerError, Network, etc.)
+        # accept only dev_message and set their status in their constructor.
+        return type(error)(dev_message=message)
     return RuntimeError(message)
 
 
@@ -217,7 +228,9 @@ class Request:
                         _public_error(self, exc),
                         {"action": endpoint, "endpoint": safe_endpoint},
                     )
-                raise
+                # Sanitize the outbound typed exception too, not only the
+                # plugin copy: a raised HTTP error may itself expose base_url.
+                raise _public_error(self, exc) from None
 
             except (BadGateway, ServerError, Timeout, asyncio.TimeoutError) as e:
                 if isinstance(e, asyncio.TimeoutError):

@@ -101,6 +101,79 @@ async def test_bot_error_paths_redact_token_in_logs_and_plugins(caplog):
     assert "<redacted>" in error or "<redacted>" in context["endpoint"]
 
 
+async def test_redacted_throttle_preserves_exception_type_and_status():
+    from darkob.bot.exceptions import TooRequests
+
+    bot = Bot(token=VALID_TOKEN, show_welcome=False, max_retries=1)
+    reports = []
+
+    async def run_on_error(error, context):
+        reports.append((error, context))
+
+    async def before(action, data):
+        return data
+
+    async def after(action, data):
+        return data
+
+    bot.plugin_manager = SimpleNamespace(
+        active=1,
+        run_on_error=run_on_error,
+        apply_before_request=before,
+        apply_after_response=after,
+    )
+    replaced_path = f"{bot.base_url}/getMe"
+    from conftest import FakeResponse
+
+    attach(bot, FakeResponse(429, text=replaced_path))
+
+    try:
+        with pytest.raises(TooRequests) as info:
+            await bot.request("POST", "getMe", json=replaced_path)
+    finally:
+        await bot.close()
+
+    assert info.value.status == "TOO_REQUESTS"
+    assert VALID_TOKEN not in str(info.value)
+    error, context = reports[0]
+    assert isinstance(error, TooRequests)
+    assert error.status == "TOO_REQUESTS"
+    assert VALID_TOKEN not in error.dev_message
+    assert "getMe" in context["action"]
+
+
+async def test_early_exit_does_not_scan_remaining_handlers():
+    evaluated = []
+
+    class Matching:
+        __name__ = "MessageUpdates"
+
+        async def __call__(self, *, event):
+            evaluated.append(1)
+            return True
+
+    async def first(event):
+        return None
+
+    handlers = {}
+    for _ in range(500):
+        async def unique_handler(event):
+            return None
+
+        handlers[unique_handler] = Matching()
+
+    client = client_for(handlers=handlers)
+    api = Api(client)
+    try:
+        for _ in range(20):
+            await api.handle_update("message_updates", {})
+    finally:
+        await api.close()
+
+    # One matching filter per update, not 500 * 20 evaluations.
+    assert len(evaluated) == 20
+
+
 async def test_replacing_a_handler_without_changing_len_invalidates_it():
     class Match:
         __name__ = "MessageUpdates"
