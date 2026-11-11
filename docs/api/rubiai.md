@@ -2,13 +2,13 @@
 
 Rubika's AI assistant: chat sessions, streaming and image generation.
 
-> Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
+> Generated from the checkout source by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
 **15 public methods.**
 
 ## Method index
 
-- **rubiai** (15): [`delete_session`](#delete-session), [`download_image`](#download-image), [`edit_session`](#edit-session), [`get_chat_history`](#get-chat-history), [`get_feedback_issues`](#get-feedback-issues), [`get_service_access`](#get-service-access), [`get_sessions`](#get-sessions), [`get_welcome`](#get-welcome), [`request`](#request), [`send_feedback`](#send-feedback), [`send_message`](#send-message), [`send_message_stream`](#send-message-stream), [`set_feedback_detail`](#set-feedback-detail), [`speech_to_text`](#speech-to-text), [`stop_session_stream`](#stop-session-stream)
+- **rubiai** (15): [`delete_session`](#delete_session), [`download_image`](#download_image), [`edit_session`](#edit_session), [`get_chat_history`](#get_chat_history), [`get_feedback_issues`](#get_feedback_issues), [`get_service_access`](#get_service_access), [`get_sessions`](#get_sessions), [`get_welcome`](#get_welcome), [`request`](#request), [`send_feedback`](#send_feedback), [`send_message`](#send_message), [`send_message_stream`](#send_message_stream), [`set_feedback_detail`](#set_feedback_detail), [`speech_to_text`](#speech_to_text), [`stop_session_stream`](#stop_session_stream)
 
 ## rubiai
 

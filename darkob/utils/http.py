@@ -10,7 +10,24 @@ from __future__ import annotations
 from typing import Any, Optional
 from contextlib import asynccontextmanager
 
-__all__ = ["request_session", "retry_after_seconds"]
+__all__ = ["redact_secrets", "request_session", "retry_after_seconds"]
+
+
+def redact_secrets(text: str, *values: Any) -> str:
+    """Replace non-trivial credential values in a diagnostic string.
+
+    ``aiohttp`` exception messages include a request's full URL, and the Bot
+    API puts its token in that URL. A token is a credential even when nested
+    in a long message, so substring matching (not URL parsing alone) is the
+    conservative choice. Small values and ``None`` are ignored to avoid
+    hiding every short word in an error. The original exception is never
+    modified, only its log/report-safe representation.
+    """
+    result = str(text)
+    for value in values:
+        if isinstance(value, str) and len(value) >= 4:
+            result = result.replace(value, "<redacted>")
+    return result
 
 
 @asynccontextmanager

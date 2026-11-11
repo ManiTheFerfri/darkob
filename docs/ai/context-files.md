@@ -1,7 +1,8 @@
 # Context files
 
-darkob publishes three machine-readable artifacts. All are generated or
-verified by CI, so they match the released version.
+darkob publishes three machine-readable artifacts. CI regenerates them from
+the checkout source and fails when the committed output is stale. They match
+the deployed source commit, which need not be the latest released package.
 
 ## `llms.txt`
 
@@ -17,8 +18,9 @@ Use it when the model needs an overview and the ability to ask for more.
 
 ## `llms-full.txt`
 
-The entire documentation — every guide, every page, both API surfaces —
-concatenated into one Markdown file with `SOURCE:` markers.
+Curated guidance plus the complete API for all six client classes,
+concatenated into one Markdown file with `SOURCE:` markers. It is not a copy
+of every documentation page; use the site for omitted tutorials and guides.
 
 ```text
 https://manitheferfri.github.io/darkob/llms-full.txt
@@ -108,6 +110,6 @@ headers or footer noise.
 ## Freshness
 
 `docs/api/*.md`, `docs/api.json` and `docs/llms-full.txt` are generated
-by `scripts/generate_docs_assets.py` from the installed package. CI fails
-if they are stale, so the published context can never describe methods
-that do not exist.
+by `scripts/generate_docs_assets.py` from the checkout source. CI fails if
+they are stale. The generator includes class-MRO methods and the public
+`DecoratorBridge` callables attached to each Bot instance.

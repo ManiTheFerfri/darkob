@@ -168,6 +168,14 @@ class Client(Methods):
                 session = Session(string_session=string_session, password=password)
                 info = session.information()
                 if info:
+                    if not info[1]:
+                        raise SessionError(
+                            "String session is missing its authentication key."
+                        )
+                    if self.API_VERSION == 6 and not info[4]:
+                        raise SessionError(
+                            "String session for API v6 requires both auth and private_key."
+                        )
                     auth = info[1]
                     private_key = info[4]
                     restored_guid = info[2]

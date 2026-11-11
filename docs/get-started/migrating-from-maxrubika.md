@@ -36,17 +36,16 @@ darkob APIs, so a half-migrated file still imports cleanly. The
 module emits a `DeprecationWarning` on import to remind you it is a
 migration aid, not a destination.
 
-## 2. Re-authenticate existing sessions
+## 2. Keep or migrate existing sessions
 
-!!! warning "Old session files will not load"
-    darkob derives its session encryption key from a different salt than
-    maxrubika, and prefixes session files with `darkob_` instead of
-    `maxrubika_`. Existing encrypted sessions, string sessions and bot
-    tokens cannot be carried over — log in again and store the new
-    credentials.
+Existing encrypted `.max` sessions and legacy string sessions remain readable:
+darkob tries both the current and legacy decryption keys. Supported older file
+formats are migrated without deleting the source file. Bot tokens need no
+migration; use the same token.
 
-This is deliberate: a fork should not silently reuse key material from a
-different package.
+Keep a backup before testing a migrated account. Re-authentication is only
+needed for a corrupt file, a wrong password, or a format the loader does not
+support.
 
 ## 3. Behaviour that changed
 
@@ -70,7 +69,7 @@ different package.
 
 ```python
 import darkob
-print(darkob.__version__)   # 0.2.x
+print(darkob.__version__)   # installed version
 ```
 
 Then run your bot through its normal path. If something that used to log

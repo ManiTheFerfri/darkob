@@ -22,6 +22,9 @@ Handlers are plain functions. Call them with a stand-in event:
 ```python
 from types import SimpleNamespace
 
+async def _noop():
+    pass
+
 async def test_echo_replies(monkeypatch):
     replies = []
 

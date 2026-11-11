@@ -36,6 +36,7 @@ import threading
 import time
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict, Optional
+from weakref import WeakKeyDictionary
 
 from .bot.filters import EventConstraint
 from .utils.concurrency import LazyLock
@@ -342,6 +343,15 @@ class SQLiteStorage(Storage):
         with self._lock:
             self._connection.close()
 
+
+_update_locks = WeakKeyDictionary()
+
+
+def _update_lock(storage: Storage, key: str) -> LazyLock:
+    locks = _update_locks.setdefault(storage, {})
+    return locks.setdefault(key, LazyLock())
+
+
 class FSMContext:
     """State and data for one conversation, bound to a storage and key."""
 
@@ -376,10 +386,12 @@ class FSMContext:
 
     async def update_data(self, **kwargs: Any) -> Dict[str, Any]:
         """Merge *kwargs* into the stored data and return the result."""
-        data = await self.storage.get_data(self.key)
-        data.update(kwargs)
-        await self.storage.set_data(self.key, data)
-        return data
+        # Shared across contexts, but not a transaction claim for custom stores.
+        async with _update_lock(self.storage, self.key):
+            data = await self.storage.get_data(self.key)
+            data.update(kwargs)
+            await self.storage.set_data(self.key, data)
+            return data
 
     async def clear(self) -> None:
         await self.storage.clear(self.key)

@@ -4,11 +4,11 @@
 Build bots and userbots that stay up — without the boilerplate.
 
 !!! tip "Writing a bot with an AI assistant? Give it one URL"
-    **[https://manitheferfri.github.io/darkob/llms-full.txt](llms-full.txt)** — this
-    single file contains the complete public API with real signatures, the
-    full filter catalogue, working patterns and the mistakes to avoid. Tell
-    the model: *"read this URL fully, then build me a bot that does X."*
-    Nothing else is required.
+    **[https://manitheferfri.github.io/darkob/llms-full.txt](llms-full.txt)** —
+    curated guides, the full filter catalogue, and all **968** generated client
+    method entries with source-backed signatures. Tell the model: *"read this
+    URL fully, then build me a bot that does X."* Use `llms.txt` for omitted
+    documentation pages and release-specific installation guidance.
 
     Prefer structured data? [`api.json`](api.json) has every method as JSON.
 
@@ -54,10 +54,10 @@ designed to be *read by a model*, not just by a human:
   file, ready to paste into a context window.
 - **[`api.json`](api.json)** — every public method as structured JSON:
   name, signature, module, docstring. Machine-readable, no parsing.
-- **Every page is also served as raw Markdown** — append `.md` to any
-  page URL instead of `.html`.
-- **The API reference is generated from the installed package**, so a
-  signature in the docs cannot disagree with the signature at runtime.
+- **Every page is also served as raw Markdown** — replace the trailing `/`
+  with `.md`, for example `/guides/routers/` → `/guides/routers.md`.
+- **The API reference is generated from the checkout source**, and CI
+  regenerates and compares it with the committed artifacts.
 
 See [AI workflow](ai/index.md) for the recommended prompts, and
 [Recipes](ai/recipes.md) for task-shaped examples you can hand to a model.

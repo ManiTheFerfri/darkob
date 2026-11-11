@@ -174,12 +174,9 @@ def _sync_async_generator(
             _close_coro(coro)
 
 def async_to_sync(obj: Any, name: str) -> None:
-    raw = None
-    for cls in obj.__mro__:
-        if name in cls.__dict__:
-            raw = cls.__dict__[name]
-            break
-
+    # getattr_static works for both a class and an instance. Instances do
+    # not expose __mro__, and they are supported explicitly by this helper.
+    raw = inspect.getattr_static(obj, name, None)
     if raw is None:
         return
 
@@ -193,7 +190,7 @@ def async_to_sync(obj: Any, name: str) -> None:
     if not (is_coro or is_agen):
         return
 
-    bound = func
+    bound = func if isinstance(obj, type) else getattr(obj, name)
 
     if is_agen:
         @functools.wraps(bound)
@@ -219,7 +216,13 @@ def async_to_sync(obj: Any, name: str) -> None:
     elif isinstance(obj, type) and isinstance(raw, classmethod):
         setattr(obj, name, classmethod(wrapper))
     else:
-        setattr(obj, name, wrapper)
+        try:
+            setattr(obj, name, wrapper)
+        except (AttributeError, TypeError):
+            # Slotted/read-only instances cannot get a per-instance wrapper.
+            # Apply it to the class, preserving normal lookup semantics for
+            # every instance instead of reporting a misleading __mro__ error.
+            async_to_sync(type(obj), name)
 
 def wrap_methods(source: Any) -> None:
     for name, method in inspect.getmembers(

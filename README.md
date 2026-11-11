@@ -6,12 +6,12 @@
 
 <p align="center">
   <b>Fast, stable async Python for the Rubika &amp; Shad platforms.</b><br/>
-  Bots and userbots that stay up — with an API verified against the real server.
+  Bots and userbots that stay up — with offline tests and opt-in live API checks.
 </p>
 
 <p align="center">
   <a href="https://pypi.org/project/darkob/"><img src="https://shieldcn.dev/pypi/darkob.svg" alt="PyPI"></a>
-  <img src="https://shieldcn.dev/badge/python-3.9--3.14-4f46e5.svg" alt="Python 3.9-3.14">
+  <img src="https://shieldcn.dev/badge/python-3.10--3.14-4f46e5.svg" alt="Python 3.10-3.14">
   <a href="https://github.com/ManiTheFerfri/darkob/actions/workflows/ci.yml"><img src="https://shieldcn.dev/github/ci/ManiTheFerfri/darkob.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://shieldcn.dev/github/license/ManiTheFerfri/darkob.svg" alt="License"></a>
   <a href="https://github.com/ManiTheFerfri/darkob/stargazers"><img src="https://shieldcn.dev/github/stars/ManiTheFerfri/darkob.svg" alt="Stars"></a>
@@ -29,6 +29,10 @@
 ```bash
 pip install darkob
 ```
+
+Darkob 0.20.0+ supports Python 3.10–3.14 and requires `aiohttp>=3.14.4,<4`.
+Python 3.9 users must stay on 0.19.1, whose older dependency constraint does
+not include that advisory fix.
 
 ```python
 from darkob import Bot, Keyboard
@@ -249,22 +253,19 @@ was recorded on a different platform). See
 [`benchmarks/README.md`](benchmarks/README.md) for the methodology, the
 recording hardware and the exact commands.
 
-## Verified against the real API
+## Live API conformance
 
-The Bot API documents **19 endpoints**. All are implemented, and **18 were
-exercised against a live server** — including the full file round-trip
-(`requestSendFile → uploadFile → getFile → sendFile → download`) and
-byte-range resume.
+`scripts/conformance.py` records PASS only for an explicit `{"status": "OK"}`
+from the method being tested. A missing status, another endpoint's response,
+or a skipped check is never counted as verification.
 
-That testing caught three things static reading could not:
-
-1. `editInlineKeypad` — the docs' own cURL — answers `INVALID_INPUT: Invalid Method`. The working endpoint is `editMessageKeypad`.
-2. A bare `Payment` button is rejected; `Button.payment()` now demands its fields instead of failing at send time.
-3. `Bot.download_file` was opening its own HTTP session, paying a fresh TLS handshake per file.
-
-The remaining two gaps are documented rather than guessed: `getChatMember`
-needs a group chat to verify, and `setCommands` has no read-back, so
-testing it would destroy your command list.
+With `--writes` and a disposable test chat, it can cover message send/edit,
+location/contact/poll, forwarding/deletion and `requestSendFile`; `getFile`
+runs only when an update supplies a real `file_id`. It deliberately skips
+`sendFile`, `editChatKeypad`, `setCommands`, membership mutations and
+`updateBotEndpoints` when their prior state cannot be restored safely.
+The current script does not claim a complete file round-trip or all-endpoint
+coverage.
 
 ## Documentation
 
@@ -290,13 +291,13 @@ read by a model.
 https://manitheferfri.github.io/darkob/llms-full.txt
 ```
 
-One file, one fetch: hard rules, every guide, and the complete API with
-full docstrings for all 688 methods.
+One file, one fetch: hard rules, curated guides, and complete client API
+documentation for all 968 generated method entries. It is not every docs page.
 
 - [`llms.txt`](https://manitheferfri.github.io/darkob/llms.txt) — curated map
 - [`api.json`](https://manitheferfri.github.io/darkob/api.json) — every method as JSON
-- Every page is also served as raw Markdown: append `.md` to any URL
-- The API reference is generated from the installed package, so it cannot drift
+- Raw Markdown: replace a pretty URL's trailing `/` with `.md`
+- The API reference is generated from checkout source; CI fails when stale
 
 ## Development
 
@@ -304,8 +305,9 @@ full docstrings for all 688 methods.
 git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
+python -m pip install mypy
 
-pytest --cov=darkob     # 463 tests, no network required
+pytest --cov=darkob     # 800+ tests, no network required
 ruff check .            # lint
 mypy darkob/router.py darkob/retry.py darkob/builders.py \
      darkob/keyboards.py darkob/formatting.py darkob/testing.py
@@ -317,8 +319,8 @@ subprocess test asserts that importing `darkob` cannot reach the network.
 Two extra tools live in `scripts/`:
 
 - `benchmark.py` — micro-benchmarks for the hot paths, no network.
-- `conformance.py` — exercises every Bot API method against a real token,
-  cleans up after itself, and exits non-zero on failure.
+- `conformance.py` — exercises selected Bot API methods against a real token,
+  deletes messages it creates, and exits non-zero on failure; skips are unverified.
 
 ## Roadmap
 

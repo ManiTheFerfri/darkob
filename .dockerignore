@@ -36,6 +36,7 @@ htmlcov/
 
 # Prose, not needed at run time
 *.md
+!README.md
 
 # Security, not tidiness: an .env file is exactly where a bot token tends to
 # live. If one reached the build context, a later COPY could bake it into a

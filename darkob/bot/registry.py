@@ -133,8 +133,8 @@ class HandlerRegistry:
         if not matched:
             logger.debug("No handler matched event update_type=%s", getattr(event, 'update_type', '?'))
 
-    @staticmethod
     async def _satisfies(
+        self,
         event: Any,
         constraints: Tuple[EventConstraint, ...],
     ) -> bool:
@@ -144,8 +144,11 @@ class HandlerRegistry:
             try:
                 if not await c.evaluate(event):
                     return False
-            except Exception:
+            except Exception as exc:
+                if _metrics.enabled:
+                    _metrics.increment("darkob.handlers.errors")
                 logger.exception("Constraint %s failed", c.__class__.__name__)
+                await self.report_error(exc, event)
                 return False
         return True
 

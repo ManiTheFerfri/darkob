@@ -147,6 +147,7 @@ class SendQueue:
     async def flush(self) -> int:
         """Try to send everything queued. Returns how many were delivered."""
         delivered = 0
+        changed = False
 
         async with self._lock:
             while self._items:
@@ -159,12 +160,14 @@ class SendQueue:
                     # Not a network problem: the message itself is bad, so
                     # keeping it would block the queue forever.
                     self._items.popleft()
+                    changed = True
                     continue
                 else:
                     self._items.popleft()
                     delivered += 1
+                    changed = True
 
-            if delivered:
+            if changed:
                 self._publish_depth()
                 self._save()
 

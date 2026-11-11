@@ -19,7 +19,13 @@ class Connect:
         self.connection = Api(client=self)
 
         information = self.session.information()
-        self.logger.info(f'the session information was read {information}')
+        # Do not log this tuple: it contains auth and private_key as well as
+        # identifying user data. Recording whether any credentials were used
+        # is enough for operators to diagnose session problems.
+        if information:
+            self.logger.debug('Credentials restored from the stored session.')
+        else:
+            self.logger.debug('No stored credentials were found for this session.')
 
         if information:
             self.auth = information[1]

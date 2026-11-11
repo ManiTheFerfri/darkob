@@ -109,8 +109,16 @@ def test_documented_class_methods_remain_a_subset_of_merged_api():
             for item in document["classes"][class_name]["methods"]
         }
         assert methods
+        # Bot intentionally injects decorators through DecoratorBridge on each
+        # instance. Check the actual runtime object users get, not a class
+        # attribute that was never part of the documented dispatch model.
+        subject = (
+            Bot(token="ABCDE" + "0" * 59, show_welcome=False)
+            if cls is Bot
+            else cls
+        )
         missing = sorted(
-            name for name in methods if not callable(getattr(cls, name, None))
+            name for name in methods if not callable(getattr(subject, name, None))
         )
         assert not missing, f"{class_name} lost documented methods: {missing}"
 

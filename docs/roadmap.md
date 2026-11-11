@@ -79,8 +79,8 @@ Shipped through 0.19:
 
 **Process**
 
-- 800 tests, CI on 3.9–3.14 plus Windows, generated API docs for all six
-  clients, `py.typed`.
+- 800+ tests, CI on 3.10–3.14 plus Windows, generated API docs for all six
+  clients, `py.typed`. Darkob 0.19.1 is the last Python 3.9 line.
 - `benchmarks/benchmark_suite.py` (head-to-head) and `benchmarks/scenarios.py`
   (realistic load), with `check_regression.py` gating CI.
 - Every `>>>` docstring example is executed in CI, with a ratchet so examples
@@ -153,8 +153,7 @@ Measured, not guessed:
 
 ## Official Bot API parity
 
-Audited against <https://rubika.ir/botapi>. The documentation defines **18
-methods**:
+Audited against <https://rubika.ir/botapi>. The reviewed endpoint list was:
 
 `sendMessage`, `editMessageText`, `editChatKeypad`, `sendFile`,
 `requestSendFile`, `getFile`, `sendLocation`, `sendContact`, `sendPoll`,
@@ -166,39 +165,23 @@ in darkob that the public docs do not list: `getChatMember` and
 `editMessageKeypad`. They are kept — removing a working method because a page
 omits it would break users — but treat them as unsupported upstream.
 
-### Live verification
+### Live conformance coverage
 
-Run against a real bot in a real chat with `scripts/conformance.py`:
+Run against a disposable bot/chat with `scripts/conformance.py --writes`.
+PASS means the named method returned an explicit `{"status": "OK"}`; SKIP means
+unverified. Another endpoint's response or an arbitrary exception cannot stand
+in for verification.
 
-| Verified against the API | |
-| --- | --- |
-| `getMe` | returns bot id, title, username |
-| `getUpdates` | returns updates with `next_offset_id` |
-| `getChat` | returns the chat object |
-| `sendMessage` | returns `data.message_id` |
-| `editMessageText` | `OK` |
-| `editMessageKeypad` | `OK` |
-| `forwardMessage` / `deleteMessage` | `OK` |
-| `sendLocation` / `sendContact` / `sendPoll` | `OK` |
-| `requestSendFile` | returns an upload URL |
-| `uploadFile` | returns a `file_id` |
-| `getFile` | returns `download_url` |
-| `sendFile` by `file_id` and by local path | `OK` |
-| `editChatKeypad` / `remove_chat_keypad` | `OK` |
-| `banChatMember` / `unbanChatMember` | reject bogus ids, so the endpoints exist |
+The script can check `getMe`, `getUpdates`, `getChat`, message send/edit,
+location/contact/poll, forwarding/deletion and `requestSendFile`. `getFile`
+runs only when an update supplies a real `file_id`. It skips `sendFile`,
+`editChatKeypad`, `setCommands`, ban/unban operations and `updateBotEndpoints`
+because the current workflow has no safe restoration path. There is no claim
+of full file round-trip or all-endpoint coverage.
 
-Still unproven, and honestly labelled as such:
-
-- `setCommands` — there is no `getCommands`, so a write destroys the original
-  list with no way to restore it. `remove_commands()` exists for the same
-  reason.
-- `updateBotEndpoints` — changes where the bot receives updates.
-- `getChatMember`, `member_is_admin`, `member_is_joined`, `member_is_owner` —
-  the validator correctly rejects `b0` chats, so these need a group or channel.
-
-The nightly `conformance` workflow runs this against a live token and files an
-issue when it breaks, which is how API drift gets noticed without anyone
-watching.
+The nightly workflow uses the read-only subset. The manual `--writes` input
+enables message mutations but never changes the command list, group members,
+or endpoint registration.
 
 ### The documentation is wrong in one place
 
@@ -247,9 +230,9 @@ that gap:
 
 - `benchmarks/benchmark_suite.py` — head-to-head against maxrubika.
 - `benchmarks/scenarios.py` — realistic load, calibration-normalised.
-- `scripts/conformance.py` — calls every Bot API method against a real token,
-  reports pass/fail/skip per method, cleans up after itself, and exits
-  non-zero on failure. Run it before tagging a release.
+- `scripts/conformance.py` — calls selected Bot API methods against a real
+  token, reports pass/fail/skip per method, deletes created messages, and
+  exits non-zero on failure. A skip is unverified, not support evidence.
 
 ```bash
 export DARKOB_BOT_TOKEN=...

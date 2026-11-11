@@ -36,20 +36,17 @@ async def ban(bot, event):
     ...
 ```
 
-## Paginated list
-
-Ask for the first page, then keep the cursor you were given:
+## Look up the current chat
 
 ```python
-@bot.on_command("chats")
-async def chats(bot, event):
-    page = await bot.get_chats()          # first page
-    names = [c.get("title", "?") for c in page]
-    await event.reply("\n".join(names))
+@bot.on_command("chat")
+async def chat(bot, event):
+    info = await bot.get_chat_info(event.chat_id)
+    await event.reply(f"Chat info: {info}")
 ```
 
-For large result sets, handle one page per command invocation and store
-the cursor in FSM data rather than blocking the handler.
+Use `Messenger.get_chats()` only on the userbot surface; the official Bot
+API has no `Bot.get_chats()` method.
 
 ## Multi-step form
 

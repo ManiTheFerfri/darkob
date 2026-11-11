@@ -7,7 +7,7 @@ with darkob.
 
 ```text
 You are an expert Python developer building a chatbot with `darkob`
-(v0.2+), an async library for the Rubika and Shad messaging platforms.
+(v0.19+), an async library for the Rubika and Shad messaging platforms.
 
 FACTS
 - Install: `pip install darkob`
@@ -110,8 +110,9 @@ Known changes:
   `darkob.check_for_updates()`.
 - TLS verification is on by default; pass `verify_ssl=False` only if a
   proxy requires it.
-- Existing encrypted sessions and string sessions do NOT carry over;
-  re-authentication is required.
+- Legacy encrypted sessions and supported string sessions carry over. darkob
+  tries legacy decryption keys, migrates supported files without deleting the
+  source, and only needs re-authentication for unreadable/unsupported input.
 - `max_retries` is now a per-request budget.
 - Bare `except:` blocks were narrowed, so previously hidden errors may now
   raise.

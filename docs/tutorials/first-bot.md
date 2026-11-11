@@ -8,7 +8,7 @@ A hands-on walkthrough that ends with a bot which echoes, answers one command, a
 pip install darkob
 ```
 
-darkob needs Python 3.9 or newer. Confirm the install:
+darkob 0.20.0+ needs Python 3.10 or newer. Confirm the install:
 
 ```bash
 python -c "import darkob; print(darkob.__version__)"
@@ -42,6 +42,8 @@ bot = Bot(token="YOUR_BOT_TOKEN")
 
 @bot.on_new_message()
 async def echo(bot, event):
+    if not event.text:
+        return
     await event.reply(event.text)
 
 bot.run()

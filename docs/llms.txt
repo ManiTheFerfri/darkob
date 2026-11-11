@@ -7,7 +7,7 @@
 > primitives most bots hand-roll: retry policy, rate limiting, a circuit
 > breaker, an offline send queue and resumable downloads.
 
-Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
+Python 3.10–3.14 for darkob 0.20.0+ · MIT. Python 3.9 users must stay on the older 0.19.1 line. Latest version: https://pypi.org/project/darkob/
 
 ## Hard rules for generated code
 
@@ -20,8 +20,8 @@ Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
   `IsGroup()`, not `IsGroup`. They compose with `&`, `|`, `~`.
 - There is no `Dispatcher`, no `message_handler`, and no aiogram, Pyrogram
   or Telegram types. A `Bot` registers and dispatches.
-- Do not invent methods. Anything not listed in the API section below does
-  not exist on this version.
+- Verify client call names and signatures in `api.json`. Instance-injected Bot
+  handler decorators are included; do not substitute Telegram library APIs.
 - Every public method exists in both sync and async form.
 
 ## Start here
@@ -82,12 +82,15 @@ Python 3.9–3.14 · MIT. Latest version: https://pypi.org/project/darkob/
 - [Bot](https://manitheferfri.github.io/darkob/api/bot.md): every method, generated from the package
 - [Messenger](https://manitheferfri.github.io/darkob/api/messenger.md): every method, generated from the package
 - [Shad](https://manitheferfri.github.io/darkob/api/shad.md): mirrors Messenger against Shad hosts
+- [Rubino](https://manitheferfri.github.io/darkob/api/rubino.md): Rubino social API
+- [RubiAI](https://manitheferfri.github.io/darkob/api/rubiai.md): AI chat and media API
+- [RubikaTV](https://manitheferfri.github.io/darkob/api/rubikatv.md): TV/VOD API
 
 ## Machine-readable
 
 - [api.json](https://manitheferfri.github.io/darkob/api.json): every method as JSON (name, signature, module, full docstring)
 - [llms-full.txt](https://manitheferfri.github.io/darkob/llms-full.txt): the entire corpus in one file, in teaching order
-- Raw Markdown for every page: append `.md` to any URL
+- Raw Markdown for every page: replace a pretty URL's trailing `/` with `.md` (example: `/guides/routers/` → `/guides/routers.md`)
 
 ## Project
 

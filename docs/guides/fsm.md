@@ -48,8 +48,6 @@ state, so it will not hijack unrelated messages.
 
 `JsonFileStorage` writes atomically, tolerates a corrupt file (it starts
 empty rather than crashing), and is safe to call from concurrent tasks.
-
-`JsonFileStorage` writes atomically and tolerates a corrupt file.
 `SQLiteStorage` runs in WAL mode, so it survives a hard kill mid-write
 and is safe for several tasks writing at once.
 

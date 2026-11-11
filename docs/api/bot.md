@@ -2,14 +2,14 @@
 
 The official Rubika Bot API. Token based, plain HTTP JSON.
 
-> Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
+> Generated from the checkout source by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**51 public methods.**
+**68 public methods.**
 
 ## Method index
 
-- **core** (1): [`include_router`](#include-router)
-- **bot** (50): [`ask`](#ask), [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`check_join`](#check-join), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`delete_messages`](#delete-messages), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`forward_messages`](#forward-messages), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
+- **core** (1): [`include_router`](#include_router)
+- **bot** (67): [`ask`](#ask), [`auto_delete_message`](#auto_delete_message), [`ban_member`](#ban_member), [`check_join`](#check_join), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete_message), [`delete_messages`](#delete_messages), [`disconnect`](#disconnect), [`download_file`](#download_file), [`edit`](#edit), [`edit_chat_keypad`](#edit_chat_keypad), [`edit_inline_keypad`](#edit_inline_keypad), [`edit_message`](#edit_message), [`forward_message`](#forward_message), [`forward_messages`](#forward_messages), [`get_chat_info`](#get_chat_info), [`get_chat_member`](#get_chat_member), [`get_file`](#get_file), [`get_me`](#get_me), [`get_token_string`](#get_token_string), [`get_updates`](#get_updates), [`iter_updates`](#iter_updates), [`member_is_admin`](#member_is_admin), [`member_is_joined`](#member_is_joined), [`member_is_owner`](#member_is_owner), [`middleware`](#middleware), [`on_bot_joined`](#on_bot_joined), [`on_bot_permissions_changed`](#on_bot_permissions_changed), [`on_bot_removed`](#on_bot_removed), [`on_callback`](#on_callback), [`on_command`](#on_command), [`on_delete_message`](#on_delete_message), [`on_edit_message`](#on_edit_message), [`on_error`](#on_error), [`on_event_data`](#on_event_data), [`on_message`](#on_message), [`on_new_message`](#on_new_message), [`on_shutdown`](#on_shutdown), [`on_start`](#on_start), [`on_started_bot`](#on_started_bot), [`on_stopped_bot`](#on_stopped_bot), [`on_update`](#on_update), [`register_all_endpoints`](#register_all_endpoints), [`remove_chat_keypad`](#remove_chat_keypad), [`remove_commands`](#remove_commands), [`remove_member`](#remove_member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request_send_file), [`run`](#run), [`send_contact`](#send_contact), [`send_file`](#send_file), [`send_gif`](#send_gif), [`send_image`](#send_image), [`send_location`](#send_location), [`send_message`](#send_message), [`send_music`](#send_music), [`send_poll`](#send_poll), [`send_quiz`](#send_quiz), [`send_video`](#send_video), [`send_voice`](#send_voice), [`set_commands`](#set_commands), [`start`](#start), [`unban_member`](#unban_member), [`update_bot_endpoints`](#update_bot_endpoints), [`upload_file`](#upload_file)
 
 ## core
 
@@ -145,9 +145,13 @@ disconnect(self: 'darkob.Bot')
 ```
 
 Close the session synchronously, from any context:
-  - if a loop is running, schedule the close on it;
-  - if the owning loop is running in another thread, schedule there;
-  - otherwise, run a new/owner loop to completion.
+  - schedule on a running owner (waiting briefly from synchronous code);
+  - run a stopped, open owner to completion from synchronous code;
+  - never block the current loop by waiting on itself.
+
+An already-closed owner cannot await the transport close. This method
+raises an actionable error and retains the reference in that case; the
+transport must instead be closed in its owner before that loop closes.
 
 ### download_file
 
@@ -463,6 +467,169 @@ Parameters:
 
 Returns:
     bool: True if status is 'Creator', else False.
+
+### middleware
+
+```python
+middleware(self)
+```
+
+Register an async middleware.
+
+Middleware receives ``(bot, event, call_next)`` and **must**
+call ``await call_next()`` to continue processing.
+
+### on_bot_joined
+
+```python
+on_bot_joined(self, *constraints: EventConstraint)
+```
+
+Handle the bot being added to a chat.
+
+### on_bot_permissions_changed
+
+```python
+on_bot_permissions_changed(self, *constraints: EventConstraint)
+```
+
+Handle a change in the bot's permissions in a chat.
+
+### on_bot_removed
+
+```python
+on_bot_removed(self, *constraints: EventConstraint)
+```
+
+Handle the bot being removed from a chat.
+
+### on_callback
+
+```python
+on_callback(self, *constraints: EventConstraint)
+```
+
+Handle inline-keyboard button presses.
+
+### on_command
+
+```python
+on_command(self, name: Union[str, List[str], None]=None, *constraints: EventConstraint, prefixes: Optional[List[str]]=None)
+```
+
+Handle a specific bot command (or list of commands).
+
+Usage:
+    @bot.on_command("start")
+    @bot.on_command(["start", "شروع"])
+    @bot.on_command()
+
+### on_delete_message
+
+```python
+on_delete_message(self, *constraints: EventConstraint)
+```
+
+Handle deleted messages.
+
+### on_edit_message
+
+```python
+on_edit_message(self, *constraints: EventConstraint)
+```
+
+Handle edited messages.
+
+### on_error
+
+```python
+on_error(self)
+```
+
+Register a handler for exceptions escaping other handlers.
+
+Called as ``handler(bot, exc, event)``. The event may be ``None``
+for failures that are not tied to an update.
+
+### on_event_data
+
+```python
+on_event_data(self, *constraints: EventConstraint)
+```
+
+Handle every EventData update, whatever its event type.
+
+### on_message
+
+```python
+on_message(self, *constraints: EventConstraint)
+```
+
+Handle any message-related event:
+NewMessage, UpdatedMessage, RemovedMessage, or InlineMessage.
+
+### on_new_message
+
+```python
+on_new_message(self, *constraints: EventConstraint)
+```
+
+Handle brand-new messages.
+
+### on_shutdown
+
+```python
+on_shutdown(self)
+```
+
+Register a callback that runs when the bot shuts down.
+
+### on_start
+
+```python
+on_start(self)
+```
+
+Register a callback that runs once when the bot starts.
+
+### on_started_bot
+
+```python
+on_started_bot(self, *constraints: EventConstraint)
+```
+
+Handle a user starting the bot.
+
+### on_stopped_bot
+
+```python
+on_stopped_bot(self, *constraints: EventConstraint)
+```
+
+Handle a user stopping the bot.
+
+### on_update
+
+```python
+on_update(self, *constraints: EventConstraint)
+```
+
+Handle *any* update type the server may send
+(NewMessage, UpdatedMessage, RemovedMessage, InlineMessage,
+StartedBot, StoppedBot, EventData, ...).
+
+Prefer the specific decorators (``on_message``, ``on_new_message``,
+``on_edit_message``, ...) whenever possible.
+
+Usage::
+
+    @bot.on_update()
+    async def handler(bot, event):
+        print(event.update_type)
+
+    @bot.on_update(IsGroup())
+    async def group_handler(bot, event):
+        print(event.update_type)
 
 ### register_all_endpoints
 

@@ -27,24 +27,34 @@ class Session:
     async def close(self: "darkob.Bot") -> None:
         """Async close — must be awaited inside the session's loop."""
         session = self._session
-        if session is not None and not session.closed:
-            try:
-                await session.close()
-            except Exception:
-                logger.debug("Error while closing session.", exc_info=True)
-        self._forget_session()
+        if session is None or session.closed:
+            self._forget_session()
+            return
 
-    def _schedule_close(self: "darkob.Bot", loop: asyncio.AbstractEventLoop) -> None:
- 
+        try:
+            await session.close()
+        except Exception:
+            logger.debug("Error while closing session.", exc_info=True)
+
+        # A failed close must remain retryable; never discard a live transport.
+        if session.closed and self._session is session:
+            self._forget_session()
+
+    def _schedule_close(self: "darkob.Bot", loop: asyncio.AbstractEventLoop):
         future = asyncio.run_coroutine_threadsafe(self.close(), loop)
         self._close_task = future
+        return future
 
     def disconnect(self: "darkob.Bot") -> None:
         """
         Close the session synchronously, from any context:
-          - if a loop is running, schedule the close on it;
-          - if the owning loop is running in another thread, schedule there;
-          - otherwise, run a new/owner loop to completion.
+          - schedule on a running owner (waiting briefly from synchronous code);
+          - run a stopped, open owner to completion from synchronous code;
+          - never block the current loop by waiting on itself.
+
+        An already-closed owner cannot await the transport close. This method
+        raises an actionable error and retains the reference in that case; the
+        transport must instead be closed in its owner before that loop closes.
         """
         session = self._session
         if session is None or session.closed:
@@ -52,6 +62,12 @@ class Session:
             return
 
         owner = self._session_loop
+        if owner is not None and owner.is_closed():
+            raise RuntimeError(
+                "Cannot disconnect: the owning event loop is closed while the "
+                "HTTP session is still open. Close the session in its owning "
+                "loop before closing that loop."
+            )
 
         try:
             current = asyncio.get_running_loop()
@@ -62,9 +78,14 @@ class Session:
             if owner is None or owner is current:
                 self._close_task = current.create_task(self.close())
             elif owner.is_running():
-                asyncio.run_coroutine_threadsafe(self.close(), owner)
+                self._schedule_close(owner)
             else:
-                self._forget_session()
+                raise RuntimeError(
+                    "Cannot disconnect: the owning event loop is stopped and "
+                    "cannot be driven while another loop is running. Call "
+                    "disconnect() from synchronous code or close the session "
+                    "in its owning loop."
+                )
             return
 
         if owner is None:
@@ -72,17 +93,25 @@ class Session:
                 asyncio.run(self.close())
             except Exception:
                 logger.debug("Error while closing session.", exc_info=True)
-                self._forget_session()
-        elif owner.is_closed():
-            self._forget_session()
         elif owner.is_running():
-            asyncio.run_coroutine_threadsafe(self.close(), owner)
+            future = self._schedule_close(owner)
+            try:
+                future.result(timeout=5.0)
+            except Exception:
+                logger.warning(
+                    "Timed out or failed while closing the HTTP session on its "
+                    "owning event loop; the live session was retained for retry.",
+                    exc_info=True,
+                )
         else:
             try:
                 owner.run_until_complete(self.close())
             except Exception:
-                logger.debug("Error while closing session.", exc_info=True)
-                self._forget_session()
+                logger.warning(
+                    "Could not close the HTTP session on its stopped owning "
+                    "event loop; retry disconnect() before closing that loop.",
+                    exc_info=True,
+                )
 
     async def __aenter__(self):
         return self

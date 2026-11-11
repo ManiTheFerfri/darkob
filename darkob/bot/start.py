@@ -144,11 +144,16 @@ class Start:
 
         finally:
             try:
-                await self.close()
-            except Exception as e:
-                logger.warning(f"Error during close: {e}")
+                update_tasks = list(getattr(self, "_update_tasks", ()))
+                if update_tasks:
+                    await asyncio.gather(*update_tasks, return_exceptions=True)
 
-            try:
-                await self._registry.fire_shutdown()
-            except Exception as e:
-                logger.warning(f"Error during shutdown: {e}")
+                try:
+                    await self._registry.fire_shutdown()
+                except Exception as e:
+                    logger.warning(f"Error during shutdown: {e}")
+            finally:
+                try:
+                    await self.close()
+                except Exception as e:
+                    logger.warning(f"Error during close: {e}")

@@ -2,7 +2,7 @@ import asyncio
 import json
 import time
 
-from ..utils.http import retry_after_seconds
+from ..utils.http import redact_secrets, retry_after_seconds
 from ..utils.json_backend import loads
 import logging
 import darkob
@@ -20,6 +20,21 @@ logger = logging.getLogger(__name__)
 
 class Response(Data):
     pass
+
+
+def _public_error(bot: "darkob.Bot", error: Exception) -> Exception:
+    """Return an error safe for logs and third-party plugin error trackers.
+
+    Preserve the original exception when it contains no token. When a network
+    exception exposes the token-embedding request URL, return an explicitly
+    redacted generic error instead of leaking it again through plugin hooks or
+    chained tracebacks. Type information remains in existing request context.
+    """
+    message = redact_secrets(error, bot.token)
+    if message == str(error):
+        return error
+    return RuntimeError(message)
+
 
 class Request:
     async def request(
@@ -89,6 +104,7 @@ class Request:
     ):
         """The request itself: retries, error mapping, limiter feedback, hooks."""
         url = f"{self.base_url}/{endpoint}"
+        safe_endpoint = redact_secrets(url, self.token)
         session = await self._get_session()
         last_error = None
         tracked = _metrics.enabled
@@ -198,7 +214,8 @@ class Request:
                     _metrics.increment("darkob.api.errors")
                 if hooks:
                     await manager.run_on_error(
-                        exc, {"action": endpoint, "endpoint": url}
+                        _public_error(self, exc),
+                        {"action": endpoint, "endpoint": safe_endpoint},
                     )
                 raise
 
@@ -210,7 +227,8 @@ class Request:
                     _metrics.increment("darkob.api.errors")
                 if hooks:
                     await manager.run_on_error(
-                        e, {"action": endpoint, "endpoint": url}
+                        _public_error(self, e),
+                        {"action": endpoint, "endpoint": safe_endpoint},
                     )
 
                 if attempt < attempts - 1:
@@ -231,19 +249,27 @@ class Request:
                     _metrics.increment("darkob.api.errors")
                 if hooks:
                     await manager.run_on_error(
-                        e, {"action": endpoint, "endpoint": url}
+                        _public_error(self, e),
+                        {"action": endpoint, "endpoint": safe_endpoint},
                     )
                 raise
 
             except Exception as e:
-                last_error = e
+                last_error = _public_error(self, e)
                 if tracked:
                     _metrics.increment("darkob.api.errors")
                 if hooks:
                     await manager.run_on_error(
-                        e, {"action": endpoint, "endpoint": url}
+                        _public_error(self, e),
+                        {"action": endpoint, "endpoint": safe_endpoint},
                     )
-                logger.warning(f"Request failed - Attempt {attempt + 1}/{attempts}: {e}")
+                logger.warning(
+                    "Request failed - Attempt %d/%d (%s): %s",
+                    attempt + 1,
+                    attempts,
+                    type(e).__name__,
+                    safe_endpoint,
+                )
                 if attempt < attempts - 1:
                     if tracked:
                         _metrics.increment("darkob.api.retries")
@@ -254,9 +280,13 @@ class Request:
                     continue
 
         if last_error:
+            # This may have wrapped a token-bearing transport exception; use a
+            # sanitized message and suppress its traceback so it cannot be
+            # disclosed again through exception logging.
             raise Network(
-                dev_message=f"Request failed after {attempts} attempts."
-            ) from last_error
+                dev_message=f"Request failed after {attempts} attempts: "
+                f"{redact_secrets(last_error, self.token)}"
+            ) from None
         raise Network(
             dev_message=f"Failed to call {endpoint} after {attempts} attempts."
         )

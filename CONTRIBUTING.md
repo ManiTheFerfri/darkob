@@ -4,7 +4,7 @@ Thanks for taking the time to contribute.
 
 darkob is an async Python library for the [Rubika](https://rubika.ir) and
 [Shad](https://shad.ir) platforms — bots and userbots on `asyncio`, with a public
-API verified against the live server. It is a hard fork of
+API covered by offline tests and opt-in live checks. It is a hard fork of
 [maxrubika](https://github.com/MEH2RAB/maxrubika) by MEHRAB Farahmand, and it is a
 **library only**: there is no CLI and no `darkob` command to run.
 
@@ -53,9 +53,10 @@ python -m pip install -e ".[dev]"
 The `dev` extra installs `pytest>=8`, `pytest-asyncio>=0.24`, `pytest-cov>=5` and
 `ruff>=0.6`.
 
-darkob supports **Python 3.9 through 3.14**. CI runs the suite on all of them (3.9 on
-`ubuntu-22.04`, the rest on `ubuntu-latest`) plus a Windows job on 3.12. Keep new code
-importable on 3.9: no `match`, no runtime `X | Y` unions, no PEP 585 builtins in annotations.
+darkob 0.20.0+ supports **Python 3.10 through 3.14** and requires
+`aiohttp>=3.14.4,<4`. CI runs the suite on all supported versions plus a Windows
+job on 3.12. Darkob 0.19.1 is the last Python 3.9 line and does not include the
+new dependency security floor.
 
 **You do not need a Rubika account to work on darkob.** The suite runs fully
 offline: `tests/conftest.py` provides a `FakeSession` that replays queued HTTP
@@ -69,7 +70,7 @@ python -m pytest
 ```
 
 pytest runs with `asyncio_mode = "auto"`, so an `async def test_...` needs no
-decorator. The suite is around 546 test cases and finishes in a few seconds. For
+decorator. The suite has over 800 offline test cases and finishes in seconds. For
 coverage:
 
 ```
@@ -81,16 +82,17 @@ target: new code should be tested and coverage should trend up.
 
 ## Linting and type checking
 
-Lint with ruff (configured in `pyproject.toml`: line length 100, target `py39`):
+Lint with ruff (configured in `pyproject.toml`: line length 100):
 
 ```
 ruff check .
 ```
 
 Type checking is deliberately split. The modules written for typing support are
-in **strict** mode and must stay clean:
+in **strict** mode and must stay clean. Install its runner first:
 
 ```
+python -m pip install mypy
 mypy darkob/router.py darkob/retry.py darkob/builders.py darkob/keyboards.py darkob/formatting.py darkob/testing.py
 ```
 
@@ -110,7 +112,7 @@ python benchmarks/benchmark_suite.py
 ```
 
 This compares darkob against `maxrubika` and prints a table; `scripts/benchmark.py`
-runs the micro-benchmarks, and CI runs both in a non-blocking job. If your change
+runs the micro-benchmarks. CI runs both in a blocking job. If your change
 could affect routing, filter matching, serialisation or session reuse, run the
 suite before and after and put the numbers in your pull request.
 
@@ -122,8 +124,9 @@ reference (`docs/api/`, `docs/api.json`, `docs/llms-full.txt`) comes from the do
 generator:
 
 ```
-mkdocs build
+python -m pip install mkdocs-material pymdown-extensions pygments
 python scripts/generate_docs_assets.py
+mkdocs build
 ```
 
 CI regenerates the assets and **fails if the output differs from what is
@@ -175,7 +178,8 @@ fixes a bug and reformats a file is two PRs; say so early if a change is large.
 
 **CI must be green.** The `CI` workflow covers the test matrix, the Windows job,
 `lint`, `typing`, `pyright`, `package` and `docs`. The `benchmark` and `security`
-jobs are informative and non-blocking — if they fail, mention it in the PR.
+jobs are also blocking and must pass. Individual extra reports within those jobs
+may be non-blocking; consult the workflow before dismissing a failure.
 
 ## Adding a new feature
 
