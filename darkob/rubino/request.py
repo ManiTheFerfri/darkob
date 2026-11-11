@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import darkob
@@ -19,7 +19,7 @@ class Request:
     async def request(
         self: "darkob.Rubino",
         method: str,
-        input: dict = None
+        input: Optional[dict] = None
     ):
         """
         Send a request to the Rubino API.
@@ -35,7 +35,7 @@ class Request:
         """
         import aiohttp
         from ..data import Data
-        from .exceptions import raise_exception, NetworkError
+        from .exceptions import raise_exception, NetworkError, RubinoError
         from .crypto import Crypto
         from ..utils.http import request_session
 
@@ -119,6 +119,9 @@ class Request:
 
                 raise_exception(result.get('status_det'), result)
 
+            except RubinoError:
+                raise
+
             except asyncio.TimeoutError as e:
                 last_error = e
                 self.logger.warning(
@@ -128,10 +131,30 @@ class Request:
                 if attempt < self.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
 
+            except aiohttp.ClientError as e:
+                last_error = e
+                self.logger.warning(
+                    f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"
+                )
+                if attempt < self.max_retries - 1:
+                    await asyncio.sleep(2 ** attempt)
+                self.failed_count += 1
+
+            except OSError as e:
+                last_error = e
+                self.logger.warning(
+                    f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"
+                )
+                if attempt < self.max_retries - 1:
+                    await asyncio.sleep(2 ** attempt)
+                self.failed_count += 1
+
             except Exception as e:
                 error_msg = str(e).lower()
                 if any(keyword in error_msg for keyword in
-                       ['timeout', 'connection', 'bad gateway', 'server error', '502', '503', '504']):
+                       ['timeout', 'connection', 'bad gateway', 'server error',
+                        '502', '503', '504', 'network', 'unreachable', 'dns',
+                        'resolve', 'offline']):
                     last_error = e
                     self.logger.warning(
                         f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"

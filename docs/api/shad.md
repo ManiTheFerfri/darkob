@@ -719,7 +719,7 @@ Returns:
 ### send_file
 
 ```python
-send_file(self: 'darkob.Messenger', chat: str, file: Optional[Union[Path, str, bytes, 'Data']]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, type: str='File', is_spoil: bool=False, thumb: Optional[Union[bool, str, Path, bytes]]=None, audio_info: bool=True, performer: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_file(self: 'darkob.Messenger', chat: str, file: Optional[Union[Path, str, bytes, 'Data']]=None, text: Optional[str]=None, type: str='File', is_spoil: bool=False, thumb: Optional[Union[bool, str, Path, bytes]]=None, audio_info: bool=True, performer: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a file (Image, Video, Voice, Music, Gif, File) to a chat.
@@ -727,7 +727,6 @@ Send a file (Image, Video, Voice, Music, Gif, File) to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat. Use 'me', 'cloud', 'self', or 'myself' for saved messages.
     file (Union[Path, str, bytes, Data], optional): The file data (path, URL, bytes, or Data object).
-    file_inline (Union[dict, Data], optional): Pre-uploaded file object. If provided, 'file' and 'base64' are ignored.
     text (str, optional): The caption for the file (Max: 2048 chars, 64 lines).
     type (str): The type of the file ('File', 'Image', 'Video', 'Voice', 'Music', 'Gif', 'VideoMessage'). Defaults to 'File'.
     is_spoil (bool): If True, the file will be marked as spoil.
@@ -741,6 +740,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded file data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded file object. If provided, 'file' and 'base64' are ignored.
     **kwargs: Additional parameters (e.g., file_name, width, height, time, callback).
 
 Returns:
@@ -749,7 +749,7 @@ Returns:
 ### send_gif
 
 ```python
-send_gif(self: 'darkob.Messenger', chat: str, gif: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_gif(self: 'darkob.Messenger', chat: str, gif: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a GIF to a chat.
@@ -757,7 +757,6 @@ Send a GIF to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     gif (Union[Path, str, bytes], optional): The GIF data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded GIF object. If provided, 'gif' and 'base64' are ignored.
     text (str, optional): Caption for the GIF (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     via_bot (str, optional): Bot GUID or username to send the message via.
@@ -770,6 +769,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded GIF data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded GIF object. If provided, 'gif' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:
@@ -778,7 +778,7 @@ Returns:
 ### send_image
 
 ```python
-send_image(self: 'darkob.Messenger', chat: str, image: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_image(self: 'darkob.Messenger', chat: str, image: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send an image to a chat.
@@ -786,7 +786,6 @@ Send an image to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     image (Union[Path, str, bytes], optional): The image data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded image object. If provided, 'image' and 'base64' are ignored.
     text (str, optional): Caption for the image (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the image should be marked as a spoiler. Defaults to False.
@@ -799,6 +798,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded image data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded image object. If provided, 'image' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:
@@ -906,7 +906,7 @@ Example:
 ### send_music
 
 ```python
-send_music(self: 'darkob.Messenger', chat: str, music: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, performer: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_music(self: 'darkob.Messenger', chat: str, music: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, performer: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a music file to a chat.
@@ -914,7 +914,6 @@ Send a music file to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     music (Union[Path, str, bytes], optional): The music data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded music object. If provided, 'music' and 'base64' are ignored.
     text (str, optional): Caption for the music (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     via_bot (str, optional): Bot GUID or username to send the message via.
@@ -925,6 +924,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded music data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded music object. If provided, 'music' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:
@@ -1066,7 +1066,7 @@ Returns:
 ### send_video
 
 ```python
-send_video(self: 'darkob.Messenger', chat: str, video: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_video(self: 'darkob.Messenger', chat: str, video: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a video to a chat.
@@ -1074,7 +1074,6 @@ Send a video to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     video (Union[Path, str, bytes], optional): The video data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded video object. If provided, 'video' and 'base64' are ignored.
     text (str, optional): Caption for the video (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the video should be marked as a spoiler. Defaults to False.
@@ -1088,6 +1087,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded video data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded video object. If provided, 'video' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:
@@ -1096,7 +1096,7 @@ Returns:
 ### send_video_message
 
 ```python
-send_video_message(self: 'darkob.Messenger', chat: str, video_message: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_video_message(self: 'darkob.Messenger', chat: str, video_message: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a video message (round video) to a chat.
@@ -1104,7 +1104,6 @@ Send a video message (round video) to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     video_message (Union[Path, str, bytes], optional): The video message data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded video message object. If provided, 'video_message' and 'base64' are ignored.
     text (str, optional): Caption for the video message (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the video message should be marked as a spoiler. Defaults to False.
@@ -1118,6 +1117,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded video message data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded video message object. If provided, 'video_message' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:
@@ -1126,7 +1126,7 @@ Returns:
 ### send_voice
 
 ```python
-send_voice(self: 'darkob.Messenger', chat: str, voice: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
+send_voice(self: 'darkob.Messenger', chat: str, voice: Optional[Union[Path, str, bytes]]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, file_inline: Optional[Union[dict, 'Data']]=None, **kwargs)
 ```
 
 Send a voice message to a chat.
@@ -1134,7 +1134,6 @@ Send a voice message to a chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     voice (Union[Path, str, bytes], optional): The voice data (path, URL, or bytes).
-    file_inline (Union[dict, Data], optional): Pre-uploaded voice object. If provided, 'voice' and 'base64' are ignored.
     text (str, optional): Caption for the voice message (Max: 2048 chars, 64 lines).
     reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     via_bot (str, optional): Bot GUID or username to send the message via.
@@ -1144,6 +1143,7 @@ Parameters:
     schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
     schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded voice data.
+    file_inline (Union[dict, Data], optional): Pre-uploaded voice object. If provided, 'voice' and 'base64' are ignored.
     **kwargs: Additional parameters.
 
 Returns:

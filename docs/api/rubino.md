@@ -1645,7 +1645,7 @@ Returns:
 ### request
 
 ```python
-request(self: 'darkob.Rubino', method: str, input: dict=None)
+request(self: 'darkob.Rubino', method: str, input: Optional[dict]=None)
 ```
 
 Send a request to the Rubino API.

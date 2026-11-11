@@ -83,6 +83,28 @@ settings) is included. See the generated [Rubino](api/rubino.md),
   calls. When absent, the library resolves the current chat's active voice
   chat, or raises `VoiceChatNotActive` rather than inventing one.
 
+## Upstream v1.18.1 refinements
+
+The v1.18.1 patch is included without surrendering darkob's earlier
+compatibility work:
+
+- `file_inline` is placed after the older keyword options on all media send
+  helpers, restoring their previous positional layout.
+- The `base64` argument no longer shadows the decoder module. Malformed
+  payloads raise `InvalidInput`; valid line-wrapped base64 still works.
+- Missing local media paths are rejected before an upload starts. HTTP(S)
+  remote paths still use the pooled session and configured TLS settings.
+- `send_video_message` retains the caption and metadata parameters for
+  compatibility instead of removing parameters upstream described as unused.
+- Rubino keeps one global retry budget while classifying API failures and
+  transport failures. `aiohttp.ClientError` and `OSError` can retry, API
+  errors cannot hide inside that retry loop merely because their text mentions
+  a network problem.
+- RubiAI retries server-side `503`/`502`/`500`/`504` response failures and
+  does not retry client errors such as `400`.
+- Generated-image downloads accept `pathlib.Path` and raise deliberately when
+  a `Success` response contains no image data.
+
 ## Sessions are not reset by the merge
 
 Existing darkob sessions remain `.max` files at their stable paths. The

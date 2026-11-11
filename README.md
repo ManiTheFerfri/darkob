@@ -68,7 +68,7 @@ matches the server.
 
 ## New in 0.19: upstream v1.18.0, merged without losing darkob's fixes
 
-The feature surface from maxrubika **v1.18.0** is now included — newly grouped
+The feature surface from maxrubika **v1.18.0**, plus the **v1.18.1** fixes, is now included — newly grouped
 `Messenger`/`Shad` endpoints plus **Rubino**, **RubiAI**, and **RubikaTV**:
 
 ```python

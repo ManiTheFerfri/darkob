@@ -29,7 +29,7 @@ Returns:
 ### download_image
 
 ```python
-download_image(self: 'darkob.RubiAI', task_id: str, save_as: Optional[Union['pathlib.Path', str]]=None, max_wait: int=60, interval: int=2)
+download_image(self: 'darkob.RubiAI', task_id: str, save_as: Optional[Union[pathlib.Path, str]]=None, max_wait: int=60, interval: int=2)
 ```
 
 Retrieve an AI-generated image result and optionally save it to disk.
