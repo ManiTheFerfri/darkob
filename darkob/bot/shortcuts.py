@@ -87,7 +87,7 @@ class Shortcuts:
         Raises:
             darkob.NoReply: when nothing arrives within ``timeout``.
         """
-        from .converse import ask as _ask
+        from ..converse import ask as _ask
 
         return await _ask(
             localself,

@@ -1,10 +1,11 @@
-from typing import List, Union
-import darkob
-from ..exceptions import InvalidInput
+from typing import List, Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class GetContactsLastOnline:
     async def get_contacts_last_online(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         users: Union[str, List[str]]
     ):
         """
@@ -16,6 +17,8 @@ class GetContactsLastOnline:
         Returns:
             Last online status for each user.
         """
+        from ..exceptions import InvalidInput
+
         if isinstance(users, str):
             users = [users]
 
@@ -30,4 +33,4 @@ class GetContactsLastOnline:
 
             user_guids.append(guid)
 
-        return await self.request(method = 'getContactsLastOnline', input = {'user_guids': user_guids})
+        return await self.request(method='getContactsLastOnline', input={'user_guids': user_guids})

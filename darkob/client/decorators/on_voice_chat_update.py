@@ -1,9 +1,13 @@
-import darkob
+import inspect
+from typing import TYPE_CHECKING
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import darkob
+
 class OnVoiceChatUpdate:
-    def on_voice_chat_update(self: "darkob.Client", *filters: Filter):
+    def on_voice_chat_update(self: "darkob.Messenger", *filters: Filter):
         """Decorator for voice chat updates."""
         def MetaHandler(func):
             async def wrapper(event):
@@ -11,7 +15,12 @@ class OnVoiceChatUpdate:
                     if hasattr(f, 'evaluate'):
                         if not await f.evaluate(event):
                             return
-                return await func(event)
+
+                result = func(event)
+                if inspect.isawaitable(result):
+                    result = await result
+                return result
+
             self.add_handler(wrapper, handlers.GroupVoiceChatUpdates())
             return func
         return MetaHandler

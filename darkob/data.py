@@ -7,6 +7,9 @@ class Data:
     _EXCLUDED_KEYS: Set[str] = {'_client', '_memo', '_regex_match', 'client', 'track_id'}
 
     def __init__(self, data: Any):
+        if isinstance(data, Data):
+            data = data._data
+
         self._data = data
         self._memo = {}
         self._index = None
@@ -151,18 +154,24 @@ class Data:
         while stack:
             node = stack.pop()
 
+            # Upstream payloads may now contain Data instances. Unwrap them in
+            # the index too, or the fast path would miss keys that the
+            # recursive fallback finds.
+            while isinstance(node, Data):
+                node = node._data
+
             if type(node) is dict:
                 for key, value in node.items():
                     if key not in index:
                         index[key] = value
 
                 for value in reversed(tuple(node.values())):
-                    if type(value) is dict or type(value) is list:
+                    if isinstance(value, (dict, list, Data)):
                         stack.append(value)
 
             elif type(node) is list:
                 for item in reversed(node):
-                    if type(item) is dict or type(item) is list:
+                    if isinstance(item, (dict, list, Data)):
                         stack.append(item)
 
         return index
@@ -211,6 +220,9 @@ class Data:
         while stack:
             node = stack.pop()
 
+            while isinstance(node, Data):
+                node = node._data
+
             if type(node) is dict:
                 # Single-key lookups skip building a frozenset every call;
                 # this is the hot path for event.text and friends.
@@ -223,12 +235,12 @@ class Data:
                             return self._convert_value(node[key])
 
                 for value in reversed(tuple(node.values())):
-                    if type(value) is dict or type(value) is list:
+                    if isinstance(value, (dict, list, Data)):
                         stack.append(value)
 
             elif type(node) is list:
                 for item in reversed(node):
-                    if type(item) is dict or type(item) is list:
+                    if isinstance(item, (dict, list, Data)):
                         stack.append(item)
 
         return default
@@ -246,6 +258,9 @@ class Data:
         )
 
     def _clean_data(self, data: Any) -> Any:
+        if isinstance(data, Data):
+            data = data._data
+
         if isinstance(data, dict):
             return {
                 key: self._clean_data(value)

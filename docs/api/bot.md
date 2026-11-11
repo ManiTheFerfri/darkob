@@ -4,12 +4,12 @@ The official Rubika Bot API. Token based, plain HTTP JSON.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**48 public methods.**
+**51 public methods.**
 
 ## Method index
 
 - **core** (1): [`include_router`](#include-router)
-- **bot** (47): [`ask`](#ask), [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
+- **bot** (50): [`ask`](#ask), [`auto_delete_message`](#auto-delete-message), [`ban_member`](#ban-member), [`check_join`](#check-join), [`close`](#close), [`delete`](#delete), [`delete_message`](#delete-message), [`delete_messages`](#delete-messages), [`disconnect`](#disconnect), [`download_file`](#download-file), [`edit`](#edit), [`edit_chat_keypad`](#edit-chat-keypad), [`edit_inline_keypad`](#edit-inline-keypad), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`forward_messages`](#forward-messages), [`get_chat_info`](#get-chat-info), [`get_chat_member`](#get-chat-member), [`get_file`](#get-file), [`get_me`](#get-me), [`get_token_string`](#get-token-string), [`get_updates`](#get-updates), [`iter_updates`](#iter-updates), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`register_all_endpoints`](#register-all-endpoints), [`remove_chat_keypad`](#remove-chat-keypad), [`remove_commands`](#remove-commands), [`remove_member`](#remove-member), [`reply`](#reply), [`request`](#request), [`request_send_file`](#request-send-file), [`run`](#run), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_location`](#send-location), [`send_message`](#send-message), [`send_music`](#send-music), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_video`](#send-video), [`send_voice`](#send-voice), [`set_commands`](#set-commands), [`start`](#start), [`unban_member`](#unban-member), [`update_bot_endpoints`](#update-bot-endpoints), [`upload_file`](#upload-file)
 
 ## core
 
@@ -75,7 +75,22 @@ Parameters:
     sender_id (str): sender_id of member to ban (starts with 'u0').
 
 Returns:
-    dict: API response.
+    The API response.
+
+### check_join
+
+```python
+check_join(self: 'darkob.Bot', chat_id: str, user_id: str)
+```
+
+Check whether a user is a member of the given chat.
+
+Parameters:
+    chat_id (str): chat_id of group (g0...) or channel (c0...).
+    user_id (str): user_id of the user (u0...).
+
+Returns:
+    bool: True if the user is a member, else False.
 
 ### close
 
@@ -99,14 +114,29 @@ Delete the message that produced *event*.
 delete_message(self: 'darkob.Bot', chat_id: str, message_id: Union[int, str])
 ```
 
-Provides a method to delete messages.
+Delete a single message.
 
 Parameters:
     chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0') or user (starts with 'b0').
     message_id (Union[str, int]): message_id of the message to be deleted.
 
 Returns:
-    dict: API response with delete message information.
+    The API response with delete message information.
+
+### delete_messages
+
+```python
+delete_messages(self: 'darkob.Bot', chat_id: str, message_ids: Union[int, str, List[Union[int, str]]])
+```
+
+Delete one or more messages.
+
+Parameters:
+    chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0') or user (starts with 'b0').
+    message_ids (Union[int, str, List[Union[int, str]]]): A single message ID or a list of message IDs to delete.
+
+Returns:
+    A list of API responses, one for each message.
 
 ### disconnect
 
@@ -122,25 +152,16 @@ Close the session synchronously, from any context:
 ### download_file
 
 ```python
-download_file(self: 'darkob.Bot', file_id: str, name: str=None, path: str=None, save_as: bool=False, as_base64: bool=False, callback=None, resume: bool=True)
+download_file(self: 'darkob.Bot', file_id: str, name: Optional[str]=None, path: Optional[str]=None, save_as: bool=False, as_base64: bool=False, callback: Optional[Callable[[int, int, float], None]]=None, resume: bool=True)
 ```
 
-Downloads the file associated with the specified file ID.
+Download a file by ID, preserving darkob's original return types.
 
-Parameters:
-    file_id (str): The identifier of the file to download.
-    name (str, optional): Custom filename (without extension).
-    path (str, optional): Custom save path (absolute).
-    save_as (bool, optional): If True, save to disk. If False, return bytes only. Defaults to False.
-    as_base64 (bool, optional): If True, return as base64 encoded string. Only works when save_as=False. Defaults to False.
-    callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
-    resume (bool, optional): When saving to disk, continue a partial
-        file using a byte range instead of starting over. Defaults to True.
-
-Returns:
-    If save_as = True: dict with status and file_path.
-    If save_as = False and as_base64 = False: bytes of the file.
-    If save_as = False and as_base64 = True: base64 encoded string.
+``save_as=True`` returns a status dictionary with ``file_path`` and
+``size``. Otherwise the raw bytes are returned, or a base64 string
+when ``as_base64=True``. Upstream 1.18 changed these returns to a
+``Data`` wrapper, which would break existing darkob callers, so its
+validation improvements are kept without its return-type change.
 
 ### edit
 
@@ -160,17 +181,14 @@ Edits or adds a new chat keypad (custom keyboard) to the chat.
 
 Parameters:
     chat_id (str): chat_id of the group (starts with 'g0') or user (starts with 'b0').
-    chat_keypad (Dict[str, Any] or List): The keyboard layout to set.
-        Supports three formats:
+    chat_keypad (Dict[str, Any] or List): The keyboard layout to set. Supports three formats:
 
         1. Simple list of strings:
             [
                 ["Button 1", "Button 2"],
                 ["Button 3"]
             ]
-            Each inner list is a row. Buttons are strings.
-            The type is set to "Simple" and IDs are assigned automatically
-            starting from 100.
+            Each inner list is a row. Buttons are strings. The type is set to "Simple" and IDs are assigned automatically starting from 100.
 
         2. List of tuples: (button_text, button_id, button_type)
             [
@@ -180,11 +198,7 @@ Parameters:
                 [("درباره", None), ("پشتیبانی", None)],
                 [("✅ تایید", "confirm"), ("❌ لغو", "cancel"), ("🔄 بازگشت", "back")],
             ]
-            Tuple structure: (text, id, type)
-                - text: button text
-                - id: button ID (if None, auto-assigned starting from 100)
-                - type: button type (if omitted, defaults to "Simple")
-            Note: comma after text is required for single-item tuples.
+            Tuple structure: (text, id, type) - text: button text, id: button ID (if None, auto-assigned starting from 100), type: button type (if omitted, defaults to "Simple").
 
         3. Full dictionary (raw API format):
             {
@@ -194,16 +208,11 @@ Parameters:
                 ]
             }
 
-    resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically.
-        Defaults to True.
-    one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used.
-        Defaults to False.
+    resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically. Defaults to True.
+    one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
 Returns:
     The API response after editing the chat keypad.
-
-Raises:
-    InvalidInput: If 'chat_id' format is invalid, or if 'chat_keypad' is empty/None.
 
 ### edit_inline_keypad
 
@@ -214,21 +223,16 @@ edit_inline_keypad(self: 'darkob.Bot', chat_id: str, message_id: Union[str, int]
 Edits the inline keyboard of a specific message in a chat.
 
 Parameters:
-    chat_id (str): chat_id of the chat containing the message.
-        Must be a valid GUID (c0..., g0..., b0...) or a username (@username).
-    message_id (str or int): Identifier of the message whose inline keypad should be updated.
-        If passed as a string, it must contain only digits.
-    inline_keypad (Dict[str, Any] or List): The new inline keyboard layout.
-        Supports three formats:
+    chat_id (str): chat_id of the chat containing the message. Must be a valid GUID (c0..., g0..., b0...) or a username (@username).
+    message_id (str or int): Identifier of the message whose inline keypad should be updated. If passed as a string, it must contain only digits.
+    inline_keypad (Dict[str, Any] or List): The new inline keyboard layout. Supports three formats:
 
         1. Simple list of strings:
             [
                 ["Button 1", "Button 2"],
                 ["Button 3"]
             ]
-            Each inner list is a row. Buttons are strings.
-            The type is set to "Simple" and IDs are assigned automatically
-            starting from 100.
+            Each inner list is a row. Buttons are strings. The type is set to "Simple" and IDs are assigned automatically starting from 100.
 
         2. List of tuples: (button_text, button_id, button_type)
             [
@@ -238,11 +242,7 @@ Parameters:
                 [("درباره", None), ("پشتیبانی", None)],
                 [("✅ تایید", "confirm"), ("❌ لغو", "cancel"), ("🔄 بازگشت", "back")],
             ]
-            Tuple structure: (text, id, type)
-                - text: button text
-                - id: button ID (if None, auto-assigned starting from 100)
-                - type: button type (if omitted, defaults to "Simple")
-            Note: comma after text is required for single-item tuples.
+            Tuple structure: (text, id, type) - text: button text, id: button ID (if None, auto-assigned starting from 100), type: button type (if omitted, defaults to "Simple").
 
         3. Full dictionary (raw API format):
             {
@@ -252,9 +252,7 @@ Parameters:
                 ]
             }
 
-        Note:
-            Passing an empty list ([]) or None removes the inline keypad
-            from the message.
+        Note: Passing an empty list ([]) or None removes the inline keypad from the message.
 
 Uses the ``editMessageKeypad`` endpoint. The reference page's
 cURL sample shows ``editInlineKeypad``, but that name returns
@@ -263,11 +261,7 @@ cURL sample shows ``editInlineKeypad``, but that name returns
 and the sample is stale.
 
 Returns:
-    dict: API response with message information.
-
-Raises:
-    InvalidInput: If 'chat_id' format is invalid, or if 'message_id' is not
-        a digit-only string or an integer.
+    API response with message information.
 
 ### edit_message
 
@@ -287,7 +281,7 @@ Parameters:
         raw keypad dict. Pass an empty list to remove it.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### forward_message
 
@@ -295,16 +289,33 @@ Returns:
 forward_message(self: 'darkob.Bot', from_chat_id: str, message_id: Union[str, int], to_chat_id: str, disable_notification: bool=False)
 ```
 
-Provides a method to forward messages.
+Forward a message from one chat to another.
 
 Parameters:
     from_chat_id (str): chat_id of the source object from which messages are forwarded.
-    message_id (str): message_id of the message to be frowarded.
+    message_id (Union[str, int]): message_id of the message to be forwarded.
     to_chat_id (str): chat_id of the destination object to which messages are forwarded.
     disable_notification (bool): If set to True, the message will be sent silently without triggering a notification for users. Defaults to False.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
+
+### forward_messages
+
+```python
+forward_messages(self: 'darkob.Bot', from_chat_id: str, message_ids: Union[int, str, List[Union[int, str]]], to_chat_id: str, disable_notification: bool=False)
+```
+
+Forward one or more messages from one chat to another.
+
+Parameters:
+    from_chat_id (str): chat_id of the source object from which messages are forwarded.
+    message_ids (Union[int, str, List[Union[int, str]]]): A single message ID or a list of message IDs to forward.
+    to_chat_id (str): chat_id of the destination object to which messages are forwarded.
+    disable_notification (bool): If set to True, the messages will be sent silently without triggering a notification for users. Defaults to False.
+
+Returns:
+    API responses, one for each forwarded message.
 
 ### get_chat_info
 
@@ -318,7 +329,7 @@ Parameters:
     chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0') or user (starts with 'b0').
 
 Returns:
-    dict: API response with chat information.
+    The API response with chat information.
 
 ### get_chat_member
 
@@ -333,7 +344,7 @@ Parameters:
     user_id (str): user_id of member to look up (starts with 'u0').
 
 Returns:
-    dict: API response.
+    The API response.
 
 ### get_file
 
@@ -373,17 +384,15 @@ get_token_string(self: 'darkob.Bot', password: Optional[str]=None)
 Export current bot token as an encrypted TokenString.
 
 Parameters:
-    password (Optional[str]): Optional password for encryption.
-        If provided, TokenString can only be opened with this password.
+    password (str, optional): Optional password for encryption. If provided, TokenString can only be opened with this password.
 
 Returns:
-    str: Encrypted TokenString that can be used later with
-         `Bot(token_string=..., password=...)`.
+    str: Encrypted TokenString that can be used later with `Bot(token_string=..., password=...)`.
 
 ### get_updates
 
 ```python
-get_updates(self: 'darkob.Bot', offset_id: str=None, limit: int=100)
+get_updates(self: 'darkob.Bot', offset_id: Optional[str]=None, limit: int=100)
 ```
 
 Fetches new updates (like messages) from the API.
@@ -393,7 +402,7 @@ Parameters:
     limit (int, optional): Maximum number of updates to retrieve. Defaults to 100.
 
 Returns:
-    dict: The API response including updates and the next_offset_id.
+    The API response including updates and the next_offset_id.
 
 ### iter_updates
 
@@ -463,17 +472,12 @@ register_all_endpoints(self: 'darkob.Bot', base_url: str, endpoints: Optional[Li
 
 Register all webhook endpoints at once.
 
-This is a convenience method that calls ``update_bot_endpoints``
-for every event type.  Useful during initial setup.
-
 Parameters:
-    base_url (str): Base URL of your server (e.g. `"https://myserver.com"`).
-        The path `/wk` will be appended automatically.
-    endpoints : list of str, optional
-        Which endpoints to register.  If `None`, registers all five.
+    base_url (str): Base URL of your server (e.g. `"https://myserver.com"`). The path `/wk` will be appended automatically.
+    endpoints (list of str, optional): Which endpoints to register. If None, registers all five. Defaults to None.
 
 Returns:
-    list_of_dict: Responses for each registration call.
+    list: Responses for each registration call.
 
 ### remove_chat_keypad
 
@@ -532,18 +536,28 @@ Equivalent to ``send_message`` with ``chat_id`` and
 ### request
 
 ```python
-request(self: 'darkob.Bot', method: str, endpoint: str, **kwargs)
+request(self: 'darkob.Bot', method: str, endpoint: str=None, input: dict=None, **kwargs)
 ```
 
-Send an HTTP request to the Bot API with automatic retry and error mapping.
+Call the Bot API using either supported public signature.
 
-Parameters:
-    method (str): HTTP method, e.g. "POST" or "GET" (case-insensitive).
-    endpoint (str): API method name appended to `base_url`, e.g. "getMe".
-    **kwargs: Extra arguments passed to `aiohttp.ClientSession.request`, such as `json=` or `data=`.
+Darkob's original form is ``request("POST", "getMe", json={})``.
+Upstream 1.18 added ``request(method="getMe", input={})`` and the
+positional shorthand ``request("getMe", {})``. Both are accepted so
+new upstream endpoints and existing darkob applications share this
+instrumented retry path.
+
+Args:
+    method: HTTP method in the original form, or API method name in
+        the upstream form.
+    endpoint: API method name in the original form. A dict here is
+        treated as the upstream positional ``input`` payload.
+    input: JSON body for the upstream call form.
+    **kwargs: Extra ``aiohttp`` request arguments, including ``json``.
 
 Returns:
-    Response: The parsed API response.
+    Response or dict: ``dict`` when ``Bot(as_dict=True)`` is set,
+    otherwise a :class:`Response`.
 
 ### request_send_file
 
@@ -571,13 +585,13 @@ Examples:
 ### run
 
 ```python
-run(self: 'darkob.Bot', poll_interval: float=0.005, webhook_url: Optional[str]=None, webhook_path: str='/wk', host: str='0.0.0.0', port: int=8080)
+run(self: 'darkob.Bot', poll_interval: float=0.05, webhook_url: Optional[str]=None, webhook_path: str='/wk', host: str='0.0.0.0', port: int=8080)
 ```
 
 Start the bot.
 
 Parameters:
-    poll_interval (float): Seconds between polls in polling mode. Defaults to 0.005 seconds.
+    poll_interval (float): Seconds between polls in polling mode. Defaults to 0.05 seconds.
     webhook_url (str, optional): Public URL for webhook mode. Defaults to None.
     webhook_path (str): Path for the webhook receiver. Defaults to "/wk".
     host (str): Bind address for the webhook server. Defaults to "0.0.0.0".
@@ -595,7 +609,7 @@ Parameters:
     chat_id (str): chat_id for the target chat.
     phone_number (str): Contact's phone number.
     first_name (str): Contact's first name.
-    last_name (str, optional): Contact's last name. Defaults to ' '.
+    last_name (str, optional): Contact's last name. Defaults to ''.
     chat_keypad (Dict[str, Any], optional): Custom keyboard attached to the message. Defaults to None.
     inline_keypad (Dict[str, Any], optional): Custom inline keyboard attached to the message. Defaults to None.
     reply_to_message_id (Union[int, str], optional): If the message is a reply, the original message's ID. Defaults to None.
@@ -604,7 +618,7 @@ Parameters:
     one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_file
 
@@ -617,7 +631,7 @@ Sends a file to a chat.
 Parameters:
     chat_id (str): Target chat ID.
     file (str | bytes, optional): Path to file, URL, or raw bytes.
-    file_type (str): Type of file ('File', 'Image', 'Voice', 'Video', 'Music', 'Gif').
+    file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file. Default is 'File'.
     text (str, optional): Caption text.
     file_id (str, optional): Already uploaded file_id (skips upload).
     base64 (str, optional): Base64 encoded file data.
@@ -631,12 +645,12 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_gif
 
 ```python
-send_gif(self: 'darkob.Bot', chat_id: str, gif: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
+send_gif(self: 'darkob.Bot', chat_id: str, gif: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Dict[str, Any]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a gif to a chat.
@@ -656,12 +670,12 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_image
 
 ```python
-send_image(self: 'darkob.Bot', chat_id: str, image: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
+send_image(self: 'darkob.Bot', chat_id: str, image: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Dict[str, Any]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends an image to a chat.
@@ -681,7 +695,7 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_location
 
@@ -703,7 +717,7 @@ Parameters:
     one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_message
 
@@ -725,12 +739,12 @@ Parameters:
     one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used.
 
 Returns:
-    MessageResult: API response with message information and action methods.
+    API response with message information and action methods.
 
 ### send_music
 
 ```python
-send_music(self: 'darkob.Bot', chat_id: str, music: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
+send_music(self: 'darkob.Bot', chat_id: str, music: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Dict[str, Any]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a music to a chat.
@@ -750,7 +764,7 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_poll
 
@@ -774,7 +788,7 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_quiz
 
@@ -788,23 +802,23 @@ Parameters:
     chat_id (str): chat_id of the object associated with the quiz (e.g., group or channel).
     question (str): The question for the quiz.
     options (list): A list of string values representing the quiz options.
-    correct_option: Union[int, str]: The index or text of the correct option for quiz-type polls.
-    hint (str): A hint for the correct answer in quiz-type polls. Defaults to None.
+    correct_option (Union[int, str]): The index or text of the correct option for quiz-type polls.
+    hint (str, optional): A hint for the correct answer in quiz-type polls. Defaults to None.
     is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
     chat_keypad (Dict, optional): Custom keyboard attached to the message.
     inline_keypad (Dict, optional): Custom inline keyboard attached to the message.
-    reply_to_message_id (Union[str, int]): The ID of the message to reply to.
+    reply_to_message_id (Union[int, str]): The ID of the message to reply to.
     disable_notification (bool): If set to True, the poll will be sent silently without triggering a notification for users. Defaults to False.
     resize_keyboard (bool): Resize keyboard vertically.
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_video
 
 ```python
-send_video(self: 'darkob.Bot', chat_id: str, video: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
+send_video(self: 'darkob.Bot', chat_id: str, video: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Dict[str, Any]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a video to a chat.
@@ -824,12 +838,12 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### send_voice
 
 ```python
-send_voice(self: 'darkob.Bot', chat_id: str, voice: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Dict[str, Any]=None, inline_keypad: Dict[str, Any]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
+send_voice(self: 'darkob.Bot', chat_id: str, voice: Optional[Union[str, bytes]]=None, text: Optional[str]=None, file_id: Optional[str]=None, base64: Optional[str]=None, file_name: Optional[str]=None, chat_keypad: Optional[Dict[str, Any]]=None, inline_keypad: Optional[Dict[str, Any]]=None, reply_to_message_id: Optional[Union[int, str]]=None, disable_notification: bool=False, resize_keyboard: bool=True, one_time_keyboard: bool=False)
 ```
 
 Sends a voice to a chat.
@@ -849,7 +863,7 @@ Parameters:
     one_time_keyboard (bool): Hide keyboard after use.
 
 Returns:
-    dict: API response with message information.
+    API response with message information.
 
 ### set_commands
 
@@ -860,15 +874,10 @@ set_commands(self: 'darkob.Bot', commands: Optional[Union[List[Dict[str, str]], 
 Sets custom commands for the bot. Pass empty list/dict to remove all commands.
 
 Parameters:
-    commands (List[Dict[str, str]] or Dict[str, str], optional): 
-        Either a list of dictionaries with 'command' and 'description',
-        or a simple dictionary like {"start": "Start the bot", "help": "Help"}.
-        Example: [{"command": "start", "description": "Start the bot"}, ...]
-        or: {"start": "Start the bot", "help": "Show help"}
-        If None or empty, all commands will be removed.
+    commands (List[Dict[str, str]] or Dict[str, str], optional): Either a list of dictionaries with 'command' and 'description', or a simple dictionary like {"start": "Start the bot", "help": "Help"}. Example: [{"command": "start", "description": "Start the bot"}, ...] or: {"start": "Start the bot", "help": "Show help"}. If None or empty, all commands will be removed.
 
 Returns:
-    dict: API response.
+    API response.
 
 ### start
 
@@ -876,14 +885,16 @@ Returns:
 start(self: 'darkob.Bot', poll_interval: float=0.005, webhook_url: Optional[str]=None, webhook_path: str='/wk', host: str='0.0.0.0', port: int=8080)
 ```
 
-Starts the server or polling mechanism with specified configurations.
+Starts the bot, either by polling for updates or by running a webhook server.
+
+If a `webhook_url` is provided, sets up an aiohttp web server to receive real-time updates from the Rubika API. Otherwise, falls back to a long-polling mechanism to fetch updates continuously.
 
 Parameters:
-    poll_interval: The interval (in seconds) between each polling operation. Default is 0.005 seconds.
-    webhook_url: Optional URL for webhook integration. If provided, webhooks will be used.
-    webhook_path: The URL path on the server to handle webhook requests. Default is "/wk".
-    host: The hostname or IP address to bind the server. Default is "0.0.0.0" (all interfaces).
-    port: The port number on which to run the server. Default is 8080.
+    poll_interval (float): The interval (in seconds) between each polling operation when running in polling mode. Defaults to 0.005 seconds.
+    webhook_url (str, optional): The base URL where the webhook server is accessible. If provided, the bot operates in webhook mode. Defaults to None.
+    webhook_path (str): The URL path on the server to handle incoming webhook requests. Defaults to "/wk".
+    host (str): The hostname or IP address to bind the webhook server. Use "0.0.0.0" to listen on all available interfaces. Defaults to "0.0.0.0".
+    port (int): The port number on which the webhook server will listen. Defaults to 8080.
 
 Returns:
     None
@@ -901,7 +912,7 @@ Parameters:
     sender_id (str): sender_id of member to unban.
 
 Returns:
-    dict: API response.
+    The API response.
 
 ### update_bot_endpoints
 
@@ -912,17 +923,11 @@ update_bot_endpoints(self: 'darkob.Bot', url: str, endpoint_type: Literal['Recei
 Register a single webhook endpoint on the Rubika server.
 
 Parameters:
-    url (str): Full URL that Rubika should call when an event occurs.
-        Must be publicly reachable (HTTPS recommended).
-    endpoint_type (str): Which kind of event this URL handles. Accepted values:
-        - `"ReceiveUpdate"` – new messages, edits, deletions
-        - `"ReceiveInlineMessage"` – inline-keyboard button presses
-        - `"ReceiveQuery"` – inline-query results
-        - `"GetSelectionItem"` – selection menu picks
-        - `"SearchSelectionItems"` – search-in-selection requests
+    url (str): Full URL that Rubika should call when an event occurs. Must be publicly reachable (HTTPS recommended).
+    endpoint_type (Literal['ReceiveUpdate', 'ReceiveInlineMessage', 'ReceiveQuery', 'GetSelectionItem', 'SearchSelectionItems']): Which kind of event this URL handles. Default is 'ReceiveUpdate'.
 
 Returns:
-    dict: Raw response from the server confirming the registration.
+    The raw response from the server confirming the registration.
 
 ### upload_file
 
@@ -932,11 +937,10 @@ upload_file(self: 'darkob.Bot', url: str, file: Optional[Union[str, bytes]]=None
 
 Upload a file to the server and return file_id.
 
-Supports: local path, URL, raw bytes, base64.
-The entire file is uploaded in a single request.
+Supports local path, URL, raw bytes, and base64. The entire file is uploaded in a single request.
 
 Parameters:
-    url (str): Upload URL from ``request_send_file``.
+    url (str): Upload URL from `request_send_file`.
     file (str | bytes, optional): Path, URL, or raw bytes.
     base64 (str, optional): Base64-encoded file data.
     file_name (str, optional): Name of the file. Auto-detected when possible.

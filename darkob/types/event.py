@@ -11,6 +11,18 @@ class Event(Data):
         self.client: "darkob.Client" = event.get("client")
         self._memo = {}
 
+    @staticmethod
+    def _unwrap(value):
+        if value is None:
+            return None
+        if hasattr(value, "_data"):
+            value = value._data
+        if isinstance(value, dict):
+            return {k: Event._unwrap(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [Event._unwrap(v) for v in value]
+        return value
+
     @property
     def original_data(self):
         """Return the original raw data."""
@@ -411,7 +423,7 @@ class Event(Data):
     @property
     def pattern_match(self):
         """Return regex match stored by TextMatch filter."""
-        return self._memo.get('_regex_match')
+        return self._memo.get("_regex_match")
 
     def guid_type(self, chat_guid: str = None):
         """Return the type of a chat GUID (User, Group, Channel, Bot, Service)."""
@@ -544,21 +556,25 @@ class Event(Data):
 
             kwargs = {}
             if self.text:
-                kwargs['text'] = self.text
+                kwargs["text"] = self.text
             if self.thumb_inline:
-                kwargs['thumb'] = self.thumb_inline
+                kwargs["thumb"] = self.thumb_inline
             if self.file_width:
-                kwargs['width'] = self.file_width
+                kwargs["width"] = self.file_width
             if self.file_height:
-                kwargs['height'] = self.file_height
+                kwargs["height"] = self.file_height
             if self.file_duration:
-                kwargs['time'] = self.file_duration / 1000 if not self.is_music else self.file_duration
+                kwargs["time"] = (
+                    self.file_duration / 1000
+                    if not self.is_music
+                    else self.file_duration
+                )
             if self.file_name:
-                kwargs['file_name'] = self.file_name
+                kwargs["file_name"] = self.file_name
             if self.music_performer:
-                kwargs['performer'] = self.music_performer
+                kwargs["performer"] = self.music_performer
             if via_bot:
-                kwargs['via_bot'] = via_bot
+                kwargs["via_bot"] = via_bot
 
             if self.is_image:
                 return await self.client.send_image(target, file_data, **kwargs)
@@ -580,10 +596,10 @@ class Event(Data):
             if sticker_data and isinstance(sticker_data, dict):
                 return await self.client.send_sticker(
                     target,
-                    emoji_character=sticker_data.get('emoji_character', ''),
-                    sticker_id=sticker_data.get('sticker_id', ''),
-                    sticker_set_id=sticker_data.get('sticker_set_id', ''),
-                    file=sticker_data.get('file', {}),
+                    emoji_character=sticker_data.get("emoji_character", ""),
+                    sticker_id=sticker_data.get("sticker_id", ""),
+                    sticker_set_id=sticker_data.get("sticker_set_id", ""),
+                    file=self._unwrap(sticker_data.get("file", {})),
                     via_bot=via_bot
                 )
 
@@ -591,9 +607,13 @@ class Event(Data):
             reply_to = None
             if to_chat is None and self.is_reply:
                 reply_to = self.reply_to_message_id
+
             return await self.client.send_message(
-                target, text=self.text, metadata=self.metadata,
-                reply_to_message_id=reply_to, via_bot=via_bot
+                target,
+                text=self.text,
+                metadata=self._unwrap(self.metadata),
+                reply_to_message_id=reply_to,
+                via_bot=via_bot
             )
 
     async def pin(self):

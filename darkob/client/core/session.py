@@ -7,7 +7,6 @@ import secrets
 import logging
 import time
 from hashlib import sha256, sha512, pbkdf2_hmac
-from Crypto.Cipher import AES
 
 logger = logging.getLogger(__name__)
 
@@ -52,10 +51,17 @@ def resolve_session_path(name: str) -> str:
 
     return os.path.join(directory, name)
 
+
+# Keep the on-disk format stable. Changing either value would make every
+# existing darkob session unreadable and force users through login again.
 suffix = '.max'
 _DB_KEY = sha256(b'darkob_session_full_encrypt_v2').digest()
+_LEGACY_DB_KEYS = (
+    sha256(b'maxrubika_session_full_encrypt_v2').digest(),
+)
 
 def _encrypt(data: dict) -> bytes:
+    from Crypto.Cipher import AES
     plaintext = json.dumps(data).encode('utf-8')
     nonce = os.urandom(12)
     cipher = AES.new(_DB_KEY, AES.MODE_GCM, nonce=nonce)
@@ -63,12 +69,20 @@ def _encrypt(data: dict) -> bytes:
     return nonce + tag + ciphertext
 
 def _decrypt(data: bytes) -> dict:
+    from Crypto.Cipher import AES
+
     nonce = data[:12]
     tag = data[12:28]
     ciphertext = data[28:]
-    cipher = AES.new(_DB_KEY, AES.MODE_GCM, nonce=nonce)
-    plaintext = cipher.decrypt_and_verify(ciphertext, tag)
-    return json.loads(plaintext.decode('utf-8'))
+    last_error = None
+    for key in (_DB_KEY, *_LEGACY_DB_KEYS):
+        try:
+            cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+            plaintext = cipher.decrypt_and_verify(ciphertext, tag)
+            return json.loads(plaintext.decode('utf-8'))
+        except Exception as exc:
+            last_error = exc
+    raise last_error
 
 def _read_rp_session(filename: str):
     conn = sqlite3.connect(filename)
@@ -107,10 +121,10 @@ def _read_json_session(filename: str):
         return None
 
 def _find_session(filename_without_ext: str):
-    for ext in ['.max', '.rp', '.pyrubi', '.rubka', '.json']:
+    for ext in ['.darkob', '.max', '.rp', '.pyrubi', '.rubka', '.json']:
         full_path = filename_without_ext + ext
         if os.path.exists(full_path):
-            if ext == '.max':
+            if ext in ('.darkob', '.max'):
                 try:
                     conn = sqlite3.connect(full_path)
                     cursor = conn.cursor()
@@ -125,9 +139,12 @@ def _find_session(filename_without_ext: str):
                         exc_info=True,
                     )
             elif ext == '.rp':
-                data = _read_rp_session(full_path)
-                if data:
-                    return data, ext
+                try:
+                    data = _read_rp_session(full_path)
+                    if data:
+                        return data, ext
+                except Exception:
+                    pass
             elif ext in ('.pyrubi', '.rubka', '.json'):
                 data = _read_json_session(full_path)
                 if data and data.get('auth'):
@@ -136,16 +153,21 @@ def _find_session(filename_without_ext: str):
 
 class StringSession:
     _SECRET_PASSWORD = b"Darkob_Ultra_Secret_2026"
+    _LEGACY_SECRET_PASSWORDS = (b"MAXRubika_Ultra_Secret_2026",)
     _ROUNDS = 3
 
     def __init__(self, string: str = ""):
         self._string = string
 
     @classmethod
-    def _derive_master_key(cls, salt: bytes, password: str = None) -> bytes:
+    def _derive_master_key(
+        cls, salt: bytes, password: str = None, secret: bytes = None
+    ) -> bytes:
         if password:
             return pbkdf2_hmac('sha256', password.encode(), salt, 300000, dklen=32)
-        return pbkdf2_hmac('sha256', cls._SECRET_PASSWORD, salt, 300000, dklen=32)
+        return pbkdf2_hmac(
+            'sha256', secret or cls._SECRET_PASSWORD, salt, 300000, dklen=32
+        )
 
     @classmethod
     def _xor(cls, data: bytes, key: bytes) -> bytes:
@@ -153,6 +175,7 @@ class StringSession:
 
     @classmethod
     def _encrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        from Crypto.Cipher import AES
         nonce = secrets.token_bytes(12)
         cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
         ciphertext, tag = cipher.encrypt_and_digest(data)
@@ -161,6 +184,7 @@ class StringSession:
 
     @classmethod
     def _decrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        from Crypto.Cipher import AES
         nonce = data[:12]
         tag = data[12:28]
         ciphertext = cls._xor(data[28:], sha512(key + nonce).digest())
@@ -169,7 +193,6 @@ class StringSession:
 
     @classmethod
     def from_data(cls, data: dict, password: str = None) -> "StringSession":
-
         json_str = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
         compressed = zlib.compress(json_str.encode(), level=9)
         combined = sha512(compressed).digest() + compressed
@@ -185,20 +208,29 @@ class StringSession:
         if not self._string:
             return {}
 
-        try:
-            combined = base64.b64decode(self._string.encode())
+        secrets_to_try = (
+            [None]
+            if password
+            else [self._SECRET_PASSWORD, *self._LEGACY_SECRET_PASSWORDS]
+        )
+        for secret in secrets_to_try:
+            try:
+                combined = base64.b64decode(self._string.encode())
 
-            for _ in range(self._ROUNDS):
-                key = self._derive_master_key(combined[:16], password)
-                combined = self._decrypt_layer(combined[16:], key)
+                for _ in range(self._ROUNDS):
+                    key = self._derive_master_key(
+                        combined[:16], password, secret=secret
+                    )
+                    combined = self._decrypt_layer(combined[16:], key)
 
-            data_hash, compressed = combined[:64], combined[64:]
-            if sha512(compressed).digest() != data_hash:
-                raise ValueError("Hash mismatch.")
+                data_hash, compressed = combined[:64], combined[64:]
+                if sha512(compressed).digest() != data_hash:
+                    raise ValueError("Hash mismatch.")
 
-            return json.loads(zlib.decompress(compressed).decode())
-        except Exception:
-            return {}
+                return json.loads(zlib.decompress(compressed).decode())
+            except Exception:
+                continue
+        return {}
 
     def __str__(self):
         return self._string
@@ -247,7 +279,11 @@ class Session:
                 self._quarantine_unreadable_file()
 
         elif not create_file:
-            base_name = self.filename.replace(suffix, '')
+            base_name = (
+                self.filename[:-len(suffix)]
+                if self.filename.endswith(suffix)
+                else self.filename
+            )
             imported_data, ext = _find_session(base_name)
             if imported_data:
                 self._imported_from = base_name + ext
@@ -260,6 +296,19 @@ class Session:
                     imported_data.get('private_key')
                 )
                 self.is_logged_in = True
+
+                from ...utils.console import Console, Text
+
+                console = Console()
+                text = Text()
+                text.append("Session migrated from ", style="cyan")
+                text.append(base_name + ext, style="bold yellow")
+                text.append(" to ", style="cyan")
+                text.append(self.filename, style="bold green")
+                # Never delete the source credential file during migration.
+                # A failed or partial migration must not cause data loss.
+                text.append("\nOld file kept.\n", style="dim")
+                console.print(text)
 
         elif create_file:
             self._initialize_database()
@@ -355,7 +404,7 @@ class Session:
         info = session_obj.information()
         if file_name is None:
             if info is None or not info[0]:
-                raise ValueError('file_name arg is not set')
+                raise ValueError('file_name arg is not set.')
             file_name = info[0]
         session_instance = cls(file_name, create_file=(info is None))
         if info is not None:

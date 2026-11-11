@@ -1,8 +1,11 @@
-import darkob
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class GetStickerSetByID:
     async def get_sticker_set_by_id(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         sticker_set_id: str
     ):
         """
@@ -14,4 +17,4 @@ class GetStickerSetByID:
         Returns:
             The sticker set corresponding to the provided ID.
         """
-        return await self.request(method = 'getStickerSetByID', input = {'sticker_set_id': sticker_set_id})
+        return await self.request(method='getStickerSetByID', input={'sticker_set_id': sticker_set_id})

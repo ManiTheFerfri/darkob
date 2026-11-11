@@ -4,17 +4,17 @@ A real user account (userbot): channels, groups, voice chats, settings.
 
 > Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
-**325 public methods.**
+**378 public methods.**
 
 ## Method index
 
-- **messages** (61): [`add_reaction`](#add-reaction), [`auto_delete_message`](#auto-delete-message), [`click_inline_button`](#click-inline-button), [`click_message_url`](#click-message-url), [`delete_all_messages`](#delete-all-messages), [`delete_messages`](#delete-messages), [`delete_my_messages`](#delete-my-messages), [`edit_message`](#edit-message), [`forward_messages`](#forward-messages), [`get_all_messages`](#get-all-messages), [`get_chat_messages`](#get-chat-messages), [`get_first_message`](#get-first-message), [`get_first_messages`](#get-first-messages), [`get_last_message`](#get-last-message), [`get_last_messages`](#get-last-messages), [`get_message_info`](#get-message-info), [`get_message_url`](#get-message-url), [`get_messages`](#get-messages), [`get_messages_by_id`](#get-messages-by-id), [`get_messages_interval`](#get-messages-interval), [`get_messages_reactions`](#get-messages-reactions), [`get_messages_updates`](#get-messages-updates), [`get_pinned_messages`](#get-pinned-messages), [`get_poll_option_voters`](#get-poll-option-voters), [`get_poll_status`](#get-poll-status), [`get_scheduled_messages`](#get-scheduled-messages), [`iter_messages`](#iter-messages), [`mark_as_read`](#mark-as-read), [`mark_as_seen`](#mark-as-seen), [`pin_message`](#pin-message), [`remove_reaction`](#remove-reaction), [`report_message`](#report-message), [`request_send_file`](#request-send-file), [`retract_poll`](#retract-poll), [`search_chat_messages`](#search-chat-messages), [`search_global_messages`](#search-global-messages), [`search_messages`](#search-messages), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_live`](#send-live), [`send_location`](#send-location), [`send_message`](#send-message), [`send_message_api_call`](#send-message-api-call), [`send_music`](#send-music), [`send_now_scheduled_message`](#send-now-scheduled-message), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_rubino_post`](#send-rubino-post), [`send_rubino_product`](#send-rubino-product), [`send_rubino_story`](#send-rubino-story), [`send_sticker`](#send-sticker), [`send_video`](#send-video), [`send_video_message`](#send-video-message), [`send_voice`](#send-voice), [`stop_poll`](#stop-poll), [`transcribe_voice`](#transcribe-voice), [`unpin_all_messages`](#unpin-all-messages), [`unpin_message`](#unpin-message), [`vote_poll`](#vote-poll)
-- **chats** (81): [`accept_all_join_requests`](#accept-all-join-requests), [`accept_join_request`](#accept-join-request), [`accept_ownership_request`](#accept-ownership-request), [`add_members`](#add-members), [`archive_chat`](#archive-chat), [`ban_member`](#ban-member), [`ban_members`](#ban-members), [`cancel_change_owner`](#cancel-change-owner), [`change_owner`](#change-owner), [`check_join`](#check-join), [`clear_all_drafts`](#clear-all-drafts), [`clear_black_list`](#clear-black-list), [`clear_chat_draft`](#clear-chat-draft), [`click_chat_ads`](#click-chat-ads), [`click_keypad_button`](#click-keypad-button), [`create_join_link`](#create-join-link), [`delete_all_avatars`](#delete-all-avatars), [`delete_avatar`](#delete-avatar), [`delete_chat_history`](#delete-chat-history), [`discard_voice_chat`](#discard-voice-chat), [`dont_show_chat_ads`](#dont-show-chat-ads), [`download_profile_picture`](#download-profile-picture), [`edit_join_link`](#edit-join-link), [`get_all_drafts`](#get-all-drafts), [`get_avatars`](#get-avatars), [`get_banned_members`](#get-banned-members), [`get_chat_ads`](#get-chat-ads), [`get_chat_info`](#get-chat-info), [`get_chat_voice_chat`](#get-chat-voice-chat), [`get_chats`](#get-chats), [`get_chats_info`](#get-chats-info), [`get_chats_updates`](#get-chats-updates), [`get_guid`](#get-guid), [`get_info_by_link`](#get-info-by-link), [`get_info_by_username`](#get-info-by-username), [`get_join_links`](#get-join-links), [`get_join_requests`](#get-join-requests), [`get_my_guid`](#get-my-guid), [`get_pending_owner`](#get-pending-owner), [`get_profile_link_items`](#get-profile-link-items), [`get_related_chats`](#get-related-chats), [`get_voice_chat_participants`](#get-voice-chat-participants), [`get_voice_chat_updates`](#get-voice-chat-updates), [`heartbeat`](#heartbeat), [`join_chat`](#join-chat), [`join_voice_chat`](#join-voice-chat), [`leave_chat`](#leave-chat), [`leave_voice_chat`](#leave-voice-chat), [`member_is_admin`](#member-is-admin), [`mute_chat`](#mute-chat), [`pin_chat`](#pin-chat), [`pin_chat_in_folder`](#pin-chat-in-folder), [`play_voice_chat`](#play-voice-chat), [`reject_join_request`](#reject-join-request), [`reject_ownership_request`](#reject-ownership-request), [`report_chat`](#report-chat), [`report_chat_ads`](#report-chat-ads), [`revoke_join_link`](#revoke-join-link), [`search_global_chats`](#search-global-chats), [`seen_chats`](#seen-chats), [`send_chat_activity`](#send-chat-activity), [`send_voice_chat_activity`](#send-voice-chat-activity), [`set_admin`](#set-admin), [`set_ask_spam`](#set-ask-spam), [`set_chat_auto_delete`](#set-chat-auto-delete), [`set_chat_protected_content`](#set-chat-protected-content), [`set_chat_use_time`](#set-chat-use-time), [`set_voice_chat_setting`](#set-voice-chat-setting), [`set_voice_chat_state`](#set-voice-chat-state), [`speaking`](#speaking), [`start_voice_chat`](#start-voice-chat), [`unarchive_chat`](#unarchive-chat), [`unban_all_members`](#unban-all-members), [`unban_member`](#unban-member), [`unban_members`](#unban-members), [`unmute_chat`](#unmute-chat), [`unpin_chat`](#unpin-chat), [`unpin_chat_in_folder`](#unpin-chat-in-folder), [`unset_admin`](#unset-admin), [`upload_avatar`](#upload-avatar), [`view_chat_ads`](#view-chat-ads)
-- **groups** (22): [`create_group`](#create-group), [`delete_group`](#delete-group), [`edit_group_info`](#edit-group-info), [`edit_group_timer`](#edit-group-timer), [`edit_group_title`](#edit-group-title), [`edit_slow_mode`](#edit-slow-mode), [`get_group_admin_access`](#get-group-admin-access), [`get_group_admins`](#get-group-admins), [`get_group_default_access`](#get-group-default-access), [`get_group_info`](#get-group-info), [`get_group_link`](#get-group-link), [`get_group_members`](#get-group-members), [`get_group_mention_list`](#get-group-mention-list), [`get_group_message_read_participants`](#get-group-message-read-participants), [`get_group_online_count`](#get-group-online-count), [`get_unread_mentions`](#get-unread-mentions), [`join_group`](#join-group), [`leave_group`](#leave-group), [`lock_group`](#lock-group), [`set_group_default_access`](#set-group-default-access), [`set_group_link`](#set-group-link), [`unlock_group`](#unlock-group)
-- **channels** (20): [`check_channel_username`](#check-channel-username), [`create_channel`](#create-channel), [`delete_channel`](#delete-channel), [`edit_channel_info`](#edit-channel-info), [`edit_channel_title`](#edit-channel-title), [`get_channel_admin_access`](#get-channel-admin-access), [`get_channel_admins`](#get-channel-admins), [`get_channel_info`](#get-channel-info), [`get_channel_link`](#get-channel-link), [`get_channel_members`](#get-channel-members), [`get_channel_post_by_link`](#get-channel-post-by-link), [`get_channel_seen_count`](#get-channel-seen-count), [`get_channel_statistics`](#get-channel-statistics), [`get_post_by_ask_link`](#get-post-by-ask-link), [`join_channel`](#join-channel), [`leave_channel`](#leave-channel), [`seen_channel_messages`](#seen-channel-messages), [`set_channel_link`](#set-channel-link), [`set_channel_type`](#set-channel-type), [`update_channel_username`](#update-channel-username)
-- **users** (23): [`add_contact`](#add-contact), [`block_user`](#block-user), [`check_user_username`](#check-user-username), [`delete_contact`](#delete-contact), [`delete_user_chat`](#delete-user-chat), [`discard_call`](#discard-call), [`get_blocked_users`](#get-blocked-users), [`get_common_groups`](#get-common-groups), [`get_contacts`](#get-contacts), [`get_contacts_last_online`](#get-contacts-last-online), [`get_contacts_stories`](#get-contacts-stories), [`get_contacts_updates`](#get-contacts-updates), [`get_last_online`](#get-last-online), [`get_me`](#get-me), [`get_saved_music_playlist`](#get-saved-music-playlist), [`get_top_users`](#get-top-users), [`get_user_info`](#get-user-info), [`remove_from_top_users`](#remove-from-top-users), [`request_video_call`](#request-video-call), [`request_voice_call`](#request-voice-call), [`reset_contacts`](#reset-contacts), [`unblock_all_users`](#unblock-all-users), [`unblock_user`](#unblock-user)
-- **settings** (48): [`abort_two_step_setup`](#abort-two-step-setup), [`add_folder`](#add-folder), [`add_saved_music_playlist`](#add-saved-music-playlist), [`add_saved_music_track`](#add-saved-music-track), [`auto_delete_account`](#auto-delete-account), [`change_password`](#change-password), [`check_two_step_passcode`](#check-two-step-passcode), [`confirm_unconfirmed_session`](#confirm-unconfirmed-session), [`delete_account`](#delete-account), [`delete_folder`](#delete-folder), [`delete_saved_music_playlist`](#delete-saved-music-playlist), [`deny_unconfirmed_session`](#deny-unconfirmed-session), [`edit_can_called_by`](#edit-can-called-by), [`edit_can_join_chat_by`](#edit-can-join-chat-by), [`edit_show_birthday`](#edit-show-birthday), [`edit_show_last_online`](#edit-show-last-online), [`edit_show_phone_number`](#edit-show-phone-number), [`edit_show_profile_photo`](#edit-show-profile-photo), [`get_folders`](#get-folders), [`get_my_sessions`](#get-my-sessions), [`get_notification_setting`](#get-notification-setting), [`get_privacy_setting`](#get-privacy-setting), [`get_suggested_folders`](#get-suggested-folders), [`get_two_passcode_status`](#get-two-passcode-status), [`get_unconfirmed_sessions`](#get-unconfirmed-sessions), [`login_disable_two_step`](#login-disable-two-step), [`login_two_step_forget_password`](#login-two-step-forget-password), [`logout`](#logout), [`register_device`](#register-device), [`reorder_folder`](#reorder-folder), [`request_change_phone_number`](#request-change-phone-number), [`request_forget_password`](#request-forget-password), [`request_recovery_email`](#request-recovery-email), [`set_notification`](#set-notification), [`set_saved_music_playlist`](#set-saved-music-playlist), [`set_setting`](#set-setting), [`set_two_step_verification`](#set-two-step-verification), [`terminate_other_sessions`](#terminate-other-sessions), [`terminate_session`](#terminate-session), [`turn_off_two_step`](#turn-off-two-step), [`update_my_bio`](#update-my-bio), [`update_my_birthday`](#update-my-birthday), [`update_my_name`](#update-my-name), [`update_my_profile`](#update-my-profile), [`update_my_username`](#update-my-username), [`upgrade_to_api6`](#upgrade-to-api6), [`verify_change_phone_number`](#verify-change-phone-number), [`verify_recovery_email`](#verify-recovery-email)
-- **extras** (30): [`add_live_comment`](#add-live-comment), [`add_sticker_set`](#add-sticker-set), [`add_to_my_gif_set`](#add-to-my-gif-set), [`archive_sticker_set`](#archive-sticker-set), [`delete_all_my_gif_set`](#delete-all-my-gif-set), [`delete_my_gif_set`](#delete-my-gif-set), [`delete_sticker_set`](#delete-sticker-set), [`feedback_voice_transcription`](#feedback-voice-transcription), [`get_available_reactions`](#get-available-reactions), [`get_link_from_app_url`](#get-link-from-app-url), [`get_live_comments`](#get-live-comments), [`get_live_play_url`](#get-live-play-url), [`get_live_status`](#get-live-status), [`get_location_view`](#get-location-view), [`get_my_archived_sticker_sets`](#get-my-archived-sticker-sets), [`get_my_gif_set`](#get-my-gif-set), [`get_my_sticker_sets`](#get-my-sticker-sets), [`get_sticker_set_by_id`](#get-sticker-set-by-id), [`get_sticker_setting`](#get-sticker-setting), [`get_stickers_by_emoji`](#get-stickers-by-emoji), [`get_stickers_by_set_ids`](#get-stickers-by-set-ids), [`get_time`](#get-time), [`get_trend_sticker_sets`](#get-trend-sticker-sets), [`get_wallet_transaction_message`](#get-wallet-transaction-message), [`get_wallpapers`](#get-wallpapers), [`reorder_sticker_sets`](#reorder-sticker-sets), [`report_live`](#report-live), [`reset_wallpapers`](#reset-wallpapers), [`search_stickers`](#search-stickers), [`set_current_live_location`](#set-current-live-location)
+- **messages** (67): [`add_reaction`](#add-reaction), [`auto_delete_message`](#auto-delete-message), [`click_inline_button`](#click-inline-button), [`click_message_url`](#click-message-url), [`delete_all_messages`](#delete-all-messages), [`delete_message`](#delete-message), [`delete_messages`](#delete-messages), [`delete_my_messages`](#delete-my-messages), [`edit_message`](#edit-message), [`forward_message`](#forward-message), [`forward_messages`](#forward-messages), [`get_all_messages`](#get-all-messages), [`get_chat_messages`](#get-chat-messages), [`get_first_message`](#get-first-message), [`get_first_messages`](#get-first-messages), [`get_last_message`](#get-last-message), [`get_last_messages`](#get-last-messages), [`get_message_info`](#get-message-info), [`get_message_url`](#get-message-url), [`get_messages`](#get-messages), [`get_messages_by_id`](#get-messages-by-id), [`get_messages_interval`](#get-messages-interval), [`get_messages_reactions`](#get-messages-reactions), [`get_messages_updates`](#get-messages-updates), [`get_pinned_messages`](#get-pinned-messages), [`get_poll_option_voters`](#get-poll-option-voters), [`get_poll_status`](#get-poll-status), [`get_scheduled_messages`](#get-scheduled-messages), [`get_wallet_transfer_message`](#get-wallet-transfer-message), [`iter_messages`](#iter-messages), [`mark_as_read`](#mark-as-read), [`mark_as_seen`](#mark-as-seen), [`pin_message`](#pin-message), [`remove_reaction`](#remove-reaction), [`report_message`](#report-message), [`request_send_file`](#request-send-file), [`retract_poll`](#retract-poll), [`save_message_draft`](#save-message-draft), [`search_chat_messages`](#search-chat-messages), [`search_global_messages`](#search-global-messages), [`search_messages`](#search-messages), [`send_contact`](#send-contact), [`send_file`](#send-file), [`send_gif`](#send-gif), [`send_image`](#send-image), [`send_live`](#send-live), [`send_live_location`](#send-live-location), [`send_location`](#send-location), [`send_message`](#send-message), [`send_message_api_call`](#send-message-api-call), [`send_music`](#send-music), [`send_now_scheduled_message`](#send-now-scheduled-message), [`send_poll`](#send-poll), [`send_quiz`](#send-quiz), [`send_rubino_post`](#send-rubino-post), [`send_rubino_product`](#send-rubino-product), [`send_rubino_story`](#send-rubino-story), [`send_sticker`](#send-sticker), [`send_video`](#send-video), [`send_video_message`](#send-video-message), [`send_voice`](#send-voice), [`send_wallet_transfer_message`](#send-wallet-transfer-message), [`stop_poll`](#stop-poll), [`transcribe_voice`](#transcribe-voice), [`unpin_all_messages`](#unpin-all-messages), [`unpin_message`](#unpin-message), [`vote_poll`](#vote-poll)
+- **chats** (93): [`accept_all_join_requests`](#accept-all-join-requests), [`accept_join_request`](#accept-join-request), [`accept_ownership_request`](#accept-ownership-request), [`add_member`](#add-member), [`add_members`](#add-members), [`archive_chat`](#archive-chat), [`ban_member`](#ban-member), [`ban_members`](#ban-members), [`cancel_change_owner`](#cancel-change-owner), [`change_owner`](#change-owner), [`check_join`](#check-join), [`check_rubino_username`](#check-rubino-username), [`check_voice_chat_participants`](#check-voice-chat-participants), [`clear_all_drafts`](#clear-all-drafts), [`clear_black_list`](#clear-black-list), [`clear_chat_draft`](#clear-chat-draft), [`click_chat_ads`](#click-chat-ads), [`click_keypad_button`](#click-keypad-button), [`create_join_link`](#create-join-link), [`delete_all_avatars`](#delete-all-avatars), [`delete_avatar`](#delete-avatar), [`delete_chat_history`](#delete-chat-history), [`delete_revoked_join_link`](#delete-revoked-join-link), [`delete_revoked_join_links`](#delete-revoked-join-links), [`discard_voice_chat`](#discard-voice-chat), [`dont_show_chat_ads`](#dont-show-chat-ads), [`download_avatars`](#download-avatars), [`download_profile_picture`](#download-profile-picture), [`edit_join_link`](#edit-join-link), [`get_abs_chats`](#get-abs-chats), [`get_all_drafts`](#get-all-drafts), [`get_avatars`](#get-avatars), [`get_banned_members`](#get-banned-members), [`get_chat_ads`](#get-chat-ads), [`get_chat_info`](#get-chat-info), [`get_chat_voice_chat`](#get-chat-voice-chat), [`get_chats`](#get-chats), [`get_chats_info`](#get-chats-info), [`get_chats_updates`](#get-chats-updates), [`get_guid`](#get-guid), [`get_info_by_link`](#get-info-by-link), [`get_info_by_username`](#get-info-by-username), [`get_join_link_user_joined`](#get-join-link-user-joined), [`get_join_links`](#get-join-links), [`get_join_requests`](#get-join-requests), [`get_my_guid`](#get-my-guid), [`get_pending_owner`](#get-pending-owner), [`get_profile_link_items`](#get-profile-link-items), [`get_related_chats`](#get-related-chats), [`get_voice_chat_participants`](#get-voice-chat-participants), [`get_voice_chat_updates`](#get-voice-chat-updates), [`heartbeat`](#heartbeat), [`invite_to_voice_chat`](#invite-to-voice-chat), [`join_chat`](#join-chat), [`join_voice_chat`](#join-voice-chat), [`leave_chat`](#leave-chat), [`leave_voice_chat`](#leave-voice-chat), [`member_is_admin`](#member-is-admin), [`member_is_joined`](#member-is-joined), [`member_is_owner`](#member-is-owner), [`mute_chat`](#mute-chat), [`pin_chat`](#pin-chat), [`pin_chat_in_folder`](#pin-chat-in-folder), [`play_voice_chat`](#play-voice-chat), [`reject_join_request`](#reject-join-request), [`reject_ownership_request`](#reject-ownership-request), [`report_chat`](#report-chat), [`report_chat_ads`](#report-chat-ads), [`revoke_join_link`](#revoke-join-link), [`search_global_chats`](#search-global-chats), [`seen_chats`](#seen-chats), [`send_chat_activity`](#send-chat-activity), [`send_voice_chat_activity`](#send-voice-chat-activity), [`set_admin`](#set-admin), [`set_ask_spam`](#set-ask-spam), [`set_avatar_as_main`](#set-avatar-as-main), [`set_chat_auto_delete`](#set-chat-auto-delete), [`set_chat_protected_content`](#set-chat-protected-content), [`set_chat_use_time`](#set-chat-use-time), [`set_voice_chat_setting`](#set-voice-chat-setting), [`set_voice_chat_state`](#set-voice-chat-state), [`speaking`](#speaking), [`start_voice_chat`](#start-voice-chat), [`unarchive_chat`](#unarchive-chat), [`unban_all_members`](#unban-all-members), [`unban_member`](#unban-member), [`unban_members`](#unban-members), [`unmute_chat`](#unmute-chat), [`unpin_chat`](#unpin-chat), [`unpin_chat_in_folder`](#unpin-chat-in-folder), [`unset_admin`](#unset-admin), [`upload_avatar`](#upload-avatar), [`view_chat_ads`](#view-chat-ads)
+- **groups** (23): [`create_group`](#create-group), [`delete_group`](#delete-group), [`delete_no_access_group_chat`](#delete-no-access-group-chat), [`edit_group_info`](#edit-group-info), [`edit_group_timer`](#edit-group-timer), [`edit_group_title`](#edit-group-title), [`edit_slow_mode`](#edit-slow-mode), [`get_group_admin_access`](#get-group-admin-access), [`get_group_admins`](#get-group-admins), [`get_group_default_access`](#get-group-default-access), [`get_group_info`](#get-group-info), [`get_group_link`](#get-group-link), [`get_group_members`](#get-group-members), [`get_group_mention_list`](#get-group-mention-list), [`get_group_message_read_participants`](#get-group-message-read-participants), [`get_group_online_count`](#get-group-online-count), [`get_unread_mentions`](#get-unread-mentions), [`join_group`](#join-group), [`leave_group`](#leave-group), [`lock_group`](#lock-group), [`set_group_default_access`](#set-group-default-access), [`set_group_link`](#set-group-link), [`unlock_group`](#unlock-group)
+- **channels** (21): [`check_channel_username`](#check-channel-username), [`check_channels_with_username`](#check-channels-with-username), [`create_channel`](#create-channel), [`delete_channel`](#delete-channel), [`edit_channel_info`](#edit-channel-info), [`edit_channel_title`](#edit-channel-title), [`get_channel_admin_access`](#get-channel-admin-access), [`get_channel_admins`](#get-channel-admins), [`get_channel_info`](#get-channel-info), [`get_channel_link`](#get-channel-link), [`get_channel_members`](#get-channel-members), [`get_channel_post_by_link`](#get-channel-post-by-link), [`get_channel_seen_count`](#get-channel-seen-count), [`get_channel_statistics`](#get-channel-statistics), [`get_post_by_ask_link`](#get-post-by-ask-link), [`join_channel`](#join-channel), [`leave_channel`](#leave-channel), [`seen_channel_messages`](#seen-channel-messages), [`set_channel_link`](#set-channel-link), [`set_channel_type`](#set-channel-type), [`update_channel_username`](#update-channel-username)
+- **users** (32): [`accept_call`](#accept-call), [`add_contact`](#add-contact), [`block_user`](#block-user), [`call_started`](#call-started), [`check_user_username`](#check-user-username), [`delete_contact`](#delete-contact), [`delete_user_chat`](#delete-user-chat), [`discard_call`](#discard-call), [`get_blocked_users`](#get-blocked-users), [`get_call_config`](#get-call-config), [`get_call_signaling_data`](#get-call-signaling-data), [`get_calls`](#get-calls), [`get_common_groups`](#get-common-groups), [`get_contacts`](#get-contacts), [`get_contacts_last_online`](#get-contacts-last-online), [`get_contacts_stories`](#get-contacts-stories), [`get_contacts_updates`](#get-contacts-updates), [`get_last_online`](#get-last-online), [`get_me`](#get-me), [`get_saved_music_playlist`](#get-saved-music-playlist), [`get_top_users`](#get-top-users), [`get_user_info`](#get-user-info), [`import_contacts`](#import-contacts), [`rate_call`](#rate-call), [`received_call`](#received-call), [`remove_from_top_users`](#remove-from-top-users), [`request_video_call`](#request-video-call), [`request_voice_call`](#request-voice-call), [`reset_contacts`](#reset-contacts), [`send_call_signaling_data`](#send-call-signaling-data), [`unblock_all_users`](#unblock-all-users), [`unblock_user`](#unblock-user)
+- **settings** (64): [`abort_set_recovery_email`](#abort-set-recovery-email), [`abort_two_step_setup`](#abort-two-step-setup), [`add_folder`](#add-folder), [`add_saved_music_playlist`](#add-saved-music-playlist), [`add_saved_music_track`](#add-saved-music-track), [`auto_delete_account`](#auto-delete-account), [`change_password`](#change-password), [`check_two_step_passcode`](#check-two-step-passcode), [`confirm_unconfirmed_session`](#confirm-unconfirmed-session), [`delete_account`](#delete-account), [`delete_folder`](#delete-folder), [`delete_saved_music_playlist`](#delete-saved-music-playlist), [`deny_unconfirmed_session`](#deny-unconfirmed-session), [`disable_two_step_by_forget_password`](#disable-two-step-by-forget-password), [`edit_can_called_by`](#edit-can-called-by), [`edit_can_join_chat_by`](#edit-can-join-chat-by), [`edit_folder`](#edit-folder), [`edit_show_birthday`](#edit-show-birthday), [`edit_show_last_online`](#edit-show-last-online), [`edit_show_phone_number`](#edit-show-phone-number), [`edit_show_profile_photo`](#edit-show-profile-photo), [`get_appearance_setting`](#get-appearance-setting), [`get_data_setting`](#get-data-setting), [`get_device_setting`](#get-device-setting), [`get_folders`](#get-folders), [`get_my_sessions`](#get-my-sessions), [`get_notification_setting`](#get-notification-setting), [`get_privacy_setting`](#get-privacy-setting), [`get_suggested_folders`](#get-suggested-folders), [`get_two_passcode_status`](#get-two-passcode-status), [`get_unconfirmed_sessions`](#get-unconfirmed-sessions), [`get_user_setting`](#get-user-setting), [`login_disable_two_step`](#login-disable-two-step), [`login_two_step_forget_password`](#login-two-step-forget-password), [`logout`](#logout), [`register_device`](#register-device), [`reorder_folder`](#reorder-folder), [`request_change_phone_number`](#request-change-phone-number), [`request_forget_password`](#request-forget-password), [`request_recovery_email`](#request-recovery-email), [`resend_code_recovery_email`](#resend-code-recovery-email), [`set_appearance_setting`](#set-appearance-setting), [`set_data_setting`](#set-data-setting), [`set_notification`](#set-notification), [`set_notification_setting`](#set-notification-setting), [`set_privacy_setting`](#set-privacy-setting), [`set_quick_reaction`](#set-quick-reaction), [`set_saved_music_playlist`](#set-saved-music-playlist), [`set_setting`](#set-setting), [`set_theme`](#set-theme), [`set_theme_background`](#set-theme-background), [`set_two_step_verification`](#set-two-step-verification), [`terminate_other_sessions`](#terminate-other-sessions), [`terminate_session`](#terminate-session), [`turn_off_two_step`](#turn-off-two-step), [`update_my_bio`](#update-my-bio), [`update_my_birthday`](#update-my-birthday), [`update_my_name`](#update-my-name), [`update_my_profile`](#update-my-profile), [`update_my_username`](#update-my-username), [`upgrade_to_api6`](#upgrade-to-api6), [`upload_wallpaper`](#upload-wallpaper), [`verify_change_phone_number`](#verify-change-phone-number), [`verify_recovery_email`](#verify-recovery-email)
+- **extras** (38): [`add_live_comment`](#add-live-comment), [`add_sticker_set`](#add-sticker-set), [`add_to_my_gif_set`](#add-to-my-gif-set), [`archive_sticker_set`](#archive-sticker-set), [`delete_all_my_gif_set`](#delete-all-my-gif-set), [`delete_my_gif_set`](#delete-my-gif-set), [`delete_sticker_set`](#delete-sticker-set), [`feedback_voice_transcription`](#feedback-voice-transcription), [`get_available_reactions`](#get-available-reactions), [`get_current_live_location`](#get-current-live-location), [`get_link_from_app_url`](#get-link-from-app-url), [`get_live_comments`](#get-live-comments), [`get_live_play_url`](#get-live-play-url), [`get_live_replay_viewers`](#get-live-replay-viewers), [`get_live_report`](#get-live-report), [`get_live_status`](#get-live-status), [`get_live_viewers`](#get-live-viewers), [`get_location_view`](#get-location-view), [`get_my_archived_sticker_sets`](#get-my-archived-sticker-sets), [`get_my_gif_set`](#get-my-gif-set), [`get_my_sticker_sets`](#get-my-sticker-sets), [`get_sticker_set_by_id`](#get-sticker-set-by-id), [`get_sticker_setting`](#get-sticker-setting), [`get_stickers_by_emoji`](#get-stickers-by-emoji), [`get_stickers_by_set_ids`](#get-stickers-by-set-ids), [`get_themes`](#get-themes), [`get_time`](#get-time), [`get_trend_sticker_sets`](#get-trend-sticker-sets), [`get_wallet_transaction_message`](#get-wallet-transaction-message), [`get_wallpapers`](#get-wallpapers), [`reorder_sticker_sets`](#reorder-sticker-sets), [`report_live`](#report-live), [`reset_wallpapers`](#reset-wallpapers), [`search_stickers`](#search-stickers), [`set_current_live_location`](#set-current-live-location), [`set_live_setting`](#set-live-setting), [`stop_live`](#stop-live), [`stop_live_location`](#stop-live-location)
 - **bots** (7): [`delete_bot_chat`](#delete-bot-chat), [`delete_service_chat`](#delete-service-chat), [`get_bot_info`](#get-bot-info), [`get_inline_bots`](#get-inline-bots), [`get_service_info`](#get-service-info), [`start_bot`](#start-bot), [`stop_bot`](#stop-bot)
 - **base** (12): [`close`](#close), [`connect`](#connect), [`disconnect`](#disconnect), [`download_file`](#download-file), [`get_string_session`](#get-string-session), [`get_updates`](#get-updates), [`request`](#request), [`run`](#run), [`send_code`](#send-code), [`sign_in`](#sign-in), [`start`](#start), [`upload_file`](#upload-file)
 - **core** (4): [`add_handler`](#add-handler), [`ask`](#ask), [`remove_handler`](#remove-handler), [`stop`](#stop)
@@ -25,7 +25,7 @@ A real user account (userbot): channels, groups, voice chats, settings.
 ### add_reaction
 
 ```python
-add_reaction(self: 'darkob.Client', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
+add_reaction(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
 ```
 
 Add a reaction to a specific message.
@@ -41,24 +41,23 @@ Returns:
 ### auto_delete_message
 
 ```python
-auto_delete_message(self: 'darkob.Client', chat: str, message_id: Union[str, int], time: Union[float, int])
+auto_delete_message(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], time: Union[float, int])
 ```
 
 Automatically delete a message after a specified time.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat associated with the message
-        (e.g., user, group, channel).
+    chat (str): The GUID, link, or username of the chat.
     message_id (Union[str, int]): The ID of the message to be deleted.
-    time (Union[float, int]): The time delay (in seconds) before deleting the message.
+    time (Union[float, int]): The time delay (in seconds) before deleting.
 
 Returns:
-    The updated information after deleting the message.
+    Confirmation of the scheduled deletion
 
 ### click_inline_button
 
 ```python
-click_inline_button(self: 'darkob.Client', chat: str, message_id: Union[str, int], button_id: str)
+click_inline_button(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], button_id: str)
 ```
 
 Send API call response to a chat's inline keypad button.
@@ -74,7 +73,7 @@ Returns:
 ### click_message_url
 
 ```python
-click_message_url(self: 'darkob.Client', chat: str, message_id: typing.Union[str, int], link_url: str)
+click_message_url(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], link_url: str)
 ```
 
 Simulate clicking a URL contained within a specific message.
@@ -82,7 +81,7 @@ Simulate clicking a URL contained within a specific message.
 Parameters:
     chat (str): The GUID, link or username of the chat.
     message_id (Union[str, int]): The unique ID of the message that includes the URL.
-    link_url(str): The URL string embedded in the message to be clicked.
+    link_url (str): The URL string embedded in the message to be clicked.
 
 Returns:
     The result of the API call.
@@ -90,29 +89,39 @@ Returns:
 ### delete_all_messages
 
 ```python
-delete_all_messages(self: 'darkob.Client', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None)
+delete_all_messages(self: 'darkob.Messenger', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None, type: Literal['Local', 'Global', 'Scheduled']='Global')
 ```
 
-Delete all messages in a chat except the first creation event message
-and optionally specified message IDs.
-
-This method retrieves all messages from the chat and deletes them,
-while preserving:
-- Any message IDs specified in `exclude_message_ids`.
+Delete all messages in a chat except the first creation event message and optionally specified message IDs.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat
-    exclude_message_ids (Union[str, int, List[Union[str, int]]], optional): 
-        Message ID(s) to preserve (not delete). Can be string, integer, or list.
-        Default is None.
+    chat (str): The GUID, link, or username of the chat.
+    exclude_message_ids (Union[str, int, List[Union[str, int]]], optional): Message ID(s) to preserve (not delete). Default is None.
+    type (Literal['Local', 'Global', 'Scheduled']): The type of deletion. Case-insensitive. Default is 'Global'.
 
 Returns:
     Result of the deletion operation.
 
+### delete_message
+
+```python
+delete_message(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], type: Literal['Local', 'Global', 'Scheduled']='Global')
+```
+
+Delete a single message in a chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat.
+    message_id (Union[str, int]): The ID of the message to delete.
+    type (Literal['Local', 'Global', 'Scheduled']): The type of deletion. Case-insensitive. Default is 'Global'.
+
+Returns:
+    The result of the API call.
+
 ### delete_messages
 
 ```python
-delete_messages(self: 'darkob.Client', chat: str, message_ids: Union[str, int, list], type: Literal['Local', 'Global', 'Scheduled']='Global')
+delete_messages(self: 'darkob.Messenger', chat: str, message_ids: Union[str, int, List[Union[str, int]]], type: Literal['Local', 'Global', 'Scheduled']='Global')
 ```
 
 Delete specified messages associated with the given chat.
@@ -120,24 +129,25 @@ Delete specified messages associated with the given chat.
 Parameters:
     chat (str): The GUID, link, or username of the chat associated with the messages
         (e.g., user, group, channel).
-    message_ids (Union[str, int, list]): The ID or list of IDs of the messages to be deleted.
-    type (str): The type of deletion, can be 'Global', 'Local', or 'Scheduled'. Default is 'Global'.
+    message_ids (Union[str, int, List[Union[str, int]]]): The ID or list of IDs of the messages to be deleted.
+    type (Literal['Local', 'Global', 'Scheduled']): The type of deletion. Case-insensitive. Default is 'Global'.
 
 Returns:
-    The updated information after deleting the messages.
+    The result of the API call.
 
 ### delete_my_messages
 
 ```python
-delete_my_messages(self: 'darkob.Client', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None)
+delete_my_messages(self: 'darkob.Messenger', chat: str, exclude_message_ids: Optional[Union[str, int, List[Union[str, int]]]]=None, type: Literal['Local', 'Global', 'Scheduled']='Global')
 ```
 
 Delete all messages sent by the authenticated user in a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    exclude_message_ids (Optional[Union[str, int, List[Union[str, int]]]]): 
+    exclude_message_ids (Optional[Union[str, int, List[Union[str, int]]]]):
         Message ID(s) to exclude from deletion (preserve them). Default is None.
+    type (Literal['Local', 'Global', 'Scheduled']): The type of deletion. Case-insensitive. Default is 'Global'.
 
 Returns:
     Result of the deletion operation.
@@ -145,14 +155,13 @@ Returns:
 ### edit_message
 
 ```python
-edit_message(self: 'darkob.Client', chat: str, message_id: Union[int, str], text: str, metadata: Optional[dict]=None)
+edit_message(self: 'darkob.Messenger', chat: str, message_id: Union[int, str], text: str, metadata: Optional[dict]=None)
 ```
 
 Edit the specified message associated with the given chat.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat associated with the message
-        (e.g., user, group, channel).
+    chat (str): The GUID, link, or username of the chat associated with the message (e.g., user, group, channel).
     message_id (Union[int, str]): The ID of the message to be edited.
     text (str): The new text content for the message.
     metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
@@ -160,35 +169,52 @@ Parameters:
 Returns:
     The updated information after editing the message.
 
+### forward_message
+
+```python
+forward_message(self: 'darkob.Messenger', from_chat: str, message_id: Union[str, int], to_chat: str, hide_author: bool=False, is_mute: bool=False, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
+```
+
+Forward a single message from one chat to another.
+
+Parameters:
+    from_chat (str): The GUID, link, or username of the source chat.
+    message_id (Union[str, int]): The ID of the message to forward.
+    to_chat (str): The GUID, link, or username of the destination chat.
+    hide_author (bool): Hide the original sender's identity. Default is False.
+    is_mute (bool): Forward silently without notification. Default is False.
+    schedule_time (Optional[Union[int, float, timedelta, datetime]]):
+        When to send the forwarded message.
+    schedule_type (Optional[Literal['Default', 'WhenOnline']]):
+        'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
+
+Returns:
+    The result of the API call.
+
 ### forward_messages
 
 ```python
-forward_messages(self: 'darkob.Client', from_chat: str, message_ids: Union[str, int, list], to_chat: str, hide_author: bool=False, is_mute: bool=False, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
+forward_messages(self: 'darkob.Messenger', from_chat: str, message_ids: Union[str, int, List[Union[str, int]]], to_chat: str, hide_author: bool=False, is_mute: bool=False, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
 ```
 
 Forward specified messages from one chat to another.
 
 Parameters:
     from_chat (str): The GUID, link, or username of the source chat.
-    message_ids (Union[str, int, list]): The IDs of the messages to forward.
+    message_ids (Union[str, int, List[Union[str, int]]]): The IDs of the messages to forward.
     to_chat (str): The GUID, link, or username of the destination chat.
     hide_author (bool): Hide the original sender's identity. Default is False.
     is_mute (bool): Forward silently without notification. Default is False.
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the forwarded message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send. Unix timestamp, timedelta, or datetime.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'. Case-insensitive.
 
 Returns:
-    The updated information after forwarding the messages.
+    The result of the API call.
 
 ### get_all_messages
 
 ```python
-get_all_messages(self: 'darkob.Client', chat: str, show_message_ids: bool=False)
+get_all_messages(self: 'darkob.Messenger', chat: str, show_message_ids: bool=False)
 ```
 
 Retrieve all messages from a chat.
@@ -203,18 +229,22 @@ Returns:
 ### get_chat_messages
 
 ```python
-get_chat_messages(self: 'darkob.Client', chat: str, max_id: Union[str, int]=None, sort: Literal['FromMax', 'FromMin']='FromMin', filter_type: Optional[Literal['Voice', 'File', 'Music', 'Gif', 'Media', 'Link']]=None, limit: int=None)
+get_chat_messages(self: 'darkob.Messenger', chat: str, max_id: Optional[Union[str, int]]=None, sort: Literal['FromMax', 'FromMin']='FromMin', filter_type: Optional[Literal['Voice', 'File', 'Music', 'Gif', 'Media', 'Link']]=None, limit: Optional[int]=None, all_pages: bool=False, min_id: Optional[Union[str, int]]=None, middle_message_id: Optional[Union[str, int]]=None)
 ```
 
 Get messages from a chat with filtering and pagination.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    max_id (Union[str, int], optional): Maximum message ID to start from.
+    max_id (Union[str, int], optional): Maximum message ID. Retained
+        as the second positional parameter for pre-1.18 callers.
     sort (Literal['FromMax', 'FromMin']): Sort direction. Default is 'FromMin'.
     filter_type (Literal, optional): Filter messages by type:
-        'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'
-    limit (int, optional): Maximum number of messages to retrieve. If None, fetches all messages.
+        'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'.
+    limit (int, optional): Maximum number of messages to retrieve.
+    all_pages (bool): If True, fetch all pages (ignores `limit`). Default is False.
+    min_id (Union[str, int], optional): Minimum message ID (new in 1.18).
+    middle_message_id (Union[str, int], optional): Start from this message ID (new in 1.18).
 
 Returns:
     The result containing messages, count, and pagination info.
@@ -222,7 +252,7 @@ Returns:
 ### get_first_message
 
 ```python
-get_first_message(self: 'darkob.Client', chat: str)
+get_first_message(self: 'darkob.Messenger', chat: str)
 ```
 
 Get the first message of a chat.
@@ -236,14 +266,14 @@ Returns:
 ### get_first_messages
 
 ```python
-get_first_messages(self: 'darkob.Client', chat: str, limit: int=100)
+get_first_messages(self: 'darkob.Messenger', chat: str, limit: int=100)
 ```
 
 Get the first messages of a chat up to a limit.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    limit (int): Maximum number of messages to retrieve (max 100, min 1).
+    limit (int): Maximum number of messages to retrieve (max 500, min 1).
 
 Returns:
     List of first messages and count.
@@ -251,7 +281,7 @@ Returns:
 ### get_last_message
 
 ```python
-get_last_message(self: 'darkob.Client', chat: str)
+get_last_message(self: 'darkob.Messenger', chat: str)
 ```
 
 Get the last message from a chat and retrieve its details.
@@ -265,14 +295,14 @@ Returns:
 ### get_last_messages
 
 ```python
-get_last_messages(self: 'darkob.Client', chat: str, limit: int=100)
+get_last_messages(self: 'darkob.Messenger', chat: str, limit: int=100)
 ```
 
 Get the last messages of a chat up to a limit.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    limit (int): Maximum number of messages to retrieve (max 1000).
+    limit (int): Maximum number of messages to retrieve (max 500).
 
 Returns:
     List of last messages and count.
@@ -280,7 +310,7 @@ Returns:
 ### get_message_info
 
 ```python
-get_message_info(self: 'darkob.Client', chat: str, message_id: Union[str, int])
+get_message_info(self: 'darkob.Messenger', chat: str, message_id: Union[str, int])
 ```
 
 Get detailed information about a message.
@@ -295,7 +325,7 @@ Returns:
 ### get_message_url
 
 ```python
-get_message_url(self: 'darkob.Client', chat: str, message_id: Union[str, int])
+get_message_url(self: 'darkob.Messenger', chat: str, message_id: Union[str, int])
 ```
 
 Get the shareable URL of a specific message.
@@ -310,37 +340,15 @@ Returns:
 ### get_messages
 
 ```python
-get_messages(self: 'darkob.Client', chat: str, types: Optional[Union[str, List[str]]]=None)
+get_messages(self: 'darkob.Messenger', chat: str, types: Optional[Union[str, List[str]]]=None, logic: Literal['OR', 'AND']='OR')
 ```
 
 Get messages from a chat with optional type filtering.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    types (Optional[Union[str, List[str]]]): Type(s) of messages to filter by.
-        Each item is independent.
-        Available types:
-            - "text": Text messages
-            - "image": Image messages
-            - "video": Video messages (non-round)
-            - "video_message": Round video messages
-            - "voice": Voice messages
-            - "music": Music messages
-            - "file": File messages
-            - "gif": GIF messages
-            - "live": Live messages
-            - "location": Location messages
-            - "poll": Poll messages
-            - "contact": Contact messages (only private chats)
-            - "event": Event messages
-            - "edited": Edited messages
-            - "forwarded": Forwarded messages
-            - "sticker": Sticker messages
-            - "me": Messages sent by the client itself
-            - "bots": Messages sent by bots
-            - "users": Messages sent by users
-        You can also pass a member GUID or username for member filtering.
-        If None, returns all messages.
+    types (Union[str, List[str]], optional): Type(s) of messages to filter by. Available types: text, image, video, video_message, voice, music, file, gif, live, location, poll, contact, event, edited, forwarded, sticker, me, bots, users. You can also pass a member GUID or username.
+    logic (str): How to combine multiple filters. 'OR' or 'AND'. Case-insensitive. Default is 'OR'.
 
 Returns:
     - messages: list of filtered messages.
@@ -349,11 +357,12 @@ Returns:
     - total_all: total messages before filtering.
     - filter_types: list of applied type filters.
     - member_guids: list of applied member GUID filters.
+    - logic: the applied logic ('OR' or 'AND').
 
 ### get_messages_by_id
 
 ```python
-get_messages_by_id(self: 'darkob.Client', chat: str, message_ids: Union[str, int, list])
+get_messages_by_id(self: 'darkob.Messenger', chat: str, message_ids: Union[str, int, list])
 ```
 
 Retrieve messages by their IDs.
@@ -368,7 +377,7 @@ Returns:
 ### get_messages_interval
 
 ```python
-get_messages_interval(self: 'darkob.Client', chat: str, middle_message_id: Union[int, str])
+get_messages_interval(self: 'darkob.Messenger', chat: str, middle_message_id: Union[int, str])
 ```
 
 Retrieve messages in an interval around a middle message ID.
@@ -383,7 +392,7 @@ Returns:
 ### get_messages_reactions
 
 ```python
-get_messages_reactions(self: 'darkob.Client', chat: str, min_id: Union[str, int], max_id: Union[str, int])
+get_messages_reactions(self: 'darkob.Messenger', chat: str, min_id: Union[str, int], max_id: Union[str, int])
 ```
 
 Get reactions of messages in a chat within a specific ID range.
@@ -399,7 +408,7 @@ Returns:
 ### get_messages_updates
 
 ```python
-get_messages_updates(self: 'darkob.Client', chat: str, state: int=round(time()) - 150)
+get_messages_updates(self: 'darkob.Messenger', chat: str, state: int=None)
 ```
 
 Get message updates for a specific chat.
@@ -414,7 +423,7 @@ Returns:
 ### get_pinned_messages
 
 ```python
-get_pinned_messages(self: 'darkob.Client', chat: str)
+get_pinned_messages(self: 'darkob.Messenger', chat: str)
 ```
 
 Get all pinned messages from a chat.
@@ -423,12 +432,12 @@ Parameters:
     chat (str): The GUID, link, or username of the chat.
 
 Returns:
-    Data: Dictionary containing pinned messages and optionally message IDs.
+    Dictionary containing pinned messages and pinned IDs.
 
 ### get_poll_option_voters
 
 ```python
-get_poll_option_voters(self: 'darkob.Client', poll_id: str, selection_index: Union[str, int], start_id: Optional[str]=None)
+get_poll_option_voters(self: 'darkob.Messenger', poll_id: str, selection_index: Union[str, int], show_user_guids: bool=False, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Get voters for a specific poll option.
@@ -436,15 +445,23 @@ Get voters for a specific poll option.
 Parameters:
     poll_id (str): The ID of the poll for which voters are requested.
     selection_index (Union[str, int]): The index of the poll option for which voters are requested.
-    start_id (Optional[str]): The ID from which to start fetching voters. Defaults to None.
+    show_user_guids (bool, optional):
+        If True, include a list of unique voter GUIDs in the output.
+        Default is False.
+    all_pages (bool, optional):
+        If True, automatically fetch all pages of voters.
+        If False, only fetch one page using start_id.
+        Default is True.
+    start_id (Optional[str]): The ID from which to start fetching voters.
+        Only used when all_pages is False or as the initial point.
 
 Returns:
-    The voters for the specified poll option.
+    Result containing all voters, total count, and optionally voter_guids.
 
 ### get_poll_status
 
 ```python
-get_poll_status(self: 'darkob.Client', poll_id: str)
+get_poll_status(self: 'darkob.Messenger', poll_id: str)
 ```
 
 Get the status of a specific poll.
@@ -458,7 +475,7 @@ Returns:
 ### get_scheduled_messages
 
 ```python
-get_scheduled_messages(self: 'darkob.Client', chat: str, start_id: str=None)
+get_scheduled_messages(self: 'darkob.Messenger', chat: str, start_id: Optional[str]=None)
 ```
 
 Get scheduled messages in a chat.
@@ -469,6 +486,21 @@ Parameters:
 
 Returns:
     The result of the API call containing scheduled messages.
+
+### get_wallet_transfer_message
+
+```python
+get_wallet_transfer_message(self: 'darkob.Messenger', transfer_id: str, access_transfer: str)
+```
+
+Get a wallet transfer message details.
+
+Parameters:
+    transfer_id (str): The transfer ID.
+    access_transfer (str): The access transfer hash.
+
+Returns:
+    The result of the API call.
 
 ### iter_messages
 
@@ -492,7 +524,7 @@ Yields:
 ### mark_as_read
 
 ```python
-mark_as_read(self: 'darkob.Client', chat: str)
+mark_as_read(self: 'darkob.Messenger', chat: str)
 ```
 
 Mark a chat as read by seeing the last message.
@@ -506,7 +538,7 @@ Returns:
 ### mark_as_seen
 
 ```python
-mark_as_seen(self: 'darkob.Client', chat: str, message_id: Union[str, int]=None)
+mark_as_seen(self: 'darkob.Messenger', chat: str, message_id: Optional[Union[str, int]]=None)
 ```
 
 Mark a specific message as seen.
@@ -521,38 +553,38 @@ Returns:
 ### pin_message
 
 ```python
-pin_message(self: 'darkob.Client', chat: str, message_id: Union[str, int])
+pin_message(self: 'darkob.Messenger', chat: str, message_id: Union[str, int])
 ```
 
-pin a message.
+Pin a message.
 
 Parameters:
-    chat (str): The GUID, link, or username of the recipient.
+    chat (str): The GUID, link, or username of the chat.
     message_id (Union[str, int]): The ID of the message to pin.
 
 Returns:
-    The update indicating the success of the operation.
+    The result of the API call.
 
 ### remove_reaction
 
 ```python
-remove_reaction(self: 'darkob.Client', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
+remove_reaction(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], reaction_id: Union[int, str])
 ```
 
 Remove a reaction from a specific message.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat associated with the message.
-    message_id (str): The ID of the message from which the reaction will be removed.
-    reaction_id (int): The ID of the reaction to be removed.
+    message_id (Union[str, int]): The ID of the message from which the reaction will be removed.
+    reaction_id (Union[int, str]): The ID of the reaction to be removed.
 
 Returns:
-    The update indicating the success of removing the reaction.
+    The result of the API call.
 
 ### report_message
 
 ```python
-report_message(self: 'darkob.Client', chat: str, message_id: Union[str, int], report_type: Union[int, str], description: Optional[str]=None)
+report_message(self: 'darkob.Messenger', chat: str, message_id: Union[str, int], report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a message for a specific reason.
@@ -560,14 +592,8 @@ Report a message for a specific reason.
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     message_id (Union[str, int]): The ID of the message to be reported.
-    report_type (Union[int, str]): The report reason.
-        Can be:
-            - Integer code between 100 and 106
-            - String name (case-insensitive): 'Other', 'Violence',
-              'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'
-        If set to 100 (Other), `description` becomes required.
-    description (Optional[str]): Description for the report.
-        Required when `report_type` is 100 (Other).
+    report_type (Union[int, str]): The report reason. Can be int (100-106) or str name (case-insensitive): 'Other', 'Violence', 'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'. If 100 (Other), 'description' is required.
+    description (str, optional): Description for the report. Required when report_type is 100 (Other).
 
 Returns:
     The result of the API call.
@@ -575,7 +601,7 @@ Returns:
 ### request_send_file
 
 ```python
-request_send_file(self: 'darkob.Client', file_name: str, size: Union[str, int, float], mime: str=None)
+request_send_file(self: 'darkob.Messenger', file_name: str, size: Union[str, int, float], mime: Optional[str]=None)
 ```
 
 Request sending a file.
@@ -591,7 +617,7 @@ Returns:
 ### retract_poll
 
 ```python
-retract_poll(self: 'darkob.Client', poll_id: str)
+retract_poll(self: 'darkob.Messenger', poll_id: str)
 ```
 
 Retract a poll.
@@ -602,17 +628,32 @@ Parameters:
 Returns:
     The result of the API call.
 
+### save_message_draft
+
+```python
+save_message_draft(self: 'darkob.Messenger', chat: str, text: str)
+```
+
+Save a message as a draft in a chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat, or 'me'/'cloud'/'self'/'myself'.
+    text (str): The draft text content (Max: 4096 chars, 128 lines).
+
+Returns:
+    The result of the API call.
+
 ### search_chat_messages
 
 ```python
-search_chat_messages(self: 'darkob.Client', chat: str, search_text: str)
+search_chat_messages(self: 'darkob.Messenger', chat: str, search_text: str)
 ```
 
 Searches for chat messages based on the specified criteria.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    search_text (str): The text to search for in messages. 
+    search_text (str): The text to search for in messages.
 
 Returns:
     The search results containing messages.
@@ -620,22 +661,27 @@ Returns:
 ### search_global_messages
 
 ```python
-search_global_messages(self: 'darkob.Client', search_text: str, start_id: Optional[str]=None)
+search_global_messages(self: 'darkob.Messenger', search_text: str, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Search for messages globally across all chats.
 
 Parameters:
     search_text (str): The text or hashtag to search for.
-    start_id (str, optional): The ID to start fetching from. Defaults to None.
+    all_pages (bool, optional):
+        If True, automatically fetch all pages of results.
+        If False, only fetch one page using start_id.
+        Default is True.
+    start_id (str, optional): The ID to start fetching from.
+        Only used when all_pages is False or as the initial point.
 
 Returns:
-    The result of the API call.
+    Result containing messages, total count, and pagination info.
 
 ### search_messages
 
 ```python
-search_messages(self: 'darkob.Client', chat: str, text: str)
+search_messages(self: 'darkob.Messenger', chat: str, text: str)
 ```
 
 Search for messages containing specific text in a chat.
@@ -650,7 +696,7 @@ Returns:
 ### send_contact
 
 ```python
-send_contact(self: 'darkob.Client', chat: str, phone_number: Union[str, int], user: str, first_name: str, last_name: str='', vcard: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None)
+send_contact(self: 'darkob.Messenger', chat: str, phone_number: Union[str, int], user: str, first_name: str, last_name: str='', vcard: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None)
 ```
 
 Send a contact message to a specified chat.
@@ -662,8 +708,7 @@ Parameters:
     first_name (str): Contact's first name.
     last_name (str, optional): Contact's last name. Defaults to "".
     vcard (str, optional): Custom vCard string. Defaults to None.
-    reply_to_message_id (Union[str, int], optional): ID of the message
-        to reply to. Defaults to None.
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to. Defaults to None.
 
 Returns:
     The result of the API call.
@@ -671,25 +716,29 @@ Returns:
 ### send_file
 
 ```python
-send_file(self: 'darkob.Client', chat: str, file: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_file(self: 'darkob.Messenger', chat: str, file: Optional[Union[Path, str, bytes, 'Data']]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, type: str='File', is_spoil: bool=False, thumb: Optional[Union[bool, str, Path, bytes]]=None, audio_info: bool=True, performer: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
-Send a file.
+Send a file (Image, Video, Voice, Music, Gif, File) to a chat.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat.
-    file (Union[Path, bytes], optional): The file data (path or bytes).
-    text (Optional[str]): The caption for the file. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    chat (str): The GUID, link, or username of the chat. Use 'me', 'cloud', 'self', or 'myself' for saved messages.
+    file (Union[Path, str, bytes, Data], optional): The file data (path, URL, bytes, or Data object).
+    file_inline (Union[dict, Data], optional): Pre-uploaded file object. If provided, 'file' and 'base64' are ignored.
+    text (str, optional): The caption for the file (Max: 2048 chars, 64 lines).
+    type (str): The type of the file ('File', 'Image', 'Video', 'Voice', 'Music', 'Gif', 'VideoMessage'). Defaults to 'File'.
+    is_spoil (bool): If True, the file will be marked as spoil.
+    thumb (Union[bool, str, Path, bytes], optional): Thumbnail for the file.
+    audio_info (bool): If True, extracts audio info for Music/Voice.
+    performer (str, optional): Music performer name.
+    reply_to_message_id (Union[str, int], optional): The ID of the message to which this is a reply.
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    is_mute (bool): If True, the message will be sent silently.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded file data.
+    **kwargs: Additional parameters (e.g., file_name, width, height, time, callback).
 
 Returns:
     The result of the API call.
@@ -697,85 +746,94 @@ Returns:
 ### send_gif
 
 ```python
-send_gif(self: 'darkob.Client', chat: str, gif: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_gif(self: 'darkob.Messenger', chat: str, gif: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send a GIF to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    gif (Path, bytes, optional): The GIF data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the GIF. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    thumb (Optional[Union[bool, str]]): Thumbnail behavior:
-        - None or True: Auto-generate thumbnail using available libraries (default)
-        - False: Use default thumbnail
-        - str: Custom thumbnail as Base64 string (pure Base64, no data:image header)
-    width (Optional[int]): Custom width for the GIF. Defaults to None (auto-detect).
-    height (Optional[int]): Custom height for the GIF. Defaults to None (auto-detect).
-    time (Optional[int]): Custom duration for the GIF in seconds. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    gif (Union[Path, str, bytes], optional): The GIF data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded GIF object. If provided, 'gif' and 'base64' are ignored.
+    text (str, optional): Caption for the GIF (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    thumb (Union[bool, str], optional): Thumbnail for the GIF.
+    width (int, optional): Custom width for the GIF.
+    height (int, optional): Custom height for the GIF.
+    time (int, optional): Custom duration for the GIF in seconds.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded GIF data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
 
 ### send_image
 
 ```python
-send_image(self: 'darkob.Client', chat: str, image: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_image(self: 'darkob.Messenger', chat: str, image: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send an image to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    image (Path, bytes, optional): The image data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the image. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
+    image (Union[Path, str, bytes], optional): The image data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded image object. If provided, 'image' and 'base64' are ignored.
+    text (str, optional): Caption for the image (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the image should be marked as a spoiler. Defaults to False.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    thumb (Optional[Union[bool, str]]): Thumbnail behavior:
-        - None or True: Auto-generate thumbnail using available libraries (or default).
-        - str: Custom thumbnail as Base64 string.
-    width (Optional[int]): Custom width for the image. Defaults to None (auto-detect).
-    height (Optional[int]): Custom height for the image. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    thumb (Union[bool, str], optional): Thumbnail behavior.
+    width (int, optional): Custom width for the image.
+    height (int, optional): Custom height for the image.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded image data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
 
 ### send_live
 
 ```python
-send_live(self: 'darkob.Client', chat: str, title: str=None, reply_to_message_id: Union[str, int]=None, thumb: Optional[Union[str, Path, bytes]]=None)
+send_live(self: 'darkob.Messenger', chat: str, title: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, thumb: Optional[Union[str, Path, bytes]]=None, suggestion_comments: Optional[List[str]]=None, device_type: Literal['Software', 'Mobile']='Software')
 ```
 
 Send a live stream.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    title (str): Live stream title.
-    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
-    thumb (Optional[Union[str, Path, bytes]]): Thumbnail for the live stream.
-        - str: Base64 encoded string, file path, or URL.
-        - Path: Path to thumbnail file.
-        - bytes: Raw thumbnail bytes.
-        If not provided, a default thumbnail will be used.
+    title (str, optional): Live stream title.
+    reply_to_message_id (Union[str, int], optional): The ID of the message to which this is a reply.
+    thumb (Union[str, Path, bytes], optional): Thumbnail for the live stream. str (base64/path/URL), Path, or bytes. Default thumbnail if not provided.
+    suggestion_comments (List[str], optional): Suggested comments for the live stream.
+    device_type (str): The device type. 'Software' or 'Mobile'. Case-insensitive. Defaults to 'Software'.
+
+Returns:
+    The result of the API call.
+
+### send_live_location
+
+```python
+send_live_location(self: 'darkob.Messenger', chat: str, latitude: float, longitude: float, live_period: int=60, reply_to_message_id: Optional[Union[str, int]]=None)
+```
+
+Send a live location.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat, or 'me'/'cloud'/'self'/'myself'.
+    latitude (float): Latitude (-90 to 90).
+    longitude (float): Longitude (-180 to 180).
+    live_period (int): Live location duration in seconds. Default: 60.
+    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to. Defaults to None.
 
 Returns:
     The result of the API call.
@@ -783,16 +841,24 @@ Returns:
 ### send_location
 
 ```python
-send_location(self: 'darkob.Client', chat: str, latitude: float, longitude: float, reply_to_message_id: Union[str, int]=None)
+send_location(self: 'darkob.Messenger', chat: str, latitude: float, longitude: float, reply_to_message_id: Optional[Union[str, int]]=None, map_view: Optional[Dict]=None)
 ```
 
 Send a map location.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat.
+    chat (str): The GUID, link, or username of the chat, or 'me'/'cloud'/'self'/'myself'.
     latitude (float): Latitude (-90 to 90).
     longitude (float): Longitude (-180 to 180).
-    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
+    reply_to_message_id (Union[str, int], optional): The ID of the message to which this is a reply.
+    map_view (dict, optional): Custom map view with keys: tile_side_count (int), tile_urls (list[str]), x_loc (float), y_loc (float).
+        Example:
+            map_view= {
+                "tile_side_count": 3,
+                "tile_urls": ["https://tile/...", ...],
+                "x_loc": 0.5,
+                "y_loc": 0.5
+            }
 
 Returns:
     The result of the API call.
@@ -800,33 +866,21 @@ Returns:
 ### send_message
 
 ```python
-send_message(self: 'darkob.Client', chat: str, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, file_inline: Optional[Union[Data, Path, bytes]]=None, base64_data: Optional[str]=None, sticker: Optional[Union[Data, dict]]=None, type: str='File', is_spoil: bool=False, thumb: Optional[Union[bool, str, Path, bytes]]=None, audio_info: bool=True, metadata: Optional[dict]=None, performer: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, **kwargs)
+send_message(self: 'darkob.Messenger', chat: str, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, file_inline=None, base64_data: Optional[str]=None, sticker=None, type: str='File', is_spoil: bool=False, thumb=None, audio_info: bool=True, metadata: Optional[dict]=None, performer: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[str]=None, is_mute: bool=False, **kwargs)
 ```
 
-Send a message to a chat.
+Send text, an uploaded file or a sticker.
 
-Parameters:
-    chat (str): The GUID, link, or username of the chat.
-    text (Optional[str]): The text content of the message.
-    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to.
-    via_bot (Optional[str]): Bot GUID or username to send the message via.
-    metadata (Optional[dict]): Additional metadata for text formatting.
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message. Accepts:
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now (e.g., timedelta(hours=1))
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
-
-Returns:
-    MessageResult: The API response containing the sent message details,
-    with action methods like edit, delete, reply, forward, pin.
+The long parameter list is intentional compatibility: 1.18 moved file
+arguments into ``send_file`` and removed them from this method. Keep
+the original positional layout instead of silently misrouting callers.
+Keyword-only use of upstream's ``metadata`` and ``is_mute`` is
+supported as before.
 
 ### send_message_api_call
 
 ```python
-send_message_api_call(self: 'darkob.Client', chat: str, message_id: Union[str, int], button_id: str)
+send_message_api_call(self: 'darkob.Messenger', chat: str, message_id: str | int, button_id: str)
 ```
 
 Send API call response to a chat's inline keyboard button.
@@ -843,48 +897,47 @@ Example:
     >>> await client.send_message_api_call(  # doctest: +SKIP
     ...     chat="b0C2y04506bd2306f068aa161e0502db",
     ...     message_id="1499338519906784",
-    ...     button_id="b0SPm00c8ab83b689ac2eeffe16ec7db"
+    ...     button_id="100"
     ... )
 
 ### send_music
 
 ```python
-send_music(self: 'darkob.Client', chat: str, music: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, performer: Optional[str]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_music(self: 'darkob.Messenger', chat: str, music: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, performer: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send a music file to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    music (Path, bytes, optional): The music data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the music. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    performer (Optional[str]): Name of the performer/artist. Defaults to None (auto-detect).
-    time (Optional[int]): Custom duration for the music in seconds. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    music (Union[Path, str, bytes], optional): The music data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded music object. If provided, 'music' and 'base64' are ignored.
+    text (str, optional): Caption for the music (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    performer (str, optional): Name of the performer/artist. Auto-detected if not provided.
+    time (int, optional): Custom duration for the music in seconds. Auto-detected if not provided.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded music data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
 
 ### send_now_scheduled_message
 
 ```python
-send_now_scheduled_message(self: 'darkob.Client', chat: str, message_id: Union[int, str])
+send_now_scheduled_message(self: 'darkob.Messenger', chat: str, message_id: Union[int, str])
 ```
 
 Send a scheduled message immediately.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    message_id (int): The ID of the scheduled message to send now.
+    message_id (Union[int, str]): The ID of the scheduled message to send now.
 
 Returns:
     The result of the API call.
@@ -892,7 +945,7 @@ Returns:
 ### send_poll
 
 ```python
-send_poll(self: 'darkob.Client', chat: str, question: str, options: list, is_anonymous: bool=True, multiple_answers: bool=False, reply_to_message_id: Optional[Union[str, int]]=None)
+send_poll(self: 'darkob.Messenger', chat: str, question: str, options: list, is_anonymous: bool=True, multiple_answers: bool=False, reply_to_message_id: Optional[Union[str, int]]=None, is_mute: bool=False)
 ```
 
 Send a poll message with the specified parameters.
@@ -904,6 +957,7 @@ Parameters:
     is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
     multiple_answers (bool): Whether the poll allows multiple answers or not. Defaults to False.
     reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to. Defaults to None.
+    is_mute (bool): Whether the poll message is sent silently (without notification). Defaults to False.
 
 Returns:
     The updated information after creating the poll.
@@ -911,19 +965,20 @@ Returns:
 ### send_quiz
 
 ```python
-send_quiz(self: 'darkob.Client', chat: str, question: str, options: list, correct_option: Union[int, str], hint: str=None, is_anonymous: bool=True, reply_to_message_id: Optional[Union[str, int]]=None)
+send_quiz(self: 'darkob.Messenger', chat: str, question: str, options: list, correct_option: Union[int, str], hint: Optional[str]=None, is_anonymous: bool=True, reply_to_message_id: Optional[Union[str, int]]=None, is_mute: bool=False)
 ```
 
-Send a quiz-type poll message with the specified parameters.
+Send a quiz-type poll message.
 
 Parameters:
-    chat (str): The GUID or link or username of the chat associated with the quiz (e.g., group, channel).
-    question (str): The question for the quiz.
-    options (list): A list of string values representing the quiz options.
-    correct_option (Union[int, str]): The index or ID of the correct option for quiz-type polls.
-    hint (str): A hint for the correct answer in quiz-type polls. Defaults to None.
-    is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
-    reply_to_message_id (Union[str, int]): The ID of the message to reply to. Defaults to None.
+    chat (str): The GUID, link, or username of the chat.
+    question (str): The question for the quiz (Max: 255 chars).
+    options (list): A list of quiz options (2 to 10 items, each Max: 100 chars).
+    correct_option (Union[int, str]): The index or text of the correct option.
+    hint (str, optional): A hint for the correct answer (Max: 200 chars).
+    is_anonymous (bool): Whether the poll is anonymous. Defaults to True.
+    reply_to_message_id (Union[str, int], optional): The ID of the message to reply to.
+    is_mute (bool): Whether the quiz message is sent silently. Defaults to False.
 
 Returns:
     The updated information after creating the quiz-type poll.
@@ -931,7 +986,7 @@ Returns:
 ### send_rubino_post
 
 ```python
-send_rubino_post(self: 'darkob.Client', chat: str, post_id: str, post_profile_id: str, is_mute: bool=False)
+send_rubino_post(self: 'darkob.Messenger', chat: str, post_id: str, post_profile_id: str, is_mute: bool=False)
 ```
 
 Send a Rubino post to a chat.
@@ -948,7 +1003,7 @@ Returns:
 ### send_rubino_product
 
 ```python
-send_rubino_product(self: 'darkob.Client', chat: str, store_id: str, product_id: str, product_varieties: List[dict])
+send_rubino_product(self: 'darkob.Messenger', chat: str, store_id: str, product_id: str, product_varieties: List[Dict[str, Any]])
 ```
 
 Send a Rubino product to a chat.
@@ -957,7 +1012,7 @@ Parameters:
     chat (str): The GUID, link, or username of the chat.
     store_id (str): The store ID.
     product_id (str): The product ID.
-    product_varieties (List[dict]): List of product varieties.
+    product_varieties (List[Dict[str, Any]]): List of product varieties.
 
 Returns:
     The result of the API call.
@@ -965,7 +1020,7 @@ Returns:
 ### send_rubino_story
 
 ```python
-send_rubino_story(self: 'darkob.Client', chat: str, story_id: str, story_profile_id: str, reply_text: str='', type: Literal['Reply', 'Direct']='Reply', is_mute: bool=False)
+send_rubino_story(self: 'darkob.Messenger', chat: str, story_id: str, story_profile_id: str, reply_text: str='', type: Literal['Reply', 'Direct']='Reply', is_mute: bool=False)
 ```
 
 Send a Rubino story reply or direct message.
@@ -975,7 +1030,7 @@ Parameters:
     story_id (str): The story ID.
     story_profile_id (str): The story profile ID.
     reply_text (str): Reply text. Default is empty string.
-    type (str): 'Reply' or 'Direct'. Default is 'Reply'.
+    type (str): 'Reply' or 'Direct'. Case-insensitive. Default is 'Reply'.
     is_mute (bool): Send silently without notification. Default is False.
 
 Returns:
@@ -984,7 +1039,7 @@ Returns:
 ### send_sticker
 
 ```python
-send_sticker(self: 'darkob.Client', chat: str, emoji_character: str, sticker_id: str, sticker_set_id: str, file: dict, w_h_ratio: str='1.0', reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
+send_sticker(self: 'darkob.Messenger', chat: str, emoji_character: str, sticker_id: str, sticker_set_id: str, file: dict, w_h_ratio: str='1.0', reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, is_mute: bool=False, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None)
 ```
 
 Send a sticker.
@@ -996,113 +1051,121 @@ Parameters:
     sticker_set_id (str): The ID of the sticker set.
     file (dict): The file data for the sticker.
     w_h_ratio (str): The width-to-height ratio of the sticker. Defaults to '1.0'.
-    reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    reply_to_message_id (Union[str, int], optional): The ID of the message to which this is a reply.
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline' (users only).
+
+Returns:
+    The result of the API call.
 
 ### send_video
 
 ```python
-send_video(self: 'darkob.Client', chat: str, video: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_video(self: 'darkob.Messenger', chat: str, video: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send a video to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    video (Path, bytes, optional): The video data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the video. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
+    video (Union[Path, str, bytes], optional): The video data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded video object. If provided, 'video' and 'base64' are ignored.
+    text (str, optional): Caption for the video (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the video should be marked as a spoiler. Defaults to False.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    thumb (Optional[Union[bool, str]]): Thumbnail behavior:
-        - None or True: Auto-generate thumbnail using available libraries (or default).
-        - str: Custom thumbnail as Base64 string.
-    width (Optional[int]): Custom width for the video. Defaults to None (auto-detect).
-    height (Optional[int]): Custom height for the video. Defaults to None (auto-detect).
-    time (Optional[int]): Custom duration for the video in seconds. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    thumb (Union[bool, str], optional): Thumbnail behavior.
+    width (int, optional): Custom width for the video.
+    height (int, optional): Custom height for the video.
+    time (int, optional): Custom duration for the video in seconds.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded video data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
 
 ### send_video_message
 
 ```python
-send_video_message(self: 'darkob.Client', chat: str, video_message: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_video_message(self: 'darkob.Messenger', chat: str, video_message: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, is_spoil: bool=False, via_bot: Optional[str]=None, thumb: Optional[Union[bool, str]]=None, width: Optional[int]=None, height: Optional[int]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send a video message (round video) to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    video_message (Path, bytes, optional): The video message data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the video message. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
+    video_message (Union[Path, str, bytes], optional): The video message data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded video message object. If provided, 'video_message' and 'base64' are ignored.
+    text (str, optional): Caption for the video message (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
     is_spoil (bool): Whether the video message should be marked as a spoiler. Defaults to False.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    thumb (Optional[Union[bool, str]]): Thumbnail behavior:
-        - None or True: Auto-generate thumbnail using available libraries (or default).
-        - str: Custom thumbnail as Base64 string.
-    width (Optional[int]): Custom width for the video message. Defaults to None (auto-detect).
-    height (Optional[int]): Custom height for the video message. Defaults to None (auto-detect).
-    time (Optional[int]): Custom duration for the video message in seconds. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    thumb (Union[bool, str], optional): Thumbnail behavior.
+    width (int, optional): Custom width for the video message.
+    height (int, optional): Custom height for the video message.
+    time (int, optional): Custom duration for the video message in seconds.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded video message data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
 
 ### send_voice
 
 ```python
-send_voice(self: 'darkob.Client', chat: str, voice: Union[Path, bytes]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, time: Optional[int]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: str=None, **kwargs)
+send_voice(self: 'darkob.Messenger', chat: str, voice: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[Union[dict, 'Data']]=None, text: Optional[str]=None, reply_to_message_id: Optional[Union[str, int]]=None, via_bot: Optional[str]=None, time: Optional[int]=None, is_mute: bool=False, metadata: Optional[dict]=None, schedule_time: Optional[Union[int, float, timedelta, datetime]]=None, schedule_type: Optional[Literal['Default', 'WhenOnline']]=None, base64: Optional[str]=None, **kwargs)
 ```
 
 Send a voice message to a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
-    voice (Path, bytes, optional): The voice data. Can be a file path or bytes.
-    text (Optional[str]): Caption for the voice message. Defaults to None.
-    reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
-    via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
-    time (Optional[int]): Custom duration for the voice message in seconds. Defaults to None (auto-detect).
-    schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
-        When to send the message.
-        - Unix timestamp (int/float): Absolute time
-        - timedelta: Relative time from now
-        - datetime: Absolute date and time
-    schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-        'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+    voice (Union[Path, str, bytes], optional): The voice data (path, URL, or bytes).
+    file_inline (Union[dict, Data], optional): Pre-uploaded voice object. If provided, 'voice' and 'base64' are ignored.
+    text (str, optional): Caption for the voice message (Max: 2048 chars, 64 lines).
+    reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
+    via_bot (str, optional): Bot GUID or username to send the message via.
+    time (int, optional): Custom duration for the voice message in seconds. Auto-detected if not provided.
+    is_mute (bool): If True, the message will be sent silently. Defaults to False.
+    metadata (dict, optional): Pre-formatted metadata for the caption.
+    schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
+    schedule_type (str, optional): 'Default' or 'WhenOnline'.
     base64 (str, optional): Base64 encoded voice data.
+    **kwargs: Additional parameters.
 
 Returns:
-    The API response containing the sent message details.
+    The result of the API call.
+
+### send_wallet_transfer_message
+
+```python
+send_wallet_transfer_message(self: 'darkob.Messenger', chat: str, transfer_id: str, access_transfer: str)
+```
+
+Send a wallet transfer message to a chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat.
+    transfer_id (str): The transfer ID.
+    access_transfer (str): The access transfer hash.
+
+Returns:
+    The result of the API call.
 
 ### stop_poll
 
 ```python
-stop_poll(self: 'darkob.Client', poll_id: str)
+stop_poll(self: 'darkob.Messenger', poll_id: str)
 ```
 
 Stop a poll.
@@ -1116,14 +1179,14 @@ Returns:
 ### transcribe_voice
 
 ```python
-transcribe_voice(self: 'darkob.Client', chat: Union[str, int], message_id: Union[str, int])
+transcribe_voice(self: 'darkob.Messenger', chat: Union[str, int], message_id: Union[str, int])
 ```
 
 Transcribes voice messages.
 
 Parameters:
-    chat (str): The GUID, link, or username of the chat (chat, channel, or group) containing the voice message.
-    message_id (str): The ID of the voice message.
+    chat (Union[str, int]): The GUID, link, or username of the chat containing the voice message.
+    message_id (Union[str, int]): The ID of the voice message.
 
 Returns:
     The transcription result.
@@ -1131,7 +1194,7 @@ Returns:
 ### unpin_all_messages
 
 ```python
-unpin_all_messages(self: 'darkob.Client', chat: str)
+unpin_all_messages(self: 'darkob.Messenger', chat: str)
 ```
 
 Unpin all pinned messages in a group, channel, or private chat.
@@ -1140,27 +1203,27 @@ Parameters:
     chat (str): The GUID, link, or username of the chat.
 
 Returns:
-    The update indicating the success of the operation.
+    The result of the API call.
 
 ### unpin_message
 
 ```python
-unpin_message(self: 'darkob.Client', chat: str, message_id: Union[str, int])
+unpin_message(self: 'darkob.Messenger', chat: str, message_id: Union[str, int])
 ```
 
-unpin a message.
+Unpin a message.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
     message_id (Union[str, int]): The ID of the message to unpin.
 
 Returns:
-    The update indicating the success of the operation.
+    The result of the API call.
 
 ### vote_poll
 
 ```python
-vote_poll(self: 'darkob.Client', poll_id: str, selection_index: Union[str, int])
+vote_poll(self: 'darkob.Messenger', poll_id: str, selection_index: Union[str, int])
 ```
 
 Vote on a poll option.
@@ -1170,14 +1233,14 @@ Parameters:
     selection_index (Union[str, int]): The index of the option to vote for.
 
 Returns:
-    The update indicating the success of the vote.
+    The result of the API call.
 
 ## chats
 
 ### accept_all_join_requests
 
 ```python
-accept_all_join_requests(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
+accept_all_join_requests(self: 'darkob.Messenger', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Accept all pending join requests in a group or channel.
@@ -1192,7 +1255,7 @@ Returns:
 ### accept_join_request
 
 ```python
-accept_join_request(self: 'darkob.Client', chat: str, user: str)
+accept_join_request(self: 'darkob.Messenger', chat: str, user: str)
 ```
 
 Accept a join request for a group or channel.
@@ -1207,7 +1270,7 @@ Returns:
 ### accept_ownership_request
 
 ```python
-accept_ownership_request(self: 'darkob.Client', chat: str)
+accept_ownership_request(self: 'darkob.Messenger', chat: str)
 ```
 
 Accept an ownership transfer request.
@@ -1218,10 +1281,25 @@ Parameters:
 Returns:
     The result of the API call.
 
+### add_member
+
+```python
+add_member(self: 'darkob.Messenger', chat: str, member: str)
+```
+
+Add a single member to a channel or group.
+
+Parameters:
+    chat (str): The GUID, link, or username of the channel/group.
+    member (str): The GUID or username of the member to add.
+
+Returns:
+    The result of the API call.
+
 ### add_members
 
 ```python
-add_members(self: 'darkob.Client', chat: str, members: Union[str, List[str]])
+add_members(self: 'darkob.Messenger', chat: str, members: Union[str, List[str]])
 ```
 
 Add members to a channel or group.
@@ -1236,7 +1314,7 @@ Returns:
 ### archive_chat
 
 ```python
-archive_chat(self: 'darkob.Client', chat: str)
+archive_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Archive a chat.
@@ -1250,7 +1328,7 @@ Returns:
 ### ban_member
 
 ```python
-ban_member(self: 'darkob.Client', chat: str, member: str)
+ban_member(self: 'darkob.Messenger', chat: str, member: str)
 ```
 
 Ban a member from a group or channel.
@@ -1265,7 +1343,7 @@ Returns:
 ### ban_members
 
 ```python
-ban_members(self: 'darkob.Client', chat: str, members: List[str])
+ban_members(self: 'darkob.Messenger', chat: str, members: List[str])
 ```
 
 Ban multiple members from a group or channel.
@@ -1275,12 +1353,12 @@ Parameters:
     members (List[str]): List of GUIDs or usernames of members to ban.
 
 Returns:
-    Results of all operations.
+    Result containing total count, success/failed counts, and banned/failed members.
 
 ### cancel_change_owner
 
 ```python
-cancel_change_owner(self: 'darkob.Client', chat: str)
+cancel_change_owner(self: 'darkob.Messenger', chat: str)
 ```
 
 Cancels a pending ownership transfer request for a channel or group.
@@ -1294,7 +1372,7 @@ Returns:
 ### change_owner
 
 ```python
-change_owner(self: 'darkob.Client', chat: str, new_owner: str)
+change_owner(self: 'darkob.Messenger', chat: str, new_owner: str)
 ```
 
 Request to transfer ownership of a chat to another user.
@@ -1314,7 +1392,7 @@ Note:
 ### check_join
 
 ```python
-check_join(self: 'darkob.Client', chat: str, member: str)
+check_join(self: 'darkob.Messenger', chat: str, member: str)
 ```
 
 Check if a user or bot is a member of a specific group or channel.
@@ -1326,10 +1404,40 @@ Parameters:
 Returns:
     bool: True if user/bot is a member, False otherwise.
 
+### check_rubino_username
+
+```python
+check_rubino_username(self: 'darkob.Messenger', username: str)
+```
+
+Check the availability of a Rubino page.
+
+Parameters:
+    username (str): The username to check.
+
+Returns:
+    The result of the API call.
+
+### check_voice_chat_participants
+
+```python
+check_voice_chat_participants(self: 'darkob.Messenger', chat: str, users: Union[str, List[str]], voice_chat_id: Optional[str]=None)
+```
+
+Check which of the given users/bots are currently in the group/channel voice chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group or channel.
+    users (Union[str, List[str]]): A single user GUID, username, link, or a list of them.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
+
+Returns:
+    The result of the API call, containing only the participants from the provided list.
+
 ### clear_all_drafts
 
 ```python
-clear_all_drafts(self: 'darkob.Client')
+clear_all_drafts(self: 'darkob.Messenger')
 ```
 
 Clear all drafts.
@@ -1340,7 +1448,7 @@ Returns:
 ### clear_black_list
 
 ```python
-clear_black_list(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
+clear_black_list(self: 'darkob.Messenger', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Clear black list with unban all banned members in a group or channel.
@@ -1355,7 +1463,7 @@ Returns:
 ### clear_chat_draft
 
 ```python
-clear_chat_draft(self: 'darkob.Client', chat: str)
+clear_chat_draft(self: 'darkob.Messenger', chat: str)
 ```
 
 Clear the draft of a specific chat.
@@ -1369,7 +1477,7 @@ Returns:
 ### click_chat_ads
 
 ```python
-click_chat_ads(self: 'darkob.Client', chat_ads_id: str)
+click_chat_ads(self: 'darkob.Messenger', chat_ads_id: str)
 ```
 
 Register a click action on a chat ad.
@@ -1385,7 +1493,7 @@ Returns:
 ### click_keypad_button
 
 ```python
-click_keypad_button(self: 'darkob.Client', chat: str, button_id: str)
+click_keypad_button(self: 'darkob.Messenger', chat: str, button_id: str)
 ```
 
 Click a button in the chat keypad.
@@ -1400,16 +1508,16 @@ Returns:
 ### create_join_link
 
 ```python
-create_join_link(self: 'darkob.Client', chat: str, expire_time: Optional[int]=None, request_needed: bool=False, title: Optional[str]=None, usage_limit: int=0)
+create_join_link(self: 'darkob.Messenger', chat: str, expire_time: Optional[int]=None, request_needed: bool=False, title: Optional[str]=None, usage_limit: int=0)
 ```
 
 Creates an invite link for a group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the target group or channel.
-    expire_time (Optional[int]): The expiration time of the link in seconds.
+    expire_time (int, optional): The expiration time of the link in seconds.
     request_needed (bool): Whether join requests must be approved manually.
-    title (Optional[str]): A custom title for the invite link.
+    title (str, optional): A custom title for the invite link.
     usage_limit (int): The maximum number of times the link can be used.
 
 Returns:
@@ -1418,7 +1526,7 @@ Returns:
 ### delete_all_avatars
 
 ```python
-delete_all_avatars(self: 'darkob.Client', chat: str)
+delete_all_avatars(self: 'darkob.Messenger', chat: str)
 ```
 
 Delete all avatars from a chat or user profile.
@@ -1427,7 +1535,7 @@ Parameters:
     chat (str): The GUID, link, or username of the chat.
 
 Returns:
-    Data: Result of the operation.
+    Data or dict: Result of the operation.
 
 Note:
     If `chat` is 'me', 'cloud', 'self', or 'myself', it will be replaced with the client's GUID.
@@ -1435,7 +1543,7 @@ Note:
 ### delete_avatar
 
 ```python
-delete_avatar(self: 'darkob.Client', chat: str, avatar_id: str)
+delete_avatar(self: 'darkob.Messenger', chat: str, avatar_id: str)
 ```
 
 Delete an avatar.
@@ -1453,7 +1561,7 @@ Note:
 ### delete_chat_history
 
 ```python
-delete_chat_history(self: 'darkob.Client', chat: str)
+delete_chat_history(self: 'darkob.Messenger', chat: str)
 ```
 
 Delete chat history up to the last message.
@@ -1462,18 +1570,49 @@ Parameters:
     chat (str): The GUID, link, or username of the chat (e.g., user, group).
 
 Returns:
+    Data or dict: The result of the API call.
+
+### delete_revoked_join_link
+
+```python
+delete_revoked_join_link(self: 'darkob.Messenger', chat: str, join_link: str)
+```
+
+Delete a specific revoked join link.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group/channel.
+    join_link (str): The join link to delete.
+
+Returns:
+    The result of the API call.
+
+### delete_revoked_join_links
+
+```python
+delete_revoked_join_links(self: 'darkob.Messenger', chat: str, creator: str)
+```
+
+Delete all revoked join links created by a specific user.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group/channel.
+    creator (str): The creator's GUID or username, or 'me'/'cloud'/'self'/'myself' for the current user.
+
+Returns:
     The result of the API call.
 
 ### discard_voice_chat
 
 ```python
-discard_voice_chat(self: 'darkob.Client', chat: str)
+discard_voice_chat(self: 'darkob.Messenger', chat: str, voice_chat_id: Optional[str]=None)
 ```
 
-Discard/End a voice chat for a channel or group.
+Discard/end a voice chat for a channel or group.
 
 Parameters:
     chat (str): The GUID, link, or username of the channel or group.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -1481,7 +1620,7 @@ Returns:
 ### dont_show_chat_ads
 
 ```python
-dont_show_chat_ads(self: 'darkob.Client', chat_ads_id: str)
+dont_show_chat_ads(self: 'darkob.Messenger', chat_ads_id: str)
 ```
 
 Register a 'don't show' action on a chat ad.
@@ -1494,10 +1633,26 @@ Parameters:
 Returns:
     The result of the operation.
 
+### download_avatars
+
+```python
+download_avatars(self: 'darkob.Messenger', chat: str, save_as: Optional[Union[str, bool]]=None, limit: Optional[int]=None)
+```
+
+Download all avatars (or a limited number) of a user, group, or channel.
+
+Parameters:
+    chat (str): The GUID, link, or username of the user, group, or channel.
+    save_as (str | bool, optional): Directory path to save the files. If True, saves in current directory. If None, returns bytes list.
+    limit (int, optional): Maximum number of avatars to download. If None, downloads all.
+
+Returns:
+    List[bytes], Data, or dict: List of binary data, saved file paths, or result.
+
 ### download_profile_picture
 
 ```python
-download_profile_picture(self: 'darkob.Client', chat: Optional[str]=None, file_id: Optional[str]=None, access_hash_rec: Optional[str]=None, dc_id: Optional[str]=None, save_as: Optional[Union[str, bool]]=None, save_all: bool=False)
+download_profile_picture(self: 'darkob.Messenger', chat: Optional[str]=None, file_id: Optional[str]=None, access_hash_rec: Optional[str]=None, dc_id: Optional[str]=None, save_as: Optional[Union[str, bool]]=None, save_all: bool=False)
 ```
 
 Download the profile picture of a user, group, or channel.
@@ -1507,16 +1662,16 @@ Parameters:
     file_id (str, optional): Direct file_id for download without fetching avatars.
     access_hash_rec (str, optional): Direct access_hash_rec for download without fetching avatars.
     dc_id (str, optional): DC ID required when using file_id and access_hash_rec directly.
-    save_as (str or bool, optional): Directory path to save the file(s). If True, saves in current directory. If None, returns bytes only.
+    save_as (str | bool, optional): Directory path to save the file(s). If True, saves in current directory. If None, returns bytes only.
     save_all (bool): If True, downloads all avatars instead of just the latest. Returns list of bytes if save_as is None.
 
 Returns:
-    bytes, List[bytes]: Binary data or saved file paths.
+    bytes, List[bytes], Data, or dict: Binary data, saved file paths, or result.
 
 ### edit_join_link
 
 ```python
-edit_join_link(self: 'darkob.Client', chat: str, join_link: str, title: Optional[str]=None, expire_time: Optional[int]=None, request_needed: Optional[bool]=None, usage_limit: Optional[int]=None)
+edit_join_link(self: 'darkob.Messenger', chat: str, join_link: str, title: Optional[str]=None, expire_time: Optional[int]=None, request_needed: Optional[bool]=None, usage_limit: Optional[int]=None)
 ```
 
 Edit an existing invite link for a group or channel.
@@ -1524,18 +1679,32 @@ Edit an existing invite link for a group or channel.
 Parameters:
     chat (str): The GUID, link, or username of the target group or channel.
     join_link (str): The join link to edit.
-    expire_time (Optional[int]): The new expiration time of the link in seconds.
-    request_needed (Optional[bool]): Whether join requests must be approved manually.
-    title (Optional[str]): A new custom title for the invite link.
-    usage_limit (Optional[int]): The new maximum number of times the link can be used.
+    title (str, optional): A new custom title for the invite link.
+    expire_time (int, optional): The new expiration time of the link in seconds.
+    request_needed (bool, optional): Whether join requests must be approved manually.
+    usage_limit (int, optional): The new maximum number of times the link can be used.
 
 Returns:
     The API response containing the edited invite link.
 
+### get_abs_chats
+
+```python
+get_abs_chats(self: 'darkob.Messenger', chats: Union[str, List[str]])
+```
+
+Get abstract info (title, avatar, etc.) for multiple chats (users, bots, groups, channels).
+
+Parameters:
+    chats (Union[str, List[str]]): A single chat (GUID, username, or link) or a list of them.
+
+Returns:
+    The result of the API call, containing `abs_objects`.
+
 ### get_all_drafts
 
 ```python
-get_all_drafts(self: 'darkob.Client')
+get_all_drafts(self: 'darkob.Messenger')
 ```
 
 Get all saved message drafts.
@@ -1546,7 +1715,7 @@ Returns:
 ### get_avatars
 
 ```python
-get_avatars(self: 'darkob.Client', chat: str)
+get_avatars(self: 'darkob.Messenger', chat: str)
 ```
 
 Get avatars of a specific chat.
@@ -1560,7 +1729,7 @@ Returns:
 ### get_banned_members
 
 ```python
-get_banned_members(self: 'darkob.Client', chat: str, show_member_guids: bool=False)
+get_banned_members(self: 'darkob.Messenger', chat: str, show_member_guids: bool=False, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Get a list of banned members in a channel or group.
@@ -1568,6 +1737,13 @@ Get a list of banned members in a channel or group.
 Parameters:
     chat (str): The GUID, link, or username of the channel or group.
     show_member_guids (bool, optional): Show member GUIDs in output. Default is False.
+    all_pages (bool, optional):
+        If True, automatically fetch all pages of banned members.
+        If False, only fetch one page using start_id.
+        Default is True.
+    start_id (str, optional):
+        Starting member ID for pagination.
+        Only used when all_pages is False.
 
 Returns:
     The result containing banned members with total count and optionally GUIDs.
@@ -1575,14 +1751,13 @@ Returns:
 ### get_chat_ads
 
 ```python
-get_chat_ads(self: 'darkob.Client', state: int=round(time()) - 150)
+get_chat_ads(self: 'darkob.Messenger', state: int=None)
 ```
 
 Retrieves advertising information for chats.
 
 Parameters:
-    state (int, optional): The timestamp state to filter chat ads. 
-        Defaults to the current time minus 150 seconds.
+    state (int, optional): The timestamp state to filter chat ads. Defaults to the current time minus 150 seconds.
 
 Returns:
     The result of the API call.
@@ -1590,7 +1765,7 @@ Returns:
 ### get_chat_info
 
 ```python
-get_chat_info(self: 'darkob.Client', chat: str)
+get_chat_info(self: 'darkob.Messenger', chat: str)
 ```
 
 Get information about a user, group, or channel.
@@ -1604,44 +1779,38 @@ Returns:
 ### get_chat_voice_chat
 
 ```python
-get_chat_voice_chat(self: 'darkob.Client', chat: str)
+get_chat_voice_chat(self: 'darkob.Messenger', chat: str, voice_chat_id: Optional[str]=None)
 ```
 
 Get the voice chat information for a group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
-    The voice chat information.
+    The result of the API call.
 
 ### get_chats
 
 ```python
-get_chats(self: 'darkob.Client', show_chat_guids: bool=False, auto_start_id: bool=True, start_id: str=None)
+get_chats(self: 'darkob.Messenger', show_chat_guids: bool=False, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Get a list of all chats.
 
 Parameters:
-    show_chat_guids (bool, optional):
-        If True, include chat GUIDs in the result.
-        Default is False.
-    auto_start_id (bool, optional):
-        If True, automatically fetch all pages of chats.
-        If False, only fetch one page using start_id.
-        Default is True.
-    start_id (str, optional):
-        Starting chat ID for pagination.
-        Only used when auto_start_id is False.
+    show_chat_guids (bool, optional): If True, include chat GUIDs in the result. Default is False.
+    all_pages (bool, optional): If True, fetch all pages. If False, only one page using start_id. Default is True.
+    start_id (str, optional): Starting chat ID for pagination. Only used when all_pages is False.
 
 Returns:
-    Data: The result containing chats with total count and optionally GUIDs.
+    The result of the API call.
 
 ### get_chats_info
 
 ```python
-get_chats_info(self: 'darkob.Client', chats: Union[str, List[str]])
+get_chats_info(self: 'darkob.Messenger', chats: Union[str, List[str]])
 ```
 
 Get information about multiple chats by their GUIDs.
@@ -1655,14 +1824,13 @@ Returns:
 ### get_chats_updates
 
 ```python
-get_chats_updates(self: 'darkob.Client', state: Optional[Union[str, int]]=None)
+get_chats_updates(self: 'darkob.Messenger', state: Optional[Union[str, int]]=None)
 ```
 
 Get updates for chats.
 
 Parameters:
-    state (Optional[Union[str, int]]): State parameter for syncing updates. If not provided,
-        it uses the current time minus 150 seconds.
+    state (Union[str, int], optional): State parameter for syncing updates. If not provided, uses current time minus 150 seconds.
 
 Returns:
     The result of the API call.
@@ -1670,7 +1838,7 @@ Returns:
 ### get_guid
 
 ```python
-get_guid(self: 'darkob.Client', chat: str)
+get_guid(self: 'darkob.Messenger', chat: str)
 ```
 
 Retrieves the GUID of a user, group, channel, or bot.
@@ -1684,7 +1852,7 @@ Returns:
 ### get_info_by_link
 
 ```python
-get_info_by_link(self: 'darkob.Client', link: str)
+get_info_by_link(self: 'darkob.Messenger', link: str)
 ```
 
 Get group or channel preview by join link.
@@ -1698,10 +1866,10 @@ Returns:
 ### get_info_by_username
 
 ```python
-get_info_by_username(self: 'darkob.Client', username: str)
+get_info_by_username(self: 'darkob.Messenger', username: str)
 ```
 
-Get an chat (user, bot, or channel) by its username.
+Get a chat (user, bot, or channel) by its username.
 
 Parameters:
     username (str): The username of the chat.
@@ -1709,16 +1877,34 @@ Parameters:
 Returns:
     The result of the API call.
 
+### get_join_link_user_joined
+
+```python
+get_join_link_user_joined(self: 'darkob.Messenger', chat: str, join_link: str, all_pages: bool=True, start_id: Optional[str]=None)
+```
+
+Get users who joined via a specific join link.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group/channel.
+    join_link (str): The join link (e.g., 'https://rubika.ir/joing/...').
+    all_pages (bool, optional): If True, fetch all pages. If False, only one page using start_id. Default is True.
+    start_id (str, optional): Pagination start ID. Only used when all_pages is False.
+
+Returns:
+    The result of the API call.
+
 ### get_join_links
 
 ```python
-get_join_links(self: 'darkob.Client', chat: str, creator: str=None)
+get_join_links(self: 'darkob.Messenger', chat: str, creator: Optional[str]=None)
 ```
 
 Retrieves a list of join links for a specific group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the target group or channel.
+    creator (str, optional): The user GUID or username of the link creator to filter by.
 
 Returns:
     The API response containing the join links.
@@ -1726,7 +1912,7 @@ Returns:
 ### get_join_requests
 
 ```python
-get_join_requests(self: 'darkob.Client', chat: str, show_user_guids: bool=False)
+get_join_requests(self: 'darkob.Messenger', chat: str, show_user_guids: bool=False, search_text: Optional[str]=None, join_link: Optional[str]=None, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Get a list of join requests in a channel or group.
@@ -1734,14 +1920,23 @@ Get a list of join requests in a channel or group.
 Parameters:
     chat (str): The GUID, link, or username of the channel or group.
     show_user_guids (bool, optional): Show user GUIDs in output. Default is False.
+    search_text (str, optional): Search text to filter requests. Defaults to None.
+    join_link (str, optional): Filter requests by a specific join link.
+    all_pages (bool, optional):
+        If True, automatically fetch all pages of join requests.
+        If False, only fetch one page using start_id.
+        Default is True.
+    start_id (str, optional):
+        Starting request ID for pagination.
+        Only used when all_pages is False.
 
 Returns:
-    Data: The result containing all join requests with total count.
+    Data or dict: The result containing all join requests with total count.
 
 ### get_my_guid
 
 ```python
-get_my_guid(self: 'darkob.Client')
+get_my_guid(self: 'darkob.Messenger')
 ```
 
 Get the GUID of the currently authenticated user.
@@ -1752,7 +1947,7 @@ Returns:
 ### get_pending_owner
 
 ```python
-get_pending_owner(self: 'darkob.Client', chat: str)
+get_pending_owner(self: 'darkob.Messenger', chat: str)
 ```
 
 Retrieves the pending owner information for a specified chat.
@@ -1761,13 +1956,12 @@ Parameters:
     chat (str): The GUID, link, or username of the chat.
 
 Returns:
-    An update chat containing details about the
-        pending owner of the specified chat.
+    The result of the API call.
 
 ### get_profile_link_items
 
 ```python
-get_profile_link_items(self: 'darkob.Client', chat: str)
+get_profile_link_items(self: 'darkob.Messenger', chat: str)
 ```
 
 Get profile link items for a given chat.
@@ -1781,13 +1975,14 @@ Returns:
 ### get_related_chats
 
 ```python
-get_related_chats(self: 'darkob.Client', chat: str)
+get_related_chats(self: 'darkob.Messenger', chat: str, start_id: Optional[str]=None)
 ```
 
 Get related chats for a given chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
+    start_id (str, optional): Starting item ID for pagination.
 
 Returns:
     The result of the API call.
@@ -1795,7 +1990,7 @@ Returns:
 ### get_voice_chat_participants
 
 ```python
-get_voice_chat_participants(self: 'darkob.Client', chat: str, show_user_guids: bool=False)
+get_voice_chat_participants(self: 'darkob.Messenger', chat: str, show_user_guids: bool=False, voice_chat_id: Optional[str]=None, all_pages: bool=True, start_id: Optional[str]=None)
 ```
 
 Get list of participants in a voice chat.
@@ -1803,37 +1998,57 @@ Get list of participants in a voice chat.
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
     show_user_guids (bool, optional): Show user GUIDs in output. Default is False.
+    voice_chat_id (str, optional): Voice chat ID. If not provided, it will be fetched automatically.
+    all_pages (bool, optional): If True, fetch all pages. If False, only one page using start_id. Default is True.
+    start_id (str, optional): Starting participant ID for pagination. Only used when all_pages is False.
 
 Returns:
-    The result containing all voice chat participants with total count.
+    The result of the API call.
 
 ### get_voice_chat_updates
 
 ```python
-get_voice_chat_updates(self: 'darkob.Client', chat: str, state: int=None)
+get_voice_chat_updates(self: 'darkob.Messenger', chat: str, state: Optional[Union[int, str]]=None, voice_chat_id: Optional[str]=None)
 ```
 
 Get voice chat updates for a group.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
-    state (int, optional): The state for updates. If not provided, it defaults to the current time minus 150 seconds.
+    state (Union[int, str], optional): The state for updates. If not provided, it defaults to the current time minus 150 seconds.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
-    Update group containing the voice chat updates.
+    The result of the API call.
 
 ### heartbeat
 
 ```python
-heartbeat(self: 'darkob.Client', chat_guid: str)
+heartbeat(self: 'darkob.Messenger', chat_guid: str, voice_chat_id: Optional[str]=None)
 ```
 
 _No docstring available._
 
+### invite_to_voice_chat
+
+```python
+invite_to_voice_chat(self: 'darkob.Messenger', chat: str, invite_user: str, voice_chat_id: Optional[str]=None)
+```
+
+Invite a user to a voice chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group or channel.
+    invite_user (str): The GUID, username, or link of the user to invite.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
+
+Returns:
+    The result of the API call.
+
 ### join_chat
 
 ```python
-join_chat(self: 'darkob.Client', chat: str)
+join_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Join a chat (channel or group).
@@ -1847,14 +2062,15 @@ Returns:
 ### join_voice_chat
 
 ```python
-join_voice_chat(self: 'darkob.Client', chat: str, sdp_offer_data: str | None = None)
+join_voice_chat(self: 'darkob.Messenger', chat: str, sdp_offer_data: Optional[str]=None, voice_chat_id: Optional[str]=None)
 ```
 
-Join to the group | channel voice chat.
+Join a group/channel voice chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
-    sdp_offer_data (str, optional): SDP offer data. If not provided, uses default.
+    sdp_offer_data (Optional[str]): SDP offer data. If not provided, uses a default dummy SDP.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -1862,7 +2078,7 @@ Returns:
 ### leave_chat
 
 ```python
-leave_chat(self: 'darkob.Client', chat: str)
+leave_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Leave a chat (channel or group).
@@ -1876,13 +2092,14 @@ Returns:
 ### leave_voice_chat
 
 ```python
-leave_voice_chat(self: 'darkob.Client', chat: str)
+leave_voice_chat(self: 'darkob.Messenger', chat: str, voice_chat_id: Optional[str]=None)
 ```
 
 Leave a voice chat in a group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -1890,7 +2107,7 @@ Returns:
 ### member_is_admin
 
 ```python
-member_is_admin(self: 'darkob.Client', chat: str, member: str)
+member_is_admin(self: 'darkob.Messenger', chat: str, member: str)
 ```
 
 Checks if a member is an admin in a group or channel.
@@ -1902,28 +2119,57 @@ Parameters:
 Returns:
     bool: True if the user is an admin, False otherwise.
 
+### member_is_joined
+
+```python
+member_is_joined(self: 'darkob.Messenger', chat: str, member: str)
+```
+
+Check if a user or bot is a member of a specific group or channel.
+
+Alias for `check_join`.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat to check.
+    member (str): The GUID or username of the user/bot to check.
+
+Returns:
+    bool: True if user/bot is a member, False otherwise.
+
+### member_is_owner
+
+```python
+member_is_owner(self: 'darkob.Messenger', chat: str, member: str)
+```
+
+Checks if a member is the owner (creator) of a group or channel.
+
+Parameters:
+    chat (str): The GUID, link, or username of the group or channel.
+    member (str): The GUID or username of the member.
+
+Returns:
+    bool: True if the user is the owner, False otherwise.
+
 ### mute_chat
 
 ```python
-mute_chat(self: 'darkob.Client', chat: str, duration: Union[int, timedelta]=None)
+mute_chat(self: 'darkob.Messenger', chat: str, duration: Optional[Union[int, timedelta]]=None)
 ```
 
 Mute a chat.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat to mute.
-    duration (Union[int, timedelta], optional): Duration of mute.
-        - int: seconds, must be at least 1800 (30 minutes).
-        - timedelta: e.g., timedelta(hours=1), timedelta(minutes=30).
-        Defaults to None (permanent mute).
+    duration (Union[int, timedelta], optional): Duration of mute. int: seconds, must be at least 1800. timedelta: e.g., timedelta(hours=1). Defaults to None (permanent mute).
 
 Returns:
-    Result of the operation.
+    The result of the API call.
 
 ### pin_chat
 
 ```python
-pin_chat(self: 'darkob.Client', chat: str)
+pin_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Pin a chat.
@@ -1937,7 +2183,7 @@ Returns:
 ### pin_chat_in_folder
 
 ```python
-pin_chat_in_folder(self: 'darkob.Client', chat: str, folder_id: str)
+pin_chat_in_folder(self: 'darkob.Messenger', chat: str, folder_id: str)
 ```
 
 Pin a chat in a folder.
@@ -1952,19 +2198,19 @@ Returns:
 ### play_voice_chat
 
 ```python
-play_voice_chat(self: 'darkob.Client', chat: str, media: pathlib.Path)
+play_voice_chat(self: 'darkob.Messenger', chat: str, media: pathlib.Path) -> 'VoiceChatConnection'
 ```
 
 Plays voice media in a chat.
 
 Parameters:
-    chat: The GUID, link, or username of the chat to play the voice media in.
-    media: The path to the voice media file.
+    chat (str): The GUID, link, or username of the chat to play the voice media in.
+    media (pathlib.Path): The path to the voice media file.
 
 ### reject_join_request
 
 ```python
-reject_join_request(self: 'darkob.Client', chat: str, user: str)
+reject_join_request(self: 'darkob.Messenger', chat: str, user: str)
 ```
 
 Reject a join request for a group or channel.
@@ -1979,7 +2225,7 @@ Returns:
 ### reject_ownership_request
 
 ```python
-reject_ownership_request(self: 'darkob.Client', chat: str)
+reject_ownership_request(self: 'darkob.Messenger', chat: str)
 ```
 
 Reject an ownership transfer request.
@@ -1993,21 +2239,15 @@ Returns:
 ### report_chat
 
 ```python
-report_chat(self: 'darkob.Client', chat: str, report_type: Union[int, str], description: Optional[str]=None)
+report_chat(self: 'darkob.Messenger', chat: str, report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a chat (user, channel, group, etc.) for a specific reason.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat to be reported.
-    report_type (Union[int, str]): The report reason.
-        Can be:
-            - Integer code between 100 and 106
-            - String name (case-insensitive): 'Other', 'Violence',
-              'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'
-        If set to 100 (Other), `description` becomes required.
-    description (Optional[str]): Description for the report.
-        Required when `report_type` is 100 (Other).
+    report_type (Union[int, str]): The report reason. Can be int (100-106) or str name (case-insensitive): 'Other', 'Violence', 'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'. If 100 (Other), 'description' is required.
+    description (str, optional): Description for the report. Required when report_type is 100 (Other).
 
 Returns:
     The result of the API call.
@@ -2015,7 +2255,7 @@ Returns:
 ### report_chat_ads
 
 ```python
-report_chat_ads(self: 'darkob.Client', chat_ads_id: str)
+report_chat_ads(self: 'darkob.Messenger', chat_ads_id: str)
 ```
 
 Register a report action on a chat ad.
@@ -2031,10 +2271,10 @@ Returns:
 ### revoke_join_link
 
 ```python
-revoke_join_link(self: 'darkob.Client', chat: str, join_link: str)
+revoke_join_link(self: 'darkob.Messenger', chat: str, join_link: str)
 ```
 
-Revoke a invite link for a group or channel.
+Revoke an invite link for a group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
@@ -2046,15 +2286,14 @@ Returns:
 ### search_global_chats
 
 ```python
-search_global_chats(self: 'darkob.Client', text: str, filter_type: Optional[Union[str, List[str]]]=None, start_id: Optional[str]=None)
+search_global_chats(self: 'darkob.Messenger', text: str, filter_type: Optional[Union[str, List[str]]]=None, start_id: Optional[str]=None)
 ```
 
 Search for global chats (users, channels, etc.) based on the given search text.
 
 Parameters:
     text (str): The text to search for.
-    filter_type (str or list, optional): Filter results by type. 
-        'User', 'Channel', 'Bot' or a list of them.
+    filter_type (Union[str, List[str]], optional): 'User', 'Channel', 'Bot' or a list of them. Case-insensitive.
     start_id (str, optional): The ID to start fetching from. Defaults to None.
 
 Returns:
@@ -2063,7 +2302,7 @@ Returns:
 ### seen_chats
 
 ```python
-seen_chats(self: 'darkob.Client', seen_list: dict)
+seen_chats(self: 'darkob.Messenger', seen_list: dict)
 ```
 
 Marks multiple chats as seen.
@@ -2077,33 +2316,34 @@ Returns:
 ### send_chat_activity
 
 ```python
-send_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Typing', 'Recording', 'Uploading']='Typing')
+send_chat_activity(self: 'darkob.Messenger', chat: str, activity: Literal['Typing', 'Recording', 'Uploading']='Typing')
 ```
 
 Sends a chat activity, such as typing, uploading, or recording.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/user.
-    activity (str, optional): The type of activity. Defaults to 'Typing'.
+    activity (str): The type of activity. 'Typing', 'Recording', or 'Uploading'. Case-insensitive. Defaults to 'Typing'.
 
 Returns:
-    The result of the operation.
+    The result of the API call.
 
 Raises:
-    InvalidInput: If the `activity` argument is not one of `"Typing", "Uploading", or "Recording"`.
+    InvalidInput: If the `activity` argument is not one of "Typing", "Uploading", or "Recording".
 
 ### send_voice_chat_activity
 
 ```python
-send_voice_chat_activity(self: 'darkob.Client', chat: str, activity: Literal['Speaking']='Speaking', participant_chat_guid: str=None)
+send_voice_chat_activity(self: 'darkob.Messenger', chat: str, activity: Literal['Speaking']='Speaking', participant_chat_guid: Optional[str]=None, voice_chat_id: Optional[str]=None)
 ```
 
-Set voice chat activity automatically.
+Send voice chat activity (e.g., speaking).
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
-    activity (str): Literal['Speaking'] and Default is `Speaking`.
-    participant_chat_guid (str): Participant chat guid, Default is `self.guid`.
+    activity (str): Activity type. Only 'Speaking' is allowed. Case-insensitive. Default: 'Speaking'.
+    participant_chat_guid (str, optional): Participant chat GUID. Default is self.guid.
+    voice_chat_id (str, optional): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -2111,7 +2351,7 @@ Returns:
 ### set_admin
 
 ```python
-set_admin(self: 'darkob.Client', chat: str, member: str, access: Union[List[str], str]=[], custom_title: str='')
+set_admin(self: 'darkob.Messenger', chat: str, member: str, access: Union[List[str], str]=[], custom_title: str='')
 ```
 
 Set a member as admin in a group or channel.
@@ -2119,8 +2359,7 @@ Set a member as admin in a group or channel.
 Parameters:
     chat (str): The GUID, link, or username of group/channel.
     member (str): The GUID or username of member to set as admin.
-    access (Union[List[str], str]): List of allowed permissions or single permission string.
-        Can also be 'all' or 'All' to grant all permissions.
+    access (Union[List[str], str]): List of allowed permissions or single permission string. Case-insensitive. Can also be 'all' to grant all permissions.
     custom_title (str): Custom title for admin in groups. (optional)
 
 Returns:
@@ -2129,16 +2368,29 @@ Returns:
 ### set_ask_spam
 
 ```python
-set_ask_spam(self: 'darkob.Client', chat: str, action: Literal['AddToContact', 'BlockUser', 'Cancel', 'ReportAndLeave']='Cancel')
+set_ask_spam(self: 'darkob.Messenger', chat: str, action: Literal['AddToContact', 'BlockUser', 'Cancel', 'ReportAndLeave']='Cancel')
 ```
 
 Perform an action for a pending spam request.
 
 Parameters:
     chat (str): The GUID, link, or username of the user, group, or channel.
-    action (str): The action to apply:
-        - For user (u0): 'AddToContact', 'BlockUser', 'Cancel'.
-        - For group/channel (g0/c0): 'ReportAndLeave'.
+    action (str): The action to apply. Case-insensitive. For user (u0): 'AddToContact', 'BlockUser', 'Cancel'. For group/channel (g0/c0): 'ReportAndLeave'.
+
+Returns:
+    The result of the API call.
+
+### set_avatar_as_main
+
+```python
+set_avatar_as_main(self: 'darkob.Messenger', chat: str, avatar_id: str)
+```
+
+Set an avatar as the main avatar for a chat.
+
+Parameters:
+    chat (str): The GUID, link, or username of the chat, or 'me'/'cloud'/'self'/'myself'.
+    avatar_id (str): The ID of the avatar to set as main.
 
 Returns:
     The result of the API call.
@@ -2146,17 +2398,14 @@ Returns:
 ### set_chat_auto_delete
 
 ```python
-set_chat_auto_delete(self: 'darkob.Client', chat: Union[str, List[str]], auto_delete: Union[str, int])
+set_chat_auto_delete(self: 'darkob.Messenger', chat: Union[str, List[str]], auto_delete: Union[str, int])
 ```
 
 Set auto-delete timer for one or more groups or channels.
 
 Parameters:
     chat (Union[str, List[str]]): The GUID, link, username of a group/channel, or a list of them.
-    auto_delete (Union[str, int]): Auto-delete duration. Accepts:
-        - Integer: 1-365 (days)
-        - String: '1m'-'60m', '1h'-'24h', '1d'-'365d', '1w'-'52w', '1y', 'off'
-        - Common words: 'day', 'week', 'month', 'year', 'never', 'disabled'
+    auto_delete (Union[str, int]): Auto-delete duration. Accepts: int (1-365 days), str ('1m'-'60m', '1h'-'24h', '1d'-'365d', '1w'-'52w', '1y', 'off'), or words ('day', 'week', 'month', 'year', 'never', 'disabled').
 
 Returns:
     The result of the API call.
@@ -2164,13 +2413,13 @@ Returns:
 ### set_chat_protected_content
 
 ```python
-set_chat_protected_content(self: 'darkob.Client', chat: str, enabled: bool)
+set_chat_protected_content(self: 'darkob.Messenger', chat: str, enabled: bool)
 ```
 
 Set the chat protected content setting.
 
 Parameters:
-    chat (int): The GUID or username of the target chat.
+    chat (str): The GUID or username of the target chat.
     enabled (bool): Pass True to enable the protected content setting, False to disable.
 
 Returns:
@@ -2179,13 +2428,12 @@ Returns:
 ### set_chat_use_time
 
 ```python
-set_chat_use_time(self: 'darkob.Client', chat: str, use_time: int)
+set_chat_use_time(self: 'darkob.Messenger', chat: str, use_time: int)
 ```
 
 Send chat usage time to the server.
 
-This helps the server recognize natural user behavior
-and can reduce rate limiting and bot detection.
+This helps the server recognize natural user behavior and can reduce rate limiting and bot detection.
 
 Parameters:
     chat (str): The GUID, link, or username of the chat.
@@ -2197,15 +2445,16 @@ Returns:
 ### set_voice_chat_setting
 
 ```python
-set_voice_chat_setting(self: 'darkob.Client', chat: str, title: str=None, join_muted: bool=None)
+set_voice_chat_setting(self: 'darkob.Messenger', chat: str, title: Optional[str]=None, join_muted: Optional[bool]=None, voice_chat_id: Optional[str]=None)
 ```
 
 Set voice chat settings for group or channel.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
-    title (str, optional): New title for voice chat.
-    join_muted (bool, optional): Whether new participants join muted. (Only for groups)
+    title (Optional[str]): New title for voice chat.
+    join_muted (Optional[bool]): Whether new participants join muted. (Only for groups)
+    voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -2213,15 +2462,16 @@ Returns:
 ### set_voice_chat_state
 
 ```python
-set_voice_chat_state(self: 'darkob.Client', chat: str, action: typing.Literal['Mute', 'Unmute', 'RequestSpeak', 'CancelRequestSpeak']='Unmute', participant_chat_guid: str=None)
+set_voice_chat_state(self: 'darkob.Messenger', chat: str, action: Literal['Mute', 'Unmute', 'RequestSpeak', 'CancelRequestSpeak']='Unmute', participant_chat_guid: Optional[str]=None, voice_chat_id: Optional[str]=None)
 ```
 
 Set group or channel voice chat state automatically.
 
 Parameters:
     chat (str): The GUID, link, or username of the group/channel.
-    action (str): Literal['Mute', 'Unmute'] and Default is `Unmute`.
-    participant_chat_guid (str): Participant chat guid, Default is `self.guid`.
+    action (str): Action to apply. 'Mute', 'Unmute', 'RequestSpeak', or 'CancelRequestSpeak'. Case-insensitive. Default is 'Unmute'.
+    participant_chat_guid (str, optional): Participant chat GUID. Default is self.guid.
+    voice_chat_id (str, optional): Voice chat ID. If not provided, it will be fetched automatically.
 
 Returns:
     The result of the API call.
@@ -2229,7 +2479,7 @@ Returns:
 ### speaking
 
 ```python
-speaking(self: 'darkob.Client', chat_guid: str)
+speaking(self: 'darkob.Messenger', chat_guid: str, voice_chat_id: Optional[str]=None)
 ```
 
 _No docstring available._
@@ -2237,13 +2487,14 @@ _No docstring available._
 ### start_voice_chat
 
 ```python
-start_voice_chat(self: 'darkob.Client', chat: str)
+start_voice_chat(self: 'darkob.Messenger', chat: str, version: int=1)
 ```
 
 Start a voice chat for a channel or group.
 
 Parameters:
     chat (str): The GUID, link, or username of the channel/group.
+    version (int): Voice chat protocol version. Default: 1.
 
 Returns:
     The result of the API call.
@@ -2251,7 +2502,7 @@ Returns:
 ### unarchive_chat
 
 ```python
-unarchive_chat(self: 'darkob.Client', chat: str)
+unarchive_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Unarchive a chat.
@@ -2265,7 +2516,7 @@ Returns:
 ### unban_all_members
 
 ```python
-unban_all_members(self: 'darkob.Client', chat: str, exclude: Optional[Union[str, List[str]]]=None)
+unban_all_members(self: 'darkob.Messenger', chat: str, exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Unban all banned members in a group or channel.
@@ -2280,7 +2531,7 @@ Returns:
 ### unban_member
 
 ```python
-unban_member(self: 'darkob.Client', chat: str, member: str)
+unban_member(self: 'darkob.Messenger', chat: str, member: str)
 ```
 
 Unban a member from a group or channel.
@@ -2295,7 +2546,7 @@ Returns:
 ### unban_members
 
 ```python
-unban_members(self: 'darkob.Client', chat: str, members: List[str])
+unban_members(self: 'darkob.Messenger', chat: str, members: List[str])
 ```
 
 Unban multiple members from a group or channel.
@@ -2305,12 +2556,12 @@ Parameters:
     members (List[str]): List of GUIDs or usernames of members to unban.
 
 Returns:
-    Results of all operations.
+    Data or dict: Result containing total count, success/failed counts, and unbanned/failed members.
 
 ### unmute_chat
 
 ```python
-unmute_chat(self: 'darkob.Client', chat: str)
+unmute_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Unmute a chat.
@@ -2324,7 +2575,7 @@ Returns:
 ### unpin_chat
 
 ```python
-unpin_chat(self: 'darkob.Client', chat: str)
+unpin_chat(self: 'darkob.Messenger', chat: str)
 ```
 
 Unpin a chat.
@@ -2338,7 +2589,7 @@ Returns:
 ### unpin_chat_in_folder
 
 ```python
-unpin_chat_in_folder(self: 'darkob.Client', chat: str, folder_id: str)
+unpin_chat_in_folder(self: 'darkob.Messenger', chat: str, folder_id: str)
 ```
 
 Unpin a chat from a folder.
@@ -2353,7 +2604,7 @@ Returns:
 ### unset_admin
 
 ```python
-unset_admin(self: 'darkob.Client', chat: str, member: str)
+unset_admin(self: 'darkob.Messenger', chat: str, member: str)
 ```
 
 Unset a member as admin in a group or channel.
@@ -2368,29 +2619,29 @@ Returns:
 ### upload_avatar
 
 ```python
-upload_avatar(self: 'darkob.Client', chat: str, main_image: Union[Path, str, bytes], thumbnail_image: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
+upload_avatar(self: 'darkob.Messenger', chat: str, main_image: Optional[Union[Path, str, bytes]]=None, thumbnail_image: Optional[Union[Path, str, bytes]]=None, main_file_id: Optional[Union[str, int]]=None, thumbnail_file_id: Optional[Union[str, int]]=None, *args, **kwargs)
 ```
 
 Uploads an avatar image for a specified chat (user, group, or channel).
 
 Parameters:
     chat (str): The GUID, link, or username of the chat for which the avatar is being uploaded.
-    main_image (Union[Path, str, bytes]): The image file or bytes to be used as the avatar.
+    main_image (Optional[Union[Path, str, bytes]]): The image file or bytes to be used as the avatar.
     thumbnail_image (Optional[Union[Path, str, bytes]]): The image file or bytes of the thumbnail image.
+    main_file_id (Optional[Union[str, int]]): The file ID of the main image (if already uploaded).
+    thumbnail_file_id (Optional[Union[str, int]]): The file ID of the thumbnail image (if already uploaded).
 
 Returns:
-    The result of the avatar upload operation.
+    The result of the API call.
 
 Note:
     If `chat` is 'me', 'cloud', or 'self', it will be replaced with the client's GUID.
-    If `main_image` is a string or Path (path to a file), the file name is extracted from the path.
-        Otherwise, a default file name ('darkob.jpg') is used.
-    The `upload_file` method is used internally to handle the file upload process.
+    If `main_file_id` and `thumbnail_file_id` are provided, no file upload will be performed.
 
 ### view_chat_ads
 
 ```python
-view_chat_ads(self: 'darkob.Client', chat_ads_id: str)
+view_chat_ads(self: 'darkob.Messenger', chat_ads_id: str)
 ```
 
 Register a view action on a chat ad.
@@ -2408,69 +2659,74 @@ Returns:
 ### create_group
 
 ```python
-create_group(self: 'darkob.Client', title: str, members: Union[str, List[str]], description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
+create_group(self: 'darkob.Messenger', title: str, members: Union[str, List[str]], description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, main_file_id: Optional[Union[str, int]]=None, thumbnail_file_id: Optional[Union[str, int]]=None, *args, **kwargs)
 ```
 
 Create a new group.
 
 Parameters:
     title (str): The title of the group.
-    members (Union[str, List[str]]): A single member GUID/Username or a list of member GUIDs/Usernames to be added to the group.
-    description (Optional[str]): Description of the group (optional). Defaults to None.
-    avatar (Optional[Union[Path, str, bytes]]): The image to be used as the group avatar. Default is None.
-    thumbnail_avatar (Optional[Union[Path, str, bytes]]): The image to be used as the group thumbnail avatar. Default is None.
+    members (Union[str, List[str]]): A single member GUID/Username or a list of member GUIDs/Usernames.
+    description (str, optional): Description of the group.
+    avatar (Path | str | bytes, optional): The image to be used as the group avatar.
+    thumbnail_avatar (Path | str | bytes, optional): The image to be used as the group thumbnail avatar.
+    main_file_id (Union[str, int], optional): Pre-uploaded main avatar file ID.
+    thumbnail_file_id (Union[str, int], optional): Pre-uploaded thumbnail avatar file ID.
 
 Returns:
     The result of the API call.
 
 Note:
-    If only `avatar` is provided, the thumbnail is taken from the same image.
-    If none of them are provided, no avatar is set for the group.
+    If a file ID is provided, the corresponding image is not uploaded.
+    If no thumbnail is provided, it is taken from the main image.
 
 ### delete_group
 
 ```python
-delete_group(self: 'darkob.Client', group: str, confirm: bool=True)
+delete_group(self: 'darkob.Messenger', group: str, confirm: bool=True)
 ```
 
 Delete a group.
 
 Parameters:
     group (str): The GUID or link of the group.
-    confirm (bool): If True, ask the user for confirmation before
-        deleting the group. If False, delete immediately.
-        Default is True.
+    confirm (bool): If True, ask the user for confirmation before deleting the group. If False, delete immediately. Default is True.
+
+Returns:
+    The result of the API call. Exits if cancelled.
+
+### delete_no_access_group_chat
+
+```python
+delete_no_access_group_chat(self: 'darkob.Messenger', group: str)
+```
+
+Delete (leave) a group chat that the user has no access to.
+
+Parameters:
+    group (str): The GUID or link of the group.
 
 Returns:
     The result of the API call.
-    Exits if cancelled.
 
 ### edit_group_info
 
 ```python
-edit_group_info(self: 'darkob.Client', group: str, title: Optional[str]=None, description: Optional[str]=None, slow_mode: Optional[str]=None, event_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None, chat_history_for_new_members: Optional[str]=None, restricted_period: Optional[List[Dict[str, Union[List[str], str]]]]=None)
+edit_group_info(self: 'darkob.Messenger', group: str, title: Optional[str]=None, description: Optional[str]=None, slow_mode: Optional[str]=None, event_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None, chat_history_for_new_members: Optional[str]=None, restricted_period: Optional[List[Dict[str, Union[List[str], str]]]]=None)
 ```
 
 Edit the information of a group.
 
 Parameters:
     group (str): The GUID or link of the group.
-    title (Optional[str]): The new title for the group (max 60 characters).
-    description (Optional[str]): The new description for the group (max 300 characters).
-    slow_mode (Optional[str]): The new slow mode setting for the group.
-    event_messages (Optional[bool]): Enable or disable event messages for the group.
-    is_restricted_content (Optional[bool]): Restrict content (prevent screenshots and file saving).
-    reactions (Union[Literal['All', 'Disable'], List[int]], optional): 
-        - 'All': Enable all reactions
-        - 'Disable': Disable all reactions
-        - List[int]: List of reaction IDs to enable (e.g., [1, 2, 6, 7, 8, 23, 44])
-    chat_history_for_new_members (Optional[str]): The new chat history setting for new members.
-    restricted_period (Optional[List[Dict[str, Union[List[str], str]]]]): 
-        Time restrictions for sending messages (list of periods). Each period should contain:
-        - days_of_week: List of days ['Saturday', 'Sunday', ..., 'Friday']
-        - from_time: Start time in "HH:MM" format (24-hour)
-        - to_time: End time in "HH:MM" format (24-hour)
-        Note: Can accept multiple periods as a list of dictionaries.
+    title (str, optional): The new title for the group (max 60 characters).
+    description (str, optional): The new description for the group (max 300 characters).
+    slow_mode (str, optional): The new slow mode setting for the group.
+    event_messages (bool, optional): Enable or disable event messages for the group.
+    is_restricted_content (bool, optional): Restrict content (prevent screenshots and file saving).
+    reactions (Union[Literal['All', 'Disable'], List[int]], optional): 'All' to enable all reactions, 'Disable' to disable all, or a list of reaction IDs to enable (e.g., [1, 2, 6, 7, 8, 23, 44]). Case-insensitive.
+    chat_history_for_new_members (str, optional): The new chat history setting for new members ('Hidden' or 'Visible'). Case-insensitive.
+    restricted_period (List[Dict[str, Union[List[str], str]]], optional): Time restrictions for sending messages (list of periods). Each period should contain days_of_week (list of days ['Saturday', 'Sunday', ..., 'Friday'], case-insensitive), from_time (start time in "HH:MM" format, 24-hour), and to_time (end time in "HH:MM" format, 24-hour). Can accept multiple periods as a list of dictionaries.
 
 Returns:
     The result of the API call.
@@ -2524,8 +2780,10 @@ Examples:
 ### edit_group_timer
 
 ```python
-edit_group_timer(self: 'darkob.Client', group: str, timer: typing.Union[str, int])
+edit_group_timer(self: 'darkob.Messenger', group: str, timer: Union[str, int])
 ```
+
+Edit the slow mode timer for a group.
 
 Parameters:
     group (str): The GUID or link of the group.
@@ -2537,7 +2795,7 @@ Returns:
 ### edit_group_title
 
 ```python
-edit_group_title(self: 'darkob.Client', group: str, title: str)
+edit_group_title(self: 'darkob.Messenger', group: str, title: str)
 ```
 
 Edit title of a group.
@@ -2552,7 +2810,7 @@ Returns:
 ### edit_slow_mode
 
 ```python
-edit_slow_mode(self: 'darkob.Client', group: str, slow_mode: typing.Union[str, int])
+edit_slow_mode(self: 'darkob.Messenger', group: str, slow_mode: Union[str, int])
 ```
 
 Parameters:
@@ -2565,7 +2823,7 @@ Returns:
 ### get_group_admin_access
 
 ```python
-get_group_admin_access(self: 'darkob.Client', group: str, admin: str)
+get_group_admin_access(self: 'darkob.Messenger', group: str, admin: str)
 ```
 
 Get the admin access for a member in a group.
@@ -2595,7 +2853,7 @@ Returns:
 ### get_group_default_access
 
 ```python
-get_group_default_access(self: 'darkob.Client', group: str)
+get_group_default_access(self: 'darkob.Messenger', group: str)
 ```
 
 Get the default access settings for a group.
@@ -2609,7 +2867,7 @@ Returns:
 ### get_group_info
 
 ```python
-get_group_info(self: 'darkob.Client', group: str)
+get_group_info(self: 'darkob.Messenger', group: str)
 ```
 
 Get information about a group.
@@ -2623,7 +2881,7 @@ Returns:
 ### get_group_link
 
 ```python
-get_group_link(self: 'darkob.Client', group: str)
+get_group_link(self: 'darkob.Messenger', group: str)
 ```
 
 Get the link associated with a group.
@@ -2637,7 +2895,7 @@ Returns:
 ### get_group_members
 
 ```python
-get_group_members(self: 'darkob.Client', group: str, search_text: str=None, start_id: str=None)
+get_group_members(self: 'darkob.Messenger', group: str, search_text: Optional[str]=None, start_id: Optional[str]=None)
 ```
 
 Get members of a group.
@@ -2653,7 +2911,7 @@ Returns:
 ### get_group_mention_list
 
 ```python
-get_group_mention_list(self: 'darkob.Client', group: str, search_mention: str=None)
+get_group_mention_list(self: 'darkob.Messenger', group: str, search_mention: Optional[str]=None)
 ```
 
 Get the mention list for a group.
@@ -2668,7 +2926,7 @@ Returns:
 ### get_group_message_read_participants
 
 ```python
-get_group_message_read_participants(self: 'darkob.Client', group: str, message_id: Union[str, int])
+get_group_message_read_participants(self: 'darkob.Messenger', group: str, message_id: Union[str, int])
 ```
 
 Get list of participants who have read a specific message in a group.
@@ -2683,7 +2941,7 @@ Returns:
 ### get_group_online_count
 
 ```python
-get_group_online_count(self: 'darkob.Client', group: str)
+get_group_online_count(self: 'darkob.Messenger', group: str)
 ```
 
 Retrieves the number of online members in a specified group.
@@ -2697,7 +2955,7 @@ Returns:
 ### get_unread_mentions
 
 ```python
-get_unread_mentions(self: 'darkob.Client', group: str, max_id: Union[str, int], min_id: Union[str, int], sort: str=None)
+get_unread_mentions(self: 'darkob.Messenger', group: str, max_id: Union[str, int], min_id: Union[str, int], sort: Optional[str]=None)
 ```
 
 Get unread mentions in a group.
@@ -2714,7 +2972,7 @@ Returns:
 ### join_group
 
 ```python
-join_group(self: 'darkob.Client', group: str)
+join_group(self: 'darkob.Messenger', group: str)
 ```
 
 Join a group using the provided link.
@@ -2728,7 +2986,7 @@ Returns:
 ### leave_group
 
 ```python
-leave_group(self: 'darkob.Client', group: str)
+leave_group(self: 'darkob.Messenger', group: str)
 ```
 
 Leave a group.
@@ -2756,7 +3014,7 @@ Returns:
 ### set_group_default_access
 
 ```python
-set_group_default_access(self: 'darkob.Client', group: str, access: Union[str, list])
+set_group_default_access(self: 'darkob.Messenger', group: str, access: Union[str, list])
 ```
 
 Set default access for a group.
@@ -2769,7 +3027,7 @@ Parameters:
         - "SendMessages": Allows sending messages.
         - "AddMember": Allows adding members.
         If only specific actions are listed (e.g. ["SendMessages"]), ONLY those are enabled and others are disabled.
-        If empty list "[]", ALL access permissions are disabled/closed.
+        If empty list "[]", ALL access permissions are disabled/closed. Case-insensitive.
 
 Returns:
     The result of the API call.
@@ -2777,7 +3035,7 @@ Returns:
 ### set_group_link
 
 ```python
-set_group_link(self: 'darkob.Client', group: str)
+set_group_link(self: 'darkob.Messenger', group: str)
 ```
 
 Set private link for group.
@@ -2807,7 +3065,7 @@ Returns:
 ### check_channel_username
 
 ```python
-check_channel_username(self: 'darkob.Client', username: str)
+check_channel_username(self: 'darkob.Messenger', username: str)
 ```
 
 Check the availability of a username for a channel.
@@ -2818,42 +3076,56 @@ Parameters:
 Returns:
     The result of the API call.
 
+### check_channels_with_username
+
+```python
+check_channels_with_username(self: 'darkob.Messenger', usernames: Union[str, List[str]])
+```
+
+Check which channels have the given usernames.
+
+Parameters:
+    usernames (Union[str, List[str]]): A single username or a list of usernames.
+
+Returns:
+    The result of the API call.
+
 ### create_channel
 
 ```python
-create_channel(self: 'darkob.Client', title: str, members: Optional[Union[str, list]]=None, channel_type: str='Public', description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, *args, **kwargs)
+create_channel(self: 'darkob.Messenger', title: str, members: Optional[Union[str, list]]=None, channel_type: str='Public', description: Optional[str]=None, avatar: Optional[Union[Path, str, bytes]]=None, thumbnail_avatar: Optional[Union[Path, str, bytes]]=None, main_file_id: Optional[Union[str, int]]=None, thumbnail_file_id: Optional[Union[str, int]]=None, *args, **kwargs)
 ```
 
 Create a new channel.
 
 Parameters:
     title (str): The title of the new channel.
-    members (Union[str, list], optional): The GUID(s) or username(s) of the member(s) to be added to the new channel. Default is None.
-    channel_type (str): Set type of the channel. 'Public' or 'Private'. Default is 'Public'.
-    description (str, optional): The description of the new channel. Default is None.
-    avatar (Optional[Union[Path, str, bytes]]): The image to be used as the channel avatar. Default is None.
-    thumbnail_avatar (Optional[Union[Path, str, bytes]]): The image to be used as the channel thumbnail avatar. Default is None.
+    members (Union[str, list], optional): The member(s) to add. Default is None.
+    channel_type (str): 'Public' or 'Private'. Case-insensitive. Default is 'Public'.
+    description (str, optional): The description. Default is None.
+    avatar (Path | str | bytes, optional): The channel avatar. Default is None.
+    thumbnail_avatar (Path | str | bytes, optional): The thumbnail avatar. Default is None.
+    main_file_id (Union[str, int], optional): Pre-uploaded main avatar file ID. Default is None.
+    thumbnail_file_id (Union[str, int], optional): Pre-uploaded thumbnail avatar file ID. Default is None.
 
 Returns:
     The result of the API call.
 
 Note:
-    If only `avatar` is provided, the thumbnail is taken from the same image.
-    If none of them are provided, no avatar is set for the channel.
+    If a file ID is provided, the corresponding image is not uploaded.
+    If no thumbnail is provided, it is taken from the main image.
 
 ### delete_channel
 
 ```python
-delete_channel(self: 'darkob.Client', channel: str, confirm: bool=True)
+delete_channel(self: 'darkob.Messenger', channel: str, confirm: bool=True)
 ```
 
 Delete a channel.
 
 Parameters:
     channel (str): The GUID, link, or username of the channel.
-    confirm (bool): If True, ask the user for confirmation before
-        deleting the channel. If False, delete immediately.
-        Default is True.
+    confirm (bool): If True, ask for confirmation before deleting. Default is True.
 
 Returns:
     The result of the API call.
@@ -2862,23 +3134,20 @@ Returns:
 ### edit_channel_info
 
 ```python
-edit_channel_info(self: 'darkob.Client', channel: str, title: Optional[str]=None, description: Optional[str]=None, username: Optional[str]=None, channel_type: Literal['Public', 'Private']=None, sign_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None)
+edit_channel_info(self: 'darkob.Messenger', channel: str, title: Optional[str]=None, description: Optional[str]=None, username: Optional[str]=None, channel_type: Optional[Literal['Public', 'Private']]=None, sign_messages: Optional[bool]=None, is_restricted_content: Optional[bool]=None, reactions: Optional[Union[Literal['All', 'Disable'], List[int]]]=None)
 ```
 
 Edit information of a channel.
 
 Parameters:
     channel (str): The GUID, link, or username of the channel.
-    title (str, optional): The new title of the channel. Max 60 characters.
-    description (str, optional): The new description of the channel. Max 300 characters.
-    username (str, optional): The new username of the channel. Max 32 characters.
-    channel_type (str, optional): The new type of the channel. 'Public' or 'Private'.
+    title (str, optional): The new title. Max 60 characters.
+    description (str, optional): The new description. Max 300 characters.
+    username (str, optional): The new username. Max 32 characters.
+    channel_type (str, optional): 'Public' or 'Private'. Case-insensitive.
     sign_messages (bool, optional): Whether to sign messages in the channel.
     is_restricted_content (bool, optional): Restrict content (prevent screenshots and file saving).
-    reactions (Union[Literal['All', 'Disable'], List[int]], optional): 
-        - 'All': Enable all reactions
-        - 'Disable': Disable all reactions
-        - List[int]: List of reaction IDs to enable (e.g., [1, 2, 6, 7, 8, 23, 44])
+    reactions (Union[Literal['All', 'Disable'], List[int]], optional): 'All', 'Disable', or a list of reaction IDs.
 
 Returns:
     The result of the API call.
@@ -2886,7 +3155,7 @@ Returns:
 ### edit_channel_title
 
 ```python
-edit_channel_title(self: 'darkob.Client', channel: str, title: str)
+edit_channel_title(self: 'darkob.Messenger', channel: str, title: str)
 ```
 
 Edit title of a channel.
@@ -2901,14 +3170,14 @@ Returns:
 ### get_channel_admin_access
 
 ```python
-get_channel_admin_access(self: 'darkob.Client', channel: str, admin: str)
+get_channel_admin_access(self: 'darkob.Messenger', channel: str, admin: str)
 ```
 
 Get the admin access list for a specific member in a channel.
 
 Parameters:
     channel (str): The GUID, link, or username of the channel.
-    admin (str): The GUID or username of the admin for whom admin access is being checked.
+    admin (str): The GUID or username of the admin.
 
 Returns:
     The result of the API call.
@@ -2931,7 +3200,7 @@ Returns:
 ### get_channel_info
 
 ```python
-get_channel_info(self: 'darkob.Client', channel: str)
+get_channel_info(self: 'darkob.Messenger', channel: str)
 ```
 
 Get information about a channel.
@@ -2945,7 +3214,7 @@ Returns:
 ### get_channel_link
 
 ```python
-get_channel_link(self: 'darkob.Client', channel: str)
+get_channel_link(self: 'darkob.Messenger', channel: str)
 ```
 
 Get the join link of a channel.
@@ -2959,7 +3228,7 @@ Returns:
 ### get_channel_members
 
 ```python
-get_channel_members(self: 'darkob.Client', channel: str, search_text: str=None, start_id: str=None)
+get_channel_members(self: 'darkob.Messenger', channel: str, search_text: Optional[str]=None, start_id: Optional[str]=None)
 ```
 
 Get members in a channel.
@@ -2975,7 +3244,7 @@ Returns:
 ### get_channel_post_by_link
 
 ```python
-get_channel_post_by_link(self: 'darkob.Client', url: str)
+get_channel_post_by_link(self: 'darkob.Messenger', url: str)
 ```
 
 Retrieves channel post by application URL.
@@ -2989,7 +3258,7 @@ Returns:
 ### get_channel_seen_count
 
 ```python
-get_channel_seen_count(self: 'darkob.Client', channel: str, min_id: Union[str, int], max_id=Union[str, int])
+get_channel_seen_count(self: 'darkob.Messenger', channel: str, min_id: Union[str, int], max_id: Union[str, int])
 ```
 
 Get the view count of a channel within a specific message ID range.
@@ -3005,7 +3274,7 @@ Returns:
 ### get_channel_statistics
 
 ```python
-get_channel_statistics(self: 'darkob.Client', channel: str)
+get_channel_statistics(self: 'darkob.Messenger', channel: str)
 ```
 
 Get all statistics for a channel.
@@ -3019,7 +3288,7 @@ Returns:
 ### get_post_by_ask_link
 
 ```python
-get_post_by_ask_link(self: 'darkob.Client', url: str)
+get_post_by_ask_link(self: 'darkob.Messenger', url: str)
 ```
 
 Retrieves channel post by ask_join_link (go.rubika.ir link).
@@ -3033,7 +3302,7 @@ Returns:
 ### join_channel
 
 ```python
-join_channel(self: 'darkob.Client', channel: str)
+join_channel(self: 'darkob.Messenger', channel: str)
 ```
 
 Join a channel.
@@ -3047,7 +3316,7 @@ Returns:
 ### leave_channel
 
 ```python
-leave_channel(self: 'darkob.Client', channel: str)
+leave_channel(self: 'darkob.Messenger', channel: str)
 ```
 
 Leave a channel.
@@ -3061,7 +3330,7 @@ Returns:
 ### seen_channel_messages
 
 ```python
-seen_channel_messages(self: 'darkob.Client', channel: str, min_id: Union[int, str], max_id: Union[int, str])
+seen_channel_messages(self: 'darkob.Messenger', channel: str, min_id: Union[int, str], max_id: Union[int, str])
 ```
 
 Mark channel messages as seen within a specific range.
@@ -3077,7 +3346,7 @@ Returns:
 ### set_channel_link
 
 ```python
-set_channel_link(self: 'darkob.Client', channel: str)
+set_channel_link(self: 'darkob.Messenger', channel: str)
 ```
 
 Set a custom link for the channel.
@@ -3091,7 +3360,7 @@ Returns:
 ### set_channel_type
 
 ```python
-set_channel_type(self: 'darkob.Client', channel: str, channel_type: typing.Literal['Public', 'Private'])
+set_channel_type(self: 'darkob.Messenger', channel: str, channel_type: Literal['Public', 'Private'])
 ```
 
 Set type of a channel.
@@ -3106,28 +3375,41 @@ Returns:
 ### update_channel_username
 
 ```python
-update_channel_username(self: 'darkob.Client', channel: str, username: str)
+update_channel_username(self: 'darkob.Messenger', channel: str, username: str)
 ```
 
 Update the username of a channel.
 
 Parameters:
     channel (str): The GUID or username of the channel.
-    username (str): The new username for the channel.
-        Must be between 7 and 32 characters
-        Can only contain English letters (a-z, A-Z), numbers (0-9), and underscore (_)
-        Should not start with number or underscore
-        Should not end with underscore
+    username (str): The new username. 7-32 chars, letters/numbers/underscore, cannot start with number/underscore, cannot end with underscore.
 
 Returns:
     The result of the API call.
 
 ## users
 
+### accept_call
+
+```python
+accept_call(self: 'darkob.Messenger', call_id: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65)
+```
+
+Accept an incoming call.
+
+Parameters:
+    call_id (str): The ID of the call to accept.
+    library_versions (List[str], optional): List of supported library versions. Default: ['2.7.7', '2.4.4']
+    max_layer (int): Maximum protocol layer. Default: 92
+    min_layer (int): Minimum protocol layer. Default: 65
+
+Returns:
+    The result of the API call.
+
 ### add_contact
 
 ```python
-add_contact(self: 'darkob.Client', phone_number: Union[str, int], first_name: str, last_name: str='')
+add_contact(self: 'darkob.Messenger', phone_number: Union[str, int], first_name: str, last_name: str='')
 ```
 
 Adds a contact to the client's address book.
@@ -3141,14 +3423,12 @@ Returns:
     The result of the API call.
 
 Note:
-    The `phone_number` parameter should be a valid phone number.
-    The `first_name` and `last_name` parameters represent the name of the contact.
-    If the contact has no last name, `last_name` can be an empty string.
+    The `phone_number` parameter should be a valid phone number. The `first_name` and `last_name` parameters represent the name of the contact. If the contact has no last name, `last_name` can be an empty string.
 
 ### block_user
 
 ```python
-block_user(self: 'darkob.Client', user: str)
+block_user(self: 'darkob.Messenger', user: str)
 ```
 
 Block a user.
@@ -3159,10 +3439,24 @@ Parameters:
 Returns:
     The result of the block operation.
 
+### call_started
+
+```python
+call_started(self: 'darkob.Messenger', call_id: str)
+```
+
+Notify the server that a call has started.
+
+Parameters:
+    call_id (str): The ID of the call that has started.
+
+Returns:
+    The result of the API call.
+
 ### check_user_username
 
 ```python
-check_user_username(self: 'darkob.Client', username: str)
+check_user_username(self: 'darkob.Messenger', username: str)
 ```
 
 Check the availability of a username for a user.
@@ -3176,7 +3470,7 @@ Returns:
 ### delete_contact
 
 ```python
-delete_contact(self: 'darkob.Client', user: str)
+delete_contact(self: 'darkob.Messenger', user: str)
 ```
 
 Deletes a contact from the client's address book.
@@ -3188,12 +3482,12 @@ Returns:
     The result of the contact deletion operation.
 
 Note:
-    - The `user` parameter should be the GUID or username of the contact to be deleted.
+    The `user` parameter should be the GUID or username of the contact to be deleted.
 
 ### delete_user_chat
 
 ```python
-delete_user_chat(self: 'darkob.Client', user: str)
+delete_user_chat(self: 'darkob.Messenger', user: str)
 ```
 
 Delete a user chat.
@@ -3236,10 +3530,52 @@ Parameters:
 Returns:
     The result containing all blocked users with total count.
 
+### get_call_config
+
+```python
+get_call_config(self: 'darkob.Messenger')
+```
+
+Get the voice call configuration (WebRTC technical settings).
+
+Returns:
+    The result of the API call, containing the `call_config` object.
+
+### get_call_signaling_data
+
+```python
+get_call_signaling_data(self: 'darkob.Messenger', call_id: str)
+```
+
+Get signaling data for a call (needed for WebRTC connection).
+
+Parameters:
+    call_id (str): The ID of the call.
+
+Returns:
+    The result of the API call, containing signaling data.
+
+### get_calls
+
+```python
+get_calls(self: 'darkob.Messenger', sort: Literal['FromMin', 'FromMax']='FromMax', filter_type: Literal['All', 'Missed']='All', max_id: Optional[Union[str, int]]=None, min_id: Optional[Union[str, int]]=None)
+```
+
+Get the list of calls.
+
+Parameters:
+    sort (Literal['FromMin', 'FromMax']): Sort order. Required. Default: 'FromMax'
+    filter_type (Literal['All', 'Missed']): Filter calls by type. Default: 'All'
+    max_id (Union[str, int], optional): Maximum call ID for pagination. Defaults to None.
+    min_id (Union[str, int], optional): Minimum call ID for pagination. Defaults to None.
+
+Returns:
+    The result of the API call.
+
 ### get_common_groups
 
 ```python
-get_common_groups(self: 'darkob.Client', user: str)
+get_common_groups(self: 'darkob.Messenger', user: str)
 ```
 
 Get groups in common with a user.
@@ -3268,7 +3604,7 @@ Returns:
 ### get_contacts_last_online
 
 ```python
-get_contacts_last_online(self: 'darkob.Client', users: Union[str, List[str]])
+get_contacts_last_online(self: 'darkob.Messenger', users: Union[str, List[str]])
 ```
 
 Get the last online status of multiple users.
@@ -3282,7 +3618,7 @@ Returns:
 ### get_contacts_stories
 
 ```python
-get_contacts_stories(self: 'darkob.Client')
+get_contacts_stories(self: 'darkob.Messenger')
 ```
 
 Get stories from contacts in the chat page.
@@ -3293,7 +3629,7 @@ Returns:
 ### get_contacts_updates
 
 ```python
-get_contacts_updates(self: 'darkob.Client', state: Optional[Union[str, int]]=round(time()) - 150)
+get_contacts_updates(self: 'darkob.Client', state: Optional[Union[str, int]]=None)
 ```
 
 Get updates related to contacts.
@@ -3308,7 +3644,7 @@ Returns:
 ### get_last_online
 
 ```python
-get_last_online(self: 'darkob.Client', user: str)
+get_last_online(self: 'darkob.Messenger', user: str)
 ```
 
 Get the last online status of a user.
@@ -3341,7 +3677,7 @@ Returns:
 ### get_saved_music_playlist
 
 ```python
-get_saved_music_playlist(self: 'darkob.Client', user: str)
+get_saved_music_playlist(self: 'darkob.Messenger', user: str)
 ```
 
 Get the saved music playlist of a user.
@@ -3366,21 +3702,65 @@ Returns:
 ### get_user_info
 
 ```python
-get_user_info(self: 'darkob.Client', user: str=None)
+get_user_info(self: 'darkob.Messenger', user: Optional[str]=None)
 ```
 
 Get information about a specific user.
 
 Parameters:
-    user (str): The GUID or username of the user.
+    user (str, optional): The GUID or username of the user.
 
 Returns:
     Information about the specified user.
 
+### import_contacts
+
+```python
+import_contacts(self: 'darkob.Messenger', contacts: List[Dict[str, str]])
+```
+
+Import (upload) the phone's contacts to Rubika.
+
+Parameters:
+    contacts (List[Dict[str, str]]): A list of contacts, where each contact is a dict with 'first_name', 'last_name', and 'phone' keys.
+
+Returns:
+    The result of the API call.
+
+### rate_call
+
+```python
+rate_call(self: 'darkob.Messenger', call_id: str, star_count: int, comment: Optional[str]=None)
+```
+
+Rate a call.
+
+Parameters:
+    call_id (str): The ID of the call to rate.
+    star_count (int): Rating stars (usually 1 to 5).
+    comment (str, optional): Optional comment about the call. Defaults to None.
+
+Returns:
+    The result of the API call.
+
+### received_call
+
+```python
+received_call(self: 'darkob.Messenger', call_id: str)
+```
+
+Notify the server that an incoming call has been received.
+
+Parameters:
+    call_id (str): The ID of the received call.
+
+Returns:
+    The result of the API call.
+
 ### remove_from_top_users
 
 ```python
-remove_from_top_users(self: 'darkob.Client', user: str)
+remove_from_top_users(self: 'darkob.Messenger', user: str)
 ```
 
 Remove user from top users list.
@@ -3394,7 +3774,7 @@ Returns:
 ### request_video_call
 
 ```python
-request_video_call(self: 'darkob.Client', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
+request_video_call(self: 'darkob.Messenger', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
 ```
 
 Request a video call with a user.
@@ -3413,7 +3793,7 @@ Returns:
 ### request_voice_call
 
 ```python
-request_voice_call(self: 'darkob.Client', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
+request_voice_call(self: 'darkob.Messenger', user: str, library_versions: Optional[List[str]]=None, max_layer: int=92, min_layer: int=65, sip_version: int=1, support_call_out: bool=True)
 ```
 
 Request a voice call with a user.
@@ -3432,7 +3812,7 @@ Returns:
 ### reset_contacts
 
 ```python
-reset_contacts(self: 'darkob.Client')
+reset_contacts(self: 'darkob.Messenger')
 ```
 
 Reset all saved contacts for the authenticated user.
@@ -3442,16 +3822,31 @@ This method clears the entire contact list on the server side.
 Returns:
     The result of the API call.
 
+### send_call_signaling_data
+
+```python
+send_call_signaling_data(self: 'darkob.Messenger', call_id: str, data: str)
+```
+
+Send signaling data for a call.
+
+Parameters:
+    call_id (str): The ID of the call.
+    data (str): Signaling data as a string (e.g., JSON-encoded SDP/ICE).
+
+Returns:
+    The result of the API call.
+
 ### unblock_all_users
 
 ```python
-unblock_all_users(self: 'darkob.Client', exclude: Optional[Union[str, List[str]]]=None)
+unblock_all_users(self: 'darkob.Messenger', exclude: Optional[Union[str, List[str]]]=None)
 ```
 
 Unblock all blocked users.
 
 Parameters:
-    exclude (Optional[Union[str, List[str]]]): User GUID(s) or username(s) to exclude from unblock. Default is None.
+    exclude (Union[str, List[str]], optional): User GUID(s) or username(s) to exclude from unblock. Default is None.
 
 Returns:
     Result of unblock operation.
@@ -3459,7 +3854,7 @@ Returns:
 ### unblock_user
 
 ```python
-unblock_user(self: 'darkob.Client', user: str)
+unblock_user(self: 'darkob.Messenger', user: str)
 ```
 
 Unblock a user.
@@ -3472,10 +3867,24 @@ Returns:
 
 ## settings
 
+### abort_set_recovery_email
+
+```python
+abort_set_recovery_email(self: 'darkob.Messenger', password: str)
+```
+
+Abort the process of setting a recovery email.
+
+Parameters:
+    password (str): The two-step verification password.
+
+Returns:
+    The result of the API call.
+
 ### abort_two_step_setup
 
 ```python
-abort_two_step_setup(self: 'darkob.Client')
+abort_two_step_setup(self: 'darkob.Messenger')
 ```
 
 Abort the two-step verification setup process.
@@ -3486,25 +3895,19 @@ Returns:
 ### add_folder
 
 ```python
-add_folder(self: 'darkob.Client', name: str, include_chats: Optional[Union[str, List[str]]]=None, exclude_chats: Optional[Union[str, List[str]]]=None, include_chat_types: Optional[List[str]]=None, exclude_chat_types: Optional[List[str]]=None, is_add_to_top: bool=True, suggestion_folder_id: str=None, folder_id: str=None)
+add_folder(self: 'darkob.Messenger', name: str, include_chats: Optional[Union[str, List[str]]]=None, exclude_chats: Optional[Union[str, List[str]]]=None, include_chat_types: Optional[List[str]]=None, exclude_chat_types: Optional[List[str]]=None, is_add_to_top: bool=True, suggestion_folder_id: Optional[str]=None, folder_id: Optional[str]=None)
 ```
 
 Add a new folder to organize chats.
 
 Parameters:
     name (str): Folder name.
-    include_chats: Chats (GUIDs, links, usernames) to include in folder.
-    exclude_chats: Chats (GUIDs, links, usernames) to exclude from folder.
-    include_chat_types: Chat types to include (case-insensitive).
-        Valid values:
-            'Contacts', 'NonContacts' / 'Users', 'Groups',
-            'Channels', 'Bots', 'Services'.
-        Note: 'Users' expands to both 'Contacts' and 'NonContacts'.
-    exclude_chat_types: Chat types to exclude (case-insensitive).
-        Valid values: 'Mute', 'Read', 'Archive'.
+    include_chats (Union[str, List[str]], optional): Chats (GUIDs, links, usernames) to include.
+    exclude_chats (Union[str, List[str]], optional): Chats to exclude.
+    include_chat_types (List[str], optional): Chat types to include (case-insensitive): 'Contacts', 'NonContacts'/'Users', 'Groups', 'Channels', 'Bots', 'Services'.
+    exclude_chat_types (List[str], optional): Chat types to exclude (case-insensitive): 'Mute', 'Read', 'Archive'.
     is_add_to_top (bool): Add folder to top of list.
-    suggestion_folder_id (str): Suggestion folder ID.
-    folder_id (str): Folder ID.
+    suggestion_folder_id (str, optional): Suggestion folder ID.
 
 Returns:
     The result of the API call.
@@ -3512,17 +3915,17 @@ Returns:
 ### add_saved_music_playlist
 
 ```python
-add_saved_music_playlist(self: 'darkob.Client', files: Union[Path, str, List[Union[Path, str]]]=None, file_inlines: List[dict]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
+add_saved_music_playlist(self: 'darkob.Messenger', files: Optional[Union[Path, str, List[Union[Path, str]]]]=None, file_inlines: Optional[List[dict]]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Add a saved music playlist on your profile.
 
 Parameters:
-    files: A single file path or a list of file paths to music files.
-    file_inlines: Pre-uploaded file_inline dicts to add directly.
-    time: Custom duration in seconds. If not provided, auto-detected.
-    performer: Custom performer name. If not provided, auto-detected.
-    file_name: Custom file name. If not provided, uses original file name.
+    files (Union[Path, str, List], optional): A single file path or a list of file paths.
+    file_inlines (List[dict], optional): Pre-uploaded file_inline dicts to add directly.
+    time (int, optional): Custom duration in seconds. Auto-detected if not provided.
+    performer (str, optional): Custom performer name. Auto-detected if not provided.
+    file_name (str, optional): Custom file name. Uses original file name if not provided.
 
 Returns:
     The result of the API call.
@@ -3530,17 +3933,17 @@ Returns:
 ### add_saved_music_track
 
 ```python
-add_saved_music_track(self: 'darkob.Client', track: Union[Path, str]=None, file_inline: dict=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
+add_saved_music_track(self: 'darkob.Messenger', track: Optional[Union[Path, str, bytes]]=None, file_inline: Optional[dict]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Add a single music track to your saved music playlist.
 
 Parameters:
-    track: A file path (str or Path) to a music file, or raw bytes.
-    file_inline: A pre-uploaded file_inline dict to add directly.
-    time: Custom duration in seconds. If not provided, auto-detected.
-    performer: Custom performer name. If not provided, auto-detected.
-    file_name: Custom file name. If not provided, uses original file name.
+    track (Union[Path, str, bytes], optional): A file path or raw bytes.
+    file_inline (dict, optional): A pre-uploaded file_inline dict to add directly.
+    time (int, optional): Custom duration in seconds. Auto-detected if not provided.
+    performer (str, optional): Custom performer name. Auto-detected if not provided.
+    file_name (str, optional): Custom file name. Uses original file name if not provided.
 
 Returns:
     The result of the API call.
@@ -3548,14 +3951,13 @@ Returns:
 ### auto_delete_account
 
 ```python
-auto_delete_account(self: 'darkob.Client', setting: Union[int, str])
+auto_delete_account(self: 'darkob.Messenger', setting: Union[int, str])
 ```
 
 Set account auto-deletion after months of inactivity.
 
 Parameters:
-    setting (Union[int, str]): Months of inactivity. Accepts: 3, 6, 12, or 24.
-        Can be int (3, 6, 12, 24) or str ("3", "6", "12", "24", "3m", "6m", "12m", "24m")
+    setting (Union[int, str]): Months of inactivity. Accepts: 3, 6, 12, or 24. Can be int (3, 6, 12, 24) or str ("3", "6", "12", "24", "3m", "6m", "12m", "24m").
 
 Returns:
     The updated privacy settings.
@@ -3567,7 +3969,7 @@ Examples:
 ### change_password
 
 ```python
-change_password(self: 'darkob.Client', password: str, new_password: str, new_hint: str)
+change_password(self: 'darkob.Messenger', password: str, new_password: str, new_hint: str)
 ```
 
 Changes the user's password.
@@ -3583,7 +3985,7 @@ Returns:
 ### check_two_step_passcode
 
 ```python
-check_two_step_passcode(self: 'darkob.Client', password: str)
+check_two_step_passcode(self: 'darkob.Messenger', password: str)
 ```
 
 Check if the provided two-step verification password is correct.
@@ -3597,7 +3999,7 @@ Returns:
 ### confirm_unconfirmed_session
 
 ```python
-confirm_unconfirmed_session(self: 'darkob.Client', unconfirmed_session_key: str)
+confirm_unconfirmed_session(self: 'darkob.Messenger', unconfirmed_session_key: str)
 ```
 
 Confirm an unconfirmed (pending) session.
@@ -3611,18 +4013,18 @@ Returns:
 ### delete_account
 
 ```python
-delete_account(self: 'darkob.Client')
+delete_account(self: 'darkob.Messenger')
 ```
 
 Request to permanently delete your Rubika account.
 
 Returns:
-    str: User-friendly confirmation message.
+    Confirmation message about the deletion request.
 
 ### delete_folder
 
 ```python
-delete_folder(self: 'darkob.Client', folder_id: str)
+delete_folder(self: 'darkob.Messenger', folder_id: str)
 ```
 
 Delete a folder.
@@ -3636,7 +4038,7 @@ Returns:
 ### delete_saved_music_playlist
 
 ```python
-delete_saved_music_playlist(self: 'darkob.Client', position: int=None)
+delete_saved_music_playlist(self: 'darkob.Messenger', position: Optional[int]=None)
 ```
 
 Delete tracks from the saved music playlist on your profile.
@@ -3650,7 +4052,7 @@ Returns:
 ### deny_unconfirmed_session
 
 ```python
-deny_unconfirmed_session(self: 'darkob.Client', unconfirmed_session_key: str)
+deny_unconfirmed_session(self: 'darkob.Messenger', unconfirmed_session_key: str)
 ```
 
 Deny an unconfirmed (pending) session.
@@ -3661,21 +4063,31 @@ Parameters:
 Returns:
     The result of the API call.
 
+### disable_two_step_by_forget_password
+
+```python
+disable_two_step_by_forget_password(self: 'darkob.Messenger', code: Union[str, int])
+```
+
+Disable two-step verification using the recovery code.
+
+Parameters:
+    code (Union[str, int]): The verification code sent to the user.
+
+Returns:
+    The result of the API call.
+
 ### edit_can_called_by
 
 ```python
-edit_can_called_by(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_can_called_by(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can call you.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
@@ -3683,37 +4095,49 @@ Returns:
 ### edit_can_join_chat_by
 
 ```python
-edit_can_join_chat_by(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_can_join_chat_by(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can join your chats by link.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
 
+### edit_folder
+
+```python
+edit_folder(self: 'darkob.Messenger', folder_id: str, name: Optional[str]=None, include_chats: Optional[Union[str, List[str]]]=None, exclude_chats: Optional[Union[str, List[str]]]=None, include_chat_types: Optional[List[str]]=None, exclude_chat_types: Optional[List[str]]=None, is_add_to_top: Optional[bool]=None)
+```
+
+Edit an existing folder.
+
+Parameters:
+    folder_id (str): The ID of the folder to edit.
+    name (str, optional): New folder name.
+    include_chats (Union[str, List[str]], optional): Chats to include.
+    exclude_chats (Union[str, List[str]], optional): Chats to exclude.
+    include_chat_types (List[str], optional): Chat types to include.
+    exclude_chat_types (List[str], optional): Chat types to exclude.
+    is_add_to_top (bool, optional): Add folder to top of list.
+
+Returns:
+    The result of the API call.
+
 ### edit_show_birthday
 
 ```python
-edit_show_birthday(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_show_birthday(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to show or hide the user's birthday.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
@@ -3721,18 +4145,14 @@ Returns:
 ### edit_show_last_online
 
 ```python
-edit_show_last_online(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_show_last_online(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's last online status.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
@@ -3740,18 +4160,14 @@ Returns:
 ### edit_show_phone_number
 
 ```python
-edit_show_phone_number(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_show_phone_number(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's phone number.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
@@ -3759,26 +4175,55 @@ Returns:
 ### edit_show_profile_photo
 
 ```python
-edit_show_profile_photo(self: 'darkob.Client', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
+edit_show_profile_photo(self: 'darkob.Messenger', setting: str, exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Edits the setting to control who can see the user's profile photo.
 
 Parameters:
-    setting (str): 'Everybody', 'MyContacts' or 'Nobody'
-    exceptions (Optional[Dict[str, List[str]]]): 
-        - 'include_users': List[str] - Users to always allow
-        - 'exclude_users': List[str] - Users to always deny
-
-        To clear exceptions, pass {'exclude_users': []}
+    setting (str): 'Everybody', 'MyContacts' or 'Nobody'.
+    exceptions (Dict[str, List[str]], optional): 'include_users' (always allow) and 'exclude_users' (always deny). Pass {'exclude_users': []} to clear.
 
 Returns:
     The updated privacy settings after the change.
 
+### get_appearance_setting
+
+```python
+get_appearance_setting(self: 'darkob.Messenger')
+```
+
+Get the user's appearance settings (chat background, font size, emoji, night mode, themes, etc.).
+
+Returns:
+    The result of the API call, containing the `appearance_setting` object.
+
+### get_data_setting
+
+```python
+get_data_setting(self: 'darkob.Messenger')
+```
+
+Get the user's data and media auto-download settings.
+
+Returns:
+    The result of the API call, containing the `data_setting` object.
+
+### get_device_setting
+
+```python
+get_device_setting(self: 'darkob.Messenger')
+```
+
+Get all device settings (data, appearance, and notification).
+
+Returns:
+    The result of the API call, containing `data_setting`, `appearance_setting`, and `notification_setting`.
+
 ### get_folders
 
 ```python
-get_folders(self: 'darkob.Client', last_state: Union[int, str]=round(time()) - 150)
+get_folders(self: 'darkob.Messenger', last_state: Union[int, str]=None)
 ```
 
 Get a list of folders.
@@ -3792,7 +4237,7 @@ Returns:
 ### get_my_sessions
 
 ```python
-get_my_sessions(self: 'darkob.Client')
+get_my_sessions(self: 'darkob.Messenger')
 ```
 
 Get information about the current user's sessions.
@@ -3803,7 +4248,7 @@ Returns:
 ### get_notification_setting
 
 ```python
-get_notification_setting(self: 'darkob.Client')
+get_notification_setting(self: 'darkob.Messenger')
 ```
 
 Retrieves the current notification settings for the account.
@@ -3814,7 +4259,7 @@ Returns:
 ### get_privacy_setting
 
 ```python
-get_privacy_setting(self: 'darkob.Client')
+get_privacy_setting(self: 'darkob.Messenger')
 ```
 
 Get the current user's privacy setting.
@@ -3825,7 +4270,7 @@ Returns:
 ### get_suggested_folders
 
 ```python
-get_suggested_folders(self: 'darkob.Client')
+get_suggested_folders(self: 'darkob.Messenger')
 ```
 
 Get the suggested folders for the user.
@@ -3836,7 +4281,7 @@ Returns:
 ### get_two_passcode_status
 
 ```python
-get_two_passcode_status(self: 'darkob.Client')
+get_two_passcode_status(self: 'darkob.Messenger')
 ```
 
 Get the two-passcode status for the user.
@@ -3847,7 +4292,7 @@ Returns:
 ### get_unconfirmed_sessions
 
 ```python
-get_unconfirmed_sessions(self: 'darkob.Client')
+get_unconfirmed_sessions(self: 'darkob.Messenger')
 ```
 
 Get a list of unconfirmed (pending) sessions for the current account.
@@ -3855,10 +4300,21 @@ Get a list of unconfirmed (pending) sessions for the current account.
 Returns:
     The result of the API call containing unconfirmed sessions.
 
+### get_user_setting
+
+```python
+get_user_setting(self: 'darkob.Messenger')
+```
+
+Get user account settings, similar to `get_privacy_setting`.
+
+Returns:
+    The result of the API call. Includes the `privacy_setting` object (same as `get_privacy_setting`) plus an additional `access_list`.
+
 ### login_disable_two_step
 
 ```python
-login_disable_two_step(self: 'darkob.Client', phone_number: str, email_code: str, forget_password_code_hash: str)
+login_disable_two_step(self: 'darkob.Messenger', phone_number: str, email_code: str, forget_password_code_hash: str)
 ```
 
 Disable two-step verification during login.
@@ -3866,8 +4322,7 @@ Disable two-step verification during login.
 Parameters:
     phone_number (str): The phone number associated with the account.
     email_code (str): The verification code sent to email.
-    forget_password_code_hash (str): The code hash for
-        forgotten password flow.
+    forget_password_code_hash (str): The code hash for forgotten password flow.
 
 Returns:
     The result of the API call.
@@ -3875,42 +4330,37 @@ Returns:
 ### login_two_step_forget_password
 
 ```python
-login_two_step_forget_password(self: 'darkob.Client', phone_number: str)
+login_two_step_forget_password(self: 'darkob.Messenger', phone_number: str)
 ```
 
 Start the password recovery process for two-step verification.
 
-Use this when the user has forgotten their two-step verification password.
-This will initiate the recovery flow (e.g. sending a code to email/phone).
+Use this when the user has forgotten their two-step verification password. This will initiate the recovery flow (e.g. sending a code to email/phone).
 
 Parameters:
     phone_number (str): The phone number associated with the account.
 
 Returns:
-    The result of the API call, typically containing a hash or
-    instructions for the next step of recovery.
+    The result of the API call, typically containing a hash or instructions for the next step of recovery.
 
 ### logout
 
 ```python
-logout(self: 'darkob.Client', confirm: bool=True)
+logout(self: 'darkob.Messenger', confirm: bool=True)
 ```
 
 Log out of the current session.
 
 Parameters:
-    confirm (bool): If True, ask the user for confirmation before
-        logging out. If False, log out immediately.
-        Default is True.
+    confirm (bool): If True, ask the user for confirmation before logging out. If False, log out immediately. Default is True.
 
 Returns:
-    The result of the logout operation if confirmed.
-    Exits if cancelled.
+    The result of the logout operation if confirmed. Exits if cancelled.
 
 ### register_device
 
 ```python
-register_device(self: 'darkob.Client', device_model: str=None, *args, **kwargs)
+register_device(self: 'darkob.Messenger', device_model: Optional[str]=None, *args, **kwargs)
 ```
 
 Register the current device with the Rubika server.
@@ -3925,7 +4375,7 @@ Returns:
 ### reorder_folder
 
 ```python
-reorder_folder(self: 'darkob.Client', folder_ids: Union[str, List[str]])
+reorder_folder(self: 'darkob.Messenger', folder_ids: Union[str, List[str]])
 ```
 
 Reorder folders.
@@ -3939,7 +4389,7 @@ Returns:
 ### request_change_phone_number
 
 ```python
-request_change_phone_number(self: 'darkob.Client', new_phone_number: str)
+request_change_phone_number(self: 'darkob.Messenger', new_phone_number: str)
 ```
 
 Request to change the account phone number.
@@ -3953,7 +4403,7 @@ Returns:
 ### request_forget_password
 
 ```python
-request_forget_password(self: 'darkob.Client')
+request_forget_password(self: 'darkob.Messenger')
 ```
 
 Request to reset the account password.
@@ -3964,7 +4414,7 @@ Returns:
 ### request_recovery_email
 
 ```python
-request_recovery_email(self: 'darkob.Client', password: str, recovery_email: str)
+request_recovery_email(self: 'darkob.Messenger', password: str, recovery_email: str)
 ```
 
 Request a recovery code to be sent to the recovery email.
@@ -3976,13 +4426,91 @@ Parameters:
 Returns:
     The result of the API call.
 
+### resend_code_recovery_email
+
+```python
+resend_code_recovery_email(self: 'darkob.Messenger', password: str)
+```
+
+Resend the recovery email verification code.
+
+Parameters:
+    password (str): The two-step verification password.
+
+Returns:
+    The result of the API call.
+
+### set_appearance_setting
+
+```python
+set_appearance_setting(self: 'darkob.Messenger', large_emoji: Optional[bool]=None, android_font_size: Optional[int]=None, auto_night_mode: Optional[bool]=None, auto_night_mode_type: Optional[NightModeType]=None, message_corner: Optional[int]=None, chat_list_view: Optional[ChatListViewType]=None, chat_list_swipe_gesture: Optional[SwipeGestureType]=None, scheduled_use_local_sunset: Optional[bool]=None, scheduled_from_time: Optional[Dict[str, int]]=None, scheduled_to_time: Optional[Dict[str, int]]=None, adaptive_brightness_threshold: Optional[int]=None, direct_share: Optional[bool]=None, enable_animation: Optional[bool]=None, save_to_gallery: Optional[bool]=None, send_by_enter: Optional[bool]=None, default_tab: Optional[str]=None, quick_reaction: Optional[Dict[str, str]]=None)
+```
+
+Update appearance settings (excluding theme and theme background).
+
+Parameters:
+    large_emoji (bool, optional): Enable/disable large emojis.
+    android_font_size (int, optional): Font size for Android.
+    auto_night_mode (bool, optional): Enable/disable auto night mode.
+    auto_night_mode_type (str, optional): 'Disable', 'Scheduled', 'Adaptive'. Case-insensitive.
+    message_corner (int, optional): Message bubble corner radius.
+    chat_list_view (str, optional): 'TwoLines' or 'ThreeLines'. Case-insensitive.
+    chat_list_swipe_gesture (str, optional): 'ChangeFolder', 'Pin', 'Read', 'Mute', 'Delete'. Case-insensitive.
+    scheduled_use_local_sunset (bool, optional): Use local sunset for scheduled night mode.
+    scheduled_from_time (Dict[str, int], optional): Scheduled night mode start time (e.g., {'hour': 20, 'minute': 0}).
+    scheduled_to_time (Dict[str, int], optional): Scheduled night mode end time (e.g., {'hour': 7, 'minute': 0}).
+    adaptive_brightness_threshold (int, optional): Adaptive brightness threshold.
+    direct_share (bool, optional): Enable/disable direct share.
+    enable_animation (bool, optional): Enable/disable animations.
+    save_to_gallery (bool, optional): Enable/disable saving to gallery.
+    send_by_enter (bool, optional): Enable/disable sending by Enter key.
+    default_tab (str, optional): Default tab.
+    quick_reaction (Dict[str, str], optional): Quick reaction with 'reaction_id', 'emoji_char', and 'name'.
+
+Returns:
+    The updated settings.
+
+### set_data_setting
+
+```python
+set_data_setting(self: 'darkob.Messenger', auto_download_media: Optional[bool]=None, wifi_auto_download: Optional[bool]=None, cellular_auto_download: Optional[bool]=None, gif_auto_play: Optional[bool]=None, video_auto_play: Optional[bool]=None, stream_videos_and_audio_files: Optional[bool]=None, keep_media: Optional[KeepMediaType]=None, wifi_photo_auto_download: Optional[Dict[str, int]]=None, cellular_photo_auto_download: Optional[Dict[str, int]]=None, wifi_video_auto_download: Optional[Dict[str, int]]=None, cellular_video_auto_download: Optional[Dict[str, int]]=None, wifi_file_auto_download: Optional[Dict[str, int]]=None, cellular_file_auto_download: Optional[Dict[str, int]]=None, wifi_gif_auto_download: Optional[Dict[str, int]]=None, cellular_gif_auto_download: Optional[Dict[str, int]]=None, wifi_music_auto_download: Optional[Dict[str, int]]=None, cellular_music_auto_download: Optional[Dict[str, int]]=None)
+```
+
+Update data (auto-download) settings.
+
+Parameters:
+    auto_download_media (bool, optional): Global auto-download toggle.
+    wifi_auto_download (bool, optional): WiFi auto-download toggle.
+    cellular_auto_download (bool, optional): Cellular auto-download toggle.
+    gif_auto_play (bool, optional): Auto-play GIFs.
+    video_auto_play (bool, optional): Auto-play videos.
+    stream_videos_and_audio_files (bool, optional): Stream videos and audio.
+    keep_media (str, optional): Keep media duration. Only 'Forever' is accepted.
+    wifi_photo_auto_download (dict, optional): Auto-download config with 'max_download_size' and contact/user/group/channel keys.
+    cellular_photo_auto_download (dict, optional): Same as above for cellular.
+    wifi_video_auto_download (dict, optional): Same as above for video on WiFi.
+    cellular_video_auto_download (dict, optional): Same as above for video on cellular.
+    wifi_file_auto_download (dict, optional): Same as above for files on WiFi.
+    cellular_file_auto_download (dict, optional): Same as above for files on cellular.
+    wifi_gif_auto_download (dict, optional): Same as above for GIFs on WiFi.
+    cellular_gif_auto_download (dict, optional): Same as above for GIFs on cellular.
+    wifi_music_auto_download (dict, optional): Same as above for music on WiFi.
+    cellular_music_auto_download (dict, optional): Same as above for music on cellular.
+
+Returns:
+    The updated device settings.
+
 ### set_notification
 
 ```python
-set_notification(self: 'darkob.Client', user_notification: Optional[bool]=None, user_message_preview: Optional[bool]=None, group_notification: Optional[bool]=None, group_message_preview: Optional[bool]=None, channel_notification: Optional[bool]=None, channel_message_preview: Optional[bool]=None, in_app_sound: Optional[bool]=None, in_app_preview: Optional[bool]=None, new_contacts: Optional[bool]=None)
+set_notification(self: 'darkob.Messenger', user_notification: Optional[bool]=None, user_message_preview: Optional[bool]=None, group_notification: Optional[bool]=None, group_message_preview: Optional[bool]=None, channel_notification: Optional[bool]=None, channel_message_preview: Optional[bool]=None, in_app_sound: Optional[bool]=None, in_app_preview: Optional[bool]=None, new_contacts: Optional[bool]=None)
 ```
 
-Update notification settings.
+Update notification settings. (Deprecated)
+
+.. deprecated::
+    This method is deprecated and will be removed soon.
+    Use `set_notification_setting` instead.
 
 Parameters:
     user_notification (bool, optional): Enable/disable user notifications.
@@ -3998,20 +4526,99 @@ Parameters:
 Returns:
     The updated notification settings.
 
+### set_notification_setting
+
+```python
+set_notification_setting(self: 'darkob.Messenger', user_notification: Optional[bool]=None, user_message_preview: Optional[bool]=None, group_notification: Optional[bool]=None, group_message_preview: Optional[bool]=None, channel_notification: Optional[bool]=None, channel_message_preview: Optional[bool]=None, in_app_sound: Optional[bool]=None, in_app_preview: Optional[bool]=None, new_contacts: Optional[bool]=None, user_notification_popup: Optional[PopupType]=None, group_notification_popup: Optional[PopupType]=None, channel_notification_popup: Optional[PopupType]=None, user_notification_importance: Optional[ImportanceType]=None, group_notification_importance: Optional[ImportanceType]=None, channel_notification_importance: Optional[ImportanceType]=None, user_notification_vibrate: Optional[VibrateType]=None, group_notification_vibrate: Optional[VibrateType]=None, channel_notification_vibrate: Optional[VibrateType]=None, in_app_vibrate: Optional[bool]=None, vibrate_voice_calls: Optional[VibrateType]=None)
+```
+
+Update notification settings.
+
+Parameters:
+    user_notification (bool, optional): Enable/disable user notifications.
+    user_message_preview (bool, optional): Show/hide user message preview.
+    group_notification (bool, optional): Enable/disable group notifications.
+    group_message_preview (bool, optional): Show/hide group message preview.
+    channel_notification (bool, optional): Enable/disable channel notifications.
+    channel_message_preview (bool, optional): Show/hide channel message preview.
+    in_app_sound (bool, optional): Enable/disable in-app sound.
+    in_app_preview (bool, optional): Enable/disable in-app preview.
+    new_contacts (bool, optional): Enable/disable new contacts notification.
+    user_notification_popup (str, optional): 'NoPopup', 'OnlyScreenOn', 'OnlyScreenOff', 'Always'. Case-insensitive.
+    group_notification_popup (str, optional): Same as user.
+    channel_notification_popup (str, optional): Same as user.
+    user_notification_importance (str, optional): 'Low', 'Medium', 'High', 'Urgent'. Case-insensitive.
+    group_notification_importance (str, optional): Same as user.
+    channel_notification_importance (str, optional): Same as user.
+    user_notification_vibrate (str, optional): 'Disabled', 'Default', 'Short', 'Long', 'OnlySilent'. Case-insensitive.
+    group_notification_vibrate (str, optional): Same as user.
+    channel_notification_vibrate (str, optional): Same as user.
+    in_app_vibrate (bool, optional): Enable/disable in-app vibrate.
+    vibrate_voice_calls (str, optional): 'Disabled', 'Default', 'Short', 'Long', 'OnlySilent'. Case-insensitive.
+
+Returns:
+    The updated notification settings.
+
+### set_privacy_setting
+
+```python
+set_privacy_setting(self: 'darkob.Messenger', show_my_last_online: Optional[PrivacyValue]=None, show_my_phone_number: Optional[PrivacyValue]=None, show_my_profile_photo: Optional[PrivacyValue]=None, link_forward_message: Optional[PrivacyValue]=None, can_join_chat_by: Optional[PrivacyValue]=None, show_my_birth_date: Optional[PrivacyValue]=None, can_called_by: Optional[PrivacyValue]=None, auto_delete_messages: Optional[Union[str, int]]=None, inactive_account_delete: Optional[int]=None, show_my_last_online_exceptions: Optional[Dict[str, List[str]]]=None, show_my_phone_number_exceptions: Optional[Dict[str, List[str]]]=None, show_my_profile_photo_exceptions: Optional[Dict[str, List[str]]]=None, can_join_chat_by_exceptions: Optional[Dict[str, List[str]]]=None, show_my_birth_date_exceptions: Optional[Dict[str, List[str]]]=None, can_called_by_exceptions: Optional[Dict[str, List[str]]]=None)
+```
+
+Update privacy and auto-delete settings.
+
+Parameters:
+    Privacy Settings (accept: 'Everybody', 'MyContacts', 'Nobody'):
+        show_my_last_online (str, optional): Who can see your last online status.
+        show_my_phone_number (str, optional): Who can see your phone number.
+        show_my_profile_photo (str, optional): Who can see your profile photo.
+        link_forward_message (str, optional): Who can forward your message links.
+        can_join_chat_by (str, optional): Who can join your chats by link.
+        show_my_birth_date (str, optional): Who can see your birth date.
+        can_called_by (str, optional): Who can call you.
+
+    Exceptions (for privacy settings except link_forward_message):
+        Each exception should be a dict with 'include_users' and 'exclude_users' (List[str]).
+
+    Auto Delete Messages:
+        auto_delete_messages (Union[str, int], optional): Message auto-delete duration.
+
+    Delete Inactive Account:
+        inactive_account_delete (int, optional): Delete account after X months.
+
+Returns:
+    The updated privacy settings.
+
+### set_quick_reaction
+
+```python
+set_quick_reaction(self: 'darkob.Messenger', reaction_id: Union[str, int], emoji_char: str, name: str)
+```
+
+Set the quick reaction for the current user.
+
+Parameters:
+    reaction_id (str): The reaction ID.
+    emoji_char (str): The emoji character (e.g., '👍').
+    name (str): The reaction name (e.g., 'Thumbs Up').
+
+Returns:
+    The updated settings.
+
 ### set_saved_music_playlist
 
 ```python
-set_saved_music_playlist(self: 'darkob.Client', files: Union[Path, str, List[Union[Path, str]]]=None, file_inlines: List[dict]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
+set_saved_music_playlist(self: 'darkob.Messenger', files: Optional[Union[Path, str, List[Union[Path, str]]]]=None, file_inlines: Optional[List[dict]]=None, time: Optional[int]=None, performer: Optional[str]=None, file_name: Optional[str]=None, **kwargs)
 ```
 
 Replace the saved music playlist on your profile.
 
 Parameters:
-    files: A single file path or a list of file paths to music files.
-    file_inlines: Pre-uploaded file_inline dicts to set directly.
-    time: Custom duration in seconds. If not provided, auto-detected.
-    performer: Custom performer name. If not provided, auto-detected.
-    file_name: Custom file name. If not provided, uses original file name.
+    files (Union[Path, str, List], optional): A single file path or a list of file paths.
+    file_inlines (List[dict], optional): Pre-uploaded file_inline dicts to set directly.
+    time (int, optional): Custom duration in seconds. Auto-detected if not provided.
+    performer (str, optional): Custom performer name. Auto-detected if not provided.
+    file_name (str, optional): Custom file name. Uses original file name if not provided.
 
 Returns:
     The result of the API call.
@@ -4019,56 +4626,65 @@ Returns:
 ### set_setting
 
 ```python
-set_setting(self: 'darkob.Client', show_my_last_online: Optional[PrivacyValue]=None, show_my_phone_number: Optional[PrivacyValue]=None, show_my_profile_photo: Optional[PrivacyValue]=None, link_forward_message: Optional[PrivacyValue]=None, can_join_chat_by: Optional[PrivacyValue]=None, show_my_birth_date: Optional[PrivacyValue]=None, can_called_by: Optional[PrivacyValue]=None, auto_delete_messages: Optional[Union[str, int]]=None, inactive_account_delete: Optional[int]=None, show_my_last_online_exceptions: Optional[Dict[str, List[str]]]=None, show_my_phone_number_exceptions: Optional[Dict[str, List[str]]]=None, show_my_profile_photo_exceptions: Optional[Dict[str, List[str]]]=None, can_join_chat_by_exceptions: Optional[Dict[str, List[str]]]=None, show_my_birth_date_exceptions: Optional[Dict[str, List[str]]]=None, can_called_by_exceptions: Optional[Dict[str, List[str]]]=None)
+set_setting(self: 'darkob.Messenger', show_my_last_online: Optional[PrivacyValue]=None, show_my_phone_number: Optional[PrivacyValue]=None, show_my_profile_photo: Optional[PrivacyValue]=None, link_forward_message: Optional[PrivacyValue]=None, can_join_chat_by: Optional[PrivacyValue]=None, show_my_birth_date: Optional[PrivacyValue]=None, can_called_by: Optional[PrivacyValue]=None, auto_delete_messages: Optional[Union[str, int]]=None, inactive_account_delete: Optional[int]=None, show_my_last_online_exceptions: Optional[Dict[str, List[str]]]=None, show_my_phone_number_exceptions: Optional[Dict[str, List[str]]]=None, show_my_profile_photo_exceptions: Optional[Dict[str, List[str]]]=None, can_join_chat_by_exceptions: Optional[Dict[str, List[str]]]=None, show_my_birth_date_exceptions: Optional[Dict[str, List[str]]]=None, can_called_by_exceptions: Optional[Dict[str, List[str]]]=None)
 ```
 
 Set various privacy and auto-delete settings for the user.
 
+.. deprecated::
+    This method is deprecated and will be removed soon.
+    Use `set_privacy_setting` instead.
+
 Parameters:
-    Privacy Settings (accept: 'Everybody', 'MyContacts', 'Nobody'):
-        show_my_last_online: Who can see your last online status
-        show_my_phone_number: Who can see your phone number
-        show_my_profile_photo: Who can see your profile photo
-        link_forward_message: Who can forward your message links
-        can_join_chat_by: Who can join your chats by link
-        show_my_birth_date: Who can see your birth date
-        can_called_by: Who can call you
-
-    Exceptions (for privacy settings except link_forward_message):
-        Each exception should be a dict with:
-            - 'include_users': List[str] - Users to always allow
-            - 'exclude_users': List[str] - Users to always deny
-
-        To CLEAR exceptions for a setting, pass {'exclude_users': []}:
-            can_called_by_exceptions={'exclude_users': []}
-
-        Example:
-            show_my_last_online_exceptions={
-                'include_users': ['u0abc123...'],
-                'exclude_users': ['u0xyz789...']
-            }
-
-    Auto Delete Messages:
-        auto_delete_messages: Message auto-delete duration.
-
-    Delete Inactive Account:
-        inactive_account_delete: Delete account after X months.
+    See `set_privacy_setting` for detailed parameter descriptions.
 
 Returns:
-    The result of the setting operation.
+    The updated privacy settings.
+
+### set_theme
+
+```python
+set_theme(self: 'darkob.Messenger', theme_id: str)
+```
+
+Activate a theme for the current user.
+
+Parameters:
+    theme_id (str): The theme ID to activate.
+
+Returns:
+    The updated appearance settings.
+
+### set_theme_background
+
+```python
+set_theme_background(self: 'darkob.Messenger', theme_id: str, type: Literal['System', 'ClientTheme']='ClientTheme', chat_background_type: Literal['Color', 'Wallpaper']='Wallpaper', wallpaper_id: Optional[str]=None, color: Optional[Dict[str, int]]=None)
+```
+
+Set the background of a theme via setSetting.
+
+Parameters:
+    theme_id (str): Target theme ID.
+    type (str): Theme type. 'System' or 'ClientTheme'. Case-insensitive. Default: 'ClientTheme'.
+    chat_background_type (str): Background type. 'Color' or 'Wallpaper'. Case-insensitive. Default: 'Wallpaper'.
+    wallpaper_id (str, optional): Wallpaper ID (required if chat_background_type='Wallpaper').
+    color (dict, optional): RGBA color dict (required if chat_background_type='Color').
+
+Returns:
+    The updated appearance settings after applying the change.
 
 ### set_two_step_verification
 
 ```python
-set_two_step_verification(self: 'darkob.Client', password: Union[int, str], hint: str=None, recovery_email: str=None)
+set_two_step_verification(self: 'darkob.Messenger', password: Union[int, str], hint: Optional[str]=None, recovery_email: Optional[str]=None)
 ```
 
 Set up two-step verification for the user.
 
 Parameters:
     password (Union[int, str]): The current user password.
-    hint (str): A hint to help remember the password. Defaults to None.
-    recovery_email (str): The recovery email for two-step verification. Defaults to None.
+    hint (str, optional): A hint to help remember the password.
+    recovery_email (str, optional): The recovery email for two-step verification.
 
 Returns:
     The updated user information after setting up two-step verification.
@@ -4076,7 +4692,7 @@ Returns:
 ### terminate_other_sessions
 
 ```python
-terminate_other_sessions(self: 'darkob.Client')
+terminate_other_sessions(self: 'darkob.Messenger')
 ```
 
 Terminate other account sessions.
@@ -4087,7 +4703,7 @@ Returns:
 ### terminate_session
 
 ```python
-terminate_session(self: 'darkob.Client', session_key: str)
+terminate_session(self: 'darkob.Messenger', session_key: str)
 ```
 
 Terminate a user session.
@@ -4101,7 +4717,7 @@ Returns:
 ### turn_off_two_step
 
 ```python
-turn_off_two_step(self: 'darkob.Client', password: str)
+turn_off_two_step(self: 'darkob.Messenger', password: str)
 ```
 
 Turn off two-step verification passcode for the account.
@@ -4115,7 +4731,7 @@ Returns:
 ### update_my_bio
 
 ```python
-update_my_bio(self: 'darkob.Client', bio: str)
+update_my_bio(self: 'darkob.Messenger', bio: str)
 ```
 
 Update user's biography.
@@ -4126,19 +4742,16 @@ Parameters:
 Returns:
     The updated user information.
 
-Raises:
-    InvalidInput: If bio exceeds 150 characters.
-
 ### update_my_birthday
 
 ```python
-update_my_birthday(self: 'darkob.Client', birthday: Union[str, datetime])
+update_my_birthday(self: 'darkob.Messenger', birthday: Union[str, datetime])
 ```
 
 Update the birthday in your profile.
 
 Parameters:
-    birthday (str | datetime): Birthday in format YYYY-MM-DD (e.g., "2026-02-03") or a datetime object.
+    birthday (Union[str, datetime]): Birthday in format YYYY-MM-DD (e.g., "2026-02-03") or a datetime object.
 
 Returns:
     The updated user information.
@@ -4146,14 +4759,14 @@ Returns:
 ### update_my_name
 
 ```python
-update_my_name(self: 'darkob.Client', first_name: Optional[str]=None, last_name: Optional[str]=None)
+update_my_name(self: 'darkob.Messenger', first_name: Optional[str]=None, last_name: Optional[str]=None)
 ```
 
 Update user's first name and/or last name.
 
 Parameters:
-    first_name (Optional[str]): The updated first name (max 30 characters).
-    last_name (Optional[str]): The updated last name (max 50 characters).
+    first_name (str, optional): The updated first name (max 30 characters).
+    last_name (str, optional): The updated last name (max 50 characters).
 
 Returns:
     The updated user information.
@@ -4161,24 +4774,17 @@ Returns:
 ### update_my_profile
 
 ```python
-update_my_profile(self: 'darkob.Client', first_name: Optional[str]=None, last_name: Optional[str]=None, bio: Optional[str]=None, birthday: Optional[str]=None, location: Optional[Dict[str, Union[float, Dict[str, Union[int, List[str], float]]]]]=None)
+update_my_profile(self: 'darkob.Messenger', first_name: Optional[str]=None, last_name: Optional[str]=None, bio: Optional[str]=None, birthday: Optional[str]=None, location: Optional[Dict[str, Union[float, Dict[str, Union[int, List[str], float]]]]]=None)
 ```
 
 Update user profile information.
 
 Parameters:
-    first_name (Optional[str]): The updated first name.
-    last_name (Optional[str]): The updated last name.
-    bio (Optional[str]): The updated biography.
-    birthday (str): Birthday in format YYYY-MM-DD (e.g., "2026-07-05").
-    location (Optional[dict]): Location information containing:
-        - longitude (float): Longitude coordinate.
-        - latitude (float): Latitude coordinate.
-        - map_view (dict): Map view details with:
-            - tile_side_count (int): Number of tile sides.
-            - tile_urls (List[str]): List of tile URLs.
-            - x_loc (float): X location on map.
-            - y_loc (float): Y location on map.
+    first_name (str, optional): The updated first name (max 30 characters).
+    last_name (str, optional): The updated last name (max 50 characters).
+    bio (str, optional): The updated biography (max 150 characters).
+    birthday (str, optional): Birthday in format YYYY-MM-DD (e.g., "2026-07-05").
+    location (dict, optional): Location with keys: longitude (float), latitude (float), map_view (dict with tile_side_count, tile_urls, x_loc, y_loc).
 
 Returns:
     The updated user information after the profile update.
@@ -4186,17 +4792,13 @@ Returns:
 ### update_my_username
 
 ```python
-update_my_username(self: 'darkob.Client', username: str)
+update_my_username(self: 'darkob.Messenger', username: str)
 ```
 
 Update the username of the user.
 
 Parameters:
-    username (str): The new username for the user.
-        - Must be between 7 and 32 characters
-        - Can only contain English letters (a-z, A-Z), numbers (0-9), and underscore (_)
-        - Should not start with number or underscore
-        - Should not end with underscore
+    username (str): The new username (7-32 chars, letters/numbers/underscore, cannot start with number/underscore, cannot end with underscore).
 
 Returns:
     The updated user information.
@@ -4204,7 +4806,7 @@ Returns:
 ### upgrade_to_api6
 
 ```python
-upgrade_to_api6(self: 'darkob.Client', save_as: bool=True, file_name: Optional[str]=None)
+upgrade_to_api6(self: 'darkob.Messenger', save_as: bool=True, file_name: Optional[str]=None)
 ```
 
 Upgrade from API v5 to v6 by setting an RSA public key.
@@ -4219,16 +4821,36 @@ Parameters:
 Returns:
     Data: Response with status, message, auth, and private_key.
 
+### upload_wallpaper
+
+```python
+upload_wallpaper(self: 'darkob.Messenger', theme_id: str, main_image: Optional[Union[Path, str, bytes]]=None, thumbnail_image: Optional[Union[Path, str, bytes]]=None, main_file_id: Optional[Union[str, int]]=None, main_access_hash_rec: Optional[str]=None, thumbnail_file_id: Optional[Union[str, int]]=None, thumb_access_hash_rec: Optional[str]=None, *args, **kwargs)
+```
+
+Upload a wallpaper for a theme.
+
+Parameters:
+    theme_id (str): Target theme ID (obtainable via get_themes).
+    main_image (Path | str | bytes, optional): The main wallpaper file or bytes.
+    thumbnail_image (Path | str | bytes, optional): The thumbnail file or bytes. Reuses main if not provided.
+    main_file_id (Union[str, int], optional): Pre-uploaded main wallpaper file ID.
+    main_access_hash_rec (str, optional): Pre-uploaded main wallpaper access hash.
+    thumbnail_file_id (Union[str, int], optional): Pre-uploaded thumbnail file ID.
+    thumb_access_hash_rec (str, optional): Pre-uploaded thumbnail access hash.
+
+Returns:
+    The result of the API call.
+
 ### verify_change_phone_number
 
 ```python
-verify_change_phone_number(self: 'darkob.Client', code: Union[str, int], hash: str)
+verify_change_phone_number(self: 'darkob.Messenger', code: Union[str, int], hash: str)
 ```
 
 Verify phone number change with the received code.
 
 Parameters:
-    code (str): The verification code sent to the new phone number.
+    code (Union[str, int]): The verification code sent to the new phone number.
     hash (str): The hash received from request_change_phone_number.
 
 Returns:
@@ -4237,7 +4859,7 @@ Returns:
 ### verify_recovery_email
 
 ```python
-verify_recovery_email(self: 'darkob.Client', password: str, code: Union[str, int])
+verify_recovery_email(self: 'darkob.Messenger', password: str, code: Union[str, int])
 ```
 
 Verify the recovery code sent to the recovery email.
@@ -4245,7 +4867,6 @@ Verify the recovery code sent to the recovery email.
 Parameters:
     password (str): User's current password.
     code (Union[str, int]): The verification code received in email.
-        Can be a string or an integer.
 
 Returns:
     The result of the API call.
@@ -4255,14 +4876,21 @@ Returns:
 ### add_live_comment
 
 ```python
-add_live_comment(self: 'darkob.Client', access_token: str, live_id: str, comment: str)
+add_live_comment(self: 'darkob.Messenger', *args, live_id: str=_UNSET, access_token: str=_UNSET, comment: str=_UNSET)
 ```
 
 Adds a comment to a live stream.
 
+Keyword arguments are canonical and unambiguous. Positional arguments
+accept both legacy ``(access_token, live_id, comment)`` and upstream
+``(live_id, access_token, comment)``. Upstream order is selected only
+when the first argument is all digits and the second starts with
+``u0`` or ``b0``; otherwise legacy order is retained, since arbitrary
+strings cannot always be distinguished reliably.
+
 Parameters:
-    access_token (str): The access token for authentication.
     live_id (str): The ID of the live stream.
+    access_token (str): The access token for authentication.
     comment (str): The text of the comment.
 
 Returns:
@@ -4271,7 +4899,7 @@ Returns:
 ### add_sticker_set
 
 ```python
-add_sticker_set(self: 'darkob.Client', sticker_set_id: str)
+add_sticker_set(self: 'darkob.Messenger', sticker_set_id: str)
 ```
 
 Add a sticker set.
@@ -4285,7 +4913,7 @@ Returns:
 ### add_to_my_gif_set
 
 ```python
-add_to_my_gif_set(self: 'darkob.Client', chat: str, message_id: Union[str, int])
+add_to_my_gif_set(self: 'darkob.Messenger', chat: str, message_id: Union[str, int])
 ```
 
 Adds a GIF message to the user's personal GIF set.
@@ -4300,7 +4928,7 @@ Returns:
 ### archive_sticker_set
 
 ```python
-archive_sticker_set(self: 'darkob.Client', sticker_set_id: str)
+archive_sticker_set(self: 'darkob.Messenger', sticker_set_id: str)
 ```
 
 Archive a sticker set.
@@ -4325,7 +4953,7 @@ Returns:
 ### delete_my_gif_set
 
 ```python
-delete_my_gif_set(self: 'darkob.Client', file_id: str)
+delete_my_gif_set(self: 'darkob.Messenger', file_id: str)
 ```
 
 Deletes a GIF from the user's personal GIF set.
@@ -4339,7 +4967,7 @@ Returns:
 ### delete_sticker_set
 
 ```python
-delete_sticker_set(self: 'darkob.Client', sticker_set_id: str)
+delete_sticker_set(self: 'darkob.Messenger', sticker_set_id: str)
 ```
 
 Delete a sticker set.
@@ -4370,7 +4998,7 @@ Returns:
 ### get_available_reactions
 
 ```python
-get_available_reactions(self: 'darkob.Client')
+get_available_reactions(self: 'darkob.Messenger')
 ```
 
 Retrieve the list of available message reactions that can be used in chats.
@@ -4378,10 +5006,24 @@ Retrieve the list of available message reactions that can be used in chats.
 Returns:
     Shows available reactions data from the server.
 
+### get_current_live_location
+
+```python
+get_current_live_location(self: 'darkob.Messenger', live_loc_track_id: str)
+```
+
+Get the current live location by its track ID.
+
+Parameters:
+    live_loc_track_id (str): The live location track ID.
+
+Returns:
+    The result of the API call.
+
 ### get_link_from_app_url
 
 ```python
-get_link_from_app_url(self: 'darkob.Client', url: str)
+get_link_from_app_url(self: 'darkob.Messenger', url: str)
 ```
 
 Get a direct link from an application URL.
@@ -4390,7 +5032,7 @@ Parameters:
     url (str): The application URL to extract the link from.
 
 Returns:
-    Data: The result containing the extracted link.
+    The result containing the extracted link.
 
 ### get_live_comments
 
@@ -4410,17 +5052,53 @@ Returns:
 ### get_live_play_url
 
 ```python
-get_live_play_url(self: 'darkob.Client', access_token: str, live_id: str)
+get_live_play_url(self: 'darkob.Messenger', *args, live_id: str=_UNSET, access_token: str=_UNSET)
 ```
 
 Retrieves the play URL for a live stream.
 
+Keyword arguments are canonical and unambiguous. Positional arguments
+accept both legacy ``(access_token, live_id)`` and upstream
+``(live_id, access_token)``. Upstream order is selected only when the
+first argument is all digits and the second starts with ``u0`` or
+``b0``; otherwise legacy order is retained, since arbitrary strings
+cannot always be distinguished reliably.
+
 Parameters:
-    access_token (str): The access token for authentication.
     live_id (str): The ID of the live stream.
+    access_token (str): The access token for authentication.
 
 Returns:
     The result of the API call.
+
+### get_live_replay_viewers
+
+```python
+get_live_replay_viewers(self: 'darkob.Messenger', live_id: str, start_id: Optional[str]=None)
+```
+
+Get the list of replay (VOD) viewers for a live stream.
+
+Parameters:
+    live_id (str): Live stream ID.
+    start_id (str, optional): The starting viewer ID for pagination. Defaults to None.
+
+Returns:
+    The result of the API call, containing a list of replay viewers.
+
+### get_live_report
+
+```python
+get_live_report(self: 'darkob.Messenger', live_id: str)
+```
+
+Get the report and statistics of a completed live stream.
+
+Parameters:
+    live_id (str): The ID of the live stream.
+
+Returns:
+    The result of the API call, containing live stats and graphs.
 
 ### get_live_status
 
@@ -4437,10 +5115,25 @@ Parameters:
 Returns:
     Live status info.
 
+### get_live_viewers
+
+```python
+get_live_viewers(self: 'darkob.Messenger', live_id: str, start_id: Optional[str]=None)
+```
+
+Get the list of viewers for a live stream.
+
+Parameters:
+    live_id (str): Live stream ID.
+    start_id (str, optional): The starting viewer ID for pagination. Defaults to None.
+
+Returns:
+    The result of the API call, containing a list of viewers.
+
 ### get_location_view
 
 ```python
-get_location_view(self: 'darkob.Client', latitude: float, longitude: float)
+get_location_view(self: 'darkob.Messenger', latitude: float, longitude: float)
 ```
 
 Get map view for a location.
@@ -4491,7 +5184,7 @@ Returns:
 ### get_sticker_set_by_id
 
 ```python
-get_sticker_set_by_id(self: 'darkob.Client', sticker_set_id: str)
+get_sticker_set_by_id(self: 'darkob.Messenger', sticker_set_id: str)
 ```
 
 Get a sticker set by its ID.
@@ -4531,7 +5224,7 @@ Returns:
 ### get_stickers_by_set_ids
 
 ```python
-get_stickers_by_set_ids(self: 'darkob.Client', sticker_set_ids: Union[str, list])
+get_stickers_by_set_ids(self: 'darkob.Messenger', sticker_set_ids: Union[str, list])
 ```
 
 Get stickers by set IDs.
@@ -4541,6 +5234,17 @@ Parameters:
 
 Returns:
     Stickers corresponding to the provided set IDs.
+
+### get_themes
+
+```python
+get_themes(self: 'darkob.Messenger')
+```
+
+Get the list of available themes.
+
+Returns:
+    The result of the API call, containing the list of themes.
 
 ### get_time
 
@@ -4570,7 +5274,7 @@ Returns:
 ### get_wallet_transaction_message
 
 ```python
-get_wallet_transaction_message(self: 'darkob.Client', transfer_id: str, access_transfer: str)
+get_wallet_transaction_message(self: 'darkob.Messenger', transfer_id: str, access_transfer: str)
 ```
 
 Get the message associated with a wallet transaction.
@@ -4585,7 +5289,7 @@ Returns:
 ### get_wallpapers
 
 ```python
-get_wallpapers(self: 'darkob.Client')
+get_wallpapers(self: 'darkob.Messenger')
 ```
 
 Get the current chat wallpaper settings.
@@ -4596,14 +5300,13 @@ Returns:
 ### reorder_sticker_sets
 
 ```python
-reorder_sticker_sets(self: 'darkob.Client', ordered_sticker_set_ids: Union[str, List[str]])
+reorder_sticker_sets(self: 'darkob.Messenger', ordered_sticker_set_ids: Union[str, List[str]])
 ```
 
 Reorder sticker sets in the user's collection.
 
 Parameters:
-    ordered_sticker_set_ids (Union[str, List[str]]): A single sticker
-        set ID or a list of sticker set IDs in the desired order.
+    ordered_sticker_set_ids (Union[str, List[str]]): A single sticker set ID or a list of sticker set IDs in the desired order.
 
 Returns:
     The result of the API call.
@@ -4611,21 +5314,15 @@ Returns:
 ### report_live
 
 ```python
-report_live(self: 'darkob.Client', live_id: str, report_type: Union[int, str], description: Optional[str]=None)
+report_live(self: 'darkob.Messenger', live_id: str, report_type: Union[int, str], description: Optional[str]=None)
 ```
 
 Report a live stream.
 
 Parameters:
     live_id (str): The ID of the live stream to report.
-    report_type (Union[int, str]): The report reason.
-        Can be:
-            - Integer code between 100 and 106
-            - String name (case-insensitive): 'Other', 'Violence',
-              'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'
-        If set to 100 (Other), `description` becomes required.
-    description (Optional[str]): Description for the report.
-        Required when `report_type` is 100 (Other).
+    report_type (Union[int, str]): The report reason. Can be an integer code between 100 and 106, or a string name (case-insensitive): 'Other', 'Violence', 'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'. If set to 100 (Other), `description` becomes required.
+    description (str, optional): Description for the report. Required when `report_type` is 100 (Other).
 
 Returns:
     The result of the API call.
@@ -4675,12 +5372,56 @@ Parameters:
 Returns:
     The result of the API call.
 
+### set_live_setting
+
+```python
+set_live_setting(self: 'darkob.Messenger', live_id: str, title: Optional[str]=None, allow_comment: Optional[bool]=None)
+```
+
+Update settings for a live stream.
+
+Parameters:
+    live_id (str): Live stream ID.
+    title (str, optional): New title for the live stream.
+    allow_comment (bool, optional): Whether to allow comments on the live stream.
+
+Returns:
+    The result of the API call.
+
+### stop_live
+
+```python
+stop_live(self: 'darkob.Messenger', live_id: str)
+```
+
+Stop a live stream.
+
+Parameters:
+    live_id (str): Live stream ID.
+
+Returns:
+    The result of the API call.
+
+### stop_live_location
+
+```python
+stop_live_location(self: 'darkob.Messenger', live_loc_track_id: str)
+```
+
+Stop a live location by its track ID.
+
+Parameters:
+    live_loc_track_id (str): The live location track ID.
+
+Returns:
+    The result of the API call.
+
 ## bots
 
 ### delete_bot_chat
 
 ```python
-delete_bot_chat(self: 'darkob.Client', bot: str)
+delete_bot_chat(self: 'darkob.Messenger', bot: str)
 ```
 
 Delete a bot chat.
@@ -4708,7 +5449,7 @@ Returns:
 ### get_bot_info
 
 ```python
-get_bot_info(self: 'darkob.Client', bot: str)
+get_bot_info(self: 'darkob.Messenger', bot: str)
 ```
 
 Get information about a bot.
@@ -4722,7 +5463,7 @@ Returns:
 ### get_inline_bots
 
 ```python
-get_inline_bots(self: 'darkob.Client', bots: Union[str, List[str]])
+get_inline_bots(self: 'darkob.Messenger', bots: Union[str, List[str]])
 ```
 
 Retrieve information about inline bots by their GUIDs or usernames.
@@ -4736,7 +5477,7 @@ Returns:
 ### get_service_info
 
 ```python
-get_service_info(self: 'darkob.Client', service: str)
+get_service_info(self: 'darkob.Messenger', service: str)
 ```
 
 Get information about a service.
@@ -4750,8 +5491,10 @@ Returns:
 ### start_bot
 
 ```python
-start_bot(self: 'darkob.Client', bot: str)
+start_bot(self: 'darkob.Messenger', bot: str)
 ```
+
+Start a bot.
 
 Parameters:
     bot (str): The GUID or username of the bot.
@@ -4762,8 +5505,10 @@ Returns:
 ### stop_bot
 
 ```python
-stop_bot(self: 'darkob.Client', bot: str)
+stop_bot(self: 'darkob.Messenger', bot: str)
 ```
+
+Stop a bot.
 
 Parameters:
     bot (str): The GUID or username of the bot.
@@ -4776,7 +5521,7 @@ Returns:
 ### close
 
 ```python
-close(self: 'darkob.Client')
+close(self: 'darkob.Messenger')
 ```
 
 Close the connection to the Darkob server (async version).
@@ -4784,7 +5529,7 @@ Close the connection to the Darkob server (async version).
 ### connect
 
 ```python
-connect(self: 'darkob.Client')
+connect(self: 'darkob.Messenger')
 ```
 
 Establish a connection to the Rubika API.
@@ -4793,12 +5538,12 @@ Creates an Api instance and loads stored session information
 (auth, guid, private_key, user_agent) if available.
 
 Returns:
-    Client instance with active connection.
+    Messenger instance with active connection.
 
 ### disconnect
 
 ```python
-disconnect(self: 'darkob.Client')
+disconnect(self: 'darkob.Messenger')
 ```
 
 Disconnect from the Darkob server (sync version).
@@ -4806,22 +5551,22 @@ Disconnect from the Darkob server (sync version).
 ### download_file
 
 ```python
-download_file(self: 'darkob.Client', file_inline: Optional[Union[dict, Data]]=None, dc_id: Optional[int]=None, file_id: Optional[int]=None, access_hash: Optional[str]=None, size: Optional[int]=None, chunk: int=131072, callback: Optional[Callable[[int, int], Union[None, asyncio.Future]]]=None, gather: bool=False, save_as: Optional[Union[str, bool]]=None, file_name: Optional[str]=None, as_base64: bool=False, *args, **kwargs)
+download_file(self: 'darkob.Messenger', file_inline: Optional[Union[dict, 'Data']]=None, dc_id: Optional[int]=None, file_id: Optional[int]=None, access_hash: Optional[str]=None, size: Optional[int]=None, chunk: int=131072, callback: Optional[Callable[[int, int], Optional['asyncio.Future']]]=None, gather: bool=False, save_as: Optional[Union[str, bool]]=None, file_name: Optional[str]=None, as_base64: bool=False)
 ```
 
 Download a file from Rubika/Shad.
 
 Parameters:
-    file_inline (dict or Data, optional): File inline object from messages.
+    file_inline (dict | Data, optional): File inline object from messages.
         If provided, dc_id, file_id, access_hash, size will be extracted.
-    dc_id (int, optional): Data center ID (if file_inline not provided).
+    dc_id (int, optional): Data Center ID (if file_inline not provided).
     file_id (int, optional): Unique identifier of the file.
     access_hash (str, optional): Access hash associated with the file.
     size (int, optional): Total size of the file in bytes.
     chunk (int, optional): Size of each download chunk (default: 131072).
     callback (callable, optional): Progress callback(total_size, downloaded_size).
     gather (bool, optional): Download chunks in parallel (default: False).
-    save_as (str or bool, optional): Directory path or True for current dir. If None, returns bytes.
+    save_as (str | bool, optional): Directory path or True for current dir. If None, returns bytes.
     file_name (str, optional): Custom file name.
     as_base64 (bool, optional): Return as base64 encoded string (default: False).
 
@@ -4831,13 +5576,13 @@ Returns:
 ### get_string_session
 
 ```python
-get_string_session(self: 'darkob.Client', password: Optional[str]=None)
+get_string_session(self: 'darkob.Messenger', password: Optional[str]=None)
 ```
 
 Export current session as an encrypted StringSession.
 
 Parameters:
-    password (Optional[str]): Optional password for encryption.
+    password (str, optional): Optional password for encryption.
         If provided, StringSession can only be opened with this password.
 
 Returns:
@@ -4847,7 +5592,7 @@ Returns:
 ### get_updates
 
 ```python
-get_updates(self: 'darkob.Client')
+get_updates(self: 'darkob.Messenger')
 ```
 
 Listen for updates from Rubika's WebSocket.
@@ -4858,7 +5603,7 @@ Returns:
 ### request
 
 ```python
-request(self: 'darkob.Client', method: str, input: Optional[Dict]=None, tmp_session: bool=False, encrypt: bool=True)
+request(self: 'darkob.Messenger', method: str, input: Optional[Dict]=None, tmp_session: bool=False, encrypt: bool=True)
 ```
 
 Build and send a request to the Rubika API.
@@ -4867,11 +5612,12 @@ Parameters:
     method (str): API method name (e.g., 'sendMessage', 'getUserInfo').
     input (dict, optional): Input data for the method.
     tmp_session (bool): Use temporary session instead of auth (default: False).
-        When True, the client will auto-connect if not connected yet.
     encrypt (bool): Encrypt the request data (default: True).
 
 Returns:
-    Data or None: The API response.
+    Data, Event, dict, or None: The API response.
+        - If `as_dict=True` on the client, returns a plain dict.
+        - Otherwise, returns a Data object.
 
 Raises:
     NoConnection: If the client has not been started and `tmp_session=False`.
@@ -4879,13 +5625,13 @@ Raises:
 ### run
 
 ```python
-run(self, coroutine: Optional[Coroutine]=None)
+run(self: 'darkob.Messenger', coroutine: Optional[Coroutine]=None)
 ```
 
 Start the client and listen for updates.
 
 Parameters:
-    coroutine: Optional coroutine to run before listening for updates.
+    coroutine (Coroutine, optional): Optional coroutine to run before listening for updates.
 
 Returns:
     None when used normally (runs forever until stopped).
@@ -4893,14 +5639,14 @@ Returns:
 ### send_code
 
 ```python
-send_code(self: 'darkob.Client', phone_number: str, pass_key: Optional[str]=None)
+send_code(self: 'darkob.Messenger', phone_number: str, pass_key: Optional[str]=None)
 ```
 
 Send a verification code to a phone number.
 
 Parameters:
     phone_number (str): The target phone number.
-    pass_key (str): The optional account pass key.
+    pass_key (str, optional): The optional account pass key.
 
 Returns:
     The result of the API call.
@@ -4908,7 +5654,7 @@ Returns:
 ### sign_in
 
 ```python
-sign_in(self: 'darkob.Client', phone_number: str, phone_code: str, phone_code_hash: str, public_key: str)
+sign_in(self: 'darkob.Messenger', phone_number: str, phone_code: str, phone_code_hash: str, public_key: str)
 ```
 
 Sign in using the verification code.
@@ -4925,7 +5671,7 @@ Returns:
 ### start
 
 ```python
-start(self: 'darkob.Client', phone_number: str=None)
+start(self: 'darkob.Messenger', phone_number: Optional[str]=None)
 ```
 
 Start the client, handling authentication and registration.
@@ -4934,12 +5680,12 @@ Parameters:
     phone_number (str, optional): Phone number for registration.
 
 Returns:
-    Client: The initialized client instance.
+    Messenger: The initialized client instance.
 
 ### upload_file
 
 ```python
-upload_file(self: 'darkob.Client', file: Union[str, bytes, None]=None, base64_data: Optional[str]=None, mime: Optional[str]=None, file_name: Optional[str]=None, chunk: int=1048576, callback: Optional[Callable[[int, int], Union[None, asyncio.Future]]]=None, *args, **kwargs)
+upload_file(self: 'darkob.Messenger', file: Union[str, bytes, None]=None, base64_data: Optional[str]=None, mime: Optional[str]=None, file_name: Optional[str]=None, chunk: int=1048576, callback: Optional[Callable[[int, int], Optional['asyncio.Future']]]=None)
 ```
 
 Upload a file to Rubika with chunked transfer and retry logic.
@@ -4953,7 +5699,9 @@ Parameters:
     callback (callable, optional): Progress callback(total_size, uploaded_bytes).
 
 Returns:
-    Metadata about the uploaded file.
+    Data or dict: Metadata about the uploaded file.
+        - If `as_dict=True` on the client, returns a plain dict.
+        - Otherwise, returns a Data object.
 
 ## core
 
@@ -4997,7 +5745,7 @@ _No docstring available._
 ### on_add_reaction
 
 ```python
-on_add_reaction(self: 'darkob.Client', *filters: Filter)
+on_add_reaction(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for reaction added.
@@ -5005,7 +5753,7 @@ Decorator for reaction added.
 ### on_call_signal
 
 ```python
-on_call_signal(self: 'darkob.Client', *filters: Filter)
+on_call_signal(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for call signal data.
@@ -5013,7 +5761,7 @@ Decorator for call signal data.
 ### on_call_update
 
 ```python
-on_call_update(self: 'darkob.Client', *filters: Filter)
+on_call_update(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for call updates.
@@ -5021,7 +5769,7 @@ Decorator for call updates.
 ### on_chat_updates
 
 ```python
-on_chat_updates(self: 'darkob.Client', *filters: Filter)
+on_chat_updates(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for chat updates with optional filters.
@@ -5029,7 +5777,7 @@ Decorator for chat updates with optional filters.
 ### on_delete_message
 
 ```python
-on_delete_message(self: 'darkob.Client', *filters: Filter)
+on_delete_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for deleted messages.
@@ -5037,7 +5785,7 @@ Decorator for deleted messages.
 ### on_draft_message
 
 ```python
-on_draft_message(self: 'darkob.Client', *filters: Filter)
+on_draft_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for draft message updates.
@@ -5045,7 +5793,7 @@ Decorator for draft message updates.
 ### on_edit_message
 
 ```python
-on_edit_message(self: 'darkob.Client', *filters: Filter)
+on_edit_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for edited messages with optional filters.
@@ -5053,7 +5801,7 @@ Decorator for edited messages with optional filters.
 ### on_message
 
 ```python
-on_message(self: 'darkob.Client', *filters: Filter)
+on_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for message updates with optional filters.
@@ -5061,7 +5809,7 @@ Decorator for message updates with optional filters.
 ### on_new_message
 
 ```python
-on_new_message(self: 'darkob.Client', *filters: Filter)
+on_new_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for new messages with optional filters.
@@ -5069,7 +5817,7 @@ Decorator for new messages with optional filters.
 ### on_remove_notifications
 
 ```python
-on_remove_notifications(self: 'darkob.Client', *args, **kwargs)
+on_remove_notifications(self: 'darkob.Messenger', *args, **kwargs)
 ```
 
 _No docstring available._
@@ -5077,7 +5825,7 @@ _No docstring available._
 ### on_remove_reaction
 
 ```python
-on_remove_reaction(self: 'darkob.Client', *filters: Filter)
+on_remove_reaction(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for reaction removed.
@@ -5085,7 +5833,7 @@ Decorator for reaction removed.
 ### on_scheduled_message
 
 ```python
-on_scheduled_message(self: 'darkob.Client', *filters: Filter)
+on_scheduled_message(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for scheduled message updates.
@@ -5093,7 +5841,7 @@ Decorator for scheduled message updates.
 ### on_show_activities
 
 ```python
-on_show_activities(self: 'darkob.Client', *filters: Filter)
+on_show_activities(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for show activities (typing, uploading, recording) with optional filters.
@@ -5101,7 +5849,7 @@ Decorator for show activities (typing, uploading, recording) with optional filte
 ### on_show_notifications
 
 ```python
-on_show_notifications(self: 'darkob.Client', *filters: Filter)
+on_show_notifications(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for show notifications with optional filters.
@@ -5109,7 +5857,7 @@ Decorator for show notifications with optional filters.
 ### on_unconfirmed_session
 
 ```python
-on_unconfirmed_session(self: 'darkob.Client', *filters: Filter)
+on_unconfirmed_session(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for unconfirmed session updates (anti-login).
@@ -5117,7 +5865,7 @@ Decorator for unconfirmed session updates (anti-login).
 ### on_voice_chat_participant
 
 ```python
-on_voice_chat_participant(self: 'darkob.Client', *filters: Filter)
+on_voice_chat_participant(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for voice chat participant updates.
@@ -5125,7 +5873,7 @@ Decorator for voice chat participant updates.
 ### on_voice_chat_update
 
 ```python
-on_voice_chat_update(self: 'darkob.Client', *filters: Filter)
+on_voice_chat_update(self: 'darkob.Messenger', *filters: Filter)
 ```
 
 Decorator for voice chat updates.

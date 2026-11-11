@@ -1,10 +1,14 @@
 import inspect
-import darkob
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import darkob
+
 class OnShowActivities:
-    def on_show_activities(self: "darkob.Client", *filters: Filter):
+    def on_show_activities(self: "darkob.Messenger", *filters: Filter):
         """Decorator for show activities (typing, uploading, recording) with optional filters."""
         def MetaHandler(func):
             async def wrapper(event):

@@ -1,9 +1,11 @@
-from typing import Union
-import darkob
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class GetStickersBySetIDs:
     async def get_stickers_by_set_ids(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         sticker_set_ids: Union[str, list]
     ):
         """
@@ -18,4 +20,4 @@ class GetStickersBySetIDs:
         if isinstance(sticker_set_ids, str):
             sticker_set_ids = [str(sticker_set_ids)]
 
-        return await self.request(method = 'GetStickersBySetIDs', input = {'sticker_set_ids': sticker_set_ids})
+        return await self.request(method='GetStickersBySetIDs', input={'sticker_set_ids': sticker_set_ids})

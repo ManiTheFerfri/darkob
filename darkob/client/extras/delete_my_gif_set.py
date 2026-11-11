@@ -1,7 +1,10 @@
-import darkob
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class DeleteMyGifSet:
-    async def delete_my_gif_set(self: "darkob.Client", file_id: str):
+    async def delete_my_gif_set(self: "darkob.Messenger", file_id: str):
         """
         Deletes a GIF from the user's personal GIF set.
 
@@ -11,4 +14,4 @@ class DeleteMyGifSet:
         Returns:
             The result of the API call.
         """
-        return await self.request(method = 'removeFromMyGifSet', input = {'file_id': file_id})
+        return await self.request(method='removeFromMyGifSet', input={'file_id': file_id})

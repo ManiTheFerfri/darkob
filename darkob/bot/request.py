@@ -25,20 +25,52 @@ class Request:
     async def request(
         self: "darkob.Bot",
         method: str,
-        endpoint: str,
+        endpoint: str = None,
+        input: dict = None,
         **kwargs
     ):
-        """
-        Send an HTTP request to the Bot API with automatic retry and error mapping.
+        """Call the Bot API using either supported public signature.
 
-        Parameters:
-            method (str): HTTP method, e.g. "POST" or "GET" (case-insensitive).
-            endpoint (str): API method name appended to `base_url`, e.g. "getMe".
-            **kwargs: Extra arguments passed to `aiohttp.ClientSession.request`, such as `json=` or `data=`.
+        Darkob's original form is ``request("POST", "getMe", json={})``.
+        Upstream 1.18 added ``request(method="getMe", input={})`` and the
+        positional shorthand ``request("getMe", {})``. Both are accepted so
+        new upstream endpoints and existing darkob applications share this
+        instrumented retry path.
+
+        Args:
+            method: HTTP method in the original form, or API method name in
+                the upstream form.
+            endpoint: API method name in the original form. A dict here is
+                treated as the upstream positional ``input`` payload.
+            input: JSON body for the upstream call form.
+            **kwargs: Extra ``aiohttp`` request arguments, including ``json``.
 
         Returns:
-            Response: The parsed API response.
+            Response or dict: ``dict`` when ``Bot(as_dict=True)`` is set,
+            otherwise a :class:`Response`.
         """
+        # Normalise upstream's API-method form to the original transport form.
+        if isinstance(endpoint, dict):
+            if input is not None:
+                raise TypeError("Pass the request payload only once.")
+            input = endpoint
+            endpoint = None
+
+        upstream_form = input is not None or (
+            endpoint is None
+            and method.upper() not in {"GET", "POST", "PUT", "PATCH", "DELETE"}
+        )
+        if upstream_form:
+            if input is not None:
+                if "json" in kwargs:
+                    raise TypeError("Pass either 'input' or 'json', not both.")
+                kwargs["json"] = input
+            endpoint = method
+            method = "POST"
+
+        if endpoint is None:
+            raise TypeError("request() missing the API endpoint.")
+
         if not _metrics.enabled:
             return await self._request(method, endpoint, **kwargs)
 
@@ -149,6 +181,8 @@ class Request:
                     if hooks:
                         data = await manager.apply_after_response(endpoint, data)
 
+                    if getattr(self, "as_dict", False):
+                        return data
                     return Response(data)
 
             except TooRequests as exc:

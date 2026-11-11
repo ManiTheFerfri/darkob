@@ -2,7 +2,7 @@ from typing import Any, Optional, Union, Literal
 import os
 import logging
 import re
-from .utils.console import Console, Text
+
 import darkob
 from .client import Methods
 from .client.core.session import Session
@@ -13,7 +13,7 @@ from .client.exceptions import (
     TimeoutError,
     MaxRetriesError,
     ProxyError,
-    SessionError
+    SessionError,
 )
 from .client.core.configs import DEFAULT_PLATFORM, PLATFORMS, VALID_PLATFORMS, USER_AGENT
 from .converse import ConversationManager, ask as ask_conversation
@@ -39,20 +39,22 @@ class Client(Methods):
         max_concurrent_updates: int = 32,
         flood_sleep_threshold: float = 60.0,
         logger: Optional[logging.Logger] = None,
-        platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino'] = 'pwa',
+        platform: Literal['web', 'pwa', 'android', 'ios', 'rubx', 'rubikids', 'rubino', 'tv_rubika', 'tv_web', 'vod_web'] = 'pwa',
         api_version: Literal[5, 6] = 6,
         max_retries: int = 5,
         stop_on_first_match: bool = False,
+        run_all_handlers: Optional[bool] = None,
         continue_on_error: bool = True,
+        as_dict: bool = False,
         show_welcome: bool = True
-    ) -> None:
+    ):
         """
         Initialize the Rubika client.
 
         Parameters:
             session (str, optional): Session file name or path. (api_version=6 only)
             string_session (str, optional): StringSession string. Takes priority over 'session'.
-            password (str, optional): Password for encrypted StringSession. Required if StringSession was created with a password.
+            password (str, optional): Password for encrypted StringSession.
             auth (str, optional): Authentication key.
             private_key (str or bytes, optional): RSA private key. (api_version=6 only)
             timeout (int or float, optional): Request timeout in seconds (default: 30).
@@ -63,24 +65,17 @@ class Client(Methods):
                 Only disable this if you understand the risk; it makes the
                 connection vulnerable to interception.
             logger (logging.Logger, optional): Logger instance.
-            platform: Literal['web', 'pwa', 'android', 'rubx', 'rubikids', 'rubino']: Client platform (default: 'pwa').
+            platform: Client platform (default: 'pwa').
             api_version: Literal[5, 6]: API version to use (default: 6).
-                - 6: Requires 'auth' + 'private_key' (or 'session').
-                - 5: Requires only 'auth'.
-            max_retries (int, optional): Maximum number of retries for requests (default: 5).
-            stop_on_first_match (bool, optional): If True, stop processing handlers after the first match (default: False).
-            continue_on_error (bool, optional): If True, continue trying other platforms on auth errors (default: True).
+            max_retries (int, optional): Maximum number of retries (default: 5).
+            stop_on_first_match (bool, optional): Deprecated. Use `run_all_handlers` instead.
+            run_all_handlers (bool, optional): If True, run all matching handlers (default: True).
+            continue_on_error (bool, optional): If True, continue on auth errors (default: True).
+            as_dict (bool, optional): If True, return responses as plain dict (default: False).
             show_welcome (bool, optional): If True, show welcome message (default: True).
-
-        Raises:
-            ApiVersionError: If api_version is invalid.
-            PlatformError: If platform is invalid.
-            AuthError: If auth parameters are invalid.
-            TimeoutError: If timeout is invalid.
-            MaxRetriesError: If max_retries is invalid.
-            ProxyError: If proxy is invalid.
-            SessionError: If session or string_session is invalid.
         """
+        from .utils.console import Console, Text
+
         darkob.show_welcome_message(show_welcome)
 
         if type(self) is Client:
@@ -218,8 +213,15 @@ class Client(Methods):
         self.key = None
         self.handlers = {}
         self.max_retries = max_retries
-        self.stop_on_first_match = stop_on_first_match
+
+        if run_all_handlers is not None:
+            self.stop_on_first_match = not run_all_handlers
+        else:
+            self.stop_on_first_match = stop_on_first_match
+
+        self.run_all_handlers = not self.stop_on_first_match
         self.continue_on_error = continue_on_error
+        self.as_dict = as_dict
 
     async def ask(
         self,

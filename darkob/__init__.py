@@ -95,7 +95,7 @@ __maintainer__ = "Mani Keikhosravi"
 #: test can pin it rather than leaving it to prose that can be edited away.
 __upstream_author__ = "MEHRAB Farahmand"
 __upstream_url__ = "https://github.com/MEH2RAB/maxrubika"
-__version__ = "0.18.1"
+__version__ = "0.19.0"
 
 logger = logging.getLogger(__name__)
 
@@ -109,6 +109,16 @@ __all__ = [
     "messenger",
     "Shad",
     "shad",
+    "Rubino",
+    "rubino",
+    "RubiAI",
+    "RubiAi",
+    "rubiai",
+    "RubikaAI",
+    "RubikaAi",
+    "RubikaTV",
+    "rubikatv",
+    "show_announcements",
     "show_welcome_message",
     "check_for_updates",
     "Router",
@@ -167,8 +177,52 @@ __all__ = [
     "pre",
     "link",
     "join",
+    "__author__",
     "__version__",
 ]
+
+
+# Upstream 1.18 surfaces are loaded on first access (PEP 562). Keeping them
+# lazy avoids importing hundreds of endpoint modules and optional media stacks
+# for applications that only use Bot or Messenger.
+_LAZY_EXPORTS = {
+    "Rubino": (".TheRubino", "Rubino"),
+    "rubino": (".TheRubino", "Rubino"),
+    "RubiAI": (".TheRubiAI", "RubiAI"),
+    "RubiAi": (".TheRubiAI", "RubiAI"),
+    "rubiai": (".TheRubiAI", "RubiAI"),
+    "RubikaAI": (".TheRubiAI", "RubiAI"),
+    "RubikaAi": (".TheRubiAI", "RubiAI"),
+    "RubikaTV": (".TV", "RubikaTV"),
+    "rubikatv": (".TV", "RubikaTV"),
+}
+_EXPORT_GROUPS = (
+    (("Rubino", "rubino"), ".TheRubino", "Rubino"),
+    (("RubiAI", "RubiAi", "rubiai", "RubikaAI", "RubikaAi"), ".TheRubiAI", "RubiAI"),
+    (("RubikaTV", "rubikatv"), ".TV", "RubikaTV"),
+)
+
+
+def __getattr__(name: str):
+    for aliases, module_name, attribute in _EXPORT_GROUPS:
+        if name not in aliases:
+            continue
+
+        from importlib import import_module
+
+        value = getattr(import_module(module_name, __name__), attribute)
+        # Importing TheRubino also imports the darkob.rubino package and sets
+        # it as a parent attribute. Bind the whole alias family afterwards so
+        # a lowercase class alias cannot be shadowed by that package module.
+        for alias in aliases:
+            globals()[alias] = value
+        return value
+
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> List[str]:
+    return sorted(set(globals()) | set(_LAZY_EXPORTS))
 
 
 def show_welcome_message(show_welcome: bool = True) -> None:
@@ -203,6 +257,23 @@ def show_welcome_message(show_welcome: bool = True) -> None:
     text.append(
         "https://ManiTheFerfri.github.io/darkob\n", style="yellow underline"
     )
+    console.print(text)
+
+
+def show_announcements(announcements) -> None:
+    """Print caller-supplied notices without performing any network I/O.
+
+    This mirrors upstream's display helper, but darkob never fetches
+    announcements automatically. Pass an iterable explicitly when wanted.
+    """
+    if not announcements:
+        return
+
+    console = Console(stderr=True)
+    text = Text()
+    text.append("Notices:\n", style="bold bright_cyan")
+    for item in announcements:
+        text.append(f"● {item}\n")
     console.print(text)
 
 

@@ -1,15 +1,21 @@
-import darkob
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class StartBot:
-    async def start_bot(self: "darkob.Client", bot: str):
+    async def start_bot(self: "darkob.Messenger", bot: str):
         """
+        Start a bot.
+
         Parameters:
             bot (str): The GUID or username of the bot.
 
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         bot_guid = await self.get_guid(bot)
 
         if not bot_guid.startswith("b0"):

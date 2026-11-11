@@ -1,7 +1,8 @@
 import asyncio
-import aiohttp
-import darkob
-from ..core.cipher import Cipher
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class GetUpdates:
     def _spawn_ws_update(self, coro):
@@ -30,13 +31,15 @@ class GetUpdates:
         task.add_done_callback(tasks.discard)
         return task
 
-    async def get_updates(self: "darkob.Client"):
+    async def get_updates(self: "darkob.Messenger"):
         """
         Listen for updates from Rubika's WebSocket.
 
         Returns:
             None
         """
+        import aiohttp
+
         existing = getattr(self, "_keep_socket_task", None)
         if existing is None or existing.done():
             self._keep_socket_task = asyncio.create_task(self._keep_socket())
@@ -79,8 +82,7 @@ class GetUpdates:
                 self.logger.warning(f"WebSocket connection lost: {e}. Attempting reconnection in 3 seconds...")
                 await asyncio.sleep(3)
 
-    async def _keep_socket(self: "darkob.Client") -> None:
-
+    async def _keep_socket(self: "darkob.Messenger") -> None:
         while True:
             if self.connection.session.closed:
                 break
@@ -96,7 +98,8 @@ class GetUpdates:
             except Exception as e:
                 self.logger.warning(f"WebSocket keep-alive failed: {e}", exc_info=True)
 
-    async def _handle_text_message(self: "darkob.Client", msg_data: dict) -> None:
+    async def _handle_text_message(self: "darkob.Messenger", msg_data: dict) -> None:
+        from ..core.cipher import Cipher
 
         data_enc = msg_data.get("data_enc") or msg_data.get("messenger")
         if not data_enc:

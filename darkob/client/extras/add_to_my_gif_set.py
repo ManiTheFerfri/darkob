@@ -1,9 +1,11 @@
-from typing import Union
-import darkob
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class AddToMyGifSet:
     async def add_to_my_gif_set(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         chat: str,
         message_id: Union[str, int]
     ):
@@ -19,7 +21,8 @@ class AddToMyGifSet:
         """
         chat_guid = await self.get_guid(chat)
 
+        input_data = {'object_guid': chat_guid, 'message_id': message_id}
         return await self.request(
-            method = 'addToMyGifSet',
-            input = {'object_guid': chat_guid, 'message_id': message_id}
+            method='addToMyGifSet',
+            input=input_data
         )
