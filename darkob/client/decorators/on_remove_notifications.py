@@ -1,9 +1,13 @@
-import darkob
+from typing import TYPE_CHECKING
+
 from ..core import handlers
+
+if TYPE_CHECKING:
+    import darkob
 
 class OnRemoveNotifications:
     def on_remove_notifications(
-            self: "darkob.Client",
+            self: "darkob.Messenger",
             *args, **kwargs
     ):
         def MetaHandler(func):

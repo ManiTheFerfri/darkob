@@ -9,7 +9,7 @@ from .channels import Channels
 from .chats import Chats
 from .core import Core
 from .decorators import Decorators
-from .extras import Exctras
+from .extras import Extras
 from .groups import Groups
 from .messages import Messages
 from .settings import Settings
@@ -22,7 +22,7 @@ class Methods(
     Chats,
     Core,
     Decorators,
-    Exctras,
+    Extras,
     Groups,
     Messages,
     Settings,

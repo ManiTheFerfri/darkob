@@ -1,10 +1,14 @@
 import inspect
-import darkob
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import darkob
+
 class OnCallSignal:
-    def on_call_signal(self: "darkob.Client", *filters: Filter):
+    def on_call_signal(self: "darkob.Messenger", *filters: Filter):
         """Decorator for call signal data."""
         def MetaHandler(func):
             async def wrapper(event):

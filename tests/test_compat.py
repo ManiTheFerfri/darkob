@@ -34,7 +34,7 @@ def test_darkob_only_names_are_reachable():
 
 def test_version_reports_the_installed_package():
     assert shim.__version__ == darkob.__version__
-    assert shim.__maxrubika_version__ == "1.17.0"
+    assert shim.__maxrubika_version__ == "1.18.0"
 
 
 def test_unknown_name_raises_a_clear_error():

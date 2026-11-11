@@ -1,15 +1,19 @@
-from .. import exceptions
-import darkob
 import asyncio
 import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 logger = logging.getLogger(__name__)
 
 class Disconnect:
-    async def close(self: "darkob.Client") -> None:
+    async def close(self: "darkob.Messenger") -> None:
         """
         Close the connection to the Darkob server (async version).
         """
+        from .. import exceptions
+
         try:
             if self.connection is not None:
                 await self.connection.close()
@@ -25,7 +29,7 @@ class Disconnect:
             except Exception:
                 logger.debug("Suppressed exception", exc_info=True)
 
-    def disconnect(self: "darkob.Client") -> None:
+    def disconnect(self: "darkob.Messenger") -> None:
         """
         Disconnect from the Darkob server (sync version).
         """

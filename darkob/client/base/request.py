@@ -1,19 +1,19 @@
 import asyncio
-from typing import Optional, Dict
-from ..core.cipher import Cipher
-from ...types import Event
-from ...data import Data
-from .. import exceptions
-from ..exceptions import NoConnection
-import darkob
 import json
+from typing import Dict, Optional, TYPE_CHECKING
+
+from ...data import Data
+
+if TYPE_CHECKING:
+    import darkob
 
 #: Payloads at or above this size are encrypted off the event loop.
 LARGE_PAYLOAD = 256 * 1024
 
+
 class Request:
     async def request(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         method: str,
         input: Optional[Dict] = None,
         tmp_session: bool = False,
@@ -26,20 +26,26 @@ class Request:
             method (str): API method name (e.g., 'sendMessage', 'getUserInfo').
             input (dict, optional): Input data for the method.
             tmp_session (bool): Use temporary session instead of auth (default: False).
-                When True, the client will auto-connect if not connected yet.
             encrypt (bool): Encrypt the request data (default: True).
 
         Returns:
-            Data or None: The API response.
+            Data, Event, dict, or None: The API response.
+                - If `as_dict=True` on the client, returns a plain dict.
+                - Otherwise, returns a Data object.
 
         Raises:
             NoConnection: If the client has not been started and `tmp_session=False`.
         """
+        from ..core.cipher import Cipher
+        from ...types import Event
+        from .. import exceptions
+        from ...data import Data
+
         if not getattr(self, 'connection', None):
             if tmp_session:
                 await self.connect()
             else:
-                raise NoConnection(
+                raise exceptions.NoConnection(
                     "Client is not connected. Call 'start()' first or use the client as a context manager.")
 
         if not self.connection.api_url:
@@ -120,6 +126,11 @@ class Request:
             if isinstance(data_result, dict):
                 data_result['client'] = self
 
-            return Event(data_result)
+            result_obj = Event(data_result)
+
+            if getattr(self, 'as_dict', False):
+                return result_obj.to_dict()
+
+            return result_obj
 
         exceptions.raise_exception(status_det, result, None)

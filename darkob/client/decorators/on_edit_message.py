@@ -1,10 +1,14 @@
 import inspect
-import darkob
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import darkob
+
 class OnEditMessage:
-    def on_edit_message(self: "darkob.Client", *filters: Filter):
+    def on_edit_message(self: "darkob.Messenger", *filters: Filter):
         """Decorator for edited messages with optional filters."""
         def MetaHandler(func):
             async def wrapper(event):

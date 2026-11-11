@@ -1,8 +1,11 @@
-import darkob
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class EditGroupTitle:
     async def edit_group_title(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         group: str,
         title: str
     ):
@@ -16,4 +19,4 @@ class EditGroupTitle:
         Returns:
             The result of the API call.
         """
-        return await self.edit_group_info(group = group, title = title)
+        return await self.edit_group_info(group=group, title=title)

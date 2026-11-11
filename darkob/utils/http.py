@@ -8,8 +8,44 @@ historically drifted; anything both of them need lives here so the drift stops.
 from __future__ import annotations
 
 from typing import Any, Optional
+from contextlib import asynccontextmanager
 
-__all__ = ["retry_after_seconds"]
+__all__ = ["request_session", "retry_after_seconds"]
+
+
+@asynccontextmanager
+async def request_session(owner: Any):
+    """Yield ``(session, proxy)`` for one of the API wrapper objects.
+
+    Rubino, RubiAI and RubikaTV can wrap an existing ``Messenger``. When that
+    client is connected, its pooled session is reused and never closed here.
+    Otherwise a short-lived session is created with the wrapper's own TLS,
+    timeout and proxy settings. This keeps upstream's auth-only mode working
+    without silently disabling certificate verification.
+    """
+    import aiohttp
+
+    client = getattr(owner, "_client", None) or getattr(owner, "client", None)
+    connection = getattr(client, "connection", None)
+    session = getattr(connection, "session", None)
+    proxy = getattr(owner, "proxy", None)
+    if proxy is None:
+        proxy = getattr(client, "proxy", None)
+
+    if session is not None and not getattr(session, "closed", False):
+        yield session, proxy
+        return
+
+    timeout = getattr(owner, "timeout", 30)
+    verify_ssl = getattr(owner, "verify_ssl", True)
+    session = aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(ssl=verify_ssl),
+        timeout=aiohttp.ClientTimeout(total=timeout),
+    )
+    try:
+        yield session, proxy
+    finally:
+        await session.close()
 
 
 def retry_after_seconds(response: Any) -> Optional[float]:

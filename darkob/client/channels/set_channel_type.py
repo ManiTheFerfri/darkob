@@ -1,11 +1,13 @@
-import typing
-import darkob
+from typing import Literal, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class SetChannelType:
     async def set_channel_type(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         channel: str,
-        channel_type: typing.Literal['Public', 'Private']
+        channel_type: Literal['Public', 'Private']
     ):
         """
         Set type of a channel.
@@ -17,4 +19,4 @@ class SetChannelType:
         Returns:
             The result of the API call.
         """
-        return await self.edit_channel_info(channel = channel, channel_type = channel_type)
+        return await self.edit_channel_info(channel=channel, channel_type=channel_type)

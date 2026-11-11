@@ -1,8 +1,11 @@
-import darkob
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import darkob
 
 class EditChannelTitle:
     async def edit_channel_title(
-        self: "darkob.Client",
+        self: "darkob.Messenger",
         channel: str,
         title: str
     ):
@@ -16,4 +19,4 @@ class EditChannelTitle:
         Returns:
             The result of the API call.
         """
-        return await self.edit_channel_info(channel = channel, title = title)
+        return await self.edit_channel_info(channel=channel, title=title)
