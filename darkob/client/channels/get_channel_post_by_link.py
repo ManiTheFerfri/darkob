@@ -17,7 +17,6 @@ class GetChannelPostByLink:
         Returns:
             Channel info and message data.
         """
-        import re
         from ...data import Data
         from ..exceptions import InvalidInput
 
@@ -113,13 +112,16 @@ class GetChannelPostByLink:
         }
         timeout = aiohttp.ClientTimeout(total=30, connect=10)
 
+        from ..core.transport import borrowed_session
+
         try:
             async with borrowed_session(self.connection.session) as session:
                 async with session.get(
                     url,
                     headers=headers,
                     allow_redirects=True,
-                    timeout=aiohttp.ClientTimeout(total=timeout),
+                    timeout=timeout,
+                    proxy=self.proxy,
                 ) as response:
                     if response.status != 200:
                         return None

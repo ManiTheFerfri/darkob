@@ -4,7 +4,7 @@ import logging
 from . import Messenger
 
 if TYPE_CHECKING:
-    import darkob
+    pass
 
 class Shad(Messenger):
     PLATFORMS = ('shad_web', 'shad_pwa', 'shad_android')

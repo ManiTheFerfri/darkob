@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 class GetFolders:
     async def get_folders(
         self: "darkob.Messenger",
-        last_state: Union[int, str] = round(time()) - 150
+        last_state: Union[int, str] = None
     ):
         """
         Get a list of folders.
@@ -18,4 +18,6 @@ class GetFolders:
         Returns:
             List of folders.
         """
+        if last_state is None:
+            last_state = round(time()) - 150
         return await self.request(method='getFolders', input={'last_state': int(last_state)})

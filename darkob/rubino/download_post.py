@@ -27,8 +27,9 @@ class DownloadPost:
         Returns:
             Contains 'files' (list of saved paths if save_as=True, otherwise list of dicts with 'file_name' and 'content').
         """
-        import aiohttp
+        import aiofiles
         from ..data import Data
+        from ..utils.http import request_session
         from .exceptions import InvalidInput, PostNotAccessible
 
         if re.match(r'^[0-9a-f]{24}$', post):
@@ -96,9 +97,9 @@ class DownloadPost:
 
         results = []
 
-        async with aiohttp.ClientSession() as session:
+        async with request_session(self) as (session, proxy):
             for index, entry in enumerate(files):
-                async with session.get(entry['url']) as resp:
+                async with session.get(entry['url'], proxy=proxy) as resp:
                     if resp.status != 200:
                         continue
                     content = await resp.read()
@@ -107,8 +108,8 @@ class DownloadPost:
                 current_name = f"{file_name}{suffix}{entry['ext']}"
 
                 if save_as:
-                    with open(current_name, 'wb') as f:
-                        f.write(content)
+                    async with aiofiles.open(current_name, 'wb') as f:
+                        await f.write(content)
                     results.append(current_name)
                 else:
                     results.append({

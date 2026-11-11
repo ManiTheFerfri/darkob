@@ -3,11 +3,169 @@ import random
 import time as time_module
 from datetime import timedelta, datetime
 
+from ....data import Data
+
 if TYPE_CHECKING:
     import darkob
 
+
 class SendMessage:
     async def send_message(
+        self: "darkob.Messenger",
+        chat: str,
+        text: Optional[str] = None,
+        reply_to_message_id: Optional[Union[str, int]] = None,
+        via_bot: Optional[str] = None,
+        file_inline=None,
+        base64_data: Optional[str] = None,
+        sticker=None,
+        type: str = 'File',
+        is_spoil: bool = False,
+        thumb=None,
+        audio_info: bool = True,
+        metadata: Optional[dict] = None,
+        performer: Optional[str] = None,
+        schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
+        schedule_type: Optional[str] = None,
+        is_mute: bool = False,
+        **kwargs,
+    ):
+        """Send text, an uploaded file or a sticker.
+
+        The long parameter list is intentional compatibility: 1.18 moved file
+        arguments into ``send_file`` and removed them from this method. Keep
+        the original positional layout instead of silently misrouting callers.
+        Keyword-only use of upstream's ``metadata`` and ``is_mute`` is
+        supported as before.
+        """
+        if sticker is not None:
+            return await self._send_raw_sticker(
+                chat, sticker, reply_to_message_id, via_bot,
+                schedule_time, schedule_type, is_mute,
+            )
+
+        if text is not None and (
+            file_inline is None and base64_data is None
+        ) or (
+            metadata is not None
+            and file_inline is None
+            and base64_data is None
+        ):
+            return await self._send_text_message(
+                chat=chat,
+                text=text,
+                reply_to_message_id=reply_to_message_id,
+                via_bot=via_bot,
+                metadata=metadata,
+                is_mute=is_mute,
+                schedule_time=schedule_time,
+                schedule_type=schedule_type,
+            )
+
+        if file_inline is not None or base64_data is not None:
+            return await self.send_file(
+                chat=chat,
+                file_inline=(
+                    file_inline
+                    if isinstance(file_inline, (dict, Data))
+                    else None
+                ),
+                file=(
+                    None if isinstance(file_inline, (dict, Data))
+                    else file_inline
+                ),
+                base64=base64_data,
+                text=text,
+                type=type,
+                is_spoil=is_spoil,
+                thumb=thumb,
+                audio_info=audio_info,
+                performer=performer,
+                reply_to_message_id=reply_to_message_id,
+                via_bot=via_bot,
+                is_mute=is_mute,
+                metadata=metadata,
+                schedule_time=schedule_time,
+                schedule_type=schedule_type,
+                **kwargs,
+            )
+
+        # No text and no file: let the text path produce its normal validation
+        # error rather than an opaque missing-argument TypeError.
+        return await self._send_text_message(
+            chat=chat,
+            text=text,
+            reply_to_message_id=reply_to_message_id,
+            via_bot=via_bot,
+            metadata=metadata,
+            is_mute=is_mute,
+            schedule_time=schedule_time,
+            schedule_type=schedule_type,
+        )
+
+    async def _send_raw_sticker(
+        self, chat, sticker, reply_to_message_id, via_bot,
+        schedule_time, schedule_type, is_mute,
+    ):
+        """Send the pre-1.18 raw sticker payload without losing fields."""
+        from ...exceptions import InvalidInput
+
+        if isinstance(sticker, Data):
+            sticker = sticker.original_data
+        if not isinstance(sticker, dict):
+            raise InvalidInput("'sticker' must be a dict or Data object.")
+
+        chat_guid = (
+            self.guid
+            if chat.lower() in ('me', 'cloud', 'self', 'myself')
+            else await self.get_guid(chat)
+        )
+        input_data = {
+            'object_guid': chat_guid,
+            'reply_to_message_id': reply_to_message_id,
+            'rnd': random.randint(100000, 999999),
+            'sticker': sticker,
+        }
+        if is_mute:
+            input_data['is_mute'] = True
+
+        if schedule_time is not None:
+            if isinstance(schedule_time, timedelta):
+                schedule_time = int(time_module.time() + schedule_time.total_seconds())
+            elif isinstance(schedule_time, datetime):
+                schedule_time = int(schedule_time.timestamp())
+            elif isinstance(schedule_time, (int, float)):
+                if schedule_time < 1000000000:
+                    schedule_time = int(time_module.time() + schedule_time)
+                else:
+                    schedule_time = int(schedule_time)
+            else:
+                raise InvalidInput("Invalid schedule_time type.")
+            if schedule_time <= time_module.time():
+                raise InvalidInput("'schedule_time' must be in the future.")
+            input_data.update(
+                is_scheduled=True,
+                schedule_type='Default',
+                scheduled_time=schedule_time,
+            )
+        elif schedule_type == 'WhenOnline':
+            if not chat_guid.startswith('u0'):
+                raise InvalidInput(
+                    "'schedule_type=WhenOnline' is only available for user chats."
+                )
+            input_data.update(is_scheduled=True, schedule_type='WhenOnline')
+        elif schedule_type == 'Default':
+            raise InvalidInput("'schedule_type=Default' requires 'schedule_time'.")
+
+        if via_bot is not None:
+            bot_guid = await self.get_guid(via_bot)
+            if not bot_guid.startswith('b0'):
+                raise InvalidInput("'via_bot' must be a bot GUID or username.")
+            input_data['via_bot_guid'] = bot_guid
+
+        return await self.request(method='sendMessage', input=input_data)
+
+    async def _send_text_message(
         self: "darkob.Messenger",
         chat: str,
         text: str,

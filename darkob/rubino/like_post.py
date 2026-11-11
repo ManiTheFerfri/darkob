@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict, Union, TYPE_CHECKING
+from typing import Optional, List, Dict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import darkob

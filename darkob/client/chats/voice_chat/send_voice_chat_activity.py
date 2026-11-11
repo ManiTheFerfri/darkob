@@ -8,6 +8,7 @@ class SendVoiceChatActivity:
         self: "darkob.Messenger",
         chat: str,
         activity: Literal['Speaking'] = 'Speaking',
+        participant_chat_guid: Optional[str] = None,
         voice_chat_id: Optional[str] = None
     ):
         """
@@ -16,6 +17,7 @@ class SendVoiceChatActivity:
         Parameters:
             chat (str): The GUID, link, or username of the group/channel.
             activity (str): Activity type. Only 'Speaking' is allowed. Case-insensitive. Default: 'Speaking'.
+            participant_chat_guid (str, optional): Participant chat GUID. Default is self.guid.
             voice_chat_id (str, optional): Voice chat ID. If not provided, it will be fetched automatically.
 
         Returns:
@@ -48,7 +50,8 @@ class SendVoiceChatActivity:
         input_data = {
             'chat_guid': chat_guid,
             'voice_chat_id': voice_chat_id,
-            'activity': normalized_activity
+            'activity': normalized_activity,
+            'participant_object_guid': participant_chat_guid or self.guid
         }
 
         return await self.request(

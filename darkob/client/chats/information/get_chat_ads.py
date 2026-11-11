@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 class GetChatAds:
     async def get_chat_ads(
         self: "darkob.Messenger",
-        state: int = round(time()) - 150
+        state: int = None
     ):
         """
         Retrieves advertising information for chats.
@@ -18,4 +18,6 @@ class GetChatAds:
         Returns:
             The result of the API call.
         """
+        if state is None:
+            state = round(time()) - 150
         return await self.request(method='getChatAds', input={'state': int(state)})

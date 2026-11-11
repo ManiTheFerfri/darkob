@@ -3,7 +3,6 @@ from typing import Union, Dict, Any, Optional, List, TYPE_CHECKING
 
 from .keypad_mixin import KeypadMixin
 from .message_result import MessageResult
-from .metadata import to_metadata
 
 if TYPE_CHECKING:
     import darkob

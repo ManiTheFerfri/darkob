@@ -44,7 +44,6 @@ class DownloadFile:
         """
         import inspect
         import base64
-        import aiohttp
         import aiofiles
         from ...data import Data
         from .. import exceptions

@@ -1,6 +1,6 @@
 """Rubika AI Exception Classes for handling API errors."""
 import json
-from typing import Optional, Union, Dict
+from typing import Union, Dict
 
 class RubikaAIError(Exception):
     custom_msg = None

@@ -62,7 +62,8 @@ class AddFolder:
         include_chat_types: Optional[List[str]] = None,
         exclude_chat_types: Optional[List[str]] = None,
         is_add_to_top: bool = True,
-        suggestion_folder_id: Optional[str] = None
+        suggestion_folder_id: Optional[str] = None,
+        folder_id: Optional[str] = None,
     ):
         """
         Add a new folder to organize chats.
@@ -126,6 +127,8 @@ class AddFolder:
 
         if suggestion_folder_id:
             updated_parameters.append('suggestion_folder_id')
+        if folder_id:
+            updated_parameters.append('folder_id')
 
         input_data = {
             'name': name,
@@ -143,5 +146,7 @@ class AddFolder:
             input_data['exclude_chat_types'] = normalized_exclude_types
         if suggestion_folder_id:
             input_data['suggestion_folder_id'] = suggestion_folder_id
+        if folder_id:
+            input_data['folder_id'] = folder_id
 
         return await self.request(method='addFolder', input=input_data)

@@ -29,6 +29,7 @@ class UploadFile:
         import aiohttp
         import aiofiles
         from ..data import Data
+        from ..utils.http import request_session
 
         if my_profile is None:
             profile_id = self.profile_id
@@ -39,9 +40,7 @@ class UploadFile:
             fallback_name = "darkob.jpg" if file_type.lower() in ("picture", "image", "photo") else "darkob.mp4"
             total_bytes = len(file)
         else:
-            with open(file, "rb") as f:
-                f.seek(0, os.SEEK_END)
-                total_bytes = f.tell()
+            total_bytes = os.path.getsize(file)
             fallback_name = os.path.basename(file)
 
         if not mime:
@@ -62,10 +61,9 @@ class UploadFile:
         block_count = max(1, (total_bytes + block_limit - 1) // block_limit)
         endpoint_host = upload_url.replace("https://", "").split("/")[0]
 
-        tls = aiohttp.TCPConnector(ssl=False)
         final_packet = None
 
-        async with aiohttp.ClientSession(connector=tls) as http:
+        async with request_session(self) as (http, proxy):
             for idx in range(1, block_count + 1):
                 offset = block_limit * (idx - 1)
 
@@ -92,7 +90,7 @@ class UploadFile:
 
                 while True:
                     try:
-                        async with http.post(upload_url, data=chunk, headers=chunk_headers) as resp:
+                        async with http.post(upload_url, data=chunk, headers=chunk_headers, proxy=proxy) as resp:
                             if resp.status == 200:
                                 final_packet = await resp.json()
                                 break

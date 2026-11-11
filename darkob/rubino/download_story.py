@@ -24,8 +24,9 @@ class DownloadStory:
         Returns:
             Data: Contains 'files' (list of saved paths if save_as=True, otherwise list of dicts with 'file_name' and 'content').
         """
-        import aiohttp
+        import aiofiles
         from ..data import Data
+        from ..utils.http import request_session
         from .exceptions import StoryNotFound
 
         stories_data = await self.get_profile_stories(
@@ -74,9 +75,9 @@ class DownloadStory:
 
         results = []
 
-        async with aiohttp.ClientSession() as session:
+        async with request_session(self) as (session, proxy):
             for index, entry in enumerate(files):
-                async with session.get(entry['url']) as resp:
+                async with session.get(entry['url'], proxy=proxy) as resp:
                     if resp.status != 200:
                         continue
                     content = await resp.read()
@@ -85,8 +86,8 @@ class DownloadStory:
                 current_name = f"{file_name}{suffix}{entry['ext']}"
 
                 if save_as:
-                    with open(current_name, 'wb') as f:
-                        f.write(content)
+                    async with aiofiles.open(current_name, 'wb') as f:
+                        await f.write(content)
                     results.append(current_name)
                 else:
                     results.append({

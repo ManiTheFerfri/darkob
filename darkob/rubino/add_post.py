@@ -1,3 +1,4 @@
+import asyncio
 from random import randint
 from typing import Optional, Literal, TYPE_CHECKING
 import os
@@ -171,10 +172,13 @@ class AddPost:
                 thumb_cover_upload = await self.upload_file(thumbnail_file, 'Picture', my_profile=my_profile)
                 thumb_cover_obj = _to_file_obj(thumb_cover_upload)
             else:
-                with open(file, 'rb') as f:
-                    video_bytes = f.read()
+                import aiofiles
+                async with aiofiles.open(file, 'rb') as f:
+                    video_bytes = await f.read()
 
-                media_info = _extract_media_info(video_bytes)
+                media_info = await asyncio.to_thread(
+                    _extract_media_info, video_bytes
+                )
 
                 cover_upload = await self.upload_file(media_info.image, 'Picture', my_profile=my_profile)
                 cover_obj = _to_file_obj(cover_upload)
@@ -183,9 +187,11 @@ class AddPost:
 
             if video_duration is None:
                 if media_info is None:
-                    with open(file, 'rb') as f:
-                        video_bytes = f.read()
-                    media_info = _extract_media_info(video_bytes)
+                    async with aiofiles.open(file, 'rb') as f:
+                        video_bytes = await f.read()
+                    media_info = await asyncio.to_thread(
+                        _extract_media_info, video_bytes
+                    )
 
                 video_duration = media_info.seconds // 1000
 

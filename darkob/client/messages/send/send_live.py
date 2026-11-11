@@ -1,3 +1,4 @@
+import asyncio
 from typing import Union, Optional, List, Literal, TYPE_CHECKING
 from pathlib import Path
 from os import path
@@ -30,17 +31,19 @@ class SendLive:
         Returns:
             The result of the API call.
         """
-        import aiohttp
         import aiofiles
         from ...core import media
         from ...exceptions import InvalidInput
+        from ...core.transport import borrowed_session
 
         chat_guid = await self.get_guid(chat)
 
         if thumb is None:
             thumb = media.MediaThumbnail._default_thumbnail()
         elif isinstance(thumb, bytes):
-            result = media.MediaThumbnail.from_manual(thumb)
+            result = await asyncio.to_thread(
+                media.MediaThumbnail.from_manual, thumb
+            )
             thumb = result.to_base64() if isinstance(result, media.ResultMedia) else result
         elif isinstance(thumb, (str, Path)):
             thumb_data = None
@@ -52,12 +55,14 @@ class SendLive:
                     async with aiofiles.open(str(thumb), 'rb') as f:
                         thumb_data = await f.read()
             elif isinstance(thumb, str) and thumb.startswith('http'):
-                async with aiohttp.ClientSession() as cs:
-                    async with cs.get(thumb) as resp:
+                async with borrowed_session(self.connection.session) as cs:
+                    async with cs.get(thumb, proxy=self.proxy) as resp:
                         thumb_data = await resp.read()
 
             if thumb_data:
-                result = media.MediaThumbnail.from_manual(thumb_data)
+                result = await asyncio.to_thread(
+                    media.MediaThumbnail.from_manual, thumb_data
+                )
                 thumb = result.to_base64() if isinstance(result, media.ResultMedia) else result
 
         device_type_map = {

@@ -4,7 +4,6 @@ import secrets
 import logging
 from typing import Optional, TYPE_CHECKING
 
-from ..utils.console import Console
 
 if TYPE_CHECKING:
     import darkob

@@ -47,6 +47,21 @@ CLASSES = [
         "shad",
         "The Shad education platform. Same Messenger protocol, Shad hosts.",
     ),
+    (
+        "Rubino",
+        "rubino",
+        "The Rubino social platform, using a Messenger session or an auth key.",
+    ),
+    (
+        "RubiAI",
+        "rubiai",
+        "Rubika's AI assistant: chat sessions, streaming and image generation.",
+    ),
+    (
+        "RubikaTV",
+        "rubikatv",
+        "Rubika TV/VOD: media discovery, playback, lists and reactions.",
+    ),
 ]
 
 GROUP_ORDER = [
@@ -243,6 +258,7 @@ def main() -> None:
         "get-started/installation.md",
         "get-started/quickstart.md",
         "get-started/migrating-from-maxrubika.md",
+        "upstream-1-18.md",
         "tutorials/first-bot.md",
         "guides/handlers.md",
         "guides/filters.md",

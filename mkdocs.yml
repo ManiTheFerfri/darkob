@@ -154,7 +154,11 @@ nav:
       - Bot: api/bot.md
       - Messenger: api/messenger.md
       - Shad: api/shad.md
+      - Rubino: api/rubino.md
+      - RubiAI: api/rubiai.md
+      - RubikaTV: api/rubikatv.md
       - Models and enums: api/models.md
+  - Upstream 1.18 merge: upstream-1-18.md
   - Performance: performance.md
   - Roadmap: roadmap.md
   - فارسی:

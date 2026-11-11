@@ -8,16 +8,16 @@ class GetVoiceChatUpdates:
     async def get_voice_chat_updates(
         self: "darkob.Messenger",
         chat: str,
-        voice_chat_id: Optional[str] = None,
-        state: Optional[Union[int, str]] = None
+        state: Optional[Union[int, str]] = None,
+        voice_chat_id: Optional[str] = None
     ):
         """
         Get voice chat updates for a group.
 
         Parameters:
             chat (str): The GUID, link, or username of the group/channel.
-            voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
             state (Union[int, str], optional): The state for updates. If not provided, it defaults to the current time minus 150 seconds.
+            voice_chat_id (Optional[str]): Voice chat ID. If not provided, it will be fetched automatically.
 
         Returns:
             The result of the API call.

@@ -36,6 +36,7 @@ class UploadFile:
         import aiohttp
         import aiofiles
         from ...data import Data
+        from .. import exceptions
         from ..core.transport import borrowed_session
 
         if base64_data and file is not None:

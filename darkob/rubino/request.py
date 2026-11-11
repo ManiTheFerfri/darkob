@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import darkob
@@ -51,7 +51,6 @@ class Request:
         if not self.rubino_url:
             self._pick_url()
 
-        total_urls = len(self.RUBINO_URLS)
         attempts_budget = max(1, int(self.max_retries))
         last_error = None
 
@@ -143,11 +142,11 @@ class Request:
                 else:
                         raise
 
-            if url_index < total_urls - 1:
+            if attempt + 1 < attempts_budget:
                 self._pick_url()
                 self.failed_count = 0
 
         raise NetworkError(
-            f"All {total_urls} Rubino URLs exhausted. "
+            f"Rubino request failed after {attempts_budget} attempt(s). "
             f"Last error: {last_error}"
         )

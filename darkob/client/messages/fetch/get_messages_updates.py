@@ -8,7 +8,7 @@ class GetMessagesUpdates:
     async def get_messages_updates(
         self: "darkob.Messenger",
         chat: str,
-        state: int = round(time()) - 150
+        state: int = None
     ):
         """
         Get message updates for a specific chat.
@@ -20,6 +20,8 @@ class GetMessagesUpdates:
         Returns:
             The message updates for the specified chat.
         """
+        if state is None:
+            state = round(time()) - 150
         chat_guid = await self.get_guid(chat)
 
         input_data = {

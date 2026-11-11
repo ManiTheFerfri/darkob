@@ -7,7 +7,7 @@ Status legend: **shipped** · **next** · **planned** · **rejected**
 
 ## Where we are
 
-Shipped through 0.18:
+Shipped through 0.19:
 
 **Speed**
 
@@ -23,6 +23,17 @@ Shipped through 0.18:
 - Bounded retry budget for the whole request, not per endpoint.
 - Pooled HTTP sessions; no per-download TLS handshake.
 - Payloads at or above 256 KB are encrypted on a worker thread.
+
+**Upstream v1.18.0 (new in 0.19)**
+
+- Merged upstream's grouped endpoints and new `Rubino`, `RubiAI`, `RubikaTV`
+  surfaces without deleting a pre-existing method or any of darkob's hardening.
+- Preserved darkob's request signatures, `send_message` file/sticker dispatch,
+  `download_file` return types and both `.max` and legacy session formats.
+- Bounded Rubino retries globally; forwarded proxy/timeout and TLS settings on
+  every new surface; offloaded media parsing from the event loop.
+- Generated references for all six clients and added offline coverage for old
+  call shapes, new transport behavior and legacy session migration.
 
 **Reliability**
 
@@ -68,7 +79,8 @@ Shipped through 0.18:
 
 **Process**
 
-- 683 tests, CI on 3.9–3.14 plus Windows, generated API docs, `py.typed`.
+- 781 tests, CI on 3.9–3.14 plus Windows, generated API docs for all six
+  clients, `py.typed`.
 - `benchmarks/benchmark_suite.py` (head-to-head) and `benchmarks/scenarios.py`
   (realistic load), with `check_regression.py` gating CI.
 - Every `>>>` docstring example is executed in CI, with a ratchet so examples

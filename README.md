@@ -66,6 +66,33 @@ matches the server.
 | A corrupt session file was deleted | **Quarantined**, never destroyed |
 | Keypad editing called a non-existent endpoint | Fixed by live testing, pinned by a regression test |
 
+## New in 0.19: upstream v1.18.0, merged without losing darkob's fixes
+
+The feature surface from maxrubika **v1.18.0** is now included — newly grouped
+`Messenger`/`Shad` endpoints plus **Rubino**, **RubiAI**, and **RubikaTV**:
+
+```python
+from darkob import RubiAI, RubikaTV, Rubino
+```
+
+The merge is additive. Every pre-existing `Bot`, `Messenger`, and `Shad` method
+stays available, along with `iter_messages` and the rest of darkob's hardening:
+indexed dispatch, bounded retries, pool reuse, adaptive rate limiting,
+`darkob.metrics`, `darkob.health` and plugin hooks.
+
+Upstream's incompatible replacements were adapted, not blindly copied:
+
+- legacy and upstream `Bot.request` signatures both work;
+- `Bot.download_file` retains its documented return types and byte-range resume;
+- `Messenger.send_message` still handles file and sticker parameters;
+- session files remain readable across the old and new key formats, without
+  deleting or quarantining valid credentials merely because they predated the
+  fork's rename;
+- new surfaces keep proxy and timeout settings, and verify TLS by default.
+
+See the [upstream v1.18 merge guide](https://manitheferfri.github.io/darkob/upstream-1-18/)
+for the compatibility rules and migration notes.
+
 ## What's inside
 
 <table>

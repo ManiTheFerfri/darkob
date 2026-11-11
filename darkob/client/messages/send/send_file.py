@@ -1,8 +1,8 @@
+import asyncio
 from typing import Optional, Union, Literal, TYPE_CHECKING
 from pathlib import Path
 from os import path
 from datetime import timedelta, datetime
-import base64
 import random
 import mimetypes
 import time as time_module
@@ -63,10 +63,11 @@ class SendFile:
         Returns:
             The result of the API call.
         """
-        import aiohttp, aiofiles
+        import aiofiles
         from ....data import Data
         from ...core import media, to_metadata
         from ...exceptions import InvalidInput, MessageTooLong
+        from ...core.transport import borrowed_session
 
         if text is not None:
             if not isinstance(text, str):
@@ -170,7 +171,7 @@ class SendFile:
         if file is not None:
             if isinstance(file, (str, Path)):
                 if str(file).startswith('http'):
-                    async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
+                    async with borrowed_session(self.connection.session) as cs:
                         mime = await get_mime_from_url(session=cs, url=str(file))
                         kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input_data['rnd']), mime or f'.{type}']))
                         async with cs.get(str(file)) as result:
@@ -194,16 +195,22 @@ class SendFile:
 
                 audio_info_result = None
                 if type in ('Music', 'Voice') and audio_info is True:
-                    audio_info_result = media.Audio.get_audio_info(file)
+                    audio_info_result = await asyncio.to_thread(
+                        media.Audio.get_audio_info, file
+                    )
                     if isinstance(audio_info_result, media.AudioResult):
                         if custom_performer is None and type == 'Music':
                             custom_performer = audio_info_result.performer
 
                 thumb_obj = None
                 if type == 'Image':
-                    thumb_obj = media.MediaThumbnail.from_image(file)
+                    thumb_obj = await asyncio.to_thread(
+                        media.MediaThumbnail.from_image, file
+                    )
                 elif type in ('Video', 'Gif', 'VideoMessage'):
-                    thumb_obj = media.MediaThumbnail.from_video(file)
+                    thumb_obj = await asyncio.to_thread(
+                        media.MediaThumbnail.from_video, file
+                    )
 
                 NEEDS_THUMBNAIL = ('Image', 'Gif', 'Video', 'VideoMessage')
                 use_thumb = True if (thumb is None and type in NEEDS_THUMBNAIL) else (False if thumb is None else thumb)
@@ -216,7 +223,9 @@ class SendFile:
                     elif isinstance(thumb_obj, str):
                         thumb_inline = thumb_obj
                 elif isinstance(use_thumb, bytes):
-                    result = media.MediaThumbnail.from_manual(use_thumb)
+                    result = await asyncio.to_thread(
+                        media.MediaThumbnail.from_manual, use_thumb
+                    )
                     if isinstance(result, media.ResultMedia):
                         thumb_inline = result.to_base64()
                     else:
@@ -231,14 +240,16 @@ class SendFile:
                             async with aiofiles.open(str(use_thumb), 'rb') as f:
                                 thumb_data = await f.read()
                     elif isinstance(use_thumb, str) and use_thumb.startswith('http'):
-                        async with aiohttp.ClientSession() as cs:
-                            async with cs.get(use_thumb) as resp:
+                        async with borrowed_session(self.connection.session) as cs:
+                            async with cs.get(use_thumb, proxy=self.proxy) as resp:
                                 thumb_data = await resp.read()
                     else:
                         thumb_inline = use_thumb
 
                     if thumb_data:
-                        result = media.MediaThumbnail.from_manual(thumb_data)
+                        result = await asyncio.to_thread(
+                            media.MediaThumbnail.from_manual, thumb_data
+                        )
                         if isinstance(result, media.ResultMedia):
                             thumb_inline = result.to_base64()
                         else:

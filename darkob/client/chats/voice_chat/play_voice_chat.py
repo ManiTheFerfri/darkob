@@ -1,7 +1,7 @@
 import asyncio
 import pathlib
 import logging
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import darkob
@@ -46,7 +46,9 @@ class VoiceChatConnection:
 class PlayVoiceChat:
     logger = logging.getLogger("VoiceChatPlayer")
 
-    async def heartbeat(self: "darkob.Messenger", chat_guid: str, voice_chat_id: str) -> None:
+    async def heartbeat(
+        self: "darkob.Messenger", chat_guid: str, voice_chat_id: Optional[str] = None
+    ) -> None:
         while True:
             try:
                 await self.get_voice_chat_updates(
@@ -62,7 +64,9 @@ class PlayVoiceChat:
                 self.logger.error(f"[Heartbeat] Unexpected error: {e}")
                 await asyncio.sleep(5)
 
-    async def speaking(self: "darkob.Messenger", chat_guid: str, voice_chat_id: str) -> None:
+    async def speaking(
+        self: "darkob.Messenger", chat_guid: str, voice_chat_id: Optional[str] = None
+    ) -> None:
         while True:
             try:
                 await self.send_voice_chat_activity(

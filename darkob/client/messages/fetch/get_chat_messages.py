@@ -20,35 +20,49 @@ class GetChatMessages:
     async def get_chat_messages(
         self: "darkob.Messenger",
         chat: str,
+        max_id: Optional[Union[str, int]] = None,
         sort: Literal['FromMax', 'FromMin'] = 'FromMin',
         filter_type: Optional[Literal[
             'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'
         ]] = None,
+        limit: Optional[int] = None,
         all_pages: bool = False,
         min_id: Optional[Union[str, int]] = None,
-        max_id: Optional[Union[str, int]] = None,
         middle_message_id: Optional[Union[str, int]] = None,
-        limit: Optional[int] = None
     ):
         """
         Get messages from a chat with filtering and pagination.
 
         Parameters:
             chat (str): The GUID, link, or username of the chat.
+            max_id (Union[str, int], optional): Maximum message ID. Retained
+                as the second positional parameter for pre-1.18 callers.
             sort (Literal['FromMax', 'FromMin']): Sort direction. Default is 'FromMin'.
             filter_type (Literal, optional): Filter messages by type:
                 'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'.
+            limit (int, optional): Maximum number of messages to retrieve.
             all_pages (bool): If True, fetch all pages (ignores `limit`). Default is False.
-            min_id (Union[str, int], optional): Minimum message ID.
-            max_id (Union[str, int], optional): Maximum message ID.
-            middle_message_id (Union[str, int], optional): Start from this message ID.
-            limit (int, optional): Maximum number of messages to retrieve. Only used when `all_pages=False`.
+            min_id (Union[str, int], optional): Minimum message ID (new in 1.18).
+            middle_message_id (Union[str, int], optional): Start from this message ID (new in 1.18).
 
         Returns:
             The result containing messages, count, and pagination info.
         """
         from ....data import Data
         from ...exceptions import InvalidInput
+
+        if max_id in ('FromMax', 'FromMin'):
+            # Also tolerate upstream's new positional form. The second value
+            # is a direction rather than a numeric message ID, so the two
+            # conventions are distinguishable without guessing GUIDs.
+            upstream_sort = max_id
+            if isinstance(filter_type, bool):
+                max_id, sort, filter_type, limit, all_pages, min_id, middle_message_id = (
+                    all_pages, upstream_sort, sort, limit, filter_type,
+                    middle_message_id, limit,
+                )
+            else:
+                max_id, sort = None, upstream_sort
 
         chat_guid = await self.get_guid(chat)
 

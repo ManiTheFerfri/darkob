@@ -1,8 +1,8 @@
 import asyncio
 import json
+from ...data import Data  # noqa: F401 - public compatibility alias
 from typing import Dict, Optional, TYPE_CHECKING
 
-from ...data import Data
 
 if TYPE_CHECKING:
     import darkob

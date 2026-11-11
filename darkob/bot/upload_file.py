@@ -6,7 +6,6 @@ import base64 as b64
 from typing import Optional, Union, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    import aiohttp
     import darkob
 
 logger = logging.getLogger(__name__)

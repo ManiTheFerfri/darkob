@@ -5,13 +5,12 @@ import logging
 import os
 import re
 from contextlib import asynccontextmanager
-from typing import Any, Callable, Dict, Optional, TYPE_CHECKING, Union
+from typing import Callable, Optional, TYPE_CHECKING
 
 from .file_extensions import FILE_EXTENSIONS
 from .exceptions import InvalidAccess, InvalidInput, Network
 
 if TYPE_CHECKING:
-    import aiohttp
     import darkob
 
 logger = logging.getLogger(__name__)
@@ -175,7 +174,6 @@ class DownloadFile:
         ``Data`` wrapper, which would break existing darkob callers, so its
         validation improvements are kept without its return-type change.
         """
-        import aiohttp
 
         file_response = await self.get_file(file_id)
         if file_response.get("status") != "OK":
