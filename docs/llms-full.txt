@@ -1,6 +1,6 @@
 # darkob — complete reference
 
-darkob 0.20.0 — async Python for the Rubika and Shad messaging platforms.
+darkob 1.20.0 — async Python for the Rubika and Shad messaging platforms.
 
 Read this file top to bottom before writing code. It contains curated guidance, the filter catalogue, and all six client APIs with real signatures. Consult llms.txt for documentation pages omitted here.
 
@@ -18,11 +18,11 @@ Hard rules:
 
 ## Requirements
 
-- Python **3.10 – 3.14** for darkob 0.20.0 and later
+- Python **3.10 – 3.14** for darkob 1.20.0 Stable and later
 - Linux, macOS or Windows
 
 Darkob 0.19.1 is the last release line supporting Python 3.9. It does not
-receive the dependency security floor of 0.20.0; use it only when upgrading
+receive the dependency security floor of 1.20.0; use it only when upgrading
 Python is not possible.
 
 ## Install
@@ -457,7 +457,7 @@ A hands-on walkthrough that ends with a bot which echoes, answers one command, a
 pip install darkob
 ```
 
-darkob 0.20.0+ needs Python 3.10 or newer. Confirm the install:
+darkob 1.20.0+ needs Python 3.10 or newer. Confirm the install:
 
 ```bash
 python -c "import darkob; print(darkob.__version__)"

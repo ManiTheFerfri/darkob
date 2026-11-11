@@ -8,7 +8,7 @@ A hands-on walkthrough that ends with a bot which echoes, answers one command, a
 pip install darkob
 ```
 
-darkob 0.20.0+ needs Python 3.10 or newer. Confirm the install:
+darkob 1.20.0+ needs Python 3.10 or newer. Confirm the install:
 
 ```bash
 python -c "import darkob; print(darkob.__version__)"

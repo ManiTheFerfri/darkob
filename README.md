@@ -30,7 +30,7 @@
 pip install darkob
 ```
 
-Darkob 0.20.0+ supports Python 3.10–3.14 and requires `aiohttp>=3.14.4,<4`.
+Darkob 1.20.0+ supports Python 3.10–3.14 and requires `aiohttp>=3.14.4,<4`.
 Python 3.9 users must stay on 0.19.1, whose older dependency constraint does
 not include that advisory fix.
 

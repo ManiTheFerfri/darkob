@@ -53,7 +53,7 @@ python -m pip install -e ".[dev]"
 The `dev` extra installs `pytest>=8`, `pytest-asyncio>=0.24`, `pytest-cov>=5` and
 `ruff>=0.6`.
 
-darkob 0.20.0+ supports **Python 3.10 through 3.14** and requires
+darkob 1.20.0 (Production/Stable) supports **Python 3.10 through 3.14** and requires
 `aiohttp>=3.14.4,<4`. CI runs the suite on all supported versions plus a Windows
 job on 3.12. Darkob 0.19.1 is the last Python 3.9 line and does not include the
 new dependency security floor.

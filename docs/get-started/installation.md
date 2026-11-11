@@ -2,11 +2,11 @@
 
 ## Requirements
 
-- Python **3.10 – 3.14** for darkob 0.20.0 and later
+- Python **3.10 – 3.14** for darkob 1.20.0 Stable and later
 - Linux, macOS or Windows
 
 Darkob 0.19.1 is the last release line supporting Python 3.9. It does not
-receive the dependency security floor of 0.20.0; use it only when upgrading
+receive the dependency security floor of 1.20.0; use it only when upgrading
 Python is not possible.
 
 ## Install

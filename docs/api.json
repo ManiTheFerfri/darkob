@@ -1,6 +1,6 @@
 {
   "package": "darkob",
-  "version": "0.20.0",
+  "version": "1.20.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {

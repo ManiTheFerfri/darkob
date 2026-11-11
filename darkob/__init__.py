@@ -95,7 +95,7 @@ __maintainer__ = "Mani Keikhosravi"
 #: test can pin it rather than leaving it to prose that can be edited away.
 __upstream_author__ = "MEHRAB Farahmand"
 __upstream_url__ = "https://github.com/MEH2RAB/maxrubika"
-__version__ = "0.20.0"
+__version__ = "1.20.0"
 
 logger = logging.getLogger(__name__)
 

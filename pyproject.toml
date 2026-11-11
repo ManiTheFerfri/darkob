@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "darkob"
-version = "0.20.0"
+version = "1.20.0"
 description = "Fast, stable async Python library for the Rubika & Shad platforms - build bots and userbots."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -33,9 +33,7 @@ keywords = [
     "self-bot",
 ]
 classifiers = [
-    # Pre-1.0 on purpose: the public surface is stable and additive, but
-    # SemVer still allows a breaking change in a minor release.
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Programming Language :: Python :: 3",
