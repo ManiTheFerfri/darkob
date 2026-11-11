@@ -1,7 +1,7 @@
 """Generate machine-readable and AI-friendly documentation assets.
 
-Everything produced here is derived from the installed package, so the
-reference cannot drift from the code. Run from the repository root:
+Everything produced here is derived from the checkout source. CI compares
+committed artifacts with a fresh run so stale output fails. Run from the root:
 
     python scripts/generate_docs_assets.py
 
@@ -132,6 +132,19 @@ def collect(cls: type) -> List[Dict[str, Any]]:
                 continue
             seen[name] = func
 
+    if cls.__name__ == "Bot":
+        # Bot attaches DecoratorBridge callables to instances in TheBot.__init__.
+        from darkob.bot.bridge import DecoratorBridge
+        from darkob.bot.registry import HandlerRegistry
+
+        bridge = DecoratorBridge(HandlerRegistry(None))
+        for name, member in vars(DecoratorBridge).items():
+            if name.startswith("_") or not isinstance(member, property):
+                continue
+            func = getattr(bridge, name)
+            if callable(func):
+                seen[name] = func
+
     entries = []
     for name, func in sorted(seen.items()):
         entries.append(
@@ -154,7 +167,7 @@ def render_class_markdown(
         "",
         summary,
         "",
-        "> Generated from the installed package by "
+        "> Generated from the checkout source by "
         "`scripts/generate_docs_assets.py`. Every signature below is real; "
         "do not hand-edit this file.",
         "",
@@ -185,7 +198,7 @@ def render_class_markdown(
 
     for group in ordered:
         items = groups[group]
-        names = ", ".join(f"[`{e['name']}`](#{e['name'].lower().replace('_', '-')})" for e in items)
+        names = ", ".join(f"[`{e['name']}`](#{e['name'].lower()})" for e in items)
         lines.append(f"- **{group}** ({len(items)}): {names}")
 
     lines.append("")
@@ -284,9 +297,9 @@ def main() -> None:
         f"darkob {index['version']} — async Python for the Rubika and Shad "
         "messaging platforms.",
         "",
-        "Read this file top to bottom before writing code. It contains the "
-        "full public API (every real signature), the filter catalogue, the "
-        "patterns, and the mistakes to avoid. No other page is required.",
+        "Read this file top to bottom before writing code. It contains curated "
+        "guidance, the filter catalogue, and all six client APIs with real "
+        "signatures. Consult llms.txt for documentation pages omitted here.",
         "",
         "Hard rules:",
         "- Handlers are `async def name(bot, event)`.",
@@ -295,7 +308,7 @@ def main() -> None:
         "`IsGroup()`, not `IsGroup`.",
         "- There is no Dispatcher, no message_handler, no aiogram/Pyrogram "
         "types.",
-        "- If a method is not in the API section below, it does not exist.",
+        "- Verify client methods in the API below; Bot instance decorators are included.",
         "",
     ]
 

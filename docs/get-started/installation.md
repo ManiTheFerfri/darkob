@@ -2,8 +2,12 @@
 
 ## Requirements
 
-- Python **3.9 – 3.14**
+- Python **3.10 – 3.14** for darkob 1.20.0 Stable and later
 - Linux, macOS or Windows
+
+Darkob 0.19.1 is the last release line supporting Python 3.9. It does not
+receive the dependency security floor of 1.20.0; use it only when upgrading
+Python is not possible.
 
 ## Install
 
@@ -11,9 +15,9 @@
 pip install darkob
 ```
 
-The core install is deliberately small — `aiohttp`, `aiofiles` and
-`pycryptodome`. Nothing else is required, and no method is lost
-when the extras are absent.
+The core install is deliberately small — `aiohttp>=3.14.4,<4`, `aiofiles`
+and `pycryptodome`. Nothing else is required, and no method is lost when the
+extras are absent.
 
 Optional extras:
 
@@ -53,7 +57,7 @@ git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
 
-pytest                 # 121 tests, no network required
+pytest                 # 800+ tests, no network required
 ruff check .           # lint
 pytest --cov=darkob    # coverage
 ```

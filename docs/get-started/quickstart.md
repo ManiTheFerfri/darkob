@@ -19,6 +19,8 @@ async def start(bot, event):
 
 @bot.on_new_message()
 async def echo(bot, event):
+    if not event.text:
+        return
     await event.reply(event.text)
 
 bot.run()
@@ -40,7 +42,7 @@ async def hello(bot, event):
 | --- | --- |
 | `event.chat_id` | Conversation to reply in |
 | `event.author_id` | User who sent it |
-| `event.text` | Message text (`""` when there is none) |
+| `event.text` | Message text (`None` when there is none) |
 | `event.reply(text)` | Shortcut: send into the same chat |
 | `event.forward()`, `event.delete()` | Act on the message |
 
@@ -56,8 +58,8 @@ bot.run(
 )
 ```
 
-Turbo mode is `bot.run()` with no arguments — it polls every 5 ms by
-default, tunable with `poll_interval`.
+`bot.run()` polls every 50 ms by default, tunable with `poll_interval`.
+The lower-level `bot.start()` default is 5 ms.
 
 !!! warning "Always set a webhook secret"
     A webhook URL that leaks lets anyone inject fake updates into
@@ -86,11 +88,11 @@ bot.set_commands({
 
 Once one file stops being enough:
 
-- [Handlers](handlers.md) — every decorator and what triggers it
-- [Filters](filters.md) — narrow down which events a handler sees
-- [Routers](routers.md) — split handlers into modules
-- [Conversations](fsm.md) — multi-step flows
-- [Errors](errors.md) — stop silent failures
+- [Handlers](../guides/handlers.md) — every decorator and what triggers it
+- [Filters](../guides/filters.md) — narrow down which events a handler sees
+- [Routers](../guides/routers.md) — split handlers into modules
+- [Conversations](../guides/fsm.md) — multi-step flows
+- [Errors](../guides/errors.md) — stop silent failures
 
 ## Async or not?
 

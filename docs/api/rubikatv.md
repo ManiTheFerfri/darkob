@@ -2,13 +2,13 @@
 
 Rubika TV/VOD: media discovery, playback, lists and reactions.
 
-> Generated from the installed package by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
+> Generated from the checkout source by `scripts/generate_docs_assets.py`. Every signature below is real; do not hand-edit this file.
 
 **28 public methods.**
 
 ## Method index
 
-- **tv** (28): [`add_wish_media`](#add-wish-media), [`dislike_media`](#dislike-media), [`follow_media`](#follow-media), [`get_cast_details`](#get-cast-details), [`get_cast_medias`](#get-cast-medias), [`get_custom_menu_items`](#get-custom-menu-items), [`get_list_items`](#get-list-items), [`get_listing`](#get-listing), [`get_me`](#get-me), [`get_media`](#get-media), [`get_media_by_link`](#get-media-by-link), [`get_media_related`](#get-media-related), [`get_next_episode`](#get-next-episode), [`get_next_media_info`](#get-next-media-info), [`get_play_info`](#get-play-info), [`get_play_suggested_episode`](#get-play-suggested-episode), [`get_property_types`](#get-property-types), [`get_season_episodes`](#get-season-episodes), [`get_wish_list`](#get-wish-list), [`like_media`](#like-media), [`remove_wish_list_media`](#remove-wish-list-media), [`request`](#request), [`search_movie`](#search-movie), [`set_current_play_time`](#set-current-play-time), [`set_session_play_duration`](#set-session-play-duration), [`undo_like_or_dislike_media`](#undo-like-or-dislike-media), [`unfollow_media`](#unfollow-media), [`view_commercial`](#view-commercial)
+- **tv** (28): [`add_wish_media`](#add_wish_media), [`dislike_media`](#dislike_media), [`follow_media`](#follow_media), [`get_cast_details`](#get_cast_details), [`get_cast_medias`](#get_cast_medias), [`get_custom_menu_items`](#get_custom_menu_items), [`get_list_items`](#get_list_items), [`get_listing`](#get_listing), [`get_me`](#get_me), [`get_media`](#get_media), [`get_media_by_link`](#get_media_by_link), [`get_media_related`](#get_media_related), [`get_next_episode`](#get_next_episode), [`get_next_media_info`](#get_next_media_info), [`get_play_info`](#get_play_info), [`get_play_suggested_episode`](#get_play_suggested_episode), [`get_property_types`](#get_property_types), [`get_season_episodes`](#get_season_episodes), [`get_wish_list`](#get_wish_list), [`like_media`](#like_media), [`remove_wish_list_media`](#remove_wish_list_media), [`request`](#request), [`search_movie`](#search_movie), [`set_current_play_time`](#set_current_play_time), [`set_session_play_duration`](#set_session_play_duration), [`undo_like_or_dislike_media`](#undo_like_or_dislike_media), [`unfollow_media`](#unfollow_media), [`view_commercial`](#view_commercial)
 
 ## tv
 

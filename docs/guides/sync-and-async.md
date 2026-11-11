@@ -27,8 +27,9 @@ loop is shut down at interpreter exit.
 | `async` | You already run a loop, or you need concurrency |
 | `sync` | A script, a cron job, a quick prototype |
 
-Pick one per codebase. Mixing works, but sync calls inside an async
-handler block the loop while they wait.
+Pick one per codebase. Inside a running event loop, a hybrid method returns
+a coroutine just like any other `async def`: if you do not `await` it, it does
+not execute. Use `await` inside async handlers.
 
 ## Calling sync code inside an async handler
 
@@ -39,7 +40,7 @@ import asyncio
 
 @bot.on_command("report")
 async def report(bot, event):
-    await asyncio.to_thread(bot.get_chats)   # careful: pre-bound args
+    await asyncio.to_thread(bot.get_me)      # sync form in a separate thread
 ```
 
 Prefer rewriting the call as `await`.

@@ -252,6 +252,10 @@ class Session:
             data = StringSession(string_session).to_data(password)
             if not data:
                 raise ValueError("Invalid StringSession or wrong password.")
+            if not isinstance(data, dict) or not data.get("auth"):
+                raise ValueError(
+                    "StringSession has no 'auth' credential; its payload is incomplete."
+                )
             self.filename = None
             self.create_file = False
             self._imported_from = "string_session"

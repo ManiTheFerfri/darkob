@@ -1,11 +1,11 @@
 {
   "package": "darkob",
-  "version": "0.19.1",
+  "version": "1.20.0",
   "generated_from": "installed package source",
   "classes": {
     "Bot": {
       "summary": "The official Rubika Bot API. Token based, plain HTTP JSON.",
-      "method_count": 51,
+      "method_count": 68,
       "methods": [
         {
           "name": "ask",
@@ -68,7 +68,7 @@
           "signature": "disconnect(self: 'darkob.Bot')",
           "group": "bot",
           "module": "darkob.bot.session",
-          "doc": "Close the session synchronously, from any context:\n  - if a loop is running, schedule the close on it;\n  - if the owning loop is running in another thread, schedule there;\n  - otherwise, run a new/owner loop to completion."
+          "doc": "Close the session synchronously, from any context:\n  - schedule on a running owner (waiting briefly from synchronous code);\n  - run a stopped, open owner to completion from synchronous code;\n  - never block the current loop by waiting on itself.\n\nAn already-closed owner cannot await the transport close. This method\nraises an actionable error and retains the reference in that case; the\ntransport must instead be closed in its owner before that loop closes."
         },
         {
           "name": "download_file",
@@ -195,6 +195,125 @@
           "group": "bot",
           "module": "darkob.bot.member_is_owner",
           "doc": "Check whether a member is the owner of the given chat.\n\nParameters:\n    chat_id (str): chat_id of group (g0...) or channel (c0...).\n    user_id (str): user_id of the member (u0...).\n\nReturns:\n    bool: True if status is 'Creator', else False."
+        },
+        {
+          "name": "middleware",
+          "signature": "middleware(self)",
+          "group": "bot",
+          "module": "darkob.bot.middleware",
+          "doc": "Register an async middleware.\n\nMiddleware receives ``(bot, event, call_next)`` and **must**\ncall ``await call_next()`` to continue processing."
+        },
+        {
+          "name": "on_bot_joined",
+          "signature": "on_bot_joined(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.event_data",
+          "doc": "Handle the bot being added to a chat."
+        },
+        {
+          "name": "on_bot_permissions_changed",
+          "signature": "on_bot_permissions_changed(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.event_data",
+          "doc": "Handle a change in the bot's permissions in a chat."
+        },
+        {
+          "name": "on_bot_removed",
+          "signature": "on_bot_removed(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.event_data",
+          "doc": "Handle the bot being removed from a chat."
+        },
+        {
+          "name": "on_callback",
+          "signature": "on_callback(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.callback",
+          "doc": "Handle inline-keyboard button presses."
+        },
+        {
+          "name": "on_command",
+          "signature": "on_command(self, name: Union[str, List[str], None]=None, *constraints: EventConstraint, prefixes: Optional[List[str]]=None)",
+          "group": "bot",
+          "module": "darkob.bot.command",
+          "doc": "Handle a specific bot command (or list of commands).\n\nUsage:\n    @bot.on_command(\"start\")\n    @bot.on_command([\"start\", \"شروع\"])\n    @bot.on_command()"
+        },
+        {
+          "name": "on_delete_message",
+          "signature": "on_delete_message(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.message",
+          "doc": "Handle deleted messages."
+        },
+        {
+          "name": "on_edit_message",
+          "signature": "on_edit_message(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.message",
+          "doc": "Handle edited messages."
+        },
+        {
+          "name": "on_error",
+          "signature": "on_error(self)",
+          "group": "bot",
+          "module": "darkob.bot.lifecycle",
+          "doc": "Register a handler for exceptions escaping other handlers.\n\nCalled as ``handler(bot, exc, event)``. The event may be ``None``\nfor failures that are not tied to an update."
+        },
+        {
+          "name": "on_event_data",
+          "signature": "on_event_data(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.event_data",
+          "doc": "Handle every EventData update, whatever its event type."
+        },
+        {
+          "name": "on_message",
+          "signature": "on_message(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.message",
+          "doc": "Handle any message-related event:\nNewMessage, UpdatedMessage, RemovedMessage, or InlineMessage."
+        },
+        {
+          "name": "on_new_message",
+          "signature": "on_new_message(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.message",
+          "doc": "Handle brand-new messages."
+        },
+        {
+          "name": "on_shutdown",
+          "signature": "on_shutdown(self)",
+          "group": "bot",
+          "module": "darkob.bot.lifecycle",
+          "doc": "Register a callback that runs when the bot shuts down."
+        },
+        {
+          "name": "on_start",
+          "signature": "on_start(self)",
+          "group": "bot",
+          "module": "darkob.bot.lifecycle",
+          "doc": "Register a callback that runs once when the bot starts."
+        },
+        {
+          "name": "on_started_bot",
+          "signature": "on_started_bot(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.bot_status",
+          "doc": "Handle a user starting the bot."
+        },
+        {
+          "name": "on_stopped_bot",
+          "signature": "on_stopped_bot(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.bot_status",
+          "doc": "Handle a user stopping the bot."
+        },
+        {
+          "name": "on_update",
+          "signature": "on_update(self, *constraints: EventConstraint)",
+          "group": "bot",
+          "module": "darkob.bot.message",
+          "doc": "Handle *any* update type the server may send\n(NewMessage, UpdatedMessage, RemovedMessage, InlineMessage,\nStartedBot, StoppedBot, EventData, ...).\n\nPrefer the specific decorators (``on_message``, ``on_new_message``,\n``on_edit_message``, ...) whenever possible.\n\nUsage::\n\n    @bot.on_update()\n    async def handler(bot, event):\n        print(event.update_type)\n\n    @bot.on_update(IsGroup())\n    async def group_handler(bot, event):\n        print(event.update_type)"
         },
         {
           "name": "register_all_endpoints",
@@ -921,7 +1040,7 @@
           "signature": "download_file(self: 'darkob.Messenger', file_inline: Optional[Union[dict, 'Data']]=None, dc_id: Optional[int]=None, file_id: Optional[int]=None, access_hash: Optional[str]=None, size: Optional[int]=None, chunk: int=131072, callback: Optional[Callable[[int, int], Optional['asyncio.Future']]]=None, gather: bool=False, save_as: Optional[Union[str, bool]]=None, file_name: Optional[str]=None, as_base64: bool=False)",
           "group": "base",
           "module": "darkob.client.base.download_file",
-          "doc": "Download a file from Rubika/Shad.\n\nParameters:\n    file_inline (dict | Data, optional): File inline object from messages.\n        If provided, dc_id, file_id, access_hash, size will be extracted.\n    dc_id (int, optional): Data Center ID (if file_inline not provided).\n    file_id (int, optional): Unique identifier of the file.\n    access_hash (str, optional): Access hash associated with the file.\n    size (int, optional): Total size of the file in bytes.\n    chunk (int, optional): Size of each download chunk (default: 131072).\n    callback (callable, optional): Progress callback(total_size, downloaded_size).\n    gather (bool, optional): Download chunks in parallel (default: False).\n    save_as (str | bool, optional): Directory path or True for current dir. If None, returns bytes.\n    file_name (str, optional): Custom file name.\n    as_base64 (bool, optional): Return as base64 encoded string (default: False).\n\nReturns:\n    bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used)."
+          "doc": "Download a file from Rubika/Shad.\n\nParameters:\n    file_inline (dict | Data, optional): File inline object from messages.\n        If provided, dc_id, file_id, access_hash, size will be extracted.\n    dc_id (int, optional): Data Center ID (if file_inline not provided).\n    file_id (int, optional): Unique identifier of the file.\n    access_hash (str, optional): Access hash associated with the file.\n    size (int, optional): Total size of the file in bytes.\n    chunk (int, optional): Size of each download chunk (default: 131072).\n    callback (callable, optional): Progress callback(total_size, downloaded_size).\n    gather (bool, optional): Download chunks in parallel (default: False).\n    save_as (str | bool, optional): Directory path or True for current dir. If None, returns bytes.\n    file_name (str, optional): Custom file name.\n    as_base64 (bool, optional): Return as base64 encoded string (default: False).\n\nReturns:\n    bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).\n\nRaises:\n    NetworkError: A chunk fails all retries or returns the wrong length.\n        With save_as, a partial file is left on disk; no OK result is returned."
         },
         {
           "name": "download_profile_picture",
@@ -3573,7 +3692,7 @@
           "signature": "download_file(self: 'darkob.Messenger', file_inline: Optional[Union[dict, 'Data']]=None, dc_id: Optional[int]=None, file_id: Optional[int]=None, access_hash: Optional[str]=None, size: Optional[int]=None, chunk: int=131072, callback: Optional[Callable[[int, int], Optional['asyncio.Future']]]=None, gather: bool=False, save_as: Optional[Union[str, bool]]=None, file_name: Optional[str]=None, as_base64: bool=False)",
           "group": "base",
           "module": "darkob.client.base.download_file",
-          "doc": "Download a file from Rubika/Shad.\n\nParameters:\n    file_inline (dict | Data, optional): File inline object from messages.\n        If provided, dc_id, file_id, access_hash, size will be extracted.\n    dc_id (int, optional): Data Center ID (if file_inline not provided).\n    file_id (int, optional): Unique identifier of the file.\n    access_hash (str, optional): Access hash associated with the file.\n    size (int, optional): Total size of the file in bytes.\n    chunk (int, optional): Size of each download chunk (default: 131072).\n    callback (callable, optional): Progress callback(total_size, downloaded_size).\n    gather (bool, optional): Download chunks in parallel (default: False).\n    save_as (str | bool, optional): Directory path or True for current dir. If None, returns bytes.\n    file_name (str, optional): Custom file name.\n    as_base64 (bool, optional): Return as base64 encoded string (default: False).\n\nReturns:\n    bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used)."
+          "doc": "Download a file from Rubika/Shad.\n\nParameters:\n    file_inline (dict | Data, optional): File inline object from messages.\n        If provided, dc_id, file_id, access_hash, size will be extracted.\n    dc_id (int, optional): Data Center ID (if file_inline not provided).\n    file_id (int, optional): Unique identifier of the file.\n    access_hash (str, optional): Access hash associated with the file.\n    size (int, optional): Total size of the file in bytes.\n    chunk (int, optional): Size of each download chunk (default: 131072).\n    callback (callable, optional): Progress callback(total_size, downloaded_size).\n    gather (bool, optional): Download chunks in parallel (default: False).\n    save_as (str | bool, optional): Directory path or True for current dir. If None, returns bytes.\n    file_name (str, optional): Custom file name.\n    as_base64 (bool, optional): Return as base64 encoded string (default: False).\n\nReturns:\n    bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).\n\nRaises:\n    NetworkError: A chunk fails all retries or returns the wrong length.\n        With save_as, a partial file is left on disk; no OK result is returned."
         },
         {
           "name": "download_profile_picture",

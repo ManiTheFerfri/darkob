@@ -95,7 +95,7 @@ class UploadFile:
             else:
                 mime = "bin"
 
-        max_retries = self.max_retries
+        max_retries = max(1, int(self.max_retries))
 
         async def handle_callback(total: int, current: int):
             if not callable(callback):

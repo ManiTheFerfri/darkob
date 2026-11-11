@@ -1,15 +1,15 @@
 # darkob — complete reference
 
-darkob 0.19.1 — async Python for the Rubika and Shad messaging platforms.
+darkob 1.20.0 — async Python for the Rubika and Shad messaging platforms.
 
-Read this file top to bottom before writing code. It contains the full public API (every real signature), the filter catalogue, the patterns, and the mistakes to avoid. No other page is required.
+Read this file top to bottom before writing code. It contains curated guidance, the filter catalogue, and all six client APIs with real signatures. Consult llms.txt for documentation pages omitted here.
 
 Hard rules:
 - Handlers are `async def name(bot, event)`.
 - `event`, never `message`; `event.chat_id`, never `event.chat.id`.
 - Filters come from `darkob.bot.filters` and are INSTANTIATED: `IsGroup()`, not `IsGroup`.
 - There is no Dispatcher, no message_handler, no aiogram/Pyrogram types.
-- If a method is not in the API section below, it does not exist.
+- Verify client methods in the API below; Bot instance decorators are included.
 
 
 ---
@@ -18,8 +18,12 @@ Hard rules:
 
 ## Requirements
 
-- Python **3.9 – 3.14**
+- Python **3.10 – 3.14** for darkob 1.20.0 Stable and later
 - Linux, macOS or Windows
+
+Darkob 0.19.1 is the last release line supporting Python 3.9. It does not
+receive the dependency security floor of 1.20.0; use it only when upgrading
+Python is not possible.
 
 ## Install
 
@@ -27,9 +31,9 @@ Hard rules:
 pip install darkob
 ```
 
-The core install is deliberately small — `aiohttp`, `aiofiles` and
-`pycryptodome`. Nothing else is required, and no method is lost
-when the extras are absent.
+The core install is deliberately small — `aiohttp>=3.14.4,<4`, `aiofiles`
+and `pycryptodome`. Nothing else is required, and no method is lost when the
+extras are absent.
 
 Optional extras:
 
@@ -69,7 +73,7 @@ git clone https://github.com/ManiTheFerfri/darkob.git
 cd darkob
 pip install -e ".[dev]"
 
-pytest                 # 121 tests, no network required
+pytest                 # 800+ tests, no network required
 ruff check .           # lint
 pytest --cov=darkob    # coverage
 ```
@@ -116,6 +120,8 @@ async def start(bot, event):
 
 @bot.on_new_message()
 async def echo(bot, event):
+    if not event.text:
+        return
     await event.reply(event.text)
 
 bot.run()
@@ -137,7 +143,7 @@ async def hello(bot, event):
 | --- | --- |
 | `event.chat_id` | Conversation to reply in |
 | `event.author_id` | User who sent it |
-| `event.text` | Message text (`""` when there is none) |
+| `event.text` | Message text (`None` when there is none) |
 | `event.reply(text)` | Shortcut: send into the same chat |
 | `event.forward()`, `event.delete()` | Act on the message |
 
@@ -153,8 +159,8 @@ bot.run(
 )
 ```
 
-Turbo mode is `bot.run()` with no arguments — it polls every 5 ms by
-default, tunable with `poll_interval`.
+`bot.run()` polls every 50 ms by default, tunable with `poll_interval`.
+The lower-level `bot.start()` default is 5 ms.
 
 !!! warning "Always set a webhook secret"
     A webhook URL that leaks lets anyone inject fake updates into
@@ -183,11 +189,11 @@ bot.set_commands({
 
 Once one file stops being enough:
 
-- [Handlers](handlers.md) — every decorator and what triggers it
-- [Filters](filters.md) — narrow down which events a handler sees
-- [Routers](routers.md) — split handlers into modules
-- [Conversations](fsm.md) — multi-step flows
-- [Errors](errors.md) — stop silent failures
+- [Handlers](../guides/handlers.md) — every decorator and what triggers it
+- [Filters](../guides/filters.md) — narrow down which events a handler sees
+- [Routers](../guides/routers.md) — split handlers into modules
+- [Conversations](../guides/fsm.md) — multi-step flows
+- [Errors](../guides/errors.md) — stop silent failures
 
 ## Async or not?
 
@@ -244,17 +250,16 @@ darkob APIs, so a half-migrated file still imports cleanly. The
 module emits a `DeprecationWarning` on import to remind you it is a
 migration aid, not a destination.
 
-## 2. Re-authenticate existing sessions
+## 2. Keep or migrate existing sessions
 
-!!! warning "Old session files will not load"
-    darkob derives its session encryption key from a different salt than
-    maxrubika, and prefixes session files with `darkob_` instead of
-    `maxrubika_`. Existing encrypted sessions, string sessions and bot
-    tokens cannot be carried over — log in again and store the new
-    credentials.
+Existing encrypted `.max` sessions and legacy string sessions remain readable:
+darkob tries both the current and legacy decryption keys. Supported older file
+formats are migrated without deleting the source file. Bot tokens need no
+migration; use the same token.
 
-This is deliberate: a fork should not silently reuse key material from a
-different package.
+Keep a backup before testing a migrated account. Re-authentication is only
+needed for a corrupt file, a wrong password, or a format the loader does not
+support.
 
 ## 3. Behaviour that changed
 
@@ -278,7 +283,7 @@ different package.
 
 ```python
 import darkob
-print(darkob.__version__)   # 0.2.x
+print(darkob.__version__)   # installed version
 ```
 
 Then run your bot through its normal path. If something that used to log
@@ -452,7 +457,7 @@ A hands-on walkthrough that ends with a bot which echoes, answers one command, a
 pip install darkob
 ```
 
-darkob needs Python 3.9 or newer. Confirm the install:
+darkob 1.20.0+ needs Python 3.10 or newer. Confirm the install:
 
 ```bash
 python -c "import darkob; print(darkob.__version__)"
@@ -486,6 +491,8 @@ bot = Bot(token="YOUR_BOT_TOKEN")
 
 @bot.on_new_message()
 async def echo(bot, event):
+    if not event.text:
+        return
     await event.reply(event.text)
 
 bot.run()
@@ -1035,8 +1042,6 @@ state, so it will not hijack unrelated messages.
 
 `JsonFileStorage` writes atomically, tolerates a corrupt file (it starts
 empty rather than crashing), and is safe to call from concurrent tasks.
-
-`JsonFileStorage` writes atomically and tolerates a corrupt file.
 `SQLiteStorage` runs in WAL mode, so it survives a hard kill mid-write
 and is safe for several tasks writing at once.
 
@@ -1244,11 +1249,13 @@ await bot.send_message(chat_id, "Menu", chat_keypad=Keyboard().row("Help", "Sett
 ### Chaining
 
 ```python
-Keyboard()                    # empty
+(
+    Keyboard()                # empty
     .row("A", "B")            # one row, two buttons
     .row("C")                 # second row
     .button("Alone")          # a row with a single button
     .clear()                  # remove all rows
+)
 ```
 
 Inspect before sending:
@@ -1354,9 +1361,9 @@ keypad = (
 | `Button.payment(text, **fields)` | `Payment` | **Requires** extra fields; a bare one is rejected by the API |
 | `Button.of("CameraImage", text)` | any | Escape hatch for the remaining types |
 
-Verified against the live API: all 19 types are accepted, except a bare
-`Payment` button, which returns `INVALID_INPUT`. `Button.payment` therefore
-raises `ValueError` if you do not pass the fields it needs.
+All 19 documented types have builders. `Button.payment` raises `ValueError`
+locally when required fields are missing, so that malformed request fails
+before any network call. Server acceptance still requires a live check.
 
 ## Enums
 
@@ -1600,14 +1607,14 @@ WebSocket path.
 Rubika reshuffles its data-centre endpoints from time to time. A tracker
 makes that visible instead of mysterious:
 
-`python
+```python
 from darkob import ProtocolTracker
 
 tracker = ProtocolTracker(path="protocol.json")
 changes = tracker.record(client.connection, client)
 if changes:
     print("protocol changed:", changes)
-`
+```
 
 It snapshots the API and socket URLs, the endpoint codes, the platform and
 the app version, stores the last snapshot, and reports differences.
@@ -1682,7 +1689,7 @@ functions, so they are easy to unit test.
 ## What darkob does not do
 
 - It never swallows `KeyboardInterrupt` or `SystemExit` — only `Exception`.
-- It does not retry `4xx` responses from the Bot API; those are your bug.
+- It retries only `429` among client errors; other `4xx` responses are your bug.
 - It does not hide handler crashes: a failing handler is logged with a
   traceback and the remaining handlers still run.
 
@@ -1732,8 +1739,9 @@ loop is shut down at interpreter exit.
 | `async` | You already run a loop, or you need concurrency |
 | `sync` | A script, a cron job, a quick prototype |
 
-Pick one per codebase. Mixing works, but sync calls inside an async
-handler block the loop while they wait.
+Pick one per codebase. Inside a running event loop, a hybrid method returns
+a coroutine just like any other `async def`: if you do not `await` it, it does
+not execute. Use `await` inside async handlers.
 
 ## Calling sync code inside an async handler
 
@@ -1744,7 +1752,7 @@ import asyncio
 
 @bot.on_command("report")
 async def report(bot, event):
-    await asyncio.to_thread(bot.get_chats)   # careful: pre-bound args
+    await asyncio.to_thread(bot.get_me)      # sync form in a separate thread
 ```
 
 Prefer rewriting the call as `await`.
@@ -1795,6 +1803,9 @@ Handlers are plain functions. Call them with a stand-in event:
 
 ```python
 from types import SimpleNamespace
+
+async def _noop():
+    pass
 
 async def test_echo_replies(monkeypatch):
     replies = []
@@ -2827,14 +2838,14 @@ Pick the smallest input that answers your question:
 | [`llms-full.txt`](../llms-full.txt) | large | The model must answer anything; paste wholesale |
 | `api/bot.md`, `api/messenger.md` | medium | You are working on one surface |
 
-Every page on this site is also available as raw Markdown: replace `.html`
-with `.md` in any URL. That gives an assistant clean text with no
-navigation chrome.
+Every page on this site is also available as raw Markdown: replace a pretty
+URL's trailing `/` with `.md` (for example `/guides/routers/` →
+`/guides/routers.md`). That gives an assistant clean text without navigation.
 
 ## The minimum viable prompt
 
 ```text
-You are writing a chatbot with the Python library `darkob` (v0.2+),
+You are writing a chatbot with the Python library `darkob` (v0.19+),
 for the Rubika messaging platform.
 
 Rules:
@@ -2901,7 +2912,7 @@ A workflow that reliably produces working bots:
 
 | Symptom | Cause | Fix in your prompt |
 | --- | --- | --- |
-| `TypeError: object NoneType can't be used in 'await'` | Called a sync method with `await` inside a non-async path, or vice versa | "All documented methods are awaitable unless marked sync" |
+| A hybrid call never executes | The coroutine was created inside async code but never awaited | "Inside async code, hybrid methods return coroutines and must be awaited" |
 | `ModuleNotFoundError: maxrubika` | Model defaulted to the upstream package | "The package is darkob; maxrubika is deprecated" |
 | Handler never fires | Wrong decorator for the update type | Point it at [Handlers](../guides/handlers.md) |
 | Filters never match | Passing the class instead of an instance | "Filters are instantiated: `IsGroup()`" |
@@ -2911,7 +2922,7 @@ A workflow that reliably produces working bots:
 ---
 # COMPLETE API: every public signature
 
-## Bot (51 methods)
+## Bot (68 methods)
 
 ### `ask(localself, chat_id: str, text: Optional[str]=None, *, filters: Optional[list]=None, timeout: float=60.0, inline_keypad: Any=None, chat_keypad: Any=None)`
 
@@ -2993,9 +3004,13 @@ Returns:
 ### `disconnect(self: 'darkob.Bot')`
 
 Close the session synchronously, from any context:
-  - if a loop is running, schedule the close on it;
-  - if the owning loop is running in another thread, schedule there;
-  - otherwise, run a new/owner loop to completion.
+  - schedule on a running owner (waiting briefly from synchronous code);
+  - run a stopped, open owner to completion from synchronous code;
+  - never block the current loop by waiting on itself.
+
+An already-closed owner cannot await the transport close. This method
+raises an actionable error and retains the reference in that case; the
+transport must instead be closed in its owner before that loop closes.
 
 ### `download_file(self: 'darkob.Bot', file_id: str, name: Optional[str]=None, path: Optional[str]=None, save_as: bool=False, as_base64: bool=False, callback: Optional[Callable[[int, int, float], None]]=None, resume: bool=True)`
 
@@ -3253,6 +3268,101 @@ Parameters:
 
 Returns:
     bool: True if status is 'Creator', else False.
+
+### `middleware(self)`
+
+Register an async middleware.
+
+Middleware receives ``(bot, event, call_next)`` and **must**
+call ``await call_next()`` to continue processing.
+
+### `on_bot_joined(self, *constraints: EventConstraint)`
+
+Handle the bot being added to a chat.
+
+### `on_bot_permissions_changed(self, *constraints: EventConstraint)`
+
+Handle a change in the bot's permissions in a chat.
+
+### `on_bot_removed(self, *constraints: EventConstraint)`
+
+Handle the bot being removed from a chat.
+
+### `on_callback(self, *constraints: EventConstraint)`
+
+Handle inline-keyboard button presses.
+
+### `on_command(self, name: Union[str, List[str], None]=None, *constraints: EventConstraint, prefixes: Optional[List[str]]=None)`
+
+Handle a specific bot command (or list of commands).
+
+Usage:
+    @bot.on_command("start")
+    @bot.on_command(["start", "شروع"])
+    @bot.on_command()
+
+### `on_delete_message(self, *constraints: EventConstraint)`
+
+Handle deleted messages.
+
+### `on_edit_message(self, *constraints: EventConstraint)`
+
+Handle edited messages.
+
+### `on_error(self)`
+
+Register a handler for exceptions escaping other handlers.
+
+Called as ``handler(bot, exc, event)``. The event may be ``None``
+for failures that are not tied to an update.
+
+### `on_event_data(self, *constraints: EventConstraint)`
+
+Handle every EventData update, whatever its event type.
+
+### `on_message(self, *constraints: EventConstraint)`
+
+Handle any message-related event:
+NewMessage, UpdatedMessage, RemovedMessage, or InlineMessage.
+
+### `on_new_message(self, *constraints: EventConstraint)`
+
+Handle brand-new messages.
+
+### `on_shutdown(self)`
+
+Register a callback that runs when the bot shuts down.
+
+### `on_start(self)`
+
+Register a callback that runs once when the bot starts.
+
+### `on_started_bot(self, *constraints: EventConstraint)`
+
+Handle a user starting the bot.
+
+### `on_stopped_bot(self, *constraints: EventConstraint)`
+
+Handle a user stopping the bot.
+
+### `on_update(self, *constraints: EventConstraint)`
+
+Handle *any* update type the server may send
+(NewMessage, UpdatedMessage, RemovedMessage, InlineMessage,
+StartedBot, StoppedBot, EventData, ...).
+
+Prefer the specific decorators (``on_message``, ``on_new_message``,
+``on_edit_message``, ...) whenever possible.
+
+Usage::
+
+    @bot.on_update()
+    async def handler(bot, event):
+        print(event.update_type)
+
+    @bot.on_update(IsGroup())
+    async def group_handler(bot, event):
+        print(event.update_type)
 
 ### `register_all_endpoints(self: 'darkob.Bot', base_url: str, endpoints: Optional[List[str]]=None)`
 
@@ -4536,6 +4646,10 @@ Parameters:
 
 Returns:
     bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).
+
+Raises:
+    NetworkError: A chunk fails all retries or returns the wrong length.
+        With save_as, a partial file is left on disk; no OK result is returned.
 
 ### `download_profile_picture(self: 'darkob.Messenger', chat: Optional[str]=None, file_id: Optional[str]=None, access_hash_rec: Optional[str]=None, dc_id: Optional[str]=None, save_as: Optional[Union[str, bool]]=None, save_all: bool=False)`
 
@@ -8863,6 +8977,10 @@ Parameters:
 
 Returns:
     bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).
+
+Raises:
+    NetworkError: A chunk fails all retries or returns the wrong length.
+        With save_as, a partial file is left on disk; no OK result is returned.
 
 ### `download_profile_picture(self: 'darkob.Messenger', chat: Optional[str]=None, file_id: Optional[str]=None, access_hash_rec: Optional[str]=None, dc_id: Optional[str]=None, save_as: Optional[Union[str, bool]]=None, save_all: bool=False)`
 

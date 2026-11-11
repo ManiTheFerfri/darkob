@@ -17,11 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # ubuntu-latest (26.04) has no Python 3.9 build, so the oldest
-        # supported interpreter runs on an older image.
+        # Python 3.9 is frozen at darkob 0.19.1. The aiohttp 3.14.4 security
+        # fixes require Python 3.10+, reflected in this matrix.
         include:
-          - python-version: "3.9"
-            os: ubuntu-22.04
           - python-version: "3.10"
             os: ubuntu-latest
           - python-version: "3.11"

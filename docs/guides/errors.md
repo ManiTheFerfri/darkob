@@ -95,14 +95,14 @@ WebSocket path.
 Rubika reshuffles its data-centre endpoints from time to time. A tracker
 makes that visible instead of mysterious:
 
-`python
+```python
 from darkob import ProtocolTracker
 
 tracker = ProtocolTracker(path="protocol.json")
 changes = tracker.record(client.connection, client)
 if changes:
     print("protocol changed:", changes)
-`
+```
 
 It snapshots the API and socket URLs, the endpoint codes, the platform and
 the app version, stores the last snapshot, and reports differences.
@@ -177,7 +177,7 @@ functions, so they are easy to unit test.
 ## What darkob does not do
 
 - It never swallows `KeyboardInterrupt` or `SystemExit` — only `Exception`.
-- It does not retry `4xx` responses from the Bot API; those are your bug.
+- It retries only `429` among client errors; other `4xx` responses are your bug.
 - It does not hide handler crashes: a failing handler is logged with a
   traceback and the remaining handlers still run.
 

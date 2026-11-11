@@ -1,6 +1,6 @@
-# راهنمای شروع سریع
+<div dir="rtl" lang="fa" markdown="1">
 
-<div dir="rtl" markdown="1">
+# راهنمای شروع سریع
 
 **darkob** کتابخانه‌ای سریع و پایدار برای ساخت ربات و یوزربات در
 پیام‌رسان‌های **روبیکا** و **شاد** است.
@@ -24,6 +24,8 @@ async def start(bot, event):
 
 @bot.on_new_message()
 async def echo(bot, event):
+    if not event.text:
+        return
     await event.reply(event.text)
 
 bot.run()

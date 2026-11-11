@@ -4,9 +4,9 @@
 #   runtime - a clean python:3.12-slim that receives only that virtualenv.
 #             No pip cache, no build tooling, no repository source, no token.
 #
-# This image installs darkob from PyPI: it is a runtime for people deploying
-# their own bot, not a development environment for this repository. Pin the
-# pip line below (e.g. "darkob[speed]==0.17.0") when you want a frozen runtime.
+# This image installs darkob from the checked-out source: a tagged image contains
+# the same code as its tag, regardless of PyPI publication timing. It is a runtime
+# for people deploying their own bot, not a development environment.
 
 FROM python:3.12-slim AS builder
 
@@ -17,9 +17,11 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# "speed" is the msgspec-backed extra. Nothing local is copied: the image is
-# built from the published package, so any checkout produces the same image.
-RUN pip install --no-cache-dir "darkob[speed]"
+# "speed" is the msgspec-backed extra. Copy only packaging inputs and library
+# source; tests, docs, caches, local secrets and development tools stay out.
+COPY pyproject.toml README.md LICENSE ./
+COPY darkob ./darkob
+RUN pip install --no-cache-dir ".[speed]"
 
 FROM python:3.12-slim AS runtime
 

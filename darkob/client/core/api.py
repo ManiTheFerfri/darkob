@@ -94,6 +94,10 @@ class Api:
         # registered handler for every incoming update.
         self._dispatch_index: Optional[Dict[str, List[Tuple[Callable, Any]]]] = None
         self._dispatch_sig: Optional[Tuple[int, int]] = None
+        # Registered source object per handler function. Used to notice a
+        # handler replaced in-place without making dispatch O(handlers)
+        # again, or invalidating the identity of class-based filters.
+        self._dispatch_originals: Dict[Callable, Any] = {}
         self._background_tasks: Set["asyncio.Task"] = set()
 
         # Pooled sessions for file servers; a new ClientSession per
@@ -453,9 +457,11 @@ class Api:
     def _build_dispatch_index(self) -> Dict[str, List[Tuple[Callable, Any]]]:
         """Group handlers by the update name they handle, once."""
         index: Dict[str, List[Tuple[Callable, Any]]] = {}
+        originals: Dict[Callable, Any] = {}
         handlers = self.client.handlers
 
         for func, handler in handlers.items():
+            originals[func] = handler
             # Handler classes were previously instantiated for every incoming
             # event; instantiate once here instead.
             if isinstance(handler, type):
@@ -473,6 +479,7 @@ class Api:
             index.setdefault(name, []).append((func, handler))
 
         self._dispatch_index = index
+        self._dispatch_originals = originals
         self._dispatch_sig = (len(handlers), id(handlers))
         return index
 
@@ -480,6 +487,7 @@ class Api:
         """Drop the cached index so the next update rebuilds it."""
         self._dispatch_index = None
         self._dispatch_sig = None
+        self._dispatch_originals = {}
 
     def _handlers_for(self, update_name: str) -> List[Tuple[Callable, Any]]:
         handlers = self.client.handlers
@@ -488,7 +496,14 @@ class Api:
         if self._dispatch_index is None or self._dispatch_sig != signature:
             return self._build_dispatch_index().get(update_name, [])
 
-        return self._dispatch_index.get(update_name, [])
+        targets = self._dispatch_index.get(update_name, [])
+        if any(
+            handlers.get(func) is not self._dispatch_originals.get(func)
+            for func, _handler in targets
+        ):
+            return self._build_dispatch_index().get(update_name, [])
+
+        return targets
 
     def _spawn(self, coro) -> None:
         """Run a coroutine in the background, keeping a strong reference."""
@@ -596,3 +611,9 @@ class Api:
                 )
                 if manager is not None and manager.active:
                     await manager.run_on_error(exc, {"update": name})
+
+                # Once a handler matches in stop-on-first mode, its failure
+                # must not accidentally fall through to the next matching
+                # handler. The error is still logged/reported above.
+                if self.client.stop_on_first_match:
+                    break

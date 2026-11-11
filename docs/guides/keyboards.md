@@ -26,11 +26,13 @@ await bot.send_message(chat_id, "Menu", chat_keypad=Keyboard().row("Help", "Sett
 ### Chaining
 
 ```python
-Keyboard()                    # empty
+(
+    Keyboard()                # empty
     .row("A", "B")            # one row, two buttons
     .row("C")                 # second row
     .button("Alone")          # a row with a single button
     .clear()                  # remove all rows
+)
 ```
 
 Inspect before sending:
@@ -136,9 +138,9 @@ keypad = (
 | `Button.payment(text, **fields)` | `Payment` | **Requires** extra fields; a bare one is rejected by the API |
 | `Button.of("CameraImage", text)` | any | Escape hatch for the remaining types |
 
-Verified against the live API: all 19 types are accepted, except a bare
-`Payment` button, which returns `INVALID_INPUT`. `Button.payment` therefore
-raises `ValueError` if you do not pass the fields it needs.
+All 19 documented types have builders. `Button.payment` raises `ValueError`
+locally when required fields are missing, so that malformed request fails
+before any network call. Server acceptance still requires a live check.
 
 ## Enums
 

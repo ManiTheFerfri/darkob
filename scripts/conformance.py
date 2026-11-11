@@ -1,8 +1,8 @@
-"""Live conformance check for every Bot API method.
+"""Live conformance checks for selected Bot API methods.
 
-Static review can prove that endpoint names and payload keys match the
-documentation. Only a real token can prove the server accepts them. This
-script does the second half.
+Only an explicit ``{"status": "OK"}`` response from the requested method is
+a PASS. Skipped checks are unverified, never evidence of server support.
+
 
 Usage
 -----
@@ -11,8 +11,9 @@ Usage
     export DARKOB_CHAT_ID=g0...                    # a chat the bot is in
     python scripts/conformance.py --writes         # also exercise sending
 
-Write tests clean up after themselves: every message they create is
-deleted again, and commands are restored to whatever they were.
+Write tests delete every message they create. They do not change commands,
+membership, or endpoint registration because those changes cannot be restored
+safely without a known prior state or a disposable member.
 
 Exit code is non-zero if any check FAILS (skips do not fail).
 """
@@ -65,21 +66,29 @@ async def check(method: str, coro_factory: Callable[[], Any]) -> Any:
     payload = unwrap(value)
     status = payload.get("status") if isinstance(payload, dict) else None
 
-    if status in (None, "OK"):
+    if status == "OK":
         record(method, PASS, f"{elapsed:.0f} ms")
     else:
-        record(method, FAIL, f"server status={status}")
+        shown = "missing" if status is None else status
+        record(method, FAIL, f"server status={shown}")
     return value
 
 
-def first_message_id(updates: Any) -> Optional[str]:
+def first_file_id(updates: Any) -> Optional[str]:
+    """Return a file id nested in an update payload, if present."""
     try:
         data = unwrap(updates).get("data") or {}
         for update in data.get("updates") or []:
-            message = update.get("message") or {}
-            if message.get("message_id"):
-                return str(message["message_id"])
-    except Exception:
+            stack = [update.get("message") or {}]
+            while stack:
+                value = stack.pop()
+                if isinstance(value, dict):
+                    if value.get("file_id"):
+                        return str(value["file_id"])
+                    stack.extend(reversed(list(value.values())))
+                elif isinstance(value, list):
+                    stack.extend(reversed(value))
+    except (AttributeError, TypeError):
         pass
     return None
 
@@ -97,7 +106,6 @@ async def main(argv: Optional[List[str]] = None) -> int:
         return 2
 
     from darkob import Bot
-    from darkob.bot.exceptions import APIException
 
     bot = Bot(token=args.token, show_welcome=False, retry=None, max_retries=2)
 
@@ -111,11 +119,11 @@ async def main(argv: Optional[List[str]] = None) -> int:
     else:
         record("getChat", SKIP, "set DARKOB_CHAT_ID")
 
-    message_id = first_message_id(updates)
-    if message_id and args.chat:
-        await check("getFile", lambda: _probe_file(bot, args.chat, message_id))
+    file_id = first_file_id(updates)
+    if file_id:
+        await check("getFile", lambda: _probe_file(bot, file_id))
     else:
-        record("getFile", SKIP, "needs a chat + an incoming message")
+        record("getFile", SKIP, "needs an update containing a file_id")
 
     if not args.writes:
         for name in (
@@ -149,8 +157,7 @@ async def main(argv: Optional[List[str]] = None) -> int:
             await check("editMessageKeypad", lambda: bot.edit_inline_keypad(
                 chat, edit_target, [["A", "B"]]))
 
-        await check("setCommands", lambda: bot.set_commands(
-            {"conformance": "conformance check"}))
+        record("setCommands", SKIP, "destructive; no read-back or safe restore")
 
         await check("sendLocation", lambda: bot.send_location(chat, 35.7, 51.4))
 
@@ -160,52 +167,30 @@ async def main(argv: Optional[List[str]] = None) -> int:
         await check("sendPoll", lambda: bot.send_poll(
             chat, "conformance poll?", ["yes", "no"]))
 
-        upload = await check("requestSendFile",
-                             lambda: bot.request_send_file("File"))
-        if upload is not None and isinstance(upload, dict):
-            url = (upload.get("data") or {}).get("url")
-            if url:
-                record("sendFile", SKIP, "upload URL returned; needs a real file")
+        await check("requestSendFile", lambda: bot.request_send_file("File"))
+        record("editChatKeypad", SKIP, "not exercised; no keypad restoration")
+        record("sendFile", SKIP, "not exercised; needs a local file fixture")
 
         if created:
             await check("forwardMessage", lambda: bot.forward_message(
                 chat, created[0], chat))
 
-        await check("banChatMember", lambda: _expect_rejection(
-            bot.ban_member(chat, "u0" + "a" * 30)))
-
-        await check("unbanChatMember", lambda: _expect_rejection(
-            bot.unban_member(chat, "u0" + "a" * 30)))
+        record("banChatMember", SKIP, "needs a disposable group member")
+        record("unbanChatMember", SKIP, "needs a disposable banned member")
 
         record("updateBotEndpoints", SKIP, "destructive; not run automatically")
     finally:
         for message_id in filter(None, created):
-            try:
-                await bot.delete_message(chat, message_id)
-            except APIException:
-                pass
-        try:
-            await bot.set_commands({})
-        except APIException:
-            pass
-        record("deleteMessage", PASS if created else SKIP, "cleaned up")
+            await check("deleteMessage", lambda mid=message_id: bot.delete_message(chat, mid))
+        if not created:
+            record("deleteMessage", SKIP, "no message was created")
 
     return _summary(bot)
 
 
-async def _probe_file(bot: Any, chat: str, message_id: str) -> Any:
-    """Ask for file metadata on a message that has a file, if any."""
-    info = await bot.get_chat_info(chat)
-    return info
-
-
-async def _expect_rejection(coro: Any) -> Any:
-    """A bogus user id should be rejected; being rejected proves the endpoint exists."""
-    try:
-        await coro
-    except Exception as exc:
-        return {"status": "OK", "detail": f"rejected as expected: {type(exc).__name__}"}
-    return {"status": "OK", "detail": "accepted"}
+async def _probe_file(bot: Any, file_id: str) -> Any:
+    """Return getFile's own response; never substitute another endpoint."""
+    return await bot.get_file(file_id)
 
 
 def _message_id(result: Any) -> Optional[str]:

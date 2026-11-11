@@ -14,14 +14,14 @@ Pick the smallest input that answers your question:
 | [`llms-full.txt`](../llms-full.txt) | large | The model must answer anything; paste wholesale |
 | `api/bot.md`, `api/messenger.md` | medium | You are working on one surface |
 
-Every page on this site is also available as raw Markdown: replace `.html`
-with `.md` in any URL. That gives an assistant clean text with no
-navigation chrome.
+Every page on this site is also available as raw Markdown: replace a pretty
+URL's trailing `/` with `.md` (for example `/guides/routers/` →
+`/guides/routers.md`). That gives an assistant clean text without navigation.
 
 ## The minimum viable prompt
 
 ```text
-You are writing a chatbot with the Python library `darkob` (v0.2+),
+You are writing a chatbot with the Python library `darkob` (v0.19+),
 for the Rubika messaging platform.
 
 Rules:
@@ -88,7 +88,7 @@ A workflow that reliably produces working bots:
 
 | Symptom | Cause | Fix in your prompt |
 | --- | --- | --- |
-| `TypeError: object NoneType can't be used in 'await'` | Called a sync method with `await` inside a non-async path, or vice versa | "All documented methods are awaitable unless marked sync" |
+| A hybrid call never executes | The coroutine was created inside async code but never awaited | "Inside async code, hybrid methods return coroutines and must be awaited" |
 | `ModuleNotFoundError: maxrubika` | Model defaulted to the upstream package | "The package is darkob; maxrubika is deprecated" |
 | Handler never fires | Wrong decorator for the update type | Point it at [Handlers](../guides/handlers.md) |
 | Filters never match | Passing the class instead of an instance | "Filters are instantiated: `IsGroup()`" |

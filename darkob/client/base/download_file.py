@@ -2,6 +2,8 @@ import asyncio
 import os
 from typing import Callable, Optional, Union, TYPE_CHECKING
 
+from ..exceptions import NetworkError
+
 if TYPE_CHECKING:
     import darkob
     from ...data import Data
@@ -41,6 +43,10 @@ class DownloadFile:
 
         Returns:
             bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).
+
+        Raises:
+            NetworkError: A chunk fails all retries or returns the wrong length.
+                With save_as, a partial file is left on disk; no OK result is returned.
         """
         import inspect
         import base64
@@ -65,7 +71,7 @@ class DownloadFile:
             if not file_name:
                 file_name = fi.find_keys('file_name')
 
-        if not all([dc_id, file_id, access_hash, size]):
+        if any(value is None for value in (dc_id, file_id, access_hash, size)):
             raise exceptions.InvalidInput(
                 "Either 'file_inline' or all of 'dc_id', 'file_id', 'access_hash', 'size' must be provided."
             )
@@ -97,6 +103,7 @@ class DownloadFile:
                 "start-index": str(start),
                 "last-index": str(end),
             }
+            expected_length = end - start + 1
             for attempt in range(max_retries):
                 try:
                     async with session.post(
@@ -105,7 +112,13 @@ class DownloadFile:
                         proxy=self.proxy
                     ) as resp:
                         if resp.status == 200:
-                            return await resp.read()
+                            data = await resp.read()
+                            if len(data) != expected_length:
+                                raise NetworkError(
+                                    f"Chunk {start}-{end} returned {len(data)} bytes; "
+                                    f"expected {expected_length}."
+                                )
+                            return data
                         if resp.status >= 500:
                             raise exceptions.ServerError(
                                 f"Server error: {resp.status}"
@@ -121,6 +134,8 @@ class DownloadFile:
                     self.logger.warning(
                         f"Server error on chunk {start}-{end} (attempt {attempt+1})"
                     )
+                except NetworkError:
+                    raise
                 except Exception as e:
                     self.logger.warning(
                         f"Error downloading chunk {start}-{end} (attempt {attempt+1}): {e}"
@@ -129,7 +144,9 @@ class DownloadFile:
                 if attempt < max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
 
-            return b""
+            raise NetworkError(
+                f"Download failed for chunk {start}-{end} after {max_retries} attempts."
+            )
 
         async def handle_callback(total: int, current: int):
             if not callable(callback):
@@ -162,8 +179,6 @@ class DownloadFile:
                     for start in range(0, size, chunk):
                         end = min(start + chunk, size) - 1
                         data = await fetch_chunk(session, start, end)
-                        if not data:
-                            break
                         await f.write(data)
                         await handle_callback(size, end + 1)
 
@@ -182,7 +197,7 @@ class DownloadFile:
                     for start in range(0, size, chunk)
                 ]
                 chunks = await asyncio.gather(*tasks)
-                result = b"".join(filter(None, chunks))
+                result = b"".join(chunks)
                 await handle_callback(size, len(result))
                 return base64.b64encode(result).decode() if as_base64 else result
 
@@ -191,8 +206,6 @@ class DownloadFile:
                 for start in range(0, size, chunk):
                     end = min(start + chunk, size) - 1
                     data = await fetch_chunk(session, start, end)
-                    if not data:
-                        break
                     result.extend(data)
                     await handle_callback(size, len(result))
                 result = bytes(result)
